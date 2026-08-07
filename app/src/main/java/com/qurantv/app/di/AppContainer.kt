@@ -9,6 +9,7 @@ import com.qurantv.app.data.repo.CatalogRepository
 import com.qurantv.app.data.repo.QuranTextRepository
 import com.qurantv.app.data.repo.SessionRepository
 import com.qurantv.app.data.repo.TimingRepository
+import com.qurantv.app.data.repo.KsuHilitesRepository
 import com.qurantv.app.navigation.AppNavigator
 import com.qurantv.app.player.PlaybackController
 import com.qurantv.app.ui.player.AyahImageLoader
@@ -58,6 +59,7 @@ class AppContainer(context: Context) {
     val timingRepository = TimingRepository(mp3QuranApi, cache, json)
     val quranTextRepository = QuranTextRepository(context, quranComApi, cache, json)
     val sessionRepository = SessionRepository(context)
+    val ksuHilitesRepository = KsuHilitesRepository(apiClient, cache, json)
 
     val playbackController = PlaybackController(context.applicationContext, okHttpClient)
     val pageImageLoader = PageImageLoader(okHttpClient)

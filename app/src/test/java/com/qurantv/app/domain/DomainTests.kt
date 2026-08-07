@@ -286,6 +286,29 @@ class SurahTimingLookupTest {
     }
 }
 
+class KsuHiliteBandsTest {
+
+    @Test
+    fun `builds exact bands from verified tajweed page 9 data`() {
+        // Live-verified: tajweed page 9 (2:58..61) y-values in the 456x707 image
+        // space land exactly on the detected text lines (136->line3, 222->line5,
+        // 351->line8, 648->line15).
+        val raw = mapOf(58 to 136, 59 to 222, 60 to 351, 61 to 648)
+        val bands = KsuHiliteBands.build(raw, imageHeight = 707)
+        assertEquals(136f / 707f, bands[58]!!.yTop, 0.0001f)
+        assertEquals(222f / 707f, bands[58]!!.yBottom, 0.0001f)
+        assertEquals(351f / 707f, bands[60]!!.yTop, 0.0001f)
+        // last ayah extends to the page bottom
+        assertEquals(1.0f, bands[61]!!.yBottom, 0.0001f)
+        assertEquals(648f / 707f, bands[61]!!.yTop, 0.0001f)
+    }
+
+    @Test
+    fun `empty input yields no bands`() {
+        assertTrue(KsuHiliteBands.build(emptyMap(), 707).isEmpty())
+    }
+}
+
 class PageAyahEstimatorTest {
 
     @Test

@@ -38,8 +38,8 @@ in two display modes:
   highlight), **Color Tajweed** (per-ayah images), **Madinah HD** (islamic.app
   SVG, per-ayah line-band highlight), **Ayat Hafs**, **Ayat Warsh** and **Hafs
   Tajweed** (quran.ksu.edu.sa pages — the Ayat KSU reference mushaf; Warsh and
-  Tajweed follow their own paginations; per-ayah bands are estimated from verse
-  text lengths, which the Madinah layout mirrors proportionally). Toggle in the
+  Tajweed follow their own paginations; highlights use the site's own exact
+  per-ayah position data, cached offline). Toggle in the
   player top bar (م → ﷽ → HD → KS → WS → TJ) or Settings. While playing, the
   page chrome auto-hides for a fullscreen view; any key brings it back (D-pad
   left/right scrubs ±5 s while hidden; INFO/MENU toggles text mode).

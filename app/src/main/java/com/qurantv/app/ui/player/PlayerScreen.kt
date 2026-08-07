@@ -257,22 +257,40 @@ fun PlayerScreen(
                     else -> com.qurantv.app.ui.player.KsuPageLoader.Kind.HAFS
                 }
                 ksuBitmap = withContext(Dispatchers.IO) { ksuLoader.load(page, kind) }
-                // Estimate per-ayah bands from relative text lengths on the page.
-                val ayahs = ksuPageAyahs(page, surah.id, surah.versesCount)
-                if (ayahs.isNotEmpty()) {
-                    val lengths = ayahs.map { a -> container.quranTextRepository.verseTextLength(surah.id, a) }
-                    val startsSurah = when {
-                        isWarsh -> com.qurantv.app.domain.KsuWarshPageData.pageStartsSurah(page)
-                        isTajweedPages -> com.qurantv.app.domain.KsuTajweedPageData.pageStartsSurah(page)
-                        else -> page == surah.startPage
-                    }
-                    ksuBands = com.qurantv.app.domain.PageAyahEstimator.estimate(ayahs, lengths, startsSurah)
-                    android.util.Log.d("QuranTv", "ksu bands page $page: ${ayahs.size} ayahs, startsSurah=$startsSurah")
+                // EXACT per-ayah bands from the KSU hilites API (native pixel space)
+                // when available; falls back to the text-length estimate.
+                val imageHeight = ksuBitmap?.height ?: 0
+                val mushaf = when (kind) {
+                    com.qurantv.app.ui.player.KsuPageLoader.Kind.WARSH -> "warsh"
+                    com.qurantv.app.ui.player.KsuPageLoader.Kind.TAJWEED -> "tajweed"
+                    else -> "hafs"
                 }
-                // Prefetch the next page.
+                val hilites = container.ksuHilitesRepository.positionsFor(mushaf, page)
+                if (hilites != null && imageHeight > 0) {
+                    val rawY = hilites.mapValues { it.value.y }
+                    ksuBands = com.qurantv.app.domain.KsuHiliteBands.build(rawY, imageHeight)
+                    android.util.Log.d("QuranTv", "ksu EXACT bands page $page ($mushaf): ${ksuBands?.size ?: 0} ayahs")
+                } else {
+                    // Fallback estimate from verse text lengths.
+                    val ayahs = ksuPageAyahs(page, surah.id, surah.versesCount)
+                    if (ayahs.isNotEmpty()) {
+                        val lengths = ayahs.map { a -> container.quranTextRepository.verseTextLength(surah.id, a) }
+                        val startsSurah = when {
+                            isWarsh -> com.qurantv.app.domain.KsuWarshPageData.pageStartsSurah(page)
+                            isTajweedPages -> com.qurantv.app.domain.KsuTajweedPageData.pageStartsSurah(page)
+                            else -> page == surah.startPage
+                        }
+                        ksuBands = com.qurantv.app.domain.PageAyahEstimator.estimate(ayahs, lengths, startsSurah)
+                        android.util.Log.d("QuranTv", "ksu estimated bands page $page: ${ayahs.size} ayahs, startsSurah=$startsSurah")
+                    }
+                }
+                // Prefetch the next page's image + hilites.
                 val next = ksuPageFor(surah.id, ui.currentAyahIndex + 1)
                 if (next != null && next != page) {
-                    withContext(Dispatchers.IO) { ksuLoader.load(next, kind) }
+                    withContext(Dispatchers.IO) {
+                        ksuLoader.load(next, kind)
+                    }
+                    container.ksuHilitesRepository.positionsFor(mushaf, next)
                 }
             }
         }

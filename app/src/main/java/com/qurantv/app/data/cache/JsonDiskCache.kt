@@ -73,5 +73,6 @@ class JsonDiskCache(private val context: Context) {
         const val CATALOG = "catalog"
         const val TIMING = "timing"
         const val QURAN_TEXT = "quran_text"
+        const val KSU_HILITES = "ksu_hilites"
     }
 }

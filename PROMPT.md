@@ -44,7 +44,7 @@ The final deliverable must compile (`./gradlew :app:assembleDebug` passes) and i
 
 ## Part 1 — Product requirements
 
-1. **Browse reciters**: list all reciters from the mp3quran API, grouped by their first letter (the API provides a `letter` field) for an A–Z jump rail. Show reciter name in the selected language.
+1. **Browse reciters**: list all reciters from the mp3quran API, grouped by their first letter (the API provides a `letter` field) for an A–Z jump rail. Show reciter name in the selected language. Add search by reciter name.
 2. **Pick riwayat/moshaf**: a reciter can have multiple moshafs (riwayat + recitation style). Let the user pick one; default to the first.
 3. **Pick surah**: show a grid of available surahs only (use the moshaf's `surah_list` — some reciters have fewer than 114). Show surah number + Arabic name (and English name in English locale).
 4. **Playback**: stream the surah mp3; support play/pause, seek, next/prev surah, next/prev **ayah**, repeat modes (off / repeat current ayah / repeat current surah), playback speed 0.5×–2.0×.

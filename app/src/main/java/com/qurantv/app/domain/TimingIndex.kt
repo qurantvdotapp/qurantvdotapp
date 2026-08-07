@@ -1,0 +1,32 @@
+package com.qurantv.app.domain
+
+/**
+ * Locates the current ayah for a playback position using binary search over the
+ * sorted timing entries: the largest index whose `startMs <= position`, clamped
+ * to the last ayah. Zero-width / zero-length intervals are skipped.
+ */
+object TimingIndex {
+
+    fun ayahAt(timing: SurahTiming, positionMs: Long): Int {
+        val entries = timing.entries
+        if (entries.isEmpty()) return -1
+        var lo = 0
+        var hi = entries.size - 1
+        var result = -1
+        while (lo <= hi) {
+            val mid = (lo + hi) ushr 1
+            if (entries[mid].startMs <= positionMs) {
+                result = mid
+                lo = mid + 1
+            } else {
+                hi = mid - 1
+            }
+        }
+        if (result < 0) return 0 // before the first entry: treat as the header/basmala slot
+        // Skip intervals that are already past or degenerate (missing/zero end time).
+        while (result < entries.size - 1 && entries[result].endMs <= positionMs) {
+            result++
+        }
+        return result
+    }
+}

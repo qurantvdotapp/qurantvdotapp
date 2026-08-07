@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.QuranTv" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/quran_bg</item>
+        <item name="android:colorAccent">@color/quran_gold</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+</resources>

@@ -1,0 +1,75 @@
+package com.qurantv.app.data.repo
+
+import com.qurantv.app.data.api.AyahTimingDto
+import com.qurantv.app.data.api.Mp3QuranApi
+import com.qurantv.app.data.api.TimingReadDto
+import com.qurantv.app.data.api.toDomain
+import com.qurantv.app.data.cache.JsonDiskCache
+import com.qurantv.app.domain.CatalogParsing
+import com.qurantv.app.domain.SurahTiming
+import com.qurantv.app.domain.TimingRead
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+
+/**
+ * Per-ayah timing data (PROMPT.md Parts 3.6–3.8):
+ *  - the `reads` list is fetched once at startup and cached forever;
+ *  - per-(read, surah) timing is immutable → cached forever;
+ *  - reads are matched to reciter moshafs by `folder_url` ↔ `server`
+ *    (normalized trailing slashes) — timing read ids are NOT reciter ids.
+ */
+class TimingRepository(
+    private val api: Mp3QuranApi,
+    private val cache: JsonDiskCache,
+    private val json: Json,
+) {
+
+    suspend fun reads(): List<TimingRead> {
+        val key = "reads"
+        return cache.singleFlight(key) {
+            val cached = cache.read(JsonDiskCache.TIMING, key)
+            if (cached != null) {
+                return@singleFlight json.decodeFromString<List<TimingReadDto>>(cached).map { it.toDomain() }
+            }
+            val list = api.timingReads().map { it.toDomain() }
+            runCatching {
+                cache.write(JsonDiskCache.TIMING, key, json.encodeToString(list))
+            }
+            list
+        }
+    }
+
+    /** The read whose folder matches this moshaf server, or null when untimed. */
+    suspend fun readForMoshaf(server: String): TimingRead? {
+        val target = CatalogParsing.normalizeServerUrl(server)
+        return reads().firstOrNull { CatalogParsing.normalizeServerUrl(it.folderUrl) == target }
+    }
+
+    /** Timing for (read, surah); null on any failure → graceful degradation. */
+    suspend fun timingFor(readId: Int, surahId: Int): SurahTiming? {
+        val key = "s${surahId}_r$readId"
+        return cache.singleFlight(key) {
+            val cached = cache.read(JsonDiskCache.TIMING, key)
+            if (cached != null) {
+                return@singleFlight json.decodeFromString<List<AyahTimingDto>>(cached).toDomain(readId, surahId)
+            }
+            try {
+                val list = api.ayahTiming(surahId, readId)
+                runCatching {
+                    cache.write(JsonDiskCache.TIMING, key, json.encodeToString(list))
+                }
+                list.toDomain(readId, surahId)
+            } catch (e: Exception) {
+                null // no timing for this pair — play without ayah sync
+            }
+        }
+    }
+
+    /** Warm the cache for the next surah while the current one plays. */
+    fun prefetch(readId: Int, surahId: Int, scope: CoroutineScope) {
+        scope.launch {
+            timingFor(readId, surahId)
+        }
+    }
+}

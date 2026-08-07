@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="quran_bg">#FF0A1220</color>
+    <color name="quran_surface">#FF16233A</color>
+    <color name="quran_gold">#FFFFD54F</color>
+</resources>

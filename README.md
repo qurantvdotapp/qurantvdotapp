@@ -33,6 +33,9 @@ in two display modes:
   The text list shows exactly the numbered verses — the recited basmala is a
   decorative surah header above the list, and the basmala prefix that Tanzil
   embeds in verse 1 of surahs 2–114 is stripped so text matches audio 1:1.
+  Auto-scroll only moves when the current ayah's start leaves the screen, so
+  long multi-line ayahs (e.g. 2:13) keep their highlight fully visible and
+  manual scrolling is never fought.
 - **Continue listening** card on Home; position restored on play.
 - **Settings**: language (ar/en), default speed, text font size, highlight
   color, default display mode.

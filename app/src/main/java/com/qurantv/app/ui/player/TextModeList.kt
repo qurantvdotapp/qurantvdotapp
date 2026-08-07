@@ -57,7 +57,16 @@ fun TextModeList(
         if (currentIndex > 1) {
             // Verse row position is one less than the timing index (no header row).
             val pos = currentIndex - 1
-            listState.animateScrollToItem((pos - 2).coerceAtLeast(0))
+            val visible = listState.layoutInfo.visibleItemsInfo
+            val current = visible.firstOrNull { it.index == pos }
+            val topCutOff = current?.offset?.let { it < 0 } ?: false
+            // Only scroll when the current ayah's start is off-screen (below the
+            // viewport or scrolled past). Long ayahs keep their full highlighted
+            // block on screen instead of being cut at the bottom; manual scrolling
+            // is never fought.
+            if (current == null || topCutOff) {
+                listState.animateScrollToItem(pos, scrollOffset = 0)
+            }
         }
     }
     LazyColumn(

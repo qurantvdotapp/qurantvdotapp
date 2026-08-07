@@ -130,6 +130,18 @@ class TimingIndexTest {
     }
 
     @Test
+    fun `returns timing index not list position when the basmala entry is absent`() {
+        // Reads without a timing index-0 (basmala) entry start at index 1 — the
+        // list position would be one behind the timing index (off-by-one highlight).
+        val t = timing(listOf(Triple(1, 3220L, 11_400L), Triple(2, 11_400L, 19_040L), Triple(3, 19_040L, 29_700L)))
+        assertEquals(0, TimingIndex.ayahAt(t, 1000)) // virtual basmala slot
+        assertEquals(1, TimingIndex.ayahAt(t, 3220))
+        assertEquals(2, TimingIndex.ayahAt(t, 11_400))
+        assertEquals(3, TimingIndex.ayahAt(t, 19_040))
+        assertEquals(3, TimingIndex.ayahAt(t, 500_000))
+    }
+
+    @Test
     fun `empty timing returns -1`() {
         val t = timing(emptyList())
         assertEquals(-1, TimingIndex.ayahAt(t, 1000))
@@ -240,5 +252,35 @@ class BasmalaOffsetTest {
         assertNull(BasmalaOffset.verseKeyFor(0, 1, 7, 0))
         assertEquals("1:1", BasmalaOffset.verseKeyFor(1, 1, 7, 0))
         assertEquals("1:7", BasmalaOffset.verseKeyFor(7, 1, 7, 0))
+    }
+}
+
+class SurahTimingLookupTest {
+
+    private fun timing(entries: List<Triple<Int, Long, Long>>) = SurahTiming(
+        readId = 5,
+        surahId = 1,
+        entries = entries.map { (ayah, start, end) ->
+            AyahTiming(ayah = ayah, startMs = start, endMs = end, polygon = null, x = null, y = null, pageUrl = null)
+        },
+    )
+
+    @Test
+    fun `entryFor finds the entry by timing index`() {
+        val t = timing(listOf(Triple(0, 0L, 3000L), Triple(1, 3000L, 6000L), Triple(2, 6000L, 9000L)))
+        assertEquals(0L, t.entryFor(0)?.startMs)
+        assertEquals(3000L, t.entryFor(1)?.startMs)
+        assertEquals(9000L, t.entryFor(2)?.endMs)
+        assertNull(t.entryFor(3))
+    }
+
+    @Test
+    fun `entryFor handles reads without a basmala entry`() {
+        // List position 0 holds timing index 1 — entryFor(1) must resolve it.
+        val t = timing(listOf(Triple(1, 3220L, 11_400L), Triple(2, 11_400L, 19_040L)))
+        assertEquals(3220L, t.entryFor(1)?.startMs)
+        assertEquals(19_040L, t.entryFor(2)?.endMs)
+        assertNull(t.entryFor(0)) // virtual basmala slot — no entry
+        assertEquals(2, t.lastAyahIndex)
     }
 }

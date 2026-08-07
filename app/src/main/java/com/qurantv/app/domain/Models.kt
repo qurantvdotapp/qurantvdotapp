@@ -62,5 +62,20 @@ data class SurahTiming(
     val surahId: Int,
     val entries: List<AyahTiming>,
 ) {
+    private val byAyah: Map<Int, AyahTiming> = entries.associateBy { it.ayah }
+
     val lastEndMs: Long get() = entries.lastOrNull()?.endMs ?: 0L
+
+    /** The timing index of the last entry (e.g. 286 for surah 2). */
+    val lastAyahIndex: Int get() = entries.lastOrNull()?.ayah ?: -1
+
+    /**
+     * The entry for a timing ayah index, or null when it has none.
+     *
+     * Some reads include the basmala as timing index 0 (entry with `ayah == 0`);
+     * others omit it entirely (entries start at 1) — index 0 is then a virtual
+     * basmala slot covering the audio before the first entry. Always look up by
+     * timing index, never by list position.
+     */
+    fun entryFor(ayah: Int): AyahTiming? = byAyah[ayah]
 }

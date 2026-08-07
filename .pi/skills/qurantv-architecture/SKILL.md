@@ -98,7 +98,14 @@ assets/quran/quran-uthmani.txt   Tanzil text committed (~1.3 MB); Gradle task re
 ## 5. Core algorithms (unit tested in `app/src/test/.../DomainTests.kt`)
 
 ### 5.1 Ayah sync (`TimingIndex.ayahAt`)
-Binary search over sorted entries for largest `startMs ≤ position`; then skip past any degenerate (`endMs ≤ position`) intervals; clamp to last ayah. Runs every 200 ms in the ticker; **UI state only updates when the index changes** (stable keys, `derivedStateOf`-style hoisting) so the whole list never recomposes per tick.
+Binary search over sorted entries for the largest `startMs ≤ position`, skipping
+past degenerate (`endMs ≤ position`) intervals, then returns the entry's **timing
+index** (`ayah` field), never its list position. This matters because reads
+differ in shape: some include a timing index-0 basmala entry (list position ==
+timing index), others omit it (entries start at 1). Always look entries up by
+timing index via `SurahTiming.entryFor(ayah)` — never `entries.getOrNull(listPos)`.
+Position 0's virtual basmala slot returns timing index 0 (the header). Runs every
+100 ms in the ticker; UI state only updates when the index changes.
 
 ### 5.2 Basmala / verse mapping (`BasmalaOffset`)
 - Timing index **0 = un-numbered basmala/header slot** (no polygon/page → skip highlight; surah 9 has no basmala).

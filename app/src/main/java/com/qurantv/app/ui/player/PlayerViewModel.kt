@@ -117,9 +117,11 @@ class PlayerViewModel(
 
     private suspend fun buildTextItems(surah: QuranSurah, timing: SurahTiming?) {
         val offset = _screen.value.ayahOffset
-        val rowCount = timing?.entries?.size ?: (surah.versesCount + 1)
-        // Verses only — timing index 0 (the basmala) is rendered as a decorative
-        // surah header above the list, never as a numbered row.
+        // One row per numbered verse. Timing index 0 (the basmala) is rendered as a
+        // decorative surah header above the list, never as a numbered row. Some
+        // reads omit the index-0 entry entirely — derive the row count from the
+        // last timing index so every verse (incl. the last) is present either way.
+        val rowCount = timing?.let { it.lastAyahIndex + 1 } ?: (surah.versesCount + 1)
         val items = ArrayList<TextItem>((rowCount - 1).coerceAtLeast(0))
         for (i in 1 until rowCount) {
             val key = BasmalaOffset.verseKeyFor(i, surah.id, surah.versesCount, offset)

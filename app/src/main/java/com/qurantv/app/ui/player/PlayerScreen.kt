@@ -160,7 +160,9 @@ fun PlayerScreen(
 
     var jumpOpen by remember { mutableStateOf(false) }
     val isTextMode = settings.displayMode == 0
-    val currentAyah = ui.timing?.entries?.getOrNull(ui.currentAyahIndex)
+    // Look the current ayah's entry up by TIMING INDEX (reads may omit the
+    // index-0 basmala entry, so list position ≠ timing index).
+    val currentAyah = ui.timing?.entryFor(ui.currentAyahIndex)
 
     Column(
         modifier = Modifier

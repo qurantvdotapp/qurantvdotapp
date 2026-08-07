@@ -7,6 +7,16 @@ package com.qurantv.app.domain
  */
 object TimingIndex {
 
+    /**
+     * Locates the current ayah for a playback position using binary search over
+     * the sorted timing entries: the largest entry whose `startMs <= position`,
+     * clamped to the last entry.
+     *
+     * Returns the entry's TIMING INDEX (its `ayah` field), NOT its list position
+     * — reads without a basmala entry (entries starting at 1) would otherwise
+     * shift every highlight one ayah behind. Before the first entry it returns 0
+     * (the virtual basmala/header slot).
+     */
     fun ayahAt(timing: SurahTiming, positionMs: Long): Int {
         val entries = timing.entries
         if (entries.isEmpty()) return -1
@@ -33,6 +43,6 @@ object TimingIndex {
         ) {
             result++
         }
-        return result
+        return entries[result].ayah
     }
 }

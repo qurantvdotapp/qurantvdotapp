@@ -188,7 +188,7 @@ class PlaybackController(
 
     fun seekToAyah(index: Int) {
         val t = timing ?: return
-        val entry = t.entries.getOrNull(index) ?: return
+        val entry = t.entryFor(index) ?: return
         seekTo(entry.startMs)
     }
 
@@ -196,8 +196,7 @@ class PlaybackController(
         val t = timing
         val current = _state.value.currentAyahIndex
         if (t != null) {
-            val next = current + 1
-            val entry = t.entries.getOrNull(next)
+            val entry = t.entryFor(current + 1)
             if (entry != null) {
                 seekTo(entry.startMs)
                 return
@@ -211,11 +210,14 @@ class PlaybackController(
         val t = timing
         val current = _state.value.currentAyahIndex
         if (t != null && current > 1) {
-            seekTo(t.entries[current - 1].startMs)
-            return
+            val entry = t.entryFor(current - 1)
+            if (entry != null) {
+                seekTo(entry.startMs)
+                return
+            }
         }
         if (t != null && current == 1) {
-            seekTo(t.entries[0].startMs) // back to the header slot
+            seekTo(0L) // back to the basmala/header slot (timing index 0)
             return
         }
         onBoundaryExceeded(false)
@@ -284,7 +286,7 @@ class PlaybackController(
                     // Repeat ayah: at the ayah end, jump back to its start.
                     val s = _state.value
                     if (s.repeatMode == RepeatMode.AYAH) {
-                        val entry = t.entries.getOrNull(idx)
+                        val entry = t.entryFor(idx)
                         if (entry != null && pos >= effectiveEndMs(t, idx, entry)) {
                             player.seekTo(entry.startMs)
                             refreshAfterSeek(entry.startMs)
@@ -307,7 +309,7 @@ class PlaybackController(
             Log.d("QuranTv", "ayah $idx @ ${player.currentPosition}ms")
             _state.value = _state.value.copy(
                 currentAyahIndex = idx,
-                currentPageUrl = t?.entries?.getOrNull(idx)?.pageUrl,
+                currentPageUrl = t?.entryFor(idx)?.pageUrl,
             )
         }
     }
@@ -325,7 +327,7 @@ class PlaybackController(
      */
     private fun effectiveEndMs(t: SurahTiming, idx: Int, entry: AyahTiming): Long {
         if (entry.endMs > entry.startMs) return entry.endMs
-        if (idx == t.entries.lastIndex) {
+        if (idx == t.lastAyahIndex) {
             val duration = player.duration.takeIf { it > 0 } ?: return entry.endMs
             if (duration > entry.startMs) return duration
         }
@@ -363,7 +365,7 @@ class PlaybackController(
     private fun currentPageUrlFor(): String? {
         val t = timing ?: return null
         val idx = TimingIndex.ayahAt(t, pendingResumePositionMs)
-        return t.entries.getOrNull(idx)?.pageUrl
+        return t.entryFor(idx)?.pageUrl
     }
 
     // ------------------------------------------------------------------ audio focus

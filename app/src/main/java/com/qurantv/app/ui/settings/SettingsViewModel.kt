@@ -39,6 +39,10 @@ class SettingsViewModel(
         viewModelScope.launch { sessions.setDisplayMode(mode) }
     }
 
+    fun setMushafStyle(style: Int) {
+        viewModelScope.launch { sessions.setMushafStyle(style) }
+    }
+
     fun setAyahOffset(offset: Int) {
         viewModelScope.launch { sessions.setAyahOffset(offset) }
     }

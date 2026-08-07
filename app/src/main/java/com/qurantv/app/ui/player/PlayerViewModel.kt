@@ -176,6 +176,11 @@ class PlayerViewModel(
         viewModelScope.launch { sessionRepository.setDisplayMode(next) }
     }
 
+    fun toggleMushafStyle() {
+        val next = if (_screen.value.settings.mushafStyle == 0) 1 else 0
+        viewModelScope.launch { sessionRepository.setMushafStyle(next) }
+    }
+
     // ------------------------------------------------------------------ session persistence
 
     private fun startSessionSaveLoop() {

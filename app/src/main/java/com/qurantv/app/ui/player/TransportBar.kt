@@ -74,7 +74,7 @@ fun TransportBar(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 32.dp, vertical = 16.dp),
+        modifier = modifier.fillMaxWidth().padding(horizontal = 32.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {

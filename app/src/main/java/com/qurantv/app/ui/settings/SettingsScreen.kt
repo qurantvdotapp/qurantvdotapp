@@ -137,6 +137,17 @@ fun SettingsScreen(
             )
         }
 
+        SettingsSection(title = stringResource(R.string.mushaf_style)) {
+            OptionRow(
+                options = listOf(
+                    stringResource(R.string.mushaf_madinah) to 0,
+                    stringResource(R.string.mushaf_tajweed) to 1,
+                ),
+                selected = settings.mushafStyle,
+                onSelect = { value -> vm.setMushafStyle(value) },
+            )
+        }
+
         Spacer(Modifier.width(24.dp))
         Text(
             text = stringResource(R.string.about_text),

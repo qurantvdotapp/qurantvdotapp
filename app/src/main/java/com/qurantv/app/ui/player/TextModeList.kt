@@ -72,8 +72,8 @@ fun TextModeList(
     LazyColumn(
         state = listState,
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 56.dp, vertical = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        contentPadding = PaddingValues(horizontal = 56.dp, vertical = 6.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         items(items, key = { it.index }) { item ->
             val isCurrent = item.index == currentIndex
@@ -110,7 +110,7 @@ fun TextModeList(
                         indication = null,
                         onClick = { onSelect(item.index) },
                     )
-                    .padding(horizontal = 22.dp, vertical = 14.dp),
+                    .padding(horizontal = 22.dp, vertical = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 VerseBadge(item)
@@ -119,7 +119,7 @@ fun TextModeList(
                     modifier = Modifier.padding(start = 18.dp),
                     style = MaterialTheme.typography.bodyLarge,
                     fontSize = fontSizeSp.sp,
-                    lineHeight = (fontSizeSp * 1.9f).sp,
+                    lineHeight = (fontSizeSp * 1.55f).sp,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
@@ -131,7 +131,7 @@ fun TextModeList(
 private fun VerseBadge(item: TextItem) {
     Box(
         modifier = Modifier
-            .size(44.dp)
+            .size(36.dp)
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
         contentAlignment = Alignment.Center,

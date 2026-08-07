@@ -35,6 +35,9 @@
     <string name="font_size">Text font size</string>
     <string name="highlight_color">Highlight color</string>
     <string name="display_mode">Display mode</string>
+    <string name="mushaf_style">Page mushaf</string>
+    <string name="mushaf_madinah">Madinah</string>
+    <string name="mushaf_tajweed">Color Tajweed</string>
     <string name="no_timing">No ayah timing for this recitation — ayah sync is unavailable</string>
     <string name="loading">Loading…</string>
     <string name="retry">Retry</string>

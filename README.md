@@ -7,7 +7,9 @@ in two display modes:
 1. **Text mode** — authentic Tanzil Uthmani text, current ayah highlighted and
    auto-scrolled in sync with the audio.
 2. **Mushaf page mode** — the actual Madinah mushaf SVG page with the current
-   ayah's region highlighted; pages turn automatically.
+   ayah's region highlighted; pages turn automatically. A second style is
+   available: **Color Tajweed**, which renders the current ayah as its own
+   color-coded tajweed image (from the islamic.network CDN).
 
 100% remote-control navigable (D-pad + media keys), 10-foot UI, Arabic primary
 (RTL) with English secondary.
@@ -28,6 +30,10 @@ in two display modes:
   (off / ayah / surah), speed 0.5×–2×, jump-to-surah dialog.
 - **Autoplay**: when a surah finishes (repeat off), the next available surah
   starts automatically from its first ayah.
+- **Compact text mode**: tight rows + line height so ~6 short ayahs are visible
+  at once and long ayahs (e.g. 2:13) fit fully on screen.
+- **Mushaf styles** (page mode): Madinah SVG (polygon highlight) or Color
+  Tajweed per-ayah images — toggle in the player top bar or Settings.
 - **Ayah sync** where timing data exists (matched by moshaf `server` ↔ timing
   `folder_url`); graceful degradation with a “لا يوجد توقيت” notice otherwise.
   The text list shows exactly the numbered verses — the recited basmala is a

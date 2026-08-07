@@ -46,6 +46,7 @@ import com.qurantv.app.di.AppContainer
 import com.qurantv.app.navigation.Screen
 import com.qurantv.app.ui.components.ErrorState
 import com.qurantv.app.ui.components.SurahJumpDialog
+import com.qurantv.app.ui.player.TajweedAyahView
 import com.qurantv.app.ui.components.TvCard
 import com.qurantv.app.ui.components.TvIconButton
 import kotlinx.coroutines.Dispatchers
@@ -105,6 +106,37 @@ fun PlayerScreen(
     val pageLoader = remember { container.pageImageLoader }
     var pageBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
     var pageViewBox by remember { mutableStateOf<com.qurantv.app.domain.ViewBox?>(null) }
+    // Tajweed per-ayah image loading (current ayah + prefetch of the next one).
+    val ayahLoader = remember { container.ayahImageLoader }
+    var tajweedBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
+    LaunchedEffect(ui.currentAyahIndex, settings.mushafStyle, settings.displayMode) {
+        if (settings.mushafStyle == 1 && settings.displayMode == 1 && ui.currentAyahIndex > 0 && ui.surah != null) {
+            val verseKey = com.qurantv.app.domain.BasmalaOffset.verseKeyFor(
+                ui.currentAyahIndex,
+                ui.surah.id,
+                ui.surah.versesCount,
+                viewState.ayahOffset,
+            )
+            val parts = verseKey?.split(':')
+            if (parts != null && parts.size == 2) {
+                val s = parts[0].toInt()
+                val a = parts[1].toInt()
+                tajweedBitmap = withContext(Dispatchers.IO) { ayahLoader.load(s, a) }
+                // Prefetch the next ayah's image.
+                val next = com.qurantv.app.domain.BasmalaOffset.verseKeyFor(
+                    ui.currentAyahIndex + 1,
+                    ui.surah.id,
+                    ui.surah.versesCount,
+                    viewState.ayahOffset,
+                )?.split(':')
+                if (next != null && next.size == 2) {
+                    withContext(Dispatchers.IO) { ayahLoader.load(next[0].toInt(), next[1].toInt()) }
+                }
+            }
+        } else {
+            tajweedBitmap = null
+        }
+    }
     LaunchedEffect(ui.currentPageUrl) {
         val url = ui.currentPageUrl
         pageBitmap = null
@@ -145,9 +177,9 @@ fun PlayerScreen(
                 } else false
             },
     ) {
-        // Top bar
+        // Top bar (compact to leave room for more ayahs)
         Row(
-            modifier = Modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp, top = 20.dp, bottom = 8.dp),
+            modifier = Modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp, top = 10.dp, bottom = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TvIconButton(onClick = onBack) {
@@ -157,16 +189,16 @@ fun PlayerScreen(
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
-            Spacer(Modifier.width(16.dp))
+            Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text(
                     text = ui.surah?.nameAr ?: "",
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
                     text = listOfNotNull(ui.reciter?.name, ui.moshaf?.name).joinToString(" • "),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -177,6 +209,15 @@ fun PlayerScreen(
                     color = MaterialTheme.colorScheme.error,
                 )
             }
+            // Mushaf style cycle (Madinah SVG ↔ Tajweed per-ayah) — applies in page mode.
+            TvIconButton(onClick = { vm.toggleMushafStyle() }) {
+                Text(
+                    text = if (settings.mushafStyle == 1) "﷽" else "م",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+            Spacer(Modifier.width(8.dp))
             TvIconButton(onClick = { vm.toggleDisplayMode() }) {
                 Icon(
                     imageVector = if (isTextMode) Icons.AutoMirrored.Filled.MenuBook else Icons.Filled.TextFields,
@@ -206,6 +247,12 @@ fun PlayerScreen(
                         resetKey = screen.surah.id,
                     )
                 }
+            } else if (settings.mushafStyle == 1) {
+                TajweedAyahView(
+                    bitmap = tajweedBitmap,
+                    highlightColor = highlightColor,
+                    showBasmala = ui.currentAyahIndex <= 0,
+                )
             } else {
                 PageModeView(
                     bitmap = pageBitmap?.asImageBitmap(),
@@ -259,18 +306,18 @@ private fun BasmalaHeader(isCurrent: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 8.dp)
-            .clip(androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
+            .padding(top = 2.dp)
+            .clip(androidx.compose.foundation.shape.RoundedCornerShape(10.dp))
             .background(
                 if (isCurrent) highlightColors[0].copy(alpha = 0.18f)
                 else Color.Transparent,
             )
-            .padding(vertical = 8.dp),
+            .padding(vertical = 4.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyMedium,
             color = if (isCurrent) highlightColors[0] else MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }

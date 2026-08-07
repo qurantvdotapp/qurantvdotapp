@@ -116,7 +116,7 @@ fun TvIconButton(
                 indication = null,
                 onClick = onClick,
             )
-            .padding(14.dp),
+            .padding(10.dp),
         contentAlignment = Alignment.Center,
         content = content,
     )

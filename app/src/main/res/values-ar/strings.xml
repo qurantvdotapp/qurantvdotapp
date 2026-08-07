@@ -35,6 +35,9 @@
     <string name="font_size">حجم خط النص</string>
     <string name="highlight_color">لون التمييز</string>
     <string name="display_mode">طريقة العرض</string>
+    <string name="mushaf_style">مصحف الصفحات</string>
+    <string name="mushaf_madinah">المدينة</string>
+    <string name="mushaf_tajweed">التجويد الملون</string>
     <string name="no_timing">لا يوجد توقيت لهذه القراءة — مزامنة الآيات غير متاحة</string>
     <string name="loading">جارٍ التحميل…</string>
     <string name="retry">إعادة المحاولة</string>

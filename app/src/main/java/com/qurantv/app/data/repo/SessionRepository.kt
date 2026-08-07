@@ -22,6 +22,7 @@ data class AppSettings(
     val fontSizeIndex: Int = 1, // 0 = small, 1 = normal, 2 = large
     val highlightColorIndex: Int = 0, // 0 = gold, 1 = green, 2 = cyan
     val displayMode: Int = 0, // 0 = text mode, 1 = mushaf page mode
+    val mushafStyle: Int = 0, // page mode style: 0 = Madinah (SVG), 1 = Tajweed (per-ayah color images)
     val ayahOffset: Int = 0, // basmala offset for non-Hafs riwayat (best effort)
 )
 
@@ -50,6 +51,7 @@ class SessionRepository(private val context: Context) {
         val fontSize = intPreferencesKey("font_size")
         val highlightColor = intPreferencesKey("highlight_color")
         val displayMode = intPreferencesKey("display_mode")
+        val mushafStyle = intPreferencesKey("mushaf_style")
         val ayahOffset = intPreferencesKey("ayah_offset")
 
         val sReciterId = intPreferencesKey("s_reciter_id")
@@ -70,6 +72,7 @@ class SessionRepository(private val context: Context) {
             fontSizeIndex = p[Keys.fontSize] ?: 1,
             highlightColorIndex = p[Keys.highlightColor] ?: 0,
             displayMode = p[Keys.displayMode] ?: 0,
+            mushafStyle = p[Keys.mushafStyle] ?: 0,
             ayahOffset = p[Keys.ayahOffset] ?: 0,
         )
     }
@@ -94,6 +97,7 @@ class SessionRepository(private val context: Context) {
     suspend fun setFontSize(index: Int) = context.dataStore.edit { it[Keys.fontSize] = index }
     suspend fun setHighlightColor(index: Int) = context.dataStore.edit { it[Keys.highlightColor] = index }
     suspend fun setDisplayMode(mode: Int) = context.dataStore.edit { it[Keys.displayMode] = mode }
+    suspend fun setMushafStyle(style: Int) = context.dataStore.edit { it[Keys.mushafStyle] = style }
     suspend fun setAyahOffset(offset: Int) = context.dataStore.edit { it[Keys.ayahOffset] = offset }
 
     suspend fun saveLastSession(

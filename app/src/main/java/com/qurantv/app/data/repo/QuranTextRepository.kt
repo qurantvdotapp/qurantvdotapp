@@ -47,6 +47,10 @@ class QuranTextRepository(
         }
     }
 
+    /** Text length of a verse (0 when unknown) — used by the page highlight estimator. */
+    suspend fun verseTextLength(surahId: Int, verseNumber: Int): Int =
+        loadTanzil()["$surahId:$verseNumber"]?.length ?: 0
+
     suspend fun verseText(surahId: Int, verseNumber: Int): String? {
         val key = "$surahId:$verseNumber"
         val raw = loadTanzil()[key]

@@ -33,16 +33,16 @@ in two display modes:
 - **Compact text mode**: tight rows + line height so ~6 short ayahs are visible
   at once and long ayahs (e.g. 2:13) fit fully on screen.
 - **Mushaf styles** (page mode — the DEFAULT view): the actual Madinah mushaf
-  page fills the screen, auto-turning with the recitation. Styles: **Madinah**
-  (mp3quran SVG, polygon highlight), **Color Tajweed** (per-ayah images),
-  **Madinah HD** (islamic.app SVG — same standard pagination, per-ayah line-band
-  highlight), **Ayat Hafs** and **Ayat Warsh** (quran.ksu.edu.sa pages — the
-  Ayat KSU reference mushaf; Warsh pages follow the Warsh pagination, so Warsh
-  recitations display authentic Warsh pages). Raster KSU pages show the current
-  ayah's text in a bottom strip. Toggle in the player top bar (م → ﷽ → HD → KS
-  → WS) or Settings. While playing, the page chrome auto-hides for a fullscreen
-  view; any key brings it back (D-pad left/right scrubs ±5 s while hidden;
-  INFO/MENU toggles text mode).
+  page fills the screen, auto-turning with the recitation, and the current ayah
+  is highlighted on EVERY style: **Madinah** (mp3quran SVG, exact polygon
+  highlight), **Color Tajweed** (per-ayah images), **Madinah HD** (islamic.app
+  SVG, per-ayah line-band highlight), **Ayat Hafs**, **Ayat Warsh** and **Hafs
+  Tajweed** (quran.ksu.edu.sa pages — the Ayat KSU reference mushaf; Warsh and
+  Tajweed follow their own paginations; per-ayah bands are estimated from verse
+  text lengths, which the Madinah layout mirrors proportionally). Toggle in the
+  player top bar (م → ﷽ → HD → KS → WS → TJ) or Settings. While playing, the
+  page chrome auto-hides for a fullscreen view; any key brings it back (D-pad
+  left/right scrubs ±5 s while hidden; INFO/MENU toggles text mode).
 - **Ayah sync** where timing data exists (matched by moshaf `server` ↔ timing
   `folder_url`); graceful degradation with a “لا يوجد توقيت” notice otherwise.
   The recited basmala is its own audio segment (timing index 0) shown as a

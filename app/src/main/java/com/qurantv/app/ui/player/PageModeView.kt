@@ -46,6 +46,7 @@ fun PageModeView(
     highlightColor: Color,
     modifier: Modifier = Modifier,
     bands: List<PageAyahBand>? = null,
+    bandsFractional: Boolean = false,
 ) {
     BoxWithConstraints(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         val bmp = bitmap
@@ -111,7 +112,8 @@ fun PageModeView(
             } else if (bands != null) {
                 // Line-band highlight (islamic.app pages): full-width translucent
                 // band per text line the ayah occupies, in viewBox space.
-                val sy = dispHf / vb.h
+                // Raster-page estimates (KSU) pass fractions of the page height.
+                val sy = if (bandsFractional) dispHf else dispHf / vb.h
                 val radius = CornerRadius(6f)
                 bands.forEach { band ->
                     val yTop = (band.yTop * sy).coerceIn(0f, dispHf)

@@ -286,6 +286,46 @@ class SurahTimingLookupTest {
     }
 }
 
+class PageAyahEstimatorTest {
+
+    @Test
+    fun `long ayahs get proportionally tall bands in order`() {
+        // Page 3 of surah 2 (2:6..2:16): verse lengths differ a lot.
+        val ayahs = (6..16).toList()
+        // fake lengths: 2:6 is longest-ish, later verses shorter
+        val lengths = ayahs.map { 50 - it } // descending: 44..34
+        val bands = PageAyahEstimator.estimate(ayahs, lengths, pageStartsSurah = false)
+        assertEquals(ayahs.size, bands.size)
+        // ascending order, non-overlapping, within (0,1)
+        var prevBottom = 0f
+        for (a in ayahs) {
+            val b = bands[a]!!
+            assertTrue(b.yTop >= prevBottom - 0.001f)
+            assertTrue(b.yBottom > b.yTop)
+            assertTrue(b.yBottom <= 1.0f)
+            prevBottom = b.yBottom
+        }
+        // first band starts just below the top margin
+        assertTrue(bands[6]!!.yTop >= 0.02f)
+        // last band ends at the bottom margin
+        assertTrue(bands[16]!!.yBottom <= 0.98f)
+    }
+
+    @Test
+    fun `surah-start pages reserve the header`() {
+        val bands = PageAyahEstimator.estimate(listOf(1, 2), listOf(100, 100), pageStartsSurah = true)
+        val top = bands[1]!!.yTop
+        // header ≈ 2/15 of the page
+        assertTrue(top >= 2f / 15f)
+        assertTrue(top < 0.2f)
+    }
+
+    @Test
+    fun `empty input yields no bands`() {
+        assertTrue(PageAyahEstimator.estimate(emptyList(), emptyList(), false).isEmpty())
+    }
+}
+
 class KsuWarshPageDataTest {
 
     @Test

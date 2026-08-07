@@ -1,14 +1,15 @@
 package com.qurantv.app.domain
 
 /**
- * Warsh mushaf pagination (which ayah starts each Warsh page), used to
- * map the current verse to its Warsh page image on quran.ksu.edu.sa.
+ * Tajweed mushaf pagination (quran.ksu.edu.sa Page2, mod3 of the Tanzil
+ * page layout) — which ayah starts each tajweed page. Used to map the
+ * current verse to its full-page tajweed image (tajweed_png/{page}.png).
  *
- * Generated from quran.ksu.edu.sa's quran-data.js (page boundaries sourced
- * from Tanzil — see https://tanzil.net; factual page mappings).
- * pageFirstSurah[p] / pageFirstAyah[p] = first ayah of Warsh page p (1..604).
+ * Generated from quran.ksu.edu.sa's quran-data.js (factual page boundaries
+ * sourced from Tanzil — see https://tanzil.net).
+ * pageFirstSurah[p] / pageFirstAyah[p] = first ayah of tajweed page p (1..604).
  */
-object KsuWarshPageData {
+object KsuTajweedPageData {
     private val pageFirstSurah = intArrayOf(
         0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -32,7 +33,7 @@ object KsuWarshPageData {
         27, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 29, 29, 29,
         29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 30, 31, 31, 31, 31, 32, 32, 32, 33, 33,
         33, 33, 33, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35,
-        36, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 38, 39,
+        35, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 38, 39,
         39, 39, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 40, 40, 40, 40, 41, 41, 41,
         41, 41, 41, 42, 42, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 43, 44, 44, 44, 45,
         45, 45, 45, 46, 46, 46, 46, 47, 47, 47, 47, 48, 48, 48, 48, 48, 49, 49, 50, 50,
@@ -64,8 +65,8 @@ object KsuWarshPageData {
         3, 12, 21, 33, 44, 56, 68, 1, 20, 40, 61, 84, 112, 137, 160, 184, 207, 1, 14, 23,
         36, 45, 56, 64, 77, 89, 6, 14, 22, 29, 36, 44, 51, 60, 71, 78, 85, 7, 15, 24,
         31, 39, 46, 53, 64, 6, 16, 25, 33, 42, 51, 1, 12, 20, 29, 1, 12, 21, 1, 7,
-        16, 23, 31, 36, 44, 51, 55, 63, 1, 8, 15, 23, 32, 40, 49, 4, 12, 19, 31, 40,
-        1, 14, 28, 41, 55, 71, 1, 25, 52, 77, 103, 127, 154, 1, 17, 27, 43, 62, 84, 6,
+        16, 23, 31, 36, 44, 51, 55, 63, 1, 8, 15, 23, 32, 40, 49, 4, 12, 19, 31, 39,
+        45, 13, 28, 41, 55, 71, 1, 25, 52, 77, 103, 127, 154, 1, 17, 27, 43, 62, 84, 6,
         11, 22, 32, 41, 48, 57, 68, 75, 8, 17, 26, 34, 41, 50, 59, 67, 78, 1, 12, 21,
         30, 39, 47, 1, 11, 16, 23, 32, 45, 52, 11, 23, 34, 48, 61, 74, 1, 19, 40, 1,
         14, 23, 33, 6, 15, 21, 29, 1, 12, 20, 30, 1, 10, 16, 24, 29, 5, 12, 1, 16,
@@ -76,8 +77,8 @@ object KsuWarshPageData {
         10, 1, 1, 1, 1, 1,
     )
 
-    /** The Warsh page containing (surah, ayah), or null when out of range. */
-    fun warshPageFor(surah: Int, ayah: Int): Int? {
+    /** The tajweed page containing (surah, ayah), or null when out of range. */
+    fun tajweedPageFor(surah: Int, ayah: Int): Int? {
         val key = surah * 1000 + ayah
         if (key < pageFirstSurah[1] * 1000 + pageFirstAyah[1]) return null
         var lo = 1
@@ -87,6 +88,15 @@ object KsuWarshPageData {
             if (pageFirstSurah[mid] * 1000 + pageFirstAyah[mid] <= key) lo = mid else hi = mid - 1
         }
         return lo
+    }
+
+    /** True when [page] is the first page of a surah (title + basmala take its top lines). */
+    fun pageStartsSurah(page: Int): Boolean {
+        if (page <= 1) return true
+        if (page > 604) return false
+        val prev = pageFirstSurah[page - 1]
+        val cur = pageFirstSurah[page]
+        return cur != prev
     }
 
     /** First ayah of page [page] as `surah*1000 + ayah`, or null. */
@@ -99,12 +109,5 @@ object KsuWarshPageData {
     fun pageLast(page: Int): Int? {
         val next = pageFirst(page + 1) ?: return 114 * 1000 + 6
         return next - 1
-    }
-
-    /** True when [page] is the first page of a surah (title + basmala take its top lines). */
-    fun pageStartsSurah(page: Int): Boolean {
-        val prev = pageFirst(page - 1) ?: return true
-        val cur = pageFirst(page) ?: return false
-        return cur / 1000 != prev / 1000
     }
 }

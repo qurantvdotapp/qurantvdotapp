@@ -48,6 +48,15 @@ fi
 echo "==> Starting $PKG ..."
 "$ADB" shell am start -n "$PKG/.MainActivity"
 
+# Best-effort fullscreen for the emulator window (XFCE/EWMH; needs python3-Xlib).
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+if python3 -c 'import Xlib' 2>/dev/null; then
+  python3 "$SCRIPT_DIR/emulator-fullscreen.py" 2>/dev/null \
+    || echo "(fullscreen: window not found — toggle manually via the emulator toolbar)"
+else
+  echo "(fullscreen helper needs python3-Xlib; toggle manually via the emulator toolbar)"
+fi
+
 echo
 echo "Audio check:"
 "$ADB" shell dumpsys audio 2>/dev/null | grep -m1 "AudioPlaybackConfiguration" || true

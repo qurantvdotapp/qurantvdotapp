@@ -39,6 +39,12 @@
     <string name="mushaf_madinah">المدينة</string>
     <string name="mushaf_tajweed">التجويد الملون</string>
     <string name="no_timing">لا يوجد توقيت لهذه القراءة — مزامنة الآيات غير متاحة</string>
+    <string name="no_timing_short">لا يوجد توقيت</string>
+    <string name="retry_action">↻ إعادة المحاولة</string>
+    <string name="repeat_off_short">⇄ متوقف</string>
+    <string name="repeat_ayah_short">⟲ 1</string>
+    <string name="repeat_surah_short">⟲ ∞</string>
+    <string name="jump_to_surah_short">السور</string>
     <string name="loading">جارٍ التحميل…</string>
     <string name="retry">إعادة المحاولة</string>
     <string name="error_network">تعذر تحميل البيانات. تحقق من الاتصال.</string>

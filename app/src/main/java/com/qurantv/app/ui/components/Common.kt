@@ -30,10 +30,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import com.qurantv.app.R
 import com.qurantv.app.ui.theme.SurfaceContainer
 import com.qurantv.app.ui.theme.SurfaceContainerHigh
 
@@ -161,7 +163,7 @@ fun ErrorState(
             backgroundColor = MaterialTheme.colorScheme.primaryContainer,
         ) {
             Text(
-                text = "↻  Retry",
+                text = stringResource(R.string.retry_action),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )

@@ -38,9 +38,11 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import com.qurantv.app.R
 import com.qurantv.app.data.repo.AppSettings
 import com.qurantv.app.di.AppContainer
 import com.qurantv.app.navigation.Screen
@@ -185,7 +187,7 @@ fun PlayerScreen(
             TvIconButton(onClick = onBack) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "back",
+                    contentDescription = stringResource(R.string.back),
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
@@ -204,7 +206,7 @@ fun PlayerScreen(
             }
             if (ui.hasTiming.not()) {
                 Text(
-                    text = "no-timing",
+                    text = stringResource(R.string.no_timing_short),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.error,
                 )
@@ -221,7 +223,7 @@ fun PlayerScreen(
             TvIconButton(onClick = { vm.toggleDisplayMode() }) {
                 Icon(
                     imageVector = if (isTextMode) Icons.AutoMirrored.Filled.MenuBook else Icons.Filled.TextFields,
-                    contentDescription = "toggle mode",
+                    contentDescription = stringResource(R.string.display_mode),
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
@@ -230,7 +232,7 @@ fun PlayerScreen(
         // Content
         Box(Modifier.weight(1f).fillMaxWidth()) {
             if (ui.error) {
-                ErrorState(onRetry = { vm.retry() }, message = "audio-error")
+                ErrorState(onRetry = { vm.retry() }, message = stringResource(R.string.error_audio))
             } else if (isTextMode) {
                 Column(Modifier.fillMaxSize()) {
                     // Decorative surah header (the recited basmala) — never a numbered row.

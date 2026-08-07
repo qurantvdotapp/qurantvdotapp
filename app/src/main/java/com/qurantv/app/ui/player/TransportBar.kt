@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
@@ -78,9 +79,9 @@ fun TransportBar(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        TransportButton(icon = Icons.Filled.SkipPrevious, onClick = onPrevSurah, label = "prev surah")
+        TransportButton(icon = Icons.Filled.SkipPrevious, onClick = onPrevSurah, label = stringResource(R.string.prev_surah))
         Spacer(Modifier.width(12.dp))
-        TransportButton(icon = Icons.AutoMirrored.Filled.NavigateBefore, onClick = onPrevAyah, label = "prev ayah")
+        TransportButton(icon = Icons.AutoMirrored.Filled.NavigateBefore, onClick = onPrevAyah, label = stringResource(R.string.prev_ayah))
         Spacer(Modifier.width(12.dp))
         TvIconButton(
             onClick = onTogglePlayPause,
@@ -94,9 +95,9 @@ fun TransportBar(
             )
         }
         Spacer(Modifier.width(12.dp))
-        TransportButton(icon = Icons.AutoMirrored.Filled.NavigateNext, onClick = onNextAyah, label = "next ayah")
+        TransportButton(icon = Icons.AutoMirrored.Filled.NavigateNext, onClick = onNextAyah, label = stringResource(R.string.next_ayah))
         Spacer(Modifier.width(12.dp))
-        TransportButton(icon = Icons.Filled.SkipNext, onClick = onNextSurah, label = "next surah")
+        TransportButton(icon = Icons.Filled.SkipNext, onClick = onNextSurah, label = stringResource(R.string.next_surah))
         Spacer(Modifier.width(16.dp))
 
         SeekControl(
@@ -107,20 +108,20 @@ fun TransportBar(
         Spacer(Modifier.width(16.dp))
 
         val repeatLabel = when (state.repeatMode) {
-            RepeatMode.OFF -> "⇄ OFF"
-            RepeatMode.AYAH -> "⟲ 1"
-            RepeatMode.SURAH -> "⟲ ∞"
+            RepeatMode.OFF -> stringResource(R.string.repeat_off_short)
+            RepeatMode.AYAH -> stringResource(R.string.repeat_ayah_short)
+            RepeatMode.SURAH -> stringResource(R.string.repeat_surah_short)
         }
         LabeledButton(label = repeatLabel, onClick = onCycleRepeat)
         Spacer(Modifier.width(10.dp))
         LabeledButton(label = speedLabel(state.speed), onClick = onCycleSpeed)
         Spacer(Modifier.width(10.dp))
-        LabeledButton(label = "Surah", onClick = onOpenSurahJump)
+        LabeledButton(label = stringResource(R.string.jump_to_surah_short), onClick = onOpenSurahJump)
         Spacer(Modifier.width(10.dp))
         TvIconButton(onClick = onToggleMode) {
             Icon(
                 imageVector = if (state.hasTiming || state.timing != null) Icons.AutoMirrored.Filled.MenuBook else Icons.Filled.TextFields,
-                contentDescription = "mode",
+                contentDescription = stringResource(R.string.display_mode),
                 tint = MaterialTheme.colorScheme.onSurface,
             )
         }

@@ -1,5 +1,5 @@
 import java.net.HttpURLConnection
-import java.net.URL
+import java.net.URI
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -90,7 +90,8 @@ val downloadTanzilText by tasks.registering {
         }
         f.parentFile.mkdirs()
         logger.lifecycle("Downloading Tanzil Uthmani text from tanzil.net ...")
-        val conn = URL("https://tanzil.net/pub/download/v1.0/download.php")
+        val conn = URI("https://tanzil.net/pub/download/v1.0/download.php")
+            .toURL()
             .openConnection() as HttpURLConnection
         conn.requestMethod = "POST"
         conn.doOutput = true

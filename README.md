@@ -112,6 +112,7 @@ Coil, AndroidSVG, DataStore, coroutines. Version catalog in
 ./gradlew :app:assembleDebug          # APK at app/build/outputs/apk/debug/app-debug.apk
 ./gradlew :app:testDebugUnitTest      # unit tests (26): parsing, URLs, timing search,
                                       # coordinate mapping, basmala offset
+./gradlew :app:lintDebug              # lint gate (0 errors, incl. minSdk 23 API checks)
 ```
 
 The Tanzil Uthmani text is committed at `app/src/main/assets/quran/quran-uthmani.txt`

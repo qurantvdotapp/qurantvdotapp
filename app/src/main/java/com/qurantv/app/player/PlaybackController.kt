@@ -14,6 +14,7 @@ import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaSession
+import androidx.media3.common.util.UnstableApi
 import com.qurantv.app.domain.CatalogParsing
 import com.qurantv.app.domain.Moshaf
 import com.qurantv.app.domain.QuranSurah
@@ -54,6 +55,7 @@ data class PlayerUiState(
  * Owned by the DI container so playback continues while the user browses
  * (PROMPT.md Part 6 — Player back → Surah list keeps playing).
  */
+@androidx.annotation.OptIn(UnstableApi::class)
 class PlaybackController(
     private val appContext: Context,
     private val okHttpClient: OkHttpClient,

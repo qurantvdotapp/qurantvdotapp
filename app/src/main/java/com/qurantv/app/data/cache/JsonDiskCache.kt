@@ -53,9 +53,18 @@ class JsonDiskCache(private val context: Context) {
         return sanitized.takeLast(120)
     }
 
-    /** Serializes concurrent loads of the same key (single-flight per key). */
+    /**
+     * Serializes concurrent loads of the same key (single-flight per key).
+     * Uses [getOrPut] instead of [java.util.concurrent.ConcurrentHashMap.computeIfAbsent]
+     * — the latter requires API 24 but minSdk is 23 (lint NewApi / crash on API 23).
+     */
     suspend fun <T> singleFlight(flightKey: String, block: suspend () -> T): T {
-        val mutex = locks.computeIfAbsent(flightKey) { Mutex() }
+        var mutex = locks[flightKey]
+        if (mutex == null) {
+            mutex = synchronized(locks) {
+                locks.getOrPut(flightKey) { Mutex() }
+            }
+        }
         return mutex.withLock { block() }
     }
 

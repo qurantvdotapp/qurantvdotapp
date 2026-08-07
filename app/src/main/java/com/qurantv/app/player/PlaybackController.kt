@@ -15,6 +15,8 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaSession
 import androidx.media3.common.util.UnstableApi
+import android.util.Log
+import com.qurantv.app.domain.AyahTiming
 import com.qurantv.app.domain.CatalogParsing
 import com.qurantv.app.domain.Moshaf
 import com.qurantv.app.domain.QuranSurah
@@ -179,7 +181,9 @@ class PlaybackController(
     }
 
     fun seekTo(positionMs: Long) {
-        player.seekTo(positionMs.coerceIn(0, player.duration.takeIf { it > 0 } ?: Long.MAX_VALUE))
+        val target = positionMs.coerceIn(0, player.duration.takeIf { it > 0 } ?: Long.MAX_VALUE)
+        player.seekTo(target)
+        refreshAfterSeek(target)
     }
 
     fun seekToAyah(index: Int) {
@@ -276,25 +280,56 @@ class PlaybackController(
                 }
                 if (t != null) {
                     val idx = TimingIndex.ayahAt(t, pos)
-                    val prev = _state.value.currentAyahIndex
-                    if (idx != prev) {
-                        _state.value = _state.value.copy(
-                            currentAyahIndex = idx,
-                            currentPageUrl = t.entries.getOrNull(idx)?.pageUrl,
-                        )
-                    }
+                    updateAyahUiState(idx)
                     // Repeat ayah: at the ayah end, jump back to its start.
                     val s = _state.value
                     if (s.repeatMode == RepeatMode.AYAH) {
                         val entry = t.entries.getOrNull(idx)
-                        if (entry != null && entry.endMs > entry.startMs && pos >= entry.endMs) {
+                        if (entry != null && pos >= effectiveEndMs(t, idx, entry)) {
                             player.seekTo(entry.startMs)
+                            refreshAfterSeek(entry.startMs)
                         }
                     }
                 }
-                delay(200)
+                delay(100)
             }
         }
+    }
+
+    /**
+     * Pushes the highlight state for [idx] only when it actually changed — the
+     * UI recomposes per change, not per tick (PROMPT Part 6/9).
+     */
+    private fun updateAyahUiState(idx: Int) {
+        val t = timing
+        val prev = _state.value.currentAyahIndex
+        if (idx != prev) {
+            Log.d("QuranTv", "ayah $idx @ ${player.currentPosition}ms")
+            _state.value = _state.value.copy(
+                currentAyahIndex = idx,
+                currentPageUrl = t?.entries?.getOrNull(idx)?.pageUrl,
+            )
+        }
+    }
+
+    /** Recompute highlight immediately after a seek (don't wait for the ticker). */
+    private fun refreshAfterSeek(targetPositionMs: Long) {
+        val t = timing ?: return
+        updateAyahUiState(TimingIndex.ayahAt(t, targetPositionMs))
+    }
+
+    /**
+     * The last ayah's end_time can be missing/zero in the data; treat the mp3
+     * duration as its end so repeat-ayah still loops on the final verse and the
+     * highlight never releases early.
+     */
+    private fun effectiveEndMs(t: SurahTiming, idx: Int, entry: AyahTiming): Long {
+        if (entry.endMs > entry.startMs) return entry.endMs
+        if (idx == t.entries.lastIndex) {
+            val duration = player.duration.takeIf { it > 0 } ?: return entry.endMs
+            if (duration > entry.startMs) return duration
+        }
+        return entry.endMs
     }
 
     private fun stopTicker() {

@@ -120,6 +120,16 @@ class TimingIndexTest {
     }
 
     @Test
+    fun `stays on the previous ayah during an inter ayah gap`() {
+        // Ayah 1 ends at 6000; ayah 2 starts at 7500 (1500 ms of silence). The
+        // highlight must NOT jump to ayah 2 while its audio has not started.
+        val t = timing(listOf(Triple(0, 0L, 3000L), Triple(1, 3000L, 6000L), Triple(2, 7500L, 10_000L)))
+        assertEquals(1, TimingIndex.ayahAt(t, 6500))
+        assertEquals(1, TimingIndex.ayahAt(t, 7499))
+        assertEquals(2, TimingIndex.ayahAt(t, 7500))
+    }
+
+    @Test
     fun `empty timing returns -1`() {
         val t = timing(emptyList())
         assertEquals(-1, TimingIndex.ayahAt(t, 1000))

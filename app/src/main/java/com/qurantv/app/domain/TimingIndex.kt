@@ -23,8 +23,14 @@ object TimingIndex {
             }
         }
         if (result < 0) return 0 // before the first entry: treat as the header/basmala slot
-        // Skip intervals that are already past or degenerate (missing/zero end time).
-        while (result < entries.size - 1 && entries[result].endMs <= positionMs) {
+        // Skip intervals that are already past (missing/zero end time), but never
+        // advance into an ayah whose start has not been reached yet: during an
+        // inter-ayah silence gap the previous ayah stays highlighted until the
+        // next one actually begins (otherwise the highlight jumps early).
+        while (result < entries.size - 1 &&
+            entries[result].endMs <= positionMs &&
+            entries[result + 1].startMs <= positionMs
+        ) {
             result++
         }
         return result

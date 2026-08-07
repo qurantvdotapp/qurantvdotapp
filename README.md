@@ -36,12 +36,17 @@ in two display modes:
   Tajweed per-ayah images — toggle in the player top bar or Settings.
 - **Ayah sync** where timing data exists (matched by moshaf `server` ↔ timing
   `folder_url`); graceful degradation with a “لا يوجد توقيت” notice otherwise.
-  The text list shows exactly the numbered verses — the recited basmala is a
-  decorative surah header above the list, and the basmala prefix that Tanzil
-  embeds in verse 1 of surahs 2–114 is stripped so text matches audio 1:1.
-  Auto-scroll only moves when the current ayah's start leaves the screen, so
-  long multi-line ayahs (e.g. 2:13) keep their highlight fully visible and
-  manual scrolling is never fought.
+  The recited basmala is its own audio segment (timing index 0) shown as a
+  surah header above the verse list and highlighted while it plays — every
+  surah starts with it except Al-Tawbah (9); surah 1's verse 1:1 is the
+  basmala itself, so no separate header. The basmala prefix that Tanzil embeds
+  in verse 1 of surahs 2–114 is stripped so the verse text matches the audio
+  exactly 1:1.
+- **Auto-scroll**: the current ayah is pinned to the TOP of the viewport on
+  every ayah change so it is displayed in full; long ayahs taller than the
+  viewport (e.g. 2:282 is 136 s) scroll through proportionally to the
+  playback position inside the ayah, so the part being recited stays on
+  screen. Manual scrolling pauses the follow until the next ayah.
 - **Continue listening** card on Home; position restored on play.
 - **Settings**: language (ar/en), default speed, text font size, highlight
   color, default display mode.

@@ -51,10 +51,13 @@ class QuranTextRepository(
         val key = "$surahId:$verseNumber"
         val raw = loadTanzil()[key]
         if (raw != null) {
-            // Tanzil prefixes the basmala to verse 1 of surahs 2–114; the recitation
-            // recites it as the surah header, not as part of verse 1 — strip it so the
-            // displayed text matches the audio exactly. The prefix is taken from the
-            // data itself (1|1) to guarantee an exact character match.
+            // Tanzil embeds the basmala as a prefix of verse 1 for surahs 2–114.
+            // The recitation recites it as its own segment (timing index 0, shown as
+            // the surah's basmala header), NOT as part of verse 1 — strip the prefix
+            // so the displayed verse text matches the audio exactly (1:1 sync). The
+            // prefix is taken from the data itself (1|1) for an exact match.
+            // Surah 9 (Al-Tawbah) has no basmala in the data, and surah 1's verse 1
+            // IS the basmala (1|1) — both are naturally untouched by this branch.
             if (surahId in 2..114 && verseNumber == 1) {
                 val basmala = loadTanzil()["1:1"] ?: return raw
                 return stripBasmala(raw, basmala)

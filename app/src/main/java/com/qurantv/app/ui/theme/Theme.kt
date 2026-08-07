@@ -1,6 +1,7 @@
 package com.qurantv.app.ui.theme
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.tv.material3.ColorScheme
 import androidx.tv.material3.MaterialTheme
@@ -11,6 +12,16 @@ import androidx.tv.material3.Typography
 val SurfaceContainerLow = Color(0xFF0D1726)
 val SurfaceContainer = Color(0xFF131F35)
 val SurfaceContainerHigh = Color(0xFF1B2A44)
+
+/** Subtle night-sky gradient used behind screens. */
+val BackgroundBrush: Brush = Brush.verticalGradient(
+    listOf(Color(0xFF0A1220), Color(0xFF0F1B2E)),
+)
+
+/** Accent gradient for the hero Continue card. */
+val HeroBrush: Brush = Brush.horizontalGradient(
+    listOf(Color(0xFF1C2A14), Color(0xFF23331B)),
+)
 
 /** Night-sky palette tuned for a 10-foot TV screen. */
 private val QuranColors = ColorScheme(

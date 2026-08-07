@@ -1,5 +1,7 @@
 package com.qurantv.app.ui.home
 
+import android.view.ViewTreeObserver
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,12 +13,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.NavigateNext
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -29,10 +35,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalView
-import android.view.ViewTreeObserver
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
@@ -46,6 +52,21 @@ import com.qurantv.app.ui.components.ErrorState
 import com.qurantv.app.ui.components.LoadingState
 import com.qurantv.app.ui.components.TvCard
 import com.qurantv.app.ui.components.TvIconButton
+import com.qurantv.app.ui.theme.BackgroundBrush
+import com.qurantv.app.ui.theme.HeroBrush
+import com.qurantv.app.ui.theme.SurfaceContainer
+import com.qurantv.app.ui.theme.SurfaceContainerHigh
+
+/** Flat rows for the vertical reciter list (letter section headers + reciter rows). */
+private sealed interface HomeRow {
+    data class LetterHeader(val letter: String) : HomeRow
+    data class Reciter(val reciter: com.qurantv.app.domain.Reciter) : HomeRow
+
+    fun key(): String = when (this) {
+        is LetterHeader -> "h-$letter"
+        is Reciter -> "r-${reciter.id}"
+    }
+}
 
 @Composable
 fun HomeScreen(
@@ -56,51 +77,100 @@ fun HomeScreen(
     val vm = container.homeViewModel
     val ui by vm.ui.collectAsState()
     val navigator = container.navigator
-    val initialFocus = remember { FocusRequester() }
 
-    // Initial focus when the window actually gains focus (reliable on TV),
-    // so the first DPAD_CENTER activates immediately.
+    val rows = remember(ui.letters, ui.recitersByLetter) {
+        ui.letters.flatMap { letter ->
+            listOf<HomeRow>(HomeRow.LetterHeader(letter)) +
+                ui.recitersByLetter[letter].orEmpty().map { HomeRow.Reciter(it) }
+        }
+    }
+    val letterIndex = remember(rows) {
+        buildMap {
+            rows.forEachIndexed { i, row ->
+                if (row is HomeRow.LetterHeader) put(row.letter, i)
+            }
+        }
+    }
+    val listState = rememberLazyListState()
+
+    val continueFocus = remember { FocusRequester() }
+    val searchFocus = remember { FocusRequester() }
+
+    // Initial focus: the search bar on a fresh install, otherwise the Continue card.
     val view = LocalView.current
     DisposableEffect(view) {
         val listener = ViewTreeObserver.OnWindowFocusChangeListener { hasFocus ->
-            if (hasFocus) initialFocus.requestFocus()
+            if (hasFocus) {
+                if (ui.lastSession == null) searchFocus.requestFocus() else continueFocus.requestFocus()
+            }
         }
         view.viewTreeObserver.addOnWindowFocusChangeListener(listener)
         onDispose { view.viewTreeObserver.removeOnWindowFocusChangeListener(listener) }
     }
     LaunchedEffect(ui.recitersLoading, ui.lastSession) {
         if (!ui.recitersLoading) {
-            // Retry until the Continue card is composed and focusable — cold-start
-            // focus is otherwise racy on TV.
             repeat(8) {
                 withFrameNanos { }
-                if (initialFocus.requestFocus()) return@LaunchedEffect
+                val target = if (ui.lastSession == null) searchFocus else continueFocus
+                if (target.requestFocus()) return@LaunchedEffect
                 kotlinx.coroutines.delay(150)
             }
         }
     }
 
-    Column(Modifier.fillMaxSize()) {
+    // Jump rail → scroll the vertical list to the chosen letter.
+    LaunchedEffect(ui.selectedLetter) {
+        ui.selectedLetter?.let { letter ->
+            letterIndex[letter]?.let { idx ->
+                if (listState.firstVisibleItemIndex != idx) listState.animateScrollToItem(idx)
+            }
+        }
+    }
+
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(BackgroundBrush)
+            .padding(start = 40.dp, end = 40.dp),
+    ) {
         // Header
         Row(
-            modifier = Modifier.fillMaxWidth().padding(start = 40.dp, end = 40.dp, top = 24.dp),
+            modifier = Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.displayMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-            }
-            TvIconButton(onClick = onOpenSearch) {
-                Icon(Icons.Filled.Search, contentDescription = null, tint = MaterialTheme.colorScheme.onSurface)
-            }
-            Spacer(Modifier.width(14.dp))
+            Text(
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.displayMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
+            Spacer(Modifier.weight(1f))
             TvIconButton(onClick = onOpenSettings) {
                 Icon(Icons.Filled.Settings, contentDescription = null, tint = MaterialTheme.colorScheme.onSurface)
             }
         }
+
+        // Search bar (always visible)
+        SearchBar(focusRequester = searchFocus, onClick = onOpenSearch)
+
+        // Continue listening hero
+        ContinueCard(session = ui.lastSession, focusRequester = continueFocus, onPlay = {
+            val target = vm.continueTarget()
+            if (target != null) {
+                val (reciter, moshaf, session) = target
+                val available = vm.surahsFor(moshaf)
+                val surah = available.firstOrNull { it.id == session.surahId }
+                if (surah != null) {
+                    navigator.push(
+                        Screen.Player(
+                            reciter = reciter,
+                            moshaf = moshaf,
+                            surah = surah,
+                            availableSurahs = available,
+                        )
+                    )
+                }
+            }
+        })
 
         when {
             ui.recitersLoading && ui.reciters.isEmpty() -> {
@@ -110,74 +180,68 @@ fun HomeScreen(
                 ErrorState(onRetry = { vm.retry() }, modifier = Modifier.weight(1f))
             }
             else -> {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(horizontal = 40.dp, vertical = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(22.dp),
-                ) {
-                    item(key = "continue") {
-                        ContinueCard(
-                            session = ui.lastSession,
-                            focusRequester = initialFocus,
-                            onPlay = {
-                                val target = vm.continueTarget()
-                                if (target != null) {
-                                    val (reciter, moshaf, session) = target
-                                    val available = vm.surahsFor(moshaf)
-                                    val surah = available.firstOrNull { it.id == session.surahId }
-                                    if (surah != null) {
-                                        navigator.push(
-                                            Screen.Player(
-                                                reciter = reciter,
-                                                moshaf = moshaf,
-                                                surah = surah,
-                                                availableSurahs = available,
-                                            )
-                                        )
-                                    }
-                                }
-                            },
-                        )
-                    }
-                    item(key = "reciters-header") {
-                        Text(
-                            text = stringResource(R.string.reciters_title),
-                            style = MaterialTheme.typography.headlineMedium,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
-                    item(key = "reciters") {
-                        RecitersAtoZ(ui = ui, onSelectLetter = vm::selectLetter, onReciterClick = { reciter ->
-                            val moshaf = reciter.moshafs.firstOrNull()
-                            if (moshaf != null) {
-                                navigator.push(Screen.SurahGrid(reciter, moshaf))
-                            }
-                        })
-                    }
-                    if (ui.recentReads.isNotEmpty()) {
-                        item(key = "recent-header") {
-                            Text(
-                                text = stringResource(R.string.recent_reads),
-                                style = MaterialTheme.typography.headlineMedium,
-                                color = MaterialTheme.colorScheme.onSurface,
-                            )
-                        }
-                        item(key = "recent") {
-                            LazyRow(
-                                horizontalArrangement = Arrangement.spacedBy(14.dp),
-                            ) {
-                                items(ui.recentReads, key = { it.id }) { reciter ->
-                                    ReciterCard(reciter = reciter, onClick = {
-                                        val moshaf = reciter.moshafs.firstOrNull()
-                                        if (moshaf != null) navigator.push(Screen.SurahGrid(reciter, moshaf))
-                                    })
-                                }
+                // Section title
+                Text(
+                    text = stringResource(R.string.reciters_title),
+                    modifier = Modifier.padding(top = 14.dp, bottom = 8.dp),
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Row(Modifier.weight(1f).fillMaxWidth()) {
+                    // Vertical, searchable reciter list — uses the full height.
+                    LazyColumn(
+                        state = listState,
+                        modifier = Modifier.weight(1f).fillMaxHeight(),
+                        contentPadding = PaddingValues(bottom = 20.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        items(rows, key = { it.key() }) { row ->
+                            when (row) {
+                                is HomeRow.LetterHeader -> LetterHeader(row.letter)
+                                is HomeRow.Reciter -> ReciterRow(
+                                    reciter = row.reciter,
+                                    onClick = {
+                                        val moshaf = row.reciter.moshafs.firstOrNull()
+                                        if (moshaf != null) navigator.push(Screen.SurahGrid(row.reciter, moshaf))
+                                    },
+                                )
                             }
                         }
                     }
-                    item(key = "bottom-pad") { Spacer(Modifier.height(8.dp)) }
+                    Spacer(Modifier.width(16.dp))
+                    LetterRail(
+                        letters = ui.letters,
+                        selected = ui.selectedLetter,
+                        onSelect = vm::selectLetter,
+                        modifier = Modifier.width(52.dp).fillMaxHeight(),
+                    )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun SearchBar(focusRequester: FocusRequester, onClick: () -> Unit) {
+    TvCard(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+        backgroundColor = SurfaceContainerHigh,
+        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                Icons.Filled.Search,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Spacer(Modifier.width(14.dp))
+            Text(
+                text = stringResource(R.string.search_hint),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
 }
@@ -187,9 +251,9 @@ private fun ContinueCard(session: LastSession?, focusRequester: FocusRequester, 
     if (session == null) {
         TvCard(
             onClick = {},
-            modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
-            backgroundColor = com.qurantv.app.ui.theme.SurfaceContainer,
-            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 18.dp),
+            modifier = Modifier.fillMaxWidth().focusRequester(focusRequester).padding(top = 10.dp),
+            backgroundColor = SurfaceContainer,
+            contentPadding = PaddingValues(horizontal = 22.dp, vertical = 14.dp),
         ) {
             Text(
                 text = stringResource(R.string.continue_hint),
@@ -201,91 +265,123 @@ private fun ContinueCard(session: LastSession?, focusRequester: FocusRequester, 
     }
     TvCard(
         onClick = onPlay,
-        modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
-        backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 18.dp),
+        modifier = Modifier.fillMaxWidth().focusRequester(focusRequester).padding(top = 10.dp),
+        backgroundBrush = HeroBrush,
+        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 14.dp),
     ) {
-        Text(
-            text = stringResource(R.string.continue_listening),
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-        )
-        Text(
-            text = "${session.reciterName} • ${session.surahNameAr}",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-        )
-    }
-}
-
-@Composable
-private fun RecitersAtoZ(
-    ui: HomeUiState,
-    onSelectLetter: (String) -> Unit,
-    onReciterClick: (Reciter) -> Unit,
-) {
-    Row(Modifier.fillMaxWidth().height(340.dp)) {
-        // Alphabet rail — left edge in LTR, right edge in RTL.
-        LazyColumn(
-            modifier = Modifier.width(64.dp).fillMaxHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            items(ui.letters, key = { it }) { letter ->
-                val selected = letter == ui.selectedLetter
-                TvCard(
-                    onClick = { onSelectLetter(letter) },
-                    modifier = Modifier.padding(vertical = 3.dp),
-                    shape = CircleShape,
-                    backgroundColor = if (selected) MaterialTheme.colorScheme.primaryContainer
-                    else com.qurantv.app.ui.theme.SurfaceContainer,
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    contentPadding = PaddingValues(10.dp),
-                ) {
-                    Text(
-                        text = letter,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer
-                        else MaterialTheme.colorScheme.onSurface,
-                    )
-                }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.continue_listening),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+                Text(
+                    text = "${session.reciterName} • ${session.surahNameAr}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
-        }
-        Spacer(Modifier.width(20.dp))
-        val reciters = ui.recitersByLetter[ui.selectedLetter].orEmpty()
-        if (reciters.isEmpty()) {
-            Box(Modifier.weight(1f).fillMaxHeight(), contentAlignment = Alignment.Center) {
-                Text(stringResource(R.string.empty_reciters), color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-        } else {
-            LazyRow(
-                modifier = Modifier.weight(1f).fillMaxHeight(),
-                horizontalArrangement = Arrangement.spacedBy(14.dp),
-                verticalAlignment = Alignment.CenterVertically,
+            Box(
+                modifier = Modifier
+                    .size(52.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                contentAlignment = Alignment.Center,
             ) {
-                items(reciters, key = { it.id }) { reciter ->
-                    ReciterCard(reciter = reciter, onClick = { onReciterClick(reciter) })
-                }
+                Icon(
+                    Icons.Filled.PlayArrow,
+                    contentDescription = null,
+                    modifier = Modifier.size(30.dp),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
             }
         }
     }
 }
 
 @Composable
-private fun ReciterCard(reciter: Reciter, onClick: () -> Unit) {
+private fun LetterHeader(letter: String) {
+    Text(
+        text = letter,
+        modifier = Modifier.padding(start = 4.dp, top = 10.dp, bottom = 2.dp),
+        style = MaterialTheme.typography.titleLarge,
+        color = MaterialTheme.colorScheme.primary,
+    )
+}
+
+@Composable
+private fun ReciterRow(reciter: Reciter, onClick: () -> Unit) {
     TvCard(
         onClick = onClick,
-        modifier = Modifier.width(210.dp),
-        backgroundColor = com.qurantv.app.ui.theme.SurfaceContainer,
+        modifier = Modifier.fillMaxWidth(),
+        backgroundColor = SurfaceContainer,
+        contentPadding = PaddingValues(horizontal = 18.dp, vertical = 10.dp),
     ) {
-        Text(
-            text = reciter.name,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-        )
-        Text(
-            text = stringResource(R.string.moshafs_count, reciter.moshafs.size),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .size(42.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = reciter.letter ?: "؟",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+            }
+            Spacer(Modifier.width(14.dp))
+            Column(Modifier.weight(1f)) {
+                Text(
+                    text = reciter.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Text(
+                    text = stringResource(R.string.moshafs_count, reciter.moshafs.size),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Icon(
+                Icons.AutoMirrored.Filled.NavigateNext,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
+private fun LetterRail(
+    letters: List<String>,
+    selected: String?,
+    onSelect: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LazyColumn(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        items(letters, key = { it }) { letter ->
+            val isSelected = letter == selected
+            TvCard(
+                onClick = { onSelect(letter) },
+                shape = RoundedCornerShape(10.dp),
+                backgroundColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else SurfaceContainer,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 7.dp),
+            ) {
+                Text(
+                    text = letter,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
+                    else MaterialTheme.colorScheme.onSurface,
+                )
+            }
+        }
     }
 }

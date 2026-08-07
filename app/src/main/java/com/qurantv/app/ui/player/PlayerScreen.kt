@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -45,13 +44,12 @@ import com.qurantv.app.data.repo.AppSettings
 import com.qurantv.app.di.AppContainer
 import com.qurantv.app.navigation.Screen
 import com.qurantv.app.ui.components.ErrorState
+import com.qurantv.app.ui.components.SurahJumpDialog
 import com.qurantv.app.ui.components.TvCard
 import com.qurantv.app.ui.components.TvIconButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import androidx.compose.ui.window.Dialog
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 
 private val highlightColors = listOf(
     Color(0xFFFFD54F), // gold
@@ -133,7 +131,7 @@ fun PlayerScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(com.qurantv.app.ui.theme.BackgroundBrush)
             .onPreviewKeyEvent { event ->
                 if (event.type == KeyEventType.KeyDown) {
                     when (event.nativeKeyEvent.keyCode) {
@@ -243,60 +241,5 @@ fun PlayerScreen(
             },
             onDismiss = { jumpOpen = false },
         )
-    }
-}
-
-@Composable
-private fun SurahJumpDialog(
-    surahs: List<com.qurantv.app.domain.QuranSurah>,
-    currentSurahId: Int?,
-    onSelect: (com.qurantv.app.domain.QuranSurah) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    Dialog(onDismissRequest = onDismiss) {
-        val dialogFocus = remember { FocusRequester() }
-        LaunchedEffect(Unit) {
-    withFrameNanos { }
-    dialogFocus.requestFocus()
-}
-        Column(
-            modifier = Modifier
-                .width(660.dp)
-                .background(com.qurantv.app.ui.theme.SurfaceContainer, MaterialTheme.shapes.extraLarge)
-                .padding(24.dp),
-        ) {
-            Text(
-                text = "surah-jump",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Spacer(Modifier.width(16.dp))
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth().heightIn(max = 480.dp).padding(top = 16.dp),
-            ) {
-                items(surahs, key = { it.id }) { surah ->
-                    TvCard(
-                        onClick = { onSelect(surah) },
-                        modifier = if (surah.id == surahs.first().id) {
-                            Modifier.fillMaxWidth().focusRequester(dialogFocus)
-                        } else {
-                            Modifier.fillMaxWidth()
-                        },
-                        backgroundColor = if (surah.id == currentSurahId) {
-                            MaterialTheme.colorScheme.primaryContainer
-                        } else {
-                            com.qurantv.app.ui.theme.SurfaceContainerHigh
-                        },
-                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 20.dp, vertical = 12.dp),
-                    ) {
-                        Text(
-                            text = "${surah.id} — ${surah.nameAr}",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
-                }
-            }
-        }
     }
 }

@@ -43,6 +43,7 @@ fun SettingsScreen(
     Column(
         Modifier
             .fillMaxSize()
+            .background(com.qurantv.app.ui.theme.BackgroundBrush)
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 48.dp, vertical = 20.dp),
     ) {

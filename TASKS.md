@@ -42,8 +42,8 @@ Build prompt lives in `PROMPT.md`; this file tracks delivery phases and git prog
 - [x] Navigation shell: single activity, back-stack Home → Surah list → Player (double-Back exits)
 - [x] API layer: `Mp3QuranApi` (suwar, reciters, recent_reads, ayat_timing/reads, /soar, /ayat_timing) + DTOs; OkHttp + kotlinx-serialization
 - [x] Disk JSON cache + single-flight loading; defensive parsing (trailing commas in `surah_list`)
-- [x] Home screen: Continue-listening card + Reciters A–Z rail (using API `letter` field) + recent-reads row + search overlay
-- [x] Surah grid screen: only available surahs; moshaf picker dialog for multi-moshaf reciters
+- [x] Home screen: Continue-listening card + full-height vertical reciter list grouped by letter with A–Z jump rail + visible search bar
+- [x] Surah grid screen: 8-column dense grid; moshaf picker + jump-to-surah dialogs
 - [x] Focusable loading / error / empty states with Retry
 - [x] Unit tests: `surah_list` parsing, URL construction (trailing-slash normalization) — green
 - [x] Commit: `feat: phase 1 — catalog browsing`
@@ -66,7 +66,7 @@ Build prompt lives in `PROMPT.md`; this file tracks delivery phases and git prog
 - [x] Read ↔ moshaf matching via `folder_url` ↔ `server` (normalized); enable sync only when matched
 - [x] Position ticker (~200ms) + binary search `start_time ≤ pos < end_time`; state updates only on ayah change (stable keys; no full-list recomposition)
 - [x] Text mode: current ayah highlighted + auto-scroll, select/tap-ayah → seek (verified: tap on verse 4 seeks to 14.1s)
-- [x] Repeat modes: off / repeat ayah (seek to start on end, verified loop) / repeat surah (seek 0 on ended)
+- [x] Repeat modes: off / repeat ayah (seek to start on end, verified loop) / repeat surah (seek 0 on ended); autoplay next surah when repeat off (الفاتحة → البقرة verified)
 - [x] Continue-listening persistence (DataStore: last reciter/moshaf/surah/ayah/position, throttled 5s writes; card verified across reinstall)
 - [x] Basmala handling: timing index 0 = header slot (skip highlight), surah 9 none, offset mechanism for non-Hafs (count-based suggestion + settings override); mapping verified against SVG marker coordinates
 - [x] Unit tests: timing binary search, basmala offset logic — green

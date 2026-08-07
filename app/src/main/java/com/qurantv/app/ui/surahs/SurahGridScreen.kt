@@ -22,7 +22,9 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,6 +48,7 @@ import com.qurantv.app.navigation.Screen
 import com.qurantv.app.ui.components.EmptyState
 import com.qurantv.app.ui.components.ErrorState
 import com.qurantv.app.ui.components.LoadingState
+import com.qurantv.app.ui.components.SurahJumpDialog
 import com.qurantv.app.ui.components.TvCard
 import com.qurantv.app.ui.components.TvIconButton
 
@@ -60,6 +63,7 @@ fun SurahGridScreen(
     val settings by container.settingsViewModel.settings.collectAsState()
     val navigator = container.navigator
     val isEnglish = settings.language == "en"
+    var jumpOpen by remember { mutableStateOf(false) }
 
     LaunchedEffect(screen.reciter.id, screen.moshaf.id) {
         vm.open(screen.reciter, screen.moshaf)
@@ -83,7 +87,7 @@ fun SurahGridScreen(
         }
     }
 
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize().background(com.qurantv.app.ui.theme.BackgroundBrush)) {
         // Header
         Row(
             modifier = Modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp, top = 20.dp, bottom = 10.dp),
@@ -108,6 +112,14 @@ fun SurahGridScreen(
             TvCard(onClick = { vm.togglePicker() }, backgroundColor = com.qurantv.app.ui.theme.SurfaceContainer) {
                 Text(
                     text = stringResource(R.string.change_moshaf),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+            Spacer(Modifier.width(10.dp))
+            TvCard(onClick = { jumpOpen = true }, backgroundColor = com.qurantv.app.ui.theme.SurfaceContainer) {
+                Text(
+                    text = stringResource(R.string.surah_jump),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
@@ -157,6 +169,29 @@ fun SurahGridScreen(
             )
         }
     }
+
+    if (jumpOpen) {
+        SurahJumpDialog(
+            surahs = ui.surahs,
+            currentSurahId = null,
+            onSelect = { surah ->
+                jumpOpen = false
+                ui.reciter?.let { reciter ->
+                    ui.moshaf?.let { moshaf ->
+                        navigator.push(
+                            Screen.Player(
+                                reciter = reciter,
+                                moshaf = moshaf,
+                                surah = surah,
+                                availableSurahs = ui.surahs,
+                            )
+                        )
+                    }
+                }
+            },
+            onDismiss = { jumpOpen = false },
+        )
+    }
 }
 
 @Composable
@@ -168,11 +203,11 @@ private fun SurahGrid(
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(6),
+        columns = GridCells.Fixed(8),
         modifier = modifier.fillMaxWidth().padding(horizontal = 32.dp),
         contentPadding = PaddingValues(bottom = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp),
-        horizontalArrangement = Arrangement.spacedBy(14.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(surahs, key = { it.id }) { surah ->
             TvCard(
@@ -183,7 +218,7 @@ private fun SurahGrid(
                     Modifier.fillMaxWidth()
                 },
                 backgroundColor = com.qurantv.app.ui.theme.SurfaceContainer,
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 14.dp),
+                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 12.dp),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -191,7 +226,7 @@ private fun SurahGrid(
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
-                    Spacer(Modifier.width(12.dp))
+                    Spacer(Modifier.width(10.dp))
                     Column {
                         Text(
                             text = surah.nameAr,
@@ -201,7 +236,7 @@ private fun SurahGrid(
                         if (isEnglish && !surah.nameEn.isNullOrBlank()) {
                             Text(
                                 text = surah.nameEn,
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }

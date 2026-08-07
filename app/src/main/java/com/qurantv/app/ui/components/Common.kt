@@ -25,8 +25,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,6 +47,7 @@ fun TvCard(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(12.dp),
     backgroundColor: Color = SurfaceContainer,
+    backgroundBrush: Brush? = null,
     focusedBorderColor: Color = MaterialTheme.colorScheme.primary,
     contentPadding: PaddingValues = PaddingValues(16.dp),
     content: @Composable ColumnScope.() -> Unit,
@@ -52,7 +55,7 @@ fun TvCard(
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
     val scale by animateFloatAsState(
-        targetValue = if (focused) 1.06f else 1f,
+        targetValue = if (focused) 1.03f else 1f,
         animationSpec = tween(140),
         label = "tvCardScale",
     )
@@ -65,7 +68,7 @@ fun TvCard(
         modifier = modifier
             .shadow(if (focused) 12.dp else 0.dp, shape)
             .clip(shape)
-            .background(backgroundColor, shape)
+            .background(backgroundBrush ?: SolidColor(backgroundColor), shape)
             .border(3.dp, borderColor, shape)
             .graphicsLayer {
                 scaleX = scale

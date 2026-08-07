@@ -16,13 +16,17 @@ in two display modes:
 
 ## Feature summary
 
-- **Reciters** A–Z jump rail grouped by the API `letter` field + name search.
+- **Reciters**: full-height vertical list grouped by the API `letter` field
+  (maximizes screen use) with an A–Z jump rail and an always-visible search bar.
 - **Riwayat / moshaf picker** per reciter (Hafs مرتل, mujawwad, المصحف المعلم, …).
 - **Surah grid** showing only the surahs available for the selected moshaf
-  (`surah_list` — some reciters have fewer than 114).
+  (`surah_list` — some reciters have fewer than 114) in a dense 8-column grid
+  with a jump-to-surah dialog (no long scrolling).
 - **Playback**: stream `{server}{surah:03d}.mp3` via Media3 ExoPlayer;
   play/pause, seek (±5s), next/prev surah, next/prev ayah, repeat
   (off / ayah / surah), speed 0.5×–2×, jump-to-surah dialog.
+- **Autoplay**: when a surah finishes (repeat off), the next available surah
+  starts automatically from its first ayah.
 - **Ayah sync** where timing data exists (matched by moshaf `server` ↔ timing
   `folder_url`); graceful degradation with a “لا يوجد توقيت” notice otherwise.
 - **Continue listening** card on Home; position restored on play.
@@ -118,10 +122,12 @@ adb shell am start -n com.qurantv.app/.MainActivity
 
 - [x] Cold start: Home renders, no crash; banner/leanback launcher entry present
 - [x] Continue-listening card shows the last reciter/surah; single OK press resumes
-- [x] Reciters A–Z rail: letter selection swaps the row; OK on a reciter opens its surah grid
-- [x] Surah grid: only available surahs; moshaf picker dialog works
+- [x] Reciters: full-height vertical grouped list with A–Z jump rail (letter tap scrolls
+      the list) + always-visible search bar (focus/OK opens the search overlay)
+- [x] Surah grid: 8-column dense grid, moshaf picker + jump-to-surah dialogs work
 - [x] Audio streams; play/pause; restart from end works; speed 1.25/1.5 shown and applied
 - [x] Repeat ayah loops within the ayah window; repeat indicator updates
+- [x] Autoplay: الفاتحة ends → البقرة starts automatically (verified on emulator)
 - [x] Text mode: ayah boundaries verified via prev/next-ayah seek; auto-scroll tracks
       playback; tap/OK on an ayah seeks to its start
 - [x] Timing match works for timed reciters (e.g. أحمد صابر — Hafs مرتل); untimed

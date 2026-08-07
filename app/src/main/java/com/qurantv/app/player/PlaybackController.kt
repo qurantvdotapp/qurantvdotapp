@@ -309,6 +309,11 @@ class PlaybackController(
             }
             else -> {
                 _state.value = _state.value.copy(isPlaying = false)
+                // Auto-advance: when repeat is off and the surah finishes, start the
+                // next available surah from its first ayah (no-op when none exists).
+                if (s.repeatMode == RepeatMode.OFF) {
+                    onBoundaryExceeded(true)
+                }
             }
         }
     }

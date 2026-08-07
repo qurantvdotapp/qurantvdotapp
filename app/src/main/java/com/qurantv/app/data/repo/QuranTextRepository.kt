@@ -49,8 +49,25 @@ class QuranTextRepository(
 
     suspend fun verseText(surahId: Int, verseNumber: Int): String? {
         val key = "$surahId:$verseNumber"
-        loadTanzil()[key]?.let { return it }
+        val raw = loadTanzil()[key]
+        if (raw != null) {
+            // Tanzil prefixes the basmala to verse 1 of surahs 2–114; the recitation
+            // recites it as the surah header, not as part of verse 1 — strip it so the
+            // displayed text matches the audio exactly. The prefix is taken from the
+            // data itself (1|1) to guarantee an exact character match.
+            if (surahId in 2..114 && verseNumber == 1) {
+                val basmala = loadTanzil()["1:1"] ?: return raw
+                return stripBasmala(raw, basmala)
+            }
+            return raw
+        }
         return cachedVerseFromQuranCom(surahId, verseNumber, key)
+    }
+
+    private fun stripBasmala(text: String, basmala: String): String {
+        if (!text.startsWith(basmala)) return text.trim()
+        val rest = text.removePrefix(basmala).trimStart()
+        return rest.ifEmpty { text.trim() }
     }
 
     private suspend fun cachedVerseFromQuranCom(surahId: Int, verseNumber: Int, key: String): String? {

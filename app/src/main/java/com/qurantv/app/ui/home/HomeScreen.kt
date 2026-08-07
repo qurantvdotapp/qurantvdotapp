@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -57,16 +58,8 @@ import com.qurantv.app.ui.theme.HeroBrush
 import com.qurantv.app.ui.theme.SurfaceContainer
 import com.qurantv.app.ui.theme.SurfaceContainerHigh
 
-/** Flat rows for the vertical reciter list (letter section headers + reciter rows). */
-private sealed interface HomeRow {
-    data class LetterHeader(val letter: String) : HomeRow
-    data class Reciter(val reciter: com.qurantv.app.domain.Reciter) : HomeRow
-
-    fun key(): String = when (this) {
-        is LetterHeader -> "h-$letter"
-        is Reciter -> "r-${reciter.id}"
-    }
-}
+// Reciters are grouped alphabetically by their initial letter (API `letter` field):
+// one compact row of reciter chips per letter, the whole page scrolling vertically.
 
 @Composable
 fun HomeScreen(
@@ -78,19 +71,8 @@ fun HomeScreen(
     val ui by vm.ui.collectAsState()
     val navigator = container.navigator
 
-    val rows = remember(ui.letters, ui.recitersByLetter) {
-        ui.letters.flatMap { letter ->
-            listOf<HomeRow>(HomeRow.LetterHeader(letter)) +
-                ui.recitersByLetter[letter].orEmpty().map { HomeRow.Reciter(it) }
-        }
-    }
-    val letterIndex = remember(rows) {
-        buildMap {
-            rows.forEachIndexed { i, row ->
-                if (row is HomeRow.LetterHeader) put(row.letter, i)
-            }
-        }
-    }
+    // Each letter group is one item of the vertical list → item index == letter index.
+    val letterIndex = remember(ui.letters) { ui.letters.withIndex().associate { (i, l) -> l to i } }
     val listState = rememberLazyListState()
 
     val continueFocus = remember { FocusRequester() }
@@ -188,21 +170,26 @@ fun HomeScreen(
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Row(Modifier.weight(1f).fillMaxWidth()) {
-                    // Vertical, searchable reciter list — uses the full height.
+                    // Scrollable, dense list: one compact row of reciter chips per letter.
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.weight(1f).fillMaxHeight(),
                         contentPadding = PaddingValues(bottom = 20.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        items(rows, key = { it.key() }) { row ->
-                            when (row) {
-                                is HomeRow.LetterHeader -> LetterHeader(row.letter)
-                                is HomeRow.Reciter -> ReciterRow(
-                                    reciter = row.reciter,
-                                    onClick = {
-                                        val moshaf = row.reciter.moshafs.firstOrNull()
-                                        if (moshaf != null) navigator.push(Screen.SurahGrid(row.reciter, moshaf))
+                        items(ui.letters, key = { it }) { letter ->
+                            Column {
+                                Text(
+                                    text = letter,
+                                    modifier = Modifier.padding(start = 4.dp, bottom = 6.dp),
+                                    style = MaterialTheme.typography.titleLarge,
+                                    color = MaterialTheme.colorScheme.primary,
+                                )
+                                ReciterChipRow(
+                                    reciters = ui.recitersByLetter[letter].orEmpty(),
+                                    onClick = { reciter ->
+                                        val moshaf = reciter.moshafs.firstOrNull()
+                                        if (moshaf != null) navigator.push(Screen.SurahGrid(reciter, moshaf))
                                     },
                                 )
                             }
@@ -301,56 +288,35 @@ private fun ContinueCard(session: LastSession?, focusRequester: FocusRequester, 
 }
 
 @Composable
-private fun LetterHeader(letter: String) {
-    Text(
-        text = letter,
-        modifier = Modifier.padding(start = 4.dp, top = 10.dp, bottom = 2.dp),
-        style = MaterialTheme.typography.titleLarge,
-        color = MaterialTheme.colorScheme.primary,
-    )
+private fun ReciterChipRow(reciters: List<Reciter>, onClick: (Reciter) -> Unit) {
+    if (reciters.isEmpty()) return
+    LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        items(reciters, key = { it.id }) { reciter ->
+            ReciterChip(reciter = reciter, onClick = { onClick(reciter) })
+        }
+    }
 }
 
 @Composable
-private fun ReciterRow(reciter: Reciter, onClick: () -> Unit) {
+private fun ReciterChip(reciter: Reciter, onClick: () -> Unit) {
     TvCard(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.width(150.dp),
         backgroundColor = SurfaceContainer,
-        contentPadding = PaddingValues(horizontal = 18.dp, vertical = 10.dp),
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                modifier = Modifier
-                    .size(42.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = reciter.letter ?: "؟",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
-            }
-            Spacer(Modifier.width(14.dp))
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = reciter.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                Text(
-                    text = stringResource(R.string.moshafs_count, reciter.moshafs.size),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            Icon(
-                Icons.AutoMirrored.Filled.NavigateNext,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
+        Text(
+            text = reciter.name,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+        )
+        Text(
+            text = stringResource(R.string.moshafs_count, reciter.moshafs.size),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 

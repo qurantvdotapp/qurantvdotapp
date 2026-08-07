@@ -16,8 +16,9 @@ in two display modes:
 
 ## Feature summary
 
-- **Reciters**: full-height vertical list grouped by the API `letter` field
-  (maximizes screen use) with an A–Z jump rail and an always-visible search bar.
+- **Reciters**: scrollable list grouped alphabetically by initial letter — one
+  compact row of reciter chips per letter (maximizes screen use) with an A–Z
+  jump rail and an always-visible search bar.
 - **Riwayat / moshaf picker** per reciter (Hafs مرتل, mujawwad, المصحف المعلم, …).
 - **Surah grid** showing only the surahs available for the selected moshaf
   (`surah_list` — some reciters have fewer than 114) in a dense 8-column grid
@@ -29,6 +30,9 @@ in two display modes:
   starts automatically from its first ayah.
 - **Ayah sync** where timing data exists (matched by moshaf `server` ↔ timing
   `folder_url`); graceful degradation with a “لا يوجد توقيت” notice otherwise.
+  The text list shows exactly the numbered verses — the recited basmala is a
+  decorative surah header above the list, and the basmala prefix that Tanzil
+  embeds in verse 1 of surahs 2–114 is stripped so text matches audio 1:1.
 - **Continue listening** card on Home; position restored on play.
 - **Settings**: language (ar/en), default speed, text font size, highlight
   color, default display mode.

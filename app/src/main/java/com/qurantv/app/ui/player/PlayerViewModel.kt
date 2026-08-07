@@ -23,12 +23,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-/** One row of the ayah text list. Row index == timing ayah index (0 = header). */
+/** One verse row of the text list. [index] is the timing ayah index (i >= 1). */
 data class TextItem(
     val index: Int,
     val verseKey: String?,
     val text: String,
-    val isHeader: Boolean,
 )
 
 data class PlayerScreenUiState(
@@ -119,20 +118,16 @@ class PlayerViewModel(
     private suspend fun buildTextItems(surah: QuranSurah, timing: SurahTiming?) {
         val offset = _screen.value.ayahOffset
         val rowCount = timing?.entries?.size ?: (surah.versesCount + 1)
-        val items = ArrayList<TextItem>(rowCount)
-        val header = if (surah.id == 9) {
-            "سُورَةُ ${surah.nameAr}"
-        } else {
-            quranTextRepository.verseText(1, 1) ?: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ"
-        }
-        items += TextItem(index = 0, verseKey = null, text = header, isHeader = true)
+        // Verses only — timing index 0 (the basmala) is rendered as a decorative
+        // surah header above the list, never as a numbered row.
+        val items = ArrayList<TextItem>((rowCount - 1).coerceAtLeast(0))
         for (i in 1 until rowCount) {
             val key = BasmalaOffset.verseKeyFor(i, surah.id, surah.versesCount, offset)
             val text = key?.let {
                 val parts = it.split(':')
                 if (parts.size == 2) quranTextRepository.verseText(parts[0].toInt(), parts[1].toInt()) else null
             } ?: ""
-            items += TextItem(index = i, verseKey = key, text = text, isHeader = false)
+            items += TextItem(index = i, verseKey = key, text = text)
         }
         _screen.update { it.copy(textItems = items) }
     }

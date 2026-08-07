@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -48,11 +49,15 @@ fun TextModeList(
     highlightColor: Color,
     onSelect: (Int) -> Unit,
     modifier: Modifier = Modifier,
+    resetKey: Any = 0,
 ) {
-    val listState = rememberLazyListState()
+    // A fresh scroll state per surah so a new surah starts at the top.
+    val listState = remember(resetKey) { LazyListState() }
     LaunchedEffect(currentIndex) {
-        if (currentIndex > 0) {
-            listState.animateScrollToItem((currentIndex - 2).coerceAtLeast(0))
+        if (currentIndex > 1) {
+            // Verse row position is one less than the timing index (no header row).
+            val pos = currentIndex - 1
+            listState.animateScrollToItem((pos - 2).coerceAtLeast(0))
         }
     }
     LazyColumn(
@@ -115,11 +120,6 @@ fun TextModeList(
 
 @Composable
 private fun VerseBadge(item: TextItem) {
-    val label = if (item.isHeader) {
-        "\uFDFD" // ﷽ (basmala ligature) for the header row
-    } else {
-        item.verseKey?.substringAfter(':') ?: ""
-    }
     Box(
         modifier = Modifier
             .size(44.dp)
@@ -128,8 +128,8 @@ private fun VerseBadge(item: TextItem) {
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = label,
-            fontSize = if (item.isHeader) 20.sp else 16.sp,
+            text = item.verseKey?.substringAfter(':') ?: "",
+            fontSize = 16.sp,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )

@@ -2,6 +2,7 @@ package com.qurantv.app.ui.player
 
 import android.view.KeyEvent
 import androidx.compose.foundation.background
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -190,13 +191,21 @@ fun PlayerScreen(
             if (ui.error) {
                 ErrorState(onRetry = { vm.retry() }, message = "audio-error")
             } else if (isTextMode) {
-                TextModeList(
-                    items = viewState.textItems,
-                    currentIndex = ui.currentAyahIndex,
-                    fontSizeSp = fontSizeSp,
-                    highlightColor = highlightColor,
-                    onSelect = { index -> vm.seekToAyah(index) },
-                )
+                Column(Modifier.fillMaxSize()) {
+                    // Decorative surah header (the recited basmala) — never a numbered row.
+                    val surahId = ui.surah?.id
+                    if (surahId != null && surahId != 1 && surahId != 9) {
+                        BasmalaHeader(isCurrent = ui.currentAyahIndex == 0)
+                    }
+                    TextModeList(
+                        items = viewState.textItems,
+                        currentIndex = ui.currentAyahIndex,
+                        fontSizeSp = fontSizeSp,
+                        highlightColor = highlightColor,
+                        onSelect = { index -> vm.seekToAyah(index) },
+                        resetKey = screen.surah.id,
+                    )
+                }
             } else {
                 PageModeView(
                     bitmap = pageBitmap?.asImageBitmap(),
@@ -240,6 +249,29 @@ fun PlayerScreen(
                 )
             },
             onDismiss = { jumpOpen = false },
+        )
+    }
+}
+
+/** The recited basmala shown as a surah header above the verse list. */
+@Composable
+private fun BasmalaHeader(isCurrent: Boolean) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp)
+            .clip(androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
+            .background(
+                if (isCurrent) highlightColors[0].copy(alpha = 0.18f)
+                else Color.Transparent,
+            )
+            .padding(vertical = 8.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+            style = MaterialTheme.typography.titleMedium,
+            color = if (isCurrent) highlightColors[0] else MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

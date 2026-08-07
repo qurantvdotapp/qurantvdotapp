@@ -32,8 +32,14 @@ in two display modes:
   starts automatically from its first ayah.
 - **Compact text mode**: tight rows + line height so ~6 short ayahs are visible
   at once and long ayahs (e.g. 2:13) fit fully on screen.
-- **Mushaf styles** (page mode): Madinah SVG (polygon highlight) or Color
-  Tajweed per-ayah images — toggle in the player top bar or Settings.
+- **Mushaf styles** (page mode — the DEFAULT view): the actual Madinah mushaf
+  page fills the screen, auto-turning with the recitation. Styles: **Madinah**
+  (mp3quran SVG, polygon highlight), **Color Tajweed** (per-ayah images), and
+  **Madinah HD** (islamic.app SVG — same standard pagination, per-ayah line-band
+  highlight from the page's own `data-ayah` markup). Toggle in the player top
+  bar (م → ﷽ → HD) or Settings. While playing, the page chrome auto-hides for a
+  fullscreen view; any key brings it back (D-pad left/right scrubs ±5 s while
+  hidden; INFO/MENU toggles text mode).
 - **Ayah sync** where timing data exists (matched by moshaf `server` ↔ timing
   `folder_url`); graceful degradation with a “لا يوجد توقيت” notice otherwise.
   The recited basmala is its own audio segment (timing index 0) shown as a

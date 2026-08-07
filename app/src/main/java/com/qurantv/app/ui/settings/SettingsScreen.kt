@@ -142,6 +142,7 @@ fun SettingsScreen(
                 options = listOf(
                     stringResource(R.string.mushaf_madinah) to 0,
                     stringResource(R.string.mushaf_tajweed) to 1,
+                    stringResource(R.string.mushaf_madinah_hd) to 2,
                 ),
                 selected = settings.mushafStyle,
                 onSelect = { value -> vm.setMushafStyle(value) },

@@ -284,3 +284,42 @@ class SurahTimingLookupTest {
         assertEquals(2, t.lastAyahIndex)
     }
 }
+
+class IslamicPageBandsTest {
+
+    private val sampleSvg = """<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 720">
+  <text x="360" y="163.16" font-size="32.4">
+    <tspan data-ayah="1:1">بِسْمِ اللَّهِ</tspan>
+  </text>
+  <text x="360" y="213.38" font-size="32.4">
+    <tspan data-ayah="1:2">الْحَمْدُ لِلَّهِ</tspan><tspan data-ayah="1:3">الرَّحْمَٰنِ</tspan>
+  </text>
+  <text x="360" y="263.60" font-size="22">
+    <tspan data-ayah="1:4">مَالِكِ يَوْمِ الدِّينِ</tspan>
+  </text>
+</svg>""".trimIndent()
+
+    @Test
+    fun `extracts one band per text line the ayah occupies`() {
+        val bands = IslamicPageBands.parse(sampleSvg)
+        val a1 = bands["1:1"]!!.first()
+        assertEquals(1, bands["1:1"]?.size)
+        assertEquals(163.16f, a1.yTop)
+        // 32.4 * 1.35 line height
+        assertEquals(163.16f + 32.4f * 1.35f, a1.yBottom, 0.01f)
+        // two tspans on the same line → one distinct band
+        assertEquals(1, bands["1:2"]?.size)
+        assertEquals(1, bands["1:3"]?.size)
+        assertEquals(213.38f, bands["1:3"]!!.first().yTop)
+        // smaller font-size honored
+        assertEquals(263.60f + 22f * 1.35f, bands["1:4"]!!.first().yBottom, 0.01f)
+    }
+
+    @Test
+    fun `ignores tspans without data-ayah`() {
+        val bands = IslamicPageBands.parse(sampleSvg)
+        assertNull(bands["1:5"])
+        assertTrue(bands.isEmpty() == false)
+    }
+}

@@ -12,6 +12,7 @@ import com.qurantv.app.data.repo.TimingRepository
 import com.qurantv.app.navigation.AppNavigator
 import com.qurantv.app.player.PlaybackController
 import com.qurantv.app.ui.player.AyahImageLoader
+import com.qurantv.app.ui.player.IslamicNetworkPageLoader
 import com.qurantv.app.ui.player.PageImageLoader
 import com.qurantv.app.ui.home.HomeViewModel
 import com.qurantv.app.ui.player.PlayerViewModel
@@ -60,6 +61,7 @@ class AppContainer(context: Context) {
     val playbackController = PlaybackController(context.applicationContext, okHttpClient)
     val pageImageLoader = PageImageLoader(okHttpClient)
     val ayahImageLoader = AyahImageLoader(okHttpClient)
+    val islamicNetworkPageLoader = IslamicNetworkPageLoader(okHttpClient)
     val navigator = AppNavigator()
 
     val homeViewModel by lazy { HomeViewModel(catalogRepository, sessionRepository) }

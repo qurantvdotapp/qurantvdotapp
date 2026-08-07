@@ -2,6 +2,7 @@ package com.qurantv.app.ui.player
 
 import android.view.KeyEvent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -138,7 +139,8 @@ fun PlayerScreen(
             tajweedBitmap = null
         }
     }
-    LaunchedEffect(ui.currentPageUrl) {
+    LaunchedEffect(ui.currentPageUrl, settings.mushafStyle) {
+        if (settings.mushafStyle == 2) return@LaunchedEffect // islamic.app path below
         val url = ui.currentPageUrl
         pageBitmap = null
         pageViewBox = null
@@ -158,11 +160,68 @@ fun PlayerScreen(
         }
     }
 
+    // islamic.app Madinah pages (style 2): same standard pagination as the timing
+    // `page` field; the per-ayah highlight comes from the page's own data-ayah lines.
+    val islamicLoader = remember { container.islamicNetworkPageLoader }
+    var islamicPage by remember { mutableStateOf<IslamicNetworkPageLoader.LoadedPage?>(null) }
+    val currentVerseKey =
+        if (settings.mushafStyle == 2 && ui.surah != null && ui.currentAyahIndex > 0) {
+            com.qurantv.app.domain.BasmalaOffset.verseKeyFor(
+                ui.currentAyahIndex,
+                ui.surah.id,
+                ui.surah.versesCount,
+                viewState.ayahOffset,
+            )
+        } else {
+            null
+        }
+    LaunchedEffect(ui.currentPageUrl, settings.mushafStyle) {
+        islamicPage = null
+        if (settings.mushafStyle == 2) {
+            val page = ui.currentPageUrl?.substringAfterLast('/')?.substringBefore('.')?.toIntOrNull()
+            if (page != null) {
+                islamicPage = withContext(Dispatchers.IO) { islamicLoader.load(page) }
+                // Prefetch the next page.
+                val timing = ui.timing
+                val current = ui.currentAyahIndex
+                if (timing != null && current >= 0) {
+                    val nextPage = timing.entries
+                        .firstOrNull { it.ayah > current && it.pageUrl != null && it.pageUrl != ui.currentPageUrl }
+                        ?.pageUrl?.substringAfterLast('/')?.substringBefore('.')?.toIntOrNull()
+                    if (nextPage != null) {
+                        withContext(Dispatchers.IO) { islamicLoader.load(nextPage) }
+                    }
+                }
+            }
+        }
+    }
+    val currentBands = islamicPage?.bandsByVerse?.get(currentVerseKey)
+
     var jumpOpen by remember { mutableStateOf(false) }
     val isTextMode = settings.displayMode == 0
+    val isPageMode = !isTextMode
     // Look the current ayah's entry up by TIMING INDEX (reads may omit the
     // index-0 basmala entry, so list position ≠ timing index).
     val currentAyah = ui.timing?.entryFor(ui.currentAyahIndex)
+
+    // Page mode maximizes the mushaf: chrome (top bar + transport) auto-hides a
+    // few seconds after the last key while playing, so the SVG fills the screen.
+    var chromeVisible by remember { mutableStateOf(true) }
+    val pageFocus = remember { FocusRequester() }
+    LaunchedEffect(isPageMode, ui.isPlaying, chromeVisible) {
+        if (isPageMode && ui.isPlaying && chromeVisible) {
+            kotlinx.coroutines.delay(4_000)
+            chromeVisible = false
+        }
+    }
+    // Pausing reveals the chrome again; the fullscreen page itself holds focus
+    // while hidden so D-pad keys still reach the screen-level handler.
+    LaunchedEffect(ui.isPlaying) {
+        if (!ui.isPlaying && isPageMode) chromeVisible = true
+    }
+    LaunchedEffect(chromeVisible) {
+        if (chromeVisible) playFocus.requestFocus() else pageFocus.requestFocus()
+    }
 
     Column(
         modifier = Modifier
@@ -175,11 +234,44 @@ fun PlayerScreen(
                             vm.toggleDisplayMode()
                             true
                         }
-                        else -> false
+                        KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT -> {
+                            // With the chrome hidden the mushaf fills the screen:
+                            // left/right scrub the audio directly.
+                            if (isPageMode && !chromeVisible) {
+                                val delta = if (event.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_DPAD_LEFT) -5_000 else 5_000
+                                container.playbackController.seekTo(positionMs + delta)
+                                true
+                            } else {
+                                chromeVisible = true
+                                false
+                            }
+                        }
+                        else -> {
+                            if (isPageMode && !chromeVisible) chromeVisible = true
+                            false
+                        }
                     }
                 } else false
             },
     ) {
+        if (isPageMode && !chromeVisible) {
+            // Chrome hidden: just the mushaf page, full-bleed (focusable so key
+            // events keep flowing through the screen-level handler).
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .focusRequester(pageFocus)
+                    .focusable(),
+            ) {
+                PageModeView(
+                    bitmap = if (settings.mushafStyle == 2) islamicPage?.bitmap?.asImageBitmap() else pageBitmap?.asImageBitmap(),
+                    viewBox = if (settings.mushafStyle == 2) islamicPage?.viewBox else pageViewBox,
+                    polygon = currentAyah?.polygon,
+                    highlightColor = highlightColor,
+                    bands = if (settings.mushafStyle == 2) currentBands else null,
+                )
+            }
+        } else {
         // Top bar (compact to leave room for more ayahs)
         Row(
             modifier = Modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp, top = 10.dp, bottom = 4.dp),
@@ -212,10 +304,14 @@ fun PlayerScreen(
                     color = MaterialTheme.colorScheme.error,
                 )
             }
-            // Mushaf style cycle (Madinah SVG ↔ Tajweed per-ayah) — applies in page mode.
+            // Mushaf style cycle: Madinah (mp3quran) → Tajweed → Madinah HD (islamic.app).
             TvIconButton(onClick = { vm.toggleMushafStyle() }) {
                 Text(
-                    text = if (settings.mushafStyle == 1) "﷽" else "م",
+                    text = when (settings.mushafStyle) {
+                        1 -> "﷽"
+                        2 -> "HD"
+                        else -> "م"
+                    },
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
@@ -266,10 +362,11 @@ fun PlayerScreen(
                 )
             } else {
                 PageModeView(
-                    bitmap = pageBitmap?.asImageBitmap(),
-                    viewBox = pageViewBox,
+                    bitmap = if (settings.mushafStyle == 2) islamicPage?.bitmap?.asImageBitmap() else pageBitmap?.asImageBitmap(),
+                    viewBox = if (settings.mushafStyle == 2) islamicPage?.viewBox else pageViewBox,
                     polygon = currentAyah?.polygon,
                     highlightColor = highlightColor,
+                    bands = if (settings.mushafStyle == 2) currentBands else null,
                 )
             }
         }
@@ -290,6 +387,7 @@ fun PlayerScreen(
             onOpenSurahJump = { jumpOpen = true },
             onToggleMode = { vm.toggleDisplayMode() },
         )
+        }
     }
 
     if (jumpOpen) {

@@ -113,10 +113,12 @@ Position 0's virtual basmala slot returns timing index 0 (the header). Runs ever
 - Non-Hafs riwayat may count the basmala as verse 1 → `suggestOffset(entryCount, versesCount)` returns 1 when `entryCount == versesCount + 2`; offset is user-overridable via Settings.
 
 ### 5.3 Page highlight (`PageMapping`, `PageModeView`)
-- Parse the **real** `viewBox` from each SVG (verified: pages vary — 235×235 early pages, page 187 is 345×550). Never assume 235.
+- Parse the **real** `viewBox` from each SVG (verified: pages vary — 235×235 early pages, page 187 is 345×550, islamic.app pages are 1200×1530). Never assume 235.
 - `screen = (pageSpace − viewBox.origin) * displaySize / viewBoxSize`.
 - Polygon string `"x1,y1 x2,y2 ..."` → bounding quad → translucent rounded rect (35% alpha fill + 3dp stroke) with small inset; null polygon (basmala) → nothing; `x`/`y`-only → (marker fallback documented, not drawn).
+- **Second source — “Madinah HD” (islamic.app)**: `https://api.islamic.app/v1/mushaf/page/{page}.svg?theme=dark&width=1200` — same standard Madinah pagination as the timing `page` field, so page sync is unchanged. Per-ayah highlight = full-width line bands from `IslamicPageBands.parse()` (DOM walk of the page's own `data-ayah` tspans → `PageAyahBand(yTop, yBottom)` in viewBox space), drawn as translucent full-width rects. See references/api-contracts.md for the source research.
 - Page-turn: `currentPageUrl` changes → swap bitmap (prefetch next page; LRU ≤ 6 bitmaps).
+- Page-mode chrome auto-hides ~4 s after the last key while playing (fullscreen SVG); any key reveals it — the fullscreen page is `.focusable()` so D-pad events keep flowing; DPAD_LEFT/RIGHT scrubs ±5 s while hidden; pause reveals chrome; INFO/MENU toggles text/page mode.
 
 ### 5.4 Tanzil basmala stripping (`QuranTextRepository.stripBasmala`)
 Tanzil embeds the basmala prefix in verse 1 of surahs 2–114, but the recitation recites it as the header. Strip it using the data's own `1:1` text (exact character match) so displayed text matches audio 1:1.

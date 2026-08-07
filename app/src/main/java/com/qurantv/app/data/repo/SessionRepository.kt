@@ -21,8 +21,8 @@ data class AppSettings(
     val defaultSpeed: Float = 1f,
     val fontSizeIndex: Int = 1, // 0 = small, 1 = normal, 2 = large
     val highlightColorIndex: Int = 0, // 0 = gold, 1 = green, 2 = cyan
-    val displayMode: Int = 0, // 0 = text mode, 1 = mushaf page mode
-    val mushafStyle: Int = 0, // page mode style: 0 = Madinah (SVG), 1 = Tajweed (per-ayah color images)
+    val displayMode: Int = 1, // 0 = text mode, 1 = mushaf page mode (default: the mushaf SVG)
+    val mushafStyle: Int = 0, // page mode style: 0 = Madinah SVG (mp3quran), 1 = Tajweed per-ayah images, 2 = Madinah SVG (islamic.app)
     val ayahOffset: Int = 0, // basmala offset for non-Hafs riwayat (best effort)
 )
 
@@ -71,7 +71,7 @@ class SessionRepository(private val context: Context) {
             defaultSpeed = p[Keys.defaultSpeed] ?: 1f,
             fontSizeIndex = p[Keys.fontSize] ?: 1,
             highlightColorIndex = p[Keys.highlightColor] ?: 0,
-            displayMode = p[Keys.displayMode] ?: 0,
+            displayMode = p[Keys.displayMode] ?: 1,
             mushafStyle = p[Keys.mushafStyle] ?: 0,
             ayahOffset = p[Keys.ayahOffset] ?: 0,
         )

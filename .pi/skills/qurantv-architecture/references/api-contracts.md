@@ -80,4 +80,13 @@ plain http 301-redirects (OkHttp follows by default; do not disable).
 
 ## Mushaf page SVGs
 
-- `https://www.mp3quran.net/api/quran_pages_svg/{page:03d}.svg` (from timing `page` field). Rendered with AndroidSVG at ~1200px target width (viewBox-scaled), drawn on a white canvas, cached LRU ≤ 6.
+- mp3quran: `https://www.mp3quran.net/api/quran_pages_svg/{page:03d}.svg` (from timing `page` field). Rendered with AndroidSVG at ~1200px target width (viewBox-scaled), drawn on a white canvas, cached LRU ≤ 6. Polygons/x/y from the timing data are in each page's own viewBox space (varies: 235×235, 345×550).
+
+## Mushaf page source research (2026-08-08)
+
+| Source | Endpoint / URL | Status | Notes |
+|---|---|---|---|
+| **islamic.app (alquran.cloud ecosystem)** | `https://api.islamic.app/v1/mushaf/page/{page}.svg?font=uthmani&theme=dark&width=1200` | ✅ USED (style “Madinah HD”) | CORS-open, cacheable (24 h), 604 standard Madinah pages (same pagination as timing `page`), viewBox ~1200×1530, every `<tspan>` carries `data-ayah="s:a"` → per-ayah line-band highlights via `IslamicPageBands`. Dark theme fits the app. A small “islamic.app” label is printed top-left (don't crop). |
+| Quran.com generated pages | `github.com/quran/quran.com-images` (QCF fonts from King Fahd Complex) | ❌ no public CDN | The repo generates PNGs + glyph bboxes; Quran.com renders text client-side with QCF fonts instead of serving images. |
+| Quran Foundation Pages API | `https://apis.quran.foundation/content/api/v4/pages/lookup` + `verses/by_page` | ❌ requires `x-auth-token`/`x-client-id` | Word-level `page_number`/`line_number` data exists but auth-gated; not viable for an open app. |
+| alquran.cloud page images | `https://cdn.islamic.network/quran/pages/001.png` | ❌ 403 | Even with Referer; only the per-ayah `images/high-resolution/{s}_{a}.png` (used by the Tajweed style) is open. |

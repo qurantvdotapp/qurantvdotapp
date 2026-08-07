@@ -22,17 +22,21 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import com.qurantv.app.domain.PageAyahBand
 import com.qurantv.app.domain.PageMapping
 import com.qurantv.app.domain.PointF
 import com.qurantv.app.domain.ViewBox
 import kotlin.math.roundToInt
 
 /**
- * Mushaf page mode: renders the Madinah mushaf SVG page and draws a translucent
- * rounded highlight over the current ayah's polygon (PROMPT.md Part 5).
+ * Mushaf page mode: renders a Madinah mushaf SVG page and highlights the
+ * current ayah (PROMPT.md Part 5).
  *
- * Coordinate mapping (verified): polygon points live in the page's `viewBox`
- * space; `screen = pageSpace * displaySize / viewBoxSize`.
+ * Two highlight sources, selected by [bands] vs [polygon]:
+ *  - mp3quran SVG pages: the ayah's polygon quad from the timing data, mapped
+ *    with `screen = pageSpace * displaySize / viewBoxSize`;
+ *  - islamic.app pages: full-width line bands ([PageAyahBand]) extracted from
+ *    the page's own `data-ayah` tspans.
  */
 @Composable
 fun PageModeView(
@@ -41,6 +45,7 @@ fun PageModeView(
     polygon: List<PointF>?,
     highlightColor: Color,
     modifier: Modifier = Modifier,
+    bands: List<PageAyahBand>? = null,
 ) {
     BoxWithConstraints(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         val bmp = bitmap
@@ -76,7 +81,7 @@ fun PageModeView(
                 dstOffset = IntOffset.Zero,
                 dstSize = IntSize(dispWpx, dispHpx),
             )
-            if (polygon != null && polygon.size >= 3) {
+            if (polygon != null && polygon.size >= 3 && bands == null) {
                 val screen = PageMapping.toScreen(polygon, vb, dispWf, dispHf)
                 val left = screen.minOf { it.x }
                 val top = screen.minOf { it.y }
@@ -101,6 +106,23 @@ fun PageModeView(
                     cornerRadius = radius,
                     style = Stroke(width = 2.5f),
                 )
+            } else if (bands != null) {
+                // Line-band highlight (islamic.app pages): full-width translucent
+                // band per text line the ayah occupies, in viewBox space.
+                val sy = dispHf / vb.h
+                val radius = CornerRadius(6f)
+                bands.forEach { band ->
+                    val yTop = (band.yTop * sy).coerceIn(0f, dispHf)
+                    val yBottom = (band.yBottom * sy).coerceIn(0f, dispHf)
+                    if (yBottom > yTop) {
+                        drawRoundRect(
+                            color = highlightColor.copy(alpha = 0.28f),
+                            topLeft = Offset(0f, yTop),
+                            size = Size(dispWf, yBottom - yTop),
+                            cornerRadius = radius,
+                        )
+                    }
+                }
             }
         }
     }

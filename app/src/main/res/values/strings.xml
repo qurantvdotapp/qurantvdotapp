@@ -38,6 +38,7 @@
     <string name="mushaf_style">Page mushaf</string>
     <string name="mushaf_madinah">Madinah</string>
     <string name="mushaf_tajweed">Color Tajweed</string>
+    <string name="mushaf_madinah_hd">Madinah HD</string>
     <string name="no_timing">No ayah timing for this recitation — ayah sync is unavailable</string>
     <string name="no_timing_short">no timing data</string>
     <string name="retry_action">↻  Retry</string>

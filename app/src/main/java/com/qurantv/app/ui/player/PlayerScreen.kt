@@ -39,7 +39,9 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import com.qurantv.app.R
@@ -197,6 +199,41 @@ fun PlayerScreen(
     }
     val currentBands = islamicPage?.bandsByVerse?.get(currentVerseKey)
 
+    // KSU (Ayat) pages — styles 3 (Hafs) and 4 (Warsh). Hafs uses the standard
+    // Madinah page from the timing data; Warsh maps the verse through its own
+    // pagination. Raster PNGs: page-level sync only, plus a bottom text strip.
+    val ksuLoader = remember { container.ksuPageLoader }
+    val isKsuStyle = settings.mushafStyle == 3 || settings.mushafStyle == 4
+    val isWarsh = settings.mushafStyle == 4
+    var ksuBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
+    val currentAyahText = viewState.textItems.firstOrNull { it.index == ui.currentAyahIndex }?.text
+    fun ksuPageFor(surahId: Int, ayahIndex: Int): Int? {
+        val key = com.qurantv.app.domain.BasmalaOffset.verseKeyFor(
+            ayahIndex, surahId, ui.surah?.versesCount ?: 0, viewState.ayahOffset,
+        ) ?: return null
+        if (isWarsh) {
+            val parts = key.split(':')
+            if (parts.size != 2) return null
+            return com.qurantv.app.domain.KsuWarshPageData.warshPageFor(parts[0].toInt(), parts[1].toInt())
+        }
+        // Hafs: the timing's standard Madinah page.
+        return ui.currentPageUrl?.substringAfterLast('/')?.substringBefore('.')?.toIntOrNull()
+    }
+    LaunchedEffect(ui.currentPageUrl, settings.mushafStyle, ui.currentAyahIndex, ui.surah?.id) {
+        ksuBitmap = null
+        if (isKsuStyle && ui.surah != null && ui.currentAyahIndex > 0) {
+            val page = ksuPageFor(ui.surah.id, ui.currentAyahIndex)
+            if (page != null) {
+                ksuBitmap = withContext(Dispatchers.IO) { ksuLoader.load(page, isWarsh) }
+                // Prefetch the next page.
+                val next = ksuPageFor(ui.surah.id, ui.currentAyahIndex + 1)
+                if (next != null && next != page) {
+                    withContext(Dispatchers.IO) { ksuLoader.load(next, isWarsh) }
+                }
+            }
+        }
+    }
+
     var jumpOpen by remember { mutableStateOf(false) }
     val isTextMode = settings.displayMode == 0
     val isPageMode = !isTextMode
@@ -222,6 +259,16 @@ fun PlayerScreen(
     LaunchedEffect(chromeVisible) {
         if (chromeVisible) playFocus.requestFocus() else pageFocus.requestFocus()
     }
+
+    // Shared page-mode content selection across the full-bleed and normal layouts.
+    val pageModeBitmap = when (settings.mushafStyle) {
+        2 -> islamicPage?.bitmap?.asImageBitmap()
+        3, 4 -> ksuBitmap?.asImageBitmap()
+        else -> pageBitmap?.asImageBitmap()
+    }
+    val pageModeViewBox = if (settings.mushafStyle == 2) islamicPage?.viewBox else pageViewBox
+    val pageModePolygon = if (settings.mushafStyle == 2 || isKsuStyle) null else currentAyah?.polygon
+    val pageModeBands = if (settings.mushafStyle == 2) currentBands else null
 
     Column(
         modifier = Modifier
@@ -264,12 +311,19 @@ fun PlayerScreen(
                     .focusable(),
             ) {
                 PageModeView(
-                    bitmap = if (settings.mushafStyle == 2) islamicPage?.bitmap?.asImageBitmap() else pageBitmap?.asImageBitmap(),
-                    viewBox = if (settings.mushafStyle == 2) islamicPage?.viewBox else pageViewBox,
-                    polygon = currentAyah?.polygon,
+                    bitmap = pageModeBitmap,
+                    viewBox = pageModeViewBox,
+                    polygon = pageModePolygon,
                     highlightColor = highlightColor,
-                    bands = if (settings.mushafStyle == 2) currentBands else null,
+                    bands = pageModeBands,
                 )
+                if (isKsuStyle) {
+                    AyahTextStrip(
+                        text = currentAyahText,
+                        color = highlightColor,
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                    )
+                }
             }
         } else {
         // Top bar (compact to leave room for more ayahs)
@@ -304,12 +358,14 @@ fun PlayerScreen(
                     color = MaterialTheme.colorScheme.error,
                 )
             }
-            // Mushaf style cycle: Madinah (mp3quran) → Tajweed → Madinah HD (islamic.app).
+            // Mushaf style cycle: Madinah → Tajweed → Madinah HD → Ayat Hafs → Ayat Warsh.
             TvIconButton(onClick = { vm.toggleMushafStyle() }) {
                 Text(
                     text = when (settings.mushafStyle) {
                         1 -> "﷽"
                         2 -> "HD"
+                        3 -> "KS"
+                        4 -> "WS"
                         else -> "م"
                     },
                     style = MaterialTheme.typography.labelLarge,
@@ -361,13 +417,22 @@ fun PlayerScreen(
                     showBasmala = ui.currentAyahIndex <= 0,
                 )
             } else {
-                PageModeView(
-                    bitmap = if (settings.mushafStyle == 2) islamicPage?.bitmap?.asImageBitmap() else pageBitmap?.asImageBitmap(),
-                    viewBox = if (settings.mushafStyle == 2) islamicPage?.viewBox else pageViewBox,
-                    polygon = currentAyah?.polygon,
-                    highlightColor = highlightColor,
-                    bands = if (settings.mushafStyle == 2) currentBands else null,
-                )
+                Box(Modifier.fillMaxSize()) {
+                    PageModeView(
+                        bitmap = pageModeBitmap,
+                        viewBox = pageModeViewBox,
+                        polygon = pageModePolygon,
+                        highlightColor = highlightColor,
+                        bands = pageModeBands,
+                    )
+                    if (isKsuStyle) {
+                        AyahTextStrip(
+                            text = currentAyahText,
+                            color = highlightColor,
+                            modifier = Modifier.align(Alignment.BottomCenter),
+                        )
+                    }
+                }
             }
         }
 
@@ -405,6 +470,32 @@ fun PlayerScreen(
                 )
             },
             onDismiss = { jumpOpen = false },
+        )
+    }
+}
+
+/**
+ * Bottom strip showing the current ayah's text for raster page sources that
+ * carry no per-ayah coordinates (KSU Hafs/Warsh pages) — keeps the recitation
+ * readable while the page itself provides the mushaf context.
+ */
+@Composable
+private fun AyahTextStrip(text: String?, color: Color, modifier: Modifier = Modifier) {
+    if (text.isNullOrBlank()) return
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Color.Black.copy(alpha = 0.55f))
+            .padding(horizontal = 32.dp, vertical = 14.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge,
+            fontSize = 24.sp,
+            lineHeight = 36.sp,
+            color = color,
+            textAlign = TextAlign.Center,
         )
     }
 }

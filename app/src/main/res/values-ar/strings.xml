@@ -39,6 +39,8 @@
     <string name="mushaf_madinah">المدينة</string>
     <string name="mushaf_tajweed">التجويد الملون</string>
     <string name="mushaf_madinah_hd">المدينة HD</string>
+    <string name="mushaf_ayat_hafs">آيات حفص</string>
+    <string name="mushaf_ayat_warsh">آيات ورش</string>
     <string name="no_timing">لا يوجد توقيت لهذه القراءة — مزامنة الآيات غير متاحة</string>
     <string name="no_timing_short">لا يوجد توقيت</string>
     <string name="retry_action">↻ إعادة المحاولة</string>

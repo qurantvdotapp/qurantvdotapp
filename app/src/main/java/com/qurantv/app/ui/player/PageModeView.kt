@@ -59,7 +59,9 @@ fun PageModeView(
             }
             return@BoxWithConstraints
         }
-        val vb = viewBox ?: ViewBox.DEFAULT
+        // Raster page sources (KSU PNGs) carry no viewBox — derive the aspect
+        // from the bitmap itself; polygon/band mapping is unused for them.
+        val vb = viewBox ?: ViewBox(0f, 0f, bmp.width.toFloat(), bmp.height.toFloat())
         val aspect = vb.h / vb.w
         val availW = maxWidth
         val availH = maxHeight

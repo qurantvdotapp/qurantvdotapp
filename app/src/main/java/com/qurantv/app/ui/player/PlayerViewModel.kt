@@ -179,8 +179,8 @@ class PlayerViewModel(
     }
 
     fun toggleMushafStyle() {
-        // Cycle Madinah SVG (mp3quran) → Tajweed → Madinah SVG (islamic.app) → back.
-        val next = (_screen.value.settings.mushafStyle + 1) % 3
+        // Cycle Madinah SVG → Tajweed → Madinah HD → Ayat Hafs → Ayat Warsh → back.
+        val next = (_screen.value.settings.mushafStyle + 1) % 5
         viewModelScope.launch { sessionRepository.setMushafStyle(next) }
     }
 

@@ -1,6 +1,7 @@
 package com.qurantv.app.domain
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -282,6 +283,33 @@ class SurahTimingLookupTest {
         assertEquals(19_040L, t.entryFor(2)?.endMs)
         assertNull(t.entryFor(0)) // virtual basmala slot — no entry
         assertEquals(2, t.lastAyahIndex)
+    }
+}
+
+class KsuWarshPageDataTest {
+
+    @Test
+    fun `maps known verses to warsh pages`() {
+        // Verified against quran.ksu.edu.sa quran-data.js Page_warsh (Tanzil-sourced).
+        assertEquals(2, KsuWarshPageData.warshPageFor(2, 1))
+        assertEquals(3, KsuWarshPageData.warshPageFor(2, 6))
+        assertEquals(42, KsuWarshPageData.warshPageFor(2, 255))
+        assertEquals(48, KsuWarshPageData.warshPageFor(2, 282))
+        assertEquals(518, KsuWarshPageData.warshPageFor(50, 1))
+        assertEquals(1, KsuWarshPageData.warshPageFor(1, 1))
+        assertEquals(187, KsuWarshPageData.warshPageFor(9, 1))
+    }
+
+    @Test
+    fun `returns null below the first page`() {
+        assertNull(KsuWarshPageData.warshPageFor(0, 0))
+    }
+
+    @Test
+    fun `clamps valid ranges to a page`() {
+        // Lookup is a pagination map; any in-range key resolves to a page.
+        assertNotNull(KsuWarshPageData.warshPageFor(1, 8)) // not a real verse, but maps near page 1
+        assertNotNull(KsuWarshPageData.warshPageFor(114, 6)) // final surah
     }
 }
 

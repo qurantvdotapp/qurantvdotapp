@@ -75,8 +75,11 @@ fun SurahGridScreen(
     }
     LaunchedEffect(ui.surahs) {
         if (ui.surahs.isNotEmpty()) {
-            withFrameNanos { }
-            initialFocus.requestFocus()
+            repeat(8) {
+                withFrameNanos { }
+                if (initialFocus.requestFocus()) return@LaunchedEffect
+                kotlinx.coroutines.delay(150)
+            }
         }
     }
 

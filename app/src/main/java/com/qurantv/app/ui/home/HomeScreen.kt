@@ -68,10 +68,15 @@ fun HomeScreen(
         view.viewTreeObserver.addOnWindowFocusChangeListener(listener)
         onDispose { view.viewTreeObserver.removeOnWindowFocusChangeListener(listener) }
     }
-    LaunchedEffect(ui.recitersLoading) {
+    LaunchedEffect(ui.recitersLoading, ui.lastSession) {
         if (!ui.recitersLoading) {
-            withFrameNanos { }
-            initialFocus.requestFocus()
+            // Retry until the Continue card is composed and focusable — cold-start
+            // focus is otherwise racy on TV.
+            repeat(8) {
+                withFrameNanos { }
+                if (initialFocus.requestFocus()) return@LaunchedEffect
+                kotlinx.coroutines.delay(150)
+            }
         }
     }
 

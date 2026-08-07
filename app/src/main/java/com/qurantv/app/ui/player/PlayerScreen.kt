@@ -95,8 +95,11 @@ fun PlayerScreen(
         onDispose { view.viewTreeObserver.removeOnWindowFocusChangeListener(listener) }
     }
     LaunchedEffect(Unit) {
-        withFrameNanos { }
-        playFocus.requestFocus()
+        repeat(8) {
+            withFrameNanos { }
+            if (playFocus.requestFocus()) return@LaunchedEffect
+            kotlinx.coroutines.delay(150)
+        }
     }
 
     // Page loading for mushaf mode (with next-page prefetch).

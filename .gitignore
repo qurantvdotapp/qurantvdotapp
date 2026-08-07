@@ -1,0 +1,35 @@
+# Gradle
+.gradle/
+build/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local / machine-specific
+local.properties
+*.local
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.kotlin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs & captures
+*.log
+captures/
+
+# Build outputs
+*.apk
+*.aab
+output.json
+
+# Native
+.cxx/
+.externalNativeBuild/
+
+# Tanzil downloaded asset cache (keep the download task re-runnable; asset itself stays in git)
+app/src/main/assets/quran/*.tmp

@@ -89,7 +89,10 @@ fun HomeScreen(
         view.viewTreeObserver.addOnWindowFocusChangeListener(listener)
         onDispose { view.viewTreeObserver.removeOnWindowFocusChangeListener(listener) }
     }
-    LaunchedEffect(ui.recitersLoading, ui.lastSession) {
+    // Initial focus only — key on the session's IDENTITY (whether one exists),
+    // not its content: during playback the session saves every ~5 s and would
+    // otherwise re-run this effect and yank the list back to the top.
+    LaunchedEffect(ui.recitersLoading, ui.lastSession?.surahId) {
         if (!ui.recitersLoading) {
             repeat(8) {
                 withFrameNanos { }

@@ -184,6 +184,10 @@ class PlayerViewModel(
         viewModelScope.launch { sessionRepository.setMushafStyle(next) }
     }
 
+    fun selectMushafStyle(value: Int) {
+        viewModelScope.launch { sessionRepository.setMushafStyle(value.coerceIn(0, 5)) }
+    }
+
     // ------------------------------------------------------------------ session persistence
 
     private fun startSessionSaveLoop() {

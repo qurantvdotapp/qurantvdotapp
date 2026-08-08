@@ -21,7 +21,6 @@ import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Replay
 import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -38,7 +37,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -55,12 +53,14 @@ import androidx.compose.ui.input.key.type
 
 /**
  * Transport bar: play/pause, prev/next ayah + surah, seek (D-pad left/right,
- * ±5s), repeat cycle, speed cycle, jump-to-surah and display-mode toggle.
+ * ±5s), repeat cycle, speed cycle, mushaf picker, jump-to-surah and mode toggle.
+ * Compact buttons so the mushaf pages keep as much screen as possible.
  */
 @Composable
 fun TransportBar(
     state: PlayerUiState,
     positionMs: Long,
+    mushafLabel: String,
     playFocusRequester: FocusRequester? = null,
     onTogglePlayPause: () -> Unit,
     onPrevAyah: () -> Unit,
@@ -71,18 +71,19 @@ fun TransportBar(
     onCycleSpeed: () -> Unit,
     onSeekBy: (Long) -> Unit,
     onOpenSurahJump: () -> Unit,
+    onOpenMushafPicker: () -> Unit,
     onToggleMode: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 32.dp, vertical = 10.dp),
+        modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         TransportButton(icon = Icons.Filled.SkipPrevious, onClick = onPrevSurah, label = stringResource(R.string.prev_surah))
-        Spacer(Modifier.width(12.dp))
+        Spacer(Modifier.width(8.dp))
         TransportButton(icon = Icons.AutoMirrored.Filled.NavigateBefore, onClick = onPrevAyah, label = stringResource(R.string.prev_ayah))
-        Spacer(Modifier.width(12.dp))
+        Spacer(Modifier.width(8.dp))
         TvIconButton(
             onClick = onTogglePlayPause,
             modifier = if (playFocusRequester != null) Modifier.focusRequester(playFocusRequester) else Modifier,
@@ -90,22 +91,22 @@ fun TransportBar(
             Icon(
                 imageVector = if (state.isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
                 contentDescription = null,
-                modifier = Modifier.size(44.dp),
+                modifier = Modifier.size(34.dp),
                 tint = MaterialTheme.colorScheme.onSurface,
             )
         }
-        Spacer(Modifier.width(12.dp))
+        Spacer(Modifier.width(8.dp))
         TransportButton(icon = Icons.AutoMirrored.Filled.NavigateNext, onClick = onNextAyah, label = stringResource(R.string.next_ayah))
-        Spacer(Modifier.width(12.dp))
+        Spacer(Modifier.width(8.dp))
         TransportButton(icon = Icons.Filled.SkipNext, onClick = onNextSurah, label = stringResource(R.string.next_surah))
-        Spacer(Modifier.width(16.dp))
+        Spacer(Modifier.width(12.dp))
 
         SeekControl(
             positionMs = positionMs,
             durationMs = state.durationMs,
             onSeekBy = onSeekBy,
         )
-        Spacer(Modifier.width(16.dp))
+        Spacer(Modifier.width(12.dp))
 
         val repeatLabel = when (state.repeatMode) {
             RepeatMode.OFF -> stringResource(R.string.repeat_off_short)
@@ -113,15 +114,19 @@ fun TransportBar(
             RepeatMode.SURAH -> stringResource(R.string.repeat_surah_short)
         }
         LabeledButton(label = repeatLabel, onClick = onCycleRepeat)
-        Spacer(Modifier.width(10.dp))
+        Spacer(Modifier.width(8.dp))
         LabeledButton(label = speedLabel(state.speed), onClick = onCycleSpeed)
-        Spacer(Modifier.width(10.dp))
+        Spacer(Modifier.width(8.dp))
+        // Mushaf style selection lives in the transport bar for easy D-pad access.
+        LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
+        Spacer(Modifier.width(8.dp))
         LabeledButton(label = stringResource(R.string.jump_to_surah_short), onClick = onOpenSurahJump)
-        Spacer(Modifier.width(10.dp))
+        Spacer(Modifier.width(8.dp))
         TvIconButton(onClick = onToggleMode) {
             Icon(
                 imageVector = if (state.hasTiming || state.timing != null) Icons.AutoMirrored.Filled.MenuBook else Icons.Filled.TextFields,
                 contentDescription = stringResource(R.string.display_mode),
+                modifier = Modifier.size(22.dp),
                 tint = MaterialTheme.colorScheme.onSurface,
             )
         }
@@ -138,7 +143,7 @@ private fun TransportButton(
         Icon(
             imageVector = icon,
             contentDescription = label,
-            modifier = Modifier.size(30.dp),
+            modifier = Modifier.size(24.dp),
             tint = MaterialTheme.colorScheme.onSurface,
         )
     }
@@ -154,7 +159,7 @@ private fun LabeledButton(label: String, onClick: () -> Unit) {
     TvIconButton(onClick = onClick) {
         Text(
             text = label,
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurface,
         )
     }
@@ -211,23 +216,23 @@ private fun SeekControl(
                     false
                 }
             }
-            .padding(horizontal = 18.dp, vertical = 12.dp),
+            .padding(horizontal = 14.dp, vertical = 9.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = formatTime(positionMs),
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         LinearProgressIndicator(
             progress = { progress },
-            modifier = Modifier.width(260.dp).padding(horizontal = 12.dp),
+            modifier = Modifier.width(180.dp).padding(horizontal = 10.dp),
             color = MaterialTheme.colorScheme.primary,
             trackColor = MaterialTheme.colorScheme.surfaceVariant,
         )
         Text(
             text = formatTime(durationMs),
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }

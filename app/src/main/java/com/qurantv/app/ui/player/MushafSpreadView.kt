@@ -1,0 +1,110 @@
+package com.qurantv.app.ui.player
+
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import com.qurantv.app.domain.KsuHiliteGeometry
+import com.qurantv.app.domain.PageAyahBand
+import com.qurantv.app.domain.PointF
+import com.qurantv.app.domain.ViewBox
+import androidx.compose.animation.core.tween
+
+/** One side of the two-page mushaf spread. */
+data class SpreadSide(
+    val bitmap: ImageBitmap? = null,
+    val viewBox: ViewBox? = null,
+    val polygon: List<PointF>? = null,
+    val bands: List<PageAyahBand>? = null,
+    val bandsFractional: Boolean = false,
+    val rects: List<KsuHiliteGeometry.Rect>? = null,
+)
+
+/**
+ * The two visible mushaf pages — like a real mushaf, an ODD page sits on the
+ * RIGHT and the next EVEN page on the LEFT. [key] = the spread's right page
+ * number; the highlight lives on whichever side holds the current ayah.
+ */
+data class SpreadState(
+    val right: SpreadSide? = null,
+    val left: SpreadSide? = null,
+    val key: Int = 0,
+)
+
+/**
+ * Two-page mushaf spread with a realistic page-turn:
+ *  - when the spread changes (recitation crosses to the next spread) the new
+ *    spread slides in from the right while the old one slides out to the left;
+ *  - moving backwards reverses the direction;
+ *  - highlight moving between the two sides (same spread) is instant.
+ */
+@Composable
+fun MushafSpreadView(
+    spread: SpreadState,
+    highlightColor: Color,
+    modifier: Modifier = Modifier,
+) {
+    AnimatedContent(
+        targetState = spread,
+        modifier = modifier,
+        contentKey = { it.key },
+        transitionSpec = {
+            val forward = targetState.key > initialState.key
+            if (forward) {
+                (slideInHorizontally { it / 3 } + fadeIn(tween(320))) togetherWith
+                    (slideOutHorizontally { -it / 4 } + fadeOut(tween(320)))
+            } else {
+                (slideInHorizontally { -it / 3 } + fadeIn(tween(320))) togetherWith
+                    (slideOutHorizontally { it / 4 } + fadeOut(tween(320)))
+            }
+        },
+    ) { target ->
+        // Force RTL so the mushaf always opens right-page-first regardless of
+        // the UI language direction.
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                // In RTL the first child is the RIGHT page.
+                Box(Modifier.weight(1f).fillMaxHeight()) {
+                    PageModeView(
+                        bitmap = target.right?.bitmap,
+                        viewBox = target.right?.viewBox,
+                        polygon = target.right?.polygon,
+                        highlightColor = highlightColor,
+                        bands = target.right?.bands,
+                        bandsFractional = target.right?.bandsFractional ?: false,
+                        rects = target.right?.rects,
+                    )
+                }
+                Box(Modifier.weight(1f).fillMaxHeight()) {
+                    PageModeView(
+                        bitmap = target.left?.bitmap,
+                        viewBox = target.left?.viewBox,
+                        polygon = target.left?.polygon,
+                        highlightColor = highlightColor,
+                        bands = target.left?.bands,
+                        bandsFractional = target.left?.bandsFractional ?: false,
+                        rects = target.left?.rects,
+                    )
+                }
+            }
+        }
+    }
+}

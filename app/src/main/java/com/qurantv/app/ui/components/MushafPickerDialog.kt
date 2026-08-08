@@ -36,15 +36,15 @@ fun MushafPickerDialog(
     onSelect: (Int) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    data class Option(val value: Int, val name: String, val hint: String)
+    data class Option(val value: Int, val name: String)
 
     val options = listOf(
-        Option(0, stringResource(R.string.mushaf_madinah), stringResource(R.string.mushaf_pick_hint)),
-        Option(1, stringResource(R.string.mushaf_tajweed), stringResource(R.string.mushaf_tajweed)),
-        Option(2, stringResource(R.string.mushaf_madinah_hd), stringResource(R.string.mushaf_madinah_hd)),
-        Option(3, stringResource(R.string.mushaf_ayat_hafs), stringResource(R.string.mushaf_ayat_hafs)),
-        Option(4, stringResource(R.string.mushaf_ayat_warsh), stringResource(R.string.mushaf_ayat_warsh)),
-        Option(5, stringResource(R.string.mushaf_hafs_tajweed), stringResource(R.string.mushaf_hafs_tajweed)),
+        Option(0, stringResource(R.string.mushaf_madinah)),
+        Option(1, stringResource(R.string.mushaf_tajweed)),
+        Option(2, stringResource(R.string.mushaf_madinah_hd)),
+        Option(3, stringResource(R.string.mushaf_ayat_hafs)),
+        Option(4, stringResource(R.string.mushaf_ayat_warsh)),
+        Option(5, stringResource(R.string.mushaf_hafs_tajweed)),
     )
     Dialog(onDismissRequest = onDismiss) {
         val dialogFocus = remember { FocusRequester() }
@@ -98,11 +98,6 @@ fun MushafPickerDialog(
                             } else {
                                 MaterialTheme.colorScheme.onSurface
                             },
-                        )
-                        Text(
-                            text = option.hint,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }

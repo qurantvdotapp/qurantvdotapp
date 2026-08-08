@@ -22,6 +22,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -304,10 +305,13 @@ fun PlayerScreen(
     var mushafPickerOpen by remember { mutableStateOf(false) }
 
     // Page mode maximizes the mushaf: chrome (top bar + transport) auto-hides a
-    // few seconds after the last key while playing, so the spread fills the screen.
+    // few seconds after the LAST key press while playing (the timer resets on
+    // every button press, so navigating the controls never hides them), so the
+    // spread fills the screen.
     var chromeVisible by remember { mutableStateOf(true) }
+    var lastKeyPress by remember { mutableLongStateOf(0L) }
     val pageFocus = remember { FocusRequester() }
-    LaunchedEffect(isPageMode, ui.isPlaying, chromeVisible, settings.autoHideControls) {
+    LaunchedEffect(isPageMode, ui.isPlaying, chromeVisible, settings.autoHideControls, lastKeyPress) {
         if (isPageMode && ui.isPlaying && chromeVisible && settings.autoHideControls) {
             kotlinx.coroutines.delay(8_000)
             chromeVisible = false
@@ -328,6 +332,8 @@ fun PlayerScreen(
             .background(com.qurantv.app.ui.theme.BackgroundBrush)
             .onPreviewKeyEvent { event ->
                 if (event.type == KeyEventType.KeyDown) {
+                    // Every key press resets the auto-hide countdown.
+                    lastKeyPress++
                     when (event.nativeKeyEvent.keyCode) {
                         KeyEvent.KEYCODE_INFO, KeyEvent.KEYCODE_MENU -> {
                             vm.toggleDisplayMode()

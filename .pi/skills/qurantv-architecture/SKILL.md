@@ -46,27 +46,29 @@ LocaleManager.kt           runtime ar/en locale WITHOUT AppCompat (SharedPrefere
 di/AppContainer.kt         manual DI singleton factory (all repos, PlaybackController, loaders, navigator)
 navigation/AppNavigator.kt hand-rolled back stack: Home → SurahGrid → Player, replaceTop for moshaf change
 domain/                    PURE Kotlin, no Android deps → unit tested
-  Models.kt                Reciter, Moshaf, QuranSurah, TimingRead, AyahTiming, SurahTiming, PointF
+  Models.kt                Reciter, Moshaf, QuranSurah, TimingRead, AyahTiming, SurahTiming, PointF,
+                           PageAyahBand (fractional highlight band for estimates/fallbacks)
   CatalogParsing.kt        surah_list parsing, server URL normalization, audio URL rule, polygon parse
-  TimingIndex.kt           binary-search ayah locator (playback position → ayah index)
+  TimingIndex.kt           binary-search ayah locator (playback position → TIMING index, not list pos)
   BasmalaOffset.kt         timing index ↔ verse key mapping (+ non-Hafs riwayat offset)
   PageMapping.kt           SVG viewBox parsing + page-space → screen-space mapping
   KsuWarshPageData.kt      Warsh mushaf pagination (page → first ayah, binary search)
   KsuTajweedPageData.kt    Tajweed (Page2) mushaf pagination
   PageAyahEstimator.kt     text-length band estimate (offline fallback for KSU pages)
-  KsuHiliteGeometry.kt     the KSU site's hilitePage() algorithm → per-ayah rects
-  IslamicPageBands.kt      islamic.app data-ayah tspans → line bands
+  KsuHiliteGeometry.kt     the KSU site's hilitePage() algorithm → per-ayah rects (+ per-mushaf Meta)
+  IslamicPageBands.kt      islamic.app SVG → structured lines (baseline, font, anchor, ordered tspans)
+  IslamicHiliteRects.kt    islamic.app per-ayah rects (same region logic as KSU; injected width lambda)
 data/api/
   ApiClient.kt             thin OkHttp wrapper (all calls on Dispatchers.IO, User-Agent set)
   Mp3QuranApi.kt           mp3quran.net API v3 client + DTO→domain mappers (defensive)
   QuranComApi.kt           api.quran.com API v4 client (chapters, verses/uthmani)
   Dtos.kt                  all @Serializable DTOs (@SerialName snake_case)
-data/cache/JsonDiskCache.kt atomic tmp-file writes, TTL 24h catalog / forever timing+text, per-key single-flight
+data/cache/JsonDiskCache.kt atomic tmp-file writes, TTL 24h catalog / forever timing+text+hilites, per-key single-flight
 data/repo/
   CatalogRepository.kt     surahs (ar+en merged), reciters, recent_reads — disk cached
   TimingRepository.kt      reads list + per-(read,surah) timing, folder_url↔server matching
-  QuranTextRepository.kt   Tanzil asset map (verse_key→text) + Quran.com per-surah fallback cache
-  SessionRepository.kt     DataStore: AppSettings + LastSession
+  QuranTextRepository.kt   Tanzil asset map (verse_key→text + verseTextLength) + Quran.com fallback
+  SessionRepository.kt     DataStore: AppSettings (incl. autoHideControls) + LastSession
   KsuHilitesRepository.kt  KSU per-ayah hilites API + disk cache (forever)
 player/
   PlaybackController.kt    app-scoped ExoPlayer + MediaSession + audio focus + 100ms ticker
@@ -76,12 +78,15 @@ ui/
   theme/Theme.kt           tv-material night palette (gold/green/cyan on deep navy); SurfaceContainer* shims
   components/Common.kt     TvCard, TvIconButton (scale+border focus), Loading/Error/Empty states
   components/SurahJumpDialog.kt
+  components/MushafPickerDialog.kt  style chooser (name + ✓ on current, immediate select)
   home/                    HomeScreen (header, search bar, Continue card, A–Z rail + reciter rows),
                             HomeViewModel, SearchOverlay
   surahs/                  SurahGridScreen (8-col grid, moshaf picker), SurahGridViewModel
-  player/                  PlayerScreen, PlayerViewModel, TextModeList, TransportBar,
-                            PageModeView, PageImageLoader (AndroidSVG→Bitmap),
-                            IslamicNetworkPageLoader (islamic.app SVG + bands),
+  player/                  PlayerScreen, PlayerViewModel, TextModeList, TransportBar (no seek bar),
+                            MushafSpreadView (two-page spread + spine + page-turn animation),
+                            PageModeView (single page renderer; alignment param),
+                            PageImageLoader (mp3quran AndroidSVG→Bitmap),
+                            IslamicNetworkPageLoader (islamic.app SVG: tspan-merge for RTL + rects),
                             KsuPageLoader (KSU hafs/warsh/tajweed PNGs),
                             TajweedAyahView, AyahImageLoader (islamic.network CDN)
   settings/                SettingsScreen, SettingsViewModel
@@ -129,9 +134,9 @@ Position 0's virtual basmala slot returns timing index 0 (the header). Runs ever
 - **Second source — “Madinah HD” (islamic.app)**: `https://api.islamic.app/v1/mushaf/page/{page}.svg?theme=dark&width=1200` — same standard Madinah pagination as the timing `page` field, so page sync is unchanged. The page's `<text y>` is the BASELINE (glyphs sit above it), and every ayah's text ends with its embedded ۝+digits marker in the last tspan. **RTL text**: AndroidSVG lays MULTIPLE tspans per line in LTR order (single-tspan bidi is fine; `direction=rtl` has no effect — verified by probe), so each line's tspans are MERGED into one for rendering (a single drawText lets Android's bidi lay the RTL line out correctly); the original structure is still parsed for the highlight. `IslamicPageBands.parseLines` extracts the structured lines; `IslamicHiliteRects` (pure, with an injected width `measure` lambda; the loader uses `Paint.measureText`) computes EXACT per-ayah rects with the same region logic as the KSU site — first partial line from the line's left edge to the previous ayah's end, full middle lines, last partial line from the ayah's end (its number) to the line's right edge, same-line ayahs collapse to one rect; vertical band = baseline − 0.95×font … baseline + 0.35×font. See references/api-contracts.md for the source research.
 - **Third source — KSU (Ayat) raster pages** (styles “آيات حفص”/“آيات ورش”/“حفص ملون”): `ayat/safahat1/{p}.png` (456×672), `warsh/{p}.png` (620×1005), `tajweed_png/{p}.png` (456×707). Hafs == standard Madinah pagination (timing `page` field); Warsh and Tajweed use their own bundled paginations (`KsuWarshPageData`, `KsuTajweedPageData` — generated from quran.ksu.edu.sa quran-data.js, Tanzil-sourced page facts).
 - **EXACT per-ayah highlight = the site's own `hilitePage()` algorithm** (`KsuHiliteGeometry`): the hilites values are where each ayah **ENDS**; ayah *k*'s highlight spans from where ayah *k−1* ended to where *k* ends, drawn as up to three rects — the tail of the previous line (left margin → previous end-x = this ayah's first partial line), this ayah's last partial line (end-x → right margin), and the full-width block of complete lines between them; same-line ayahs collapse to one rect. Constants from `engine.js _hlMeta` per mushaf (height/mgwidth/twidth/ofwidth/ofheight/fasel_sura/page_top/page_sura_top; fp_* for the opening pages 1–2 with `prev_top=270`); mid-page surah starts add `fasel_sura`. `KsuHilitesRepository` fetches + caches forever (JsonDiskCache `ksu_hilites`); `PageAyahEstimator` (text-length estimate) is only the offline/fallback path.
-- Page-turn: the page view is a TWO-PAGE SPREAD (odd page right, even page left — the same `page % 2` rule the KSU site uses), forced RTL so it never flips; `MushafSpreadView` animates spread changes as a page turn (slide+fade, direction-aware) via AnimatedContent keyed on the spread's right-page number, and joins the two pages with a folded SPINE ribbon + inner-edge shadows. The spread loader (`loadSpreadSide`) consolidates all page sources with the highlight only on the current-ayah side + next-spread prefetch.
-- Mushaf selection lives in the LOWER transport bar (compact button showing the localized style name → `MushafPickerDialog` with hints + ✓ on the current style). The transport has NO seek bar (seeking is via prev/next ayah + surah buttons) — just a non-focusable time readout, plus an eye toggle for auto-hide (8s delay, persisted `autoHideControls`).
-- Page-mode chrome auto-hides ~4 s after the last key while playing (fullscreen SVG); any key reveals it — the fullscreen page is `.focusable()` so D-pad events keep flowing; DPAD_LEFT/RIGHT scrubs ±5 s while hidden; pause reveals chrome; INFO/MENU toggles text/page mode.
+- Page-turn: the page view is a TWO-PAGE SPREAD (odd page right, even page left — the same `page % 2` rule the KSU site uses), forced RTL so it never flips; `MushafSpreadView` animates spread changes as a page turn (slide+fade, direction-aware) via AnimatedContent keyed on the spread's right-page number, and joins the two pages with a folded SPINE ribbon + inner-edge shadows. Both pages are ALIGNED toward the spine (`PageModeView.alignment`: right page CenterEnd, left page CenterStart in the RTL row) so they meet realistically at the center. The spread loader (`loadSpreadSide`) consolidates all page sources with the highlight only on the current-ayah side + next-spread prefetch.
+- Mushaf selection lives in the LOWER transport bar (compact button showing the localized style name → `MushafPickerDialog`: name + ✓ on the current style, immediate select, no redundant hints). The transport has NO seek bar (seeking is via prev/next ayah + surah buttons) — just a non-focusable time readout, plus an eye toggle for auto-hide (persisted `autoHideControls`).
+- Page-mode chrome auto-hides 8 s after the LAST key press while playing — the countdown RESETS on every button press (`lastKeyPress` bumps in the screen-level key handler and keys the hide effect), so navigating the controls never hides them; any key reveals it. The fullscreen page is `.focusable()` so D-pad events keep flowing; pause reveals chrome; INFO/MENU toggles text/page mode.
 
 ### 5.4 Tanzil basmala stripping (`QuranTextRepository.stripBasmala`)
 Tanzil embeds the basmala prefix in verse 1 of surahs 2–114, but the recitation recites it as the header. Strip it using the data's own `1:1` text (exact character match) so displayed text matches audio 1:1.

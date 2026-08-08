@@ -50,8 +50,11 @@ fun PageModeView(
     bandsFractional: Boolean = false,
     /** Exact highlight rectangles in fraction-of-page units (KSU mushafs). */
     rects: List<KsuHiliteGeometry.Rect>? = null,
+    /** Where to place the page within its box (default center; a spread aligns
+     *  each page toward the central spine for a realistic mushaf view). */
+    alignment: Alignment = Alignment.Center,
 ) {
-    BoxWithConstraints(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    BoxWithConstraints(modifier.fillMaxSize(), contentAlignment = alignment) {
         val bmp = bitmap
         if (bmp == null) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -80,7 +83,7 @@ fun PageModeView(
         Canvas(
             modifier = Modifier
                 .size(dispW, dispH)
-                .align(Alignment.Center),
+                .align(alignment),
         ) {
             drawImage(
                 image = bmp,

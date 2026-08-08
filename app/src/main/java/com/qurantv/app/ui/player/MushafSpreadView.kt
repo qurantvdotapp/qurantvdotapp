@@ -88,7 +88,8 @@ fun MushafSpreadView(
                 modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.spacedBy(0.dp),
             ) {
-                // In RTL the first child is the RIGHT page.
+                // In RTL the first child is the RIGHT page — align it toward the
+                // spine (its left/end edge) so the two pages meet realistically.
                 Box(Modifier.weight(1f).fillMaxHeight()) {
                     PageModeView(
                         bitmap = target.right?.bitmap,
@@ -98,6 +99,7 @@ fun MushafSpreadView(
                         bands = target.right?.bands,
                         bandsFractional = target.right?.bandsFractional ?: false,
                         rects = target.right?.rects,
+                        alignment = Alignment.CenterEnd,
                     )
                     // Inner edge shadow toward the spine.
                     Box(
@@ -146,6 +148,7 @@ fun MushafSpreadView(
                         bands = target.left?.bands,
                         bandsFractional = target.left?.bandsFractional ?: false,
                         rects = target.left?.rects,
+                        alignment = Alignment.CenterStart,
                     )
                     // Inner edge shadow toward the spine.
                     Box(

@@ -445,26 +445,60 @@ class IslamicPageBandsTest {
   </text>
 </svg>""".trimIndent()
 
+    private fun width(text: String, fontSize: Float): Float = text.length * fontSize * 0.5f
+
     @Test
-    fun `extracts one band per text line the ayah occupies`() {
-        val bands = IslamicPageBands.parse(sampleSvg)
-        val a1 = bands["1:1"]!!.first()
-        assertEquals(1, bands["1:1"]?.size)
-        assertEquals(163.16f, a1.yTop)
-        // 32.4 * 1.35 line height
-        assertEquals(163.16f + 32.4f * 1.35f, a1.yBottom, 0.01f)
-        // two tspans on the same line → one distinct band
-        assertEquals(1, bands["1:2"]?.size)
-        assertEquals(1, bands["1:3"]?.size)
-        assertEquals(213.38f, bands["1:3"]!!.first().yTop)
-        // smaller font-size honored
-        assertEquals(263.60f + 22f * 1.35f, bands["1:4"]!!.first().yBottom, 0.01f)
+    fun `parses lines with baselines and tspans`() {
+        val lines = IslamicPageBands.parseLines(sampleSvg)
+        assertEquals(3, lines.size)
+        assertEquals(163.16f, lines[0].baselineY)
+        assertEquals(32.4f, lines[0].fontSize)
+        assertEquals(1, lines[0].tspans.size)
+        assertEquals("1:1", lines[0].tspans[0].ayahKey)
+        // line 2 has two ayahs (1:2 tail + 1:3 head)
+        assertEquals(listOf("1:2", "1:3"), lines[1].tspans.map { it.ayahKey })
     }
 
     @Test
-    fun `ignores tspans without data-ayah`() {
-        val bands = IslamicPageBands.parse(sampleSvg)
-        assertNull(bands["1:5"])
-        assertTrue(bands.isEmpty() == false)
+    fun `same-line ayahs get a rect between their end positions`() {
+        val lines = IslamicPageBands.parseLines(sampleSvg)
+        val rects = IslamicHiliteRects.build(lines, 720f, 720f, ::width)
+        // 1:2 and 1:3 both end on line 2 (y=213.38) -> single rect each
+        val r3 = rects["1:3"]!!
+        assertEquals(1, r3.size)
+        // vertical band covers the glyphs (baseline in the middle), not below them
+        assertTrue(r3[0].top * 720f < 213.38f)
+        assertTrue(r3[0].bottom * 720f > 213.38f)
+        assertEquals(213.38f - 32.4f * 0.95f, r3[0].top * 720f, 0.5f)
+        assertEquals(213.38f + 32.4f * 0.35f, r3[0].bottom * 720f, 0.5f)
+    }
+
+    @Test
+    fun `multi-line ayah gets first and last line rects`() {
+        val svg = """<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 720">
+  <text x="360" y="100" font-size="30">
+    <tspan data-ayah="2:1">TEXT_A AYAH_ONE_WORDS</tspan>
+  </text>
+  <text x="360" y="160" font-size="30">
+    <tspan data-ayah="2:2">MORE TEXT HERE FOR TWO</tspan>
+  </text>
+  <text x="360" y="220" font-size="30">
+    <tspan data-ayah="2:2">LAST BIT</tspan>
+  </text>
+</svg>""".trimIndent()
+        val lines = IslamicPageBands.parseLines(svg)
+        val rects = IslamicHiliteRects.build(lines, 720f, 720f, ::width)
+        // 2:2 spans lines 2..3 (no middle lines) -> 2 rects
+        val r2 = rects["2:2"]!!
+        assertEquals(2, r2.size)
+        // first rect on line 2's band, last rect on line 3's band
+        assertEquals(160f - 30f * 0.95f, r2[0].top * 720f, 0.5f)
+        assertEquals(220f - 30f * 0.95f, r2[1].top * 720f, 0.5f)
+        // 2:2 starts at line 2's right edge (525) — first rect spans the line
+        assertEquals(525f, r2[0].right * 720f, 0.5f)
+        // ...and ends on line 3 at its tspan end (300) — last rect to line 3's right
+        assertEquals(300f, r2[1].left * 720f, 0.5f)
+        assertEquals(420f, r2[1].right * 720f, 0.5f)
     }
 }

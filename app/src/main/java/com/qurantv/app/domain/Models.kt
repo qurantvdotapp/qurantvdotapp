@@ -79,3 +79,10 @@ data class SurahTiming(
      */
     fun entryFor(ayah: Int): AyahTiming? = byAyah[ayah]
 }
+
+/**
+ * One horizontal highlight band on a mushaf page, in the page's viewBox
+ * coordinate space (or, for KSU raster pages, fractions of the image height).
+ * Used by the offline text-length estimate and KSU fallback paths.
+ */
+data class PageAyahBand(val yTop: Float, val yBottom: Float)

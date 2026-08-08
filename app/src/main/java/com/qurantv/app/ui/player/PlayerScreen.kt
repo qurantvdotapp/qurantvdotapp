@@ -218,7 +218,7 @@ fun PlayerScreen(
                 SpreadSide(
                     bitmap = loaded?.bitmap?.asImageBitmap(),
                     viewBox = loaded?.viewBox,
-                    bands = if (isCurrent) loaded?.bandsByVerse?.get(currentVerseKey) else null,
+                    rects = if (isCurrent) loaded?.rectsByVerse?.get(currentVerseKey) else null,
                 )
             }
             else -> {

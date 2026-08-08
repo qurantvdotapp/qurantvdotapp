@@ -101,7 +101,8 @@ fun MushafSpreadView(
                         rects = target.right?.rects,
                         alignment = Alignment.CenterEnd,
                     )
-                    // Inner edge shadow toward the spine.
+                    // Inner edge shadow toward the spine — darkest AT the spine,
+                    // fading INTO the page (a real page's edge shadow).
                     Box(
                         Modifier
                             .fillMaxHeight()
@@ -109,7 +110,7 @@ fun MushafSpreadView(
                             .align(Alignment.CenterEnd)
                             .background(
                                 Brush.horizontalGradient(
-                                    colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.45f)),
+                                    colors = listOf(Color.Black.copy(alpha = 0.45f), Color.Transparent),
                                 ),
                             ),
                     )

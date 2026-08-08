@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import com.qurantv.app.domain.KsuHiliteGeometry
 import com.qurantv.app.domain.PageAyahBand
 import com.qurantv.app.domain.PageMapping
 import com.qurantv.app.domain.PointF
@@ -47,6 +48,8 @@ fun PageModeView(
     modifier: Modifier = Modifier,
     bands: List<PageAyahBand>? = null,
     bandsFractional: Boolean = false,
+    /** Exact highlight rectangles in fraction-of-page units (KSU mushafs). */
+    rects: List<KsuHiliteGeometry.Rect>? = null,
 ) {
     BoxWithConstraints(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         val bmp = bitmap
@@ -84,7 +87,25 @@ fun PageModeView(
                 dstOffset = IntOffset.Zero,
                 dstSize = IntSize(dispWpx, dispHpx),
             )
-            if (polygon != null && polygon.size >= 3 && bands == null) {
+            if (rects != null) {
+                // Exact KSU geometry: up to three rects per ayah (partial first
+                // line, full middle block, partial last line) in page fractions.
+                val radius = CornerRadius(4f)
+                rects.forEach { r ->
+                    val l = r.left * dispWf
+                    val t = r.top * dispHf
+                    val w = (r.right - r.left) * dispWf
+                    val h = (r.bottom - r.top) * dispHf
+                    if (w > 0f && h > 0f) {
+                        drawRoundRect(
+                            color = highlightColor.copy(alpha = 0.30f),
+                            topLeft = Offset(l, t),
+                            size = Size(w, h),
+                            cornerRadius = radius,
+                        )
+                    }
+                }
+            } else if (polygon != null && polygon.size >= 3 && bands == null) {
                 val screen = PageMapping.toScreen(polygon, vb, dispWf, dispHf)
                 val left = screen.minOf { it.x }
                 val top = screen.minOf { it.y }

@@ -209,6 +209,7 @@ fun PlayerScreen(
     val isTajweedPages = settings.mushafStyle == 5
     var ksuBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
     var ksuBands by remember { mutableStateOf<Map<Int, com.qurantv.app.domain.PageAyahBand>?>(null) }
+    var ksuRects by remember { mutableStateOf<Map<String, List<com.qurantv.app.domain.KsuHiliteGeometry.Rect>>?>(null) }
 
     /** Page number for the current verse in the active KSU pagination. */
     fun ksuPageFor(surahId: Int, ayahIndex: Int): Int? {
@@ -243,10 +244,23 @@ fun PlayerScreen(
         return ui.timing?.entries?.filter { it.pageUrl == ui.currentPageUrl }?.map { it.ayah } ?: emptyList()
     }
 
+    val currentVerseKeyForKsu =
+        if (isKsuStyle && ui.surah != null && ui.currentAyahIndex > 0) {
+            com.qurantv.app.domain.BasmalaOffset.verseKeyFor(
+                ui.currentAyahIndex,
+                ui.surah.id,
+                ui.surah.versesCount,
+                viewState.ayahOffset,
+            )
+        } else {
+            null
+        }
     val currentKsuBand = ksuBands?.get(ui.currentAyahIndex)
+    val currentKsuRects = currentVerseKeyForKsu?.let { ksuRects?.get(it) }
     LaunchedEffect(ui.currentPageUrl, settings.mushafStyle, ui.currentAyahIndex, ui.surah?.id) {
         ksuBitmap = null
         ksuBands = null
+        ksuRects = null
         val surah = ui.surah
         if (isKsuStyle && surah != null && ui.currentAyahIndex > 0) {
             val page = ksuPageFor(surah.id, ui.currentAyahIndex)
@@ -256,22 +270,34 @@ fun PlayerScreen(
                     isTajweedPages -> com.qurantv.app.ui.player.KsuPageLoader.Kind.TAJWEED
                     else -> com.qurantv.app.ui.player.KsuPageLoader.Kind.HAFS
                 }
-                ksuBitmap = withContext(Dispatchers.IO) { ksuLoader.load(page, kind) }
-                // EXACT per-ayah bands from the KSU hilites API (native pixel space)
-                // when available; falls back to the text-length estimate.
-                val imageHeight = ksuBitmap?.height ?: 0
+                val loaded = withContext(Dispatchers.IO) { ksuLoader.load(page, kind) }
+                ksuBitmap = loaded
+                // EXACT highlight geometry — the site's own hilitePage() algorithm
+                // over the hilites API data (ayah END positions).
                 val mushaf = when (kind) {
                     com.qurantv.app.ui.player.KsuPageLoader.Kind.WARSH -> "warsh"
                     com.qurantv.app.ui.player.KsuPageLoader.Kind.TAJWEED -> "tajweed"
                     else -> "hafs"
                 }
-                val hilites = container.ksuHilitesRepository.positionsFor(mushaf, page)
-                if (hilites != null && imageHeight > 0) {
-                    val rawY = hilites.mapValues { it.value.y }
-                    ksuBands = com.qurantv.app.domain.KsuHiliteBands.build(rawY, imageHeight)
-                    android.util.Log.d("QuranTv", "ksu EXACT bands page $page ($mushaf): ${ksuBands?.size ?: 0} ayahs")
+                val meta = when (kind) {
+                    com.qurantv.app.ui.player.KsuPageLoader.Kind.WARSH -> com.qurantv.app.domain.KsuHiliteGeometry.WARSH
+                    com.qurantv.app.ui.player.KsuPageLoader.Kind.TAJWEED -> com.qurantv.app.domain.KsuHiliteGeometry.TAJWEED
+                    else -> com.qurantv.app.domain.KsuHiliteGeometry.HAFS
+                }
+                val positions = container.ksuHilitesRepository.positionsFor(mushaf, page)
+                if (positions != null && loaded != null) {
+                    ksuRects = com.qurantv.app.domain.KsuHiliteGeometry.build(
+                        ayahs = positions.map {
+                            com.qurantv.app.domain.KsuHiliteGeometry.AyahEnd(it.surah, it.ayah, it.x, it.y)
+                        },
+                        page = page,
+                        meta = meta,
+                        imageWidth = loaded.width,
+                        imageHeight = loaded.height,
+                    )
+                    android.util.Log.d("QuranTv", "ksu EXACT rects page $page ($mushaf): ${ksuRects?.size ?: 0} ayahs")
                 } else {
-                    // Fallback estimate from verse text lengths.
+                    // Fallback estimate from verse text lengths (offline).
                     val ayahs = ksuPageAyahs(page, surah.id, surah.versesCount)
                     if (ayahs.isNotEmpty()) {
                         val lengths = ayahs.map { a -> container.quranTextRepository.verseTextLength(surah.id, a) }
@@ -281,15 +307,13 @@ fun PlayerScreen(
                             else -> page == surah.startPage
                         }
                         ksuBands = com.qurantv.app.domain.PageAyahEstimator.estimate(ayahs, lengths, startsSurah)
-                        android.util.Log.d("QuranTv", "ksu estimated bands page $page: ${ayahs.size} ayahs, startsSurah=$startsSurah")
+                        android.util.Log.d("QuranTv", "ksu estimated bands page $page: ${ayahs.size} ayahs")
                     }
                 }
                 // Prefetch the next page's image + hilites.
                 val next = ksuPageFor(surah.id, ui.currentAyahIndex + 1)
                 if (next != null && next != page) {
-                    withContext(Dispatchers.IO) {
-                        ksuLoader.load(next, kind)
-                    }
+                    withContext(Dispatchers.IO) { ksuLoader.load(next, kind) }
                     container.ksuHilitesRepository.positionsFor(mushaf, next)
                 }
             }
@@ -335,6 +359,7 @@ fun PlayerScreen(
         else if (isKsuStyle) currentKsuBand?.let { listOf(it) }
         else null
     val pageModeBandsFractional = isKsuStyle
+    val pageModeRects = if (isKsuStyle) currentKsuRects else null
 
     Column(
         modifier = Modifier
@@ -383,6 +408,7 @@ fun PlayerScreen(
                     highlightColor = highlightColor,
                     bands = pageModeBands,
                     bandsFractional = pageModeBandsFractional,
+                    rects = pageModeRects,
                 )
             }
         } else {
@@ -486,6 +512,7 @@ fun PlayerScreen(
                         highlightColor = highlightColor,
                         bands = pageModeBands,
                         bandsFractional = pageModeBandsFractional,
+                        rects = pageModeRects,
                     )
                 }
             }

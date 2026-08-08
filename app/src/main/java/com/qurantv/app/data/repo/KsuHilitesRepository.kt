@@ -22,10 +22,10 @@ class KsuHilitesRepository(
     private val json: Json,
 ) {
 
-    /** ayah number -> (x, y) in the page image's native pixel space. */
-    data class AyahPosition(val x: Int, val y: Int)
+    /** An ayah's end position on the page, in the site's data space. */
+    data class AyahPosition(val surah: Int, val ayah: Int, val x: Int, val y: Int)
 
-    private data class PagePositions(val byAyah: Map<Int, AyahPosition>)
+    private data class PagePositions(val ordered: List<AyahPosition>)
 
     private class PageCache : LinkedHashMap<String, PagePositions>(MAX_PAGES, 0.75f, true) {
         override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, PagePositions>): Boolean =
@@ -34,17 +34,14 @@ class KsuHilitesRepository(
 
     private val memory = PageCache()
 
-    @Volatile
-    private var cacheKey: String? = null
-
-    /** Fetches (with disk cache) the ayah positions of a page; null on failure. */
-    suspend fun positionsFor(mushaf: String, page: Int): Map<Int, AyahPosition>? {
+    /** Page ayah end-positions in document order; null on failure. */
+    suspend fun positionsFor(mushaf: String, page: Int): List<AyahPosition>? {
         val key = "${mushaf}_$page"
-        memory[key]?.let { return it.byAyah }
+        memory[key]?.let { return it.ordered }
         return cache.singleFlight(key) {
             val cached = cache.read(JsonDiskCache.KSU_HILITES, key)
             if (cached != null) {
-                parse(cached)?.also { memory[key] = it }?.byAyah
+                parse(cached)?.also { memory[key] = it }?.ordered
             } else {
                 try {
                     val url = "https://quran.ksu.edu.sa/interface.php?ui=pc&do=hilites&mosshaf=$mushaf&t=28&page=$page"
@@ -52,7 +49,7 @@ class KsuHilitesRepository(
                     parse(raw)?.let { parsed ->
                         runCatching { cache.write(JsonDiskCache.KSU_HILITES, key, raw) }
                         memory[key] = parsed
-                        parsed.byAyah
+                        parsed.ordered
                     }
                 } catch (e: Exception) {
                     null
@@ -64,7 +61,7 @@ class KsuHilitesRepository(
     private fun parse(raw: String): PagePositions? {
         val obj = runCatching { json.parseToJsonElement(raw) as? JsonObject }.getOrNull() ?: return null
         val pageObj = obj.values.firstOrNull() as? JsonObject ?: return null
-        val byAyah = HashMap<Int, AyahPosition>()
+        val ordered = ArrayList<AyahPosition>(pageObj.size)
         pageObj.forEach { (key, value) ->
             val parts = key.split('_')
             if (parts.size != 2) return@forEach
@@ -75,10 +72,10 @@ class KsuHilitesRepository(
             if (arr.size < 2) return@forEach
             val x = arr[0].jsonPrimitive.content.toIntOrNull() ?: return@forEach
             val y = arr[1].jsonPrimitive.content.toIntOrNull() ?: return@forEach
-            byAyah[ayah] = AyahPosition(x, y)
+            ordered += AyahPosition(surah, ayah, x, y)
         }
-        if (byAyah.isEmpty()) return null
-        return PagePositions(byAyah)
+        if (ordered.isEmpty()) return null
+        return PagePositions(ordered)
     }
 
     companion object {

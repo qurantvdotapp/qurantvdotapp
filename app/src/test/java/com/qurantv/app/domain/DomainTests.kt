@@ -286,26 +286,80 @@ class SurahTimingLookupTest {
     }
 }
 
-class KsuHiliteBandsTest {
+class KsuHiliteGeometryTest {
+
+    private fun ayahEnd(s: Int, a: Int, x: Int, y: Int) =
+        KsuHiliteGeometry.AyahEnd(s, a, x, y)
 
     @Test
-    fun `builds exact bands from verified tajweed page 9 data`() {
-        // Live-verified: tajweed page 9 (2:58..61) y-values in the 456x707 image
-        // space land exactly on the detected text lines (136->line3, 222->line5,
-        // 351->line8, 648->line15).
-        val raw = mapOf(58 to 136, 59 to 222, 60 to 351, 61 to 648)
-        val bands = KsuHiliteBands.build(raw, imageHeight = 707)
-        assertEquals(136f / 707f, bands[58]!!.yTop, 0.0001f)
-        assertEquals(222f / 707f, bands[58]!!.yBottom, 0.0001f)
-        assertEquals(351f / 707f, bands[60]!!.yTop, 0.0001f)
-        // last ayah extends to the page bottom
-        assertEquals(1.0f, bands[61]!!.yBottom, 0.0001f)
-        assertEquals(648f / 707f, bands[61]!!.yTop, 0.0001f)
+    fun `first ayah on a page spans from the text top to its end as three rects`() {
+        // Verified tajweed page 9 data: 2_58 ends at [248, 136].
+        val rects = KsuHiliteGeometry.build(
+            ayahs = listOf(ayahEnd(2, 58, 248, 136), ayahEnd(2, 59, 223, 222)),
+            page = 9,
+            meta = KsuHiliteGeometry.TAJWEED,
+            imageWidth = 456,
+            imageHeight = 707,
+        )
+        val r58 = rects["2:58"]!!
+        // prev_top = pageTop = 30; top = 136-20 = 116; diff 86 > 1.6*40 -> 3 rects.
+        assertEquals(3, r58.size)
+        // tail of the first line (left margin 25 .. twidth 427, y 30..70)
+        val r1 = r58[0]
+        assertEquals(25f / 464.3f, r1.left, 0.001f)
+        assertEquals(30f / 720f, r1.top, 0.001f)
+        assertEquals(427f / 464.3f, r1.right, 0.001f)
+        assertEquals(70f / 720f, r1.bottom, 0.001f)
+        // this ayah's last partial line: left = 248-17 = 231, y 116..156
+        val r2 = r58[1]
+        assertEquals(231f / 464.3f, r2.left, 0.001f)
+        assertEquals(116f / 720f, r2.top, 0.001f)
+        // full-width middle block y 70..116
+        val r3 = r58[2]
+        assertEquals(70f / 720f, r3.top, 0.001f)
+        assertEquals(116f / 720f, r3.bottom, 0.001f)
     }
 
     @Test
-    fun `empty input yields no bands`() {
-        assertTrue(KsuHiliteBands.build(emptyMap(), 707).isEmpty())
+    fun `two ayahs ending on the same line collapse to one rect`() {
+        // 2_59 ends [223,222] and 2_60 ends [46,351] -> gap 129 > 64: 3 rects.
+        // Same-line case: 1_3 [243,353] and 1_4 [138,352] on page 1 (fp layout).
+        val rects = KsuHiliteGeometry.build(
+            ayahs = listOf(ayahEnd(1, 3, 243, 353), ayahEnd(1, 4, 138, 352)),
+            page = 1,
+            meta = KsuHiliteGeometry.HAFS,
+            imageWidth = 456,
+            imageHeight = 672,
+        )
+        val r4 = rects["1:4"]!!
+        // fp layout: ofheight 10 -> top = 352-10 = 342, prev top = 353-10 = 343,
+        // diff = -1 -> same line -> single rect from prev left (243-5) to left (138-5).
+        assertEquals(1, r4.size)
+        assertEquals(138f - 5f, r4[0].left * (456f * 690f / 672f), 1.5f)
+        assertEquals(243f - 5f, r4[0].right * (456f * 690f / 672f), 1.5f)
+    }
+
+    @Test
+    fun `page two opening spread uses fp layout`() {
+        val rects = KsuHiliteGeometry.build(
+            ayahs = listOf(ayahEnd(2, 1, 283, 324), ayahEnd(2, 2, 284, 352)),
+            page = 2,
+            meta = KsuHiliteGeometry.HAFS,
+            imageWidth = 456,
+            imageHeight = 672,
+        )
+        val r1 = rects["2:1"]!!
+        // fp: ofheight 10 -> top = 314; prev_top = 270 (opening spread); diff 44 > 32
+        // (1.6*fpHeight 20) -> 3 rects; the last partial line starts at x = 283-5.
+        assertEquals(3, r1.size)
+        assertEquals(278f, r1[1].left * (456f * 690f / 672f), 1.5f)
+    }
+
+    @Test
+    fun `empty input yields no rects`() {
+        assertTrue(
+            KsuHiliteGeometry.build(emptyList(), 9, KsuHiliteGeometry.TAJWEED, 456, 707).isEmpty()
+        )
     }
 }
 

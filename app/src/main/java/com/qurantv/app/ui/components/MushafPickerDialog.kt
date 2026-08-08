@@ -25,20 +25,26 @@ import com.qurantv.app.R
 import com.qurantv.app.ui.theme.SurfaceContainer
 import com.qurantv.app.ui.theme.SurfaceContainerHigh
 
-/** Mushaf style picker (Madinah / Tajweed / Madinah HD / Ayat Hafs / Ayat Warsh / Hafs Tajweed). */
+/**
+ * Mushaf style chooser. Simple and intuitive: one row per style with a clear
+ * name and a one-line hint; the current style is marked; pressing a row
+ * applies it immediately and closes.
+ */
 @Composable
 fun MushafPickerDialog(
     currentStyle: Int,
     onSelect: (Int) -> Unit,
     onDismiss: () -> Unit,
 ) {
+    data class Option(val value: Int, val name: String, val hint: String)
+
     val options = listOf(
-        stringResource(R.string.mushaf_madinah) to 0,
-        stringResource(R.string.mushaf_tajweed) to 1,
-        stringResource(R.string.mushaf_madinah_hd) to 2,
-        stringResource(R.string.mushaf_ayat_hafs) to 3,
-        stringResource(R.string.mushaf_ayat_warsh) to 4,
-        stringResource(R.string.mushaf_hafs_tajweed) to 5,
+        Option(0, stringResource(R.string.mushaf_madinah), stringResource(R.string.mushaf_pick_hint)),
+        Option(1, stringResource(R.string.mushaf_tajweed), stringResource(R.string.mushaf_tajweed)),
+        Option(2, stringResource(R.string.mushaf_madinah_hd), stringResource(R.string.mushaf_madinah_hd)),
+        Option(3, stringResource(R.string.mushaf_ayat_hafs), stringResource(R.string.mushaf_ayat_hafs)),
+        Option(4, stringResource(R.string.mushaf_ayat_warsh), stringResource(R.string.mushaf_ayat_warsh)),
+        Option(5, stringResource(R.string.mushaf_hafs_tajweed), stringResource(R.string.mushaf_hafs_tajweed)),
     )
     Dialog(onDismissRequest = onDismiss) {
         val dialogFocus = remember { FocusRequester() }
@@ -60,18 +66,24 @@ fun MushafPickerDialog(
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
             )
+            Text(
+                text = stringResource(R.string.mushaf_pick_hint),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
             LazyColumn(
-                modifier = Modifier.fillMaxWidth().heightIn(max = 420.dp).padding(top = 16.dp),
+                modifier = Modifier.fillMaxWidth().heightIn(max = 460.dp).padding(top = 14.dp),
             ) {
-                items(options, key = { it.second }) { (label, value) ->
+                items(options, key = { it.value }) { option ->
+                    val selected = option.value == currentStyle
                     TvCard(
-                        onClick = { onSelect(value) },
-                        modifier = if (value == options.first().second) {
+                        onClick = { onSelect(option.value) },
+                        modifier = if (option.value == options.first().value) {
                             Modifier.fillMaxWidth().focusRequester(dialogFocus)
                         } else {
                             Modifier.fillMaxWidth()
                         },
-                        backgroundColor = if (value == currentStyle) {
+                        backgroundColor = if (selected) {
                             MaterialTheme.colorScheme.primaryContainer
                         } else {
                             SurfaceContainerHigh
@@ -79,9 +91,18 @@ fun MushafPickerDialog(
                         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
                     ) {
                         Text(
-                            text = label,
+                            text = (if (selected) "✓ " else "") + option.name,
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface,
+                            color = if (selected) {
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                            } else {
+                                MaterialTheme.colorScheme.onSurface
+                            },
+                        )
+                        Text(
+                            text = option.hint,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }

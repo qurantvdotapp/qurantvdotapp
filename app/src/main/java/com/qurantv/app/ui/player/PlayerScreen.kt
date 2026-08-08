@@ -307,9 +307,9 @@ fun PlayerScreen(
     // few seconds after the last key while playing, so the spread fills the screen.
     var chromeVisible by remember { mutableStateOf(true) }
     val pageFocus = remember { FocusRequester() }
-    LaunchedEffect(isPageMode, ui.isPlaying, chromeVisible) {
-        if (isPageMode && ui.isPlaying && chromeVisible) {
-            kotlinx.coroutines.delay(4_000)
+    LaunchedEffect(isPageMode, ui.isPlaying, chromeVisible, settings.autoHideControls) {
+        if (isPageMode && ui.isPlaying && chromeVisible && settings.autoHideControls) {
+            kotlinx.coroutines.delay(8_000)
             chromeVisible = false
         }
     }
@@ -334,16 +334,10 @@ fun PlayerScreen(
                             true
                         }
                         KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT -> {
-                            // With the chrome hidden the mushaf fills the screen:
-                            // left/right scrub the audio directly.
-                            if (isPageMode && !chromeVisible) {
-                                val delta = if (event.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_DPAD_LEFT) -5_000 else 5_000
-                                container.playbackController.seekTo(positionMs + delta)
-                                true
-                            } else {
-                                chromeVisible = true
-                                false
-                            }
+                            // Seeking is done with the prev/next ayah + surah
+                            // buttons; any key here just reveals the chrome.
+                            chromeVisible = true
+                            false
                         }
                         else -> {
                             if (isPageMode && !chromeVisible) chromeVisible = true
@@ -458,17 +452,18 @@ fun PlayerScreen(
 
         // Transport
         val mushafLabel = when (settings.mushafStyle) {
-            1 -> "﷽"
-            2 -> "HD"
-            3 -> "KS"
-            4 -> "WS"
-            5 -> "TJ"
-            else -> "م"
+            1 -> stringResource(R.string.mushaf_tajweed)
+            2 -> stringResource(R.string.mushaf_madinah_hd)
+            3 -> stringResource(R.string.mushaf_ayat_hafs)
+            4 -> stringResource(R.string.mushaf_ayat_warsh)
+            5 -> stringResource(R.string.mushaf_hafs_tajweed)
+            else -> stringResource(R.string.mushaf_madinah)
         }
         TransportBar(
             state = ui,
             positionMs = positionMs,
             mushafLabel = mushafLabel,
+            autoHideEnabled = settings.autoHideControls,
             playFocusRequester = playFocus,
             onTogglePlayPause = { vm.togglePlayPause() },
             onPrevAyah = { vm.previousAyah() },
@@ -477,9 +472,9 @@ fun PlayerScreen(
             onNextSurah = { vm.nextSurah() },
             onCycleRepeat = { vm.cycleRepeat() },
             onCycleSpeed = { vm.cycleSpeed() },
-            onSeekBy = { delta -> container.playbackController.seekTo(positionMs + delta) },
             onOpenSurahJump = { jumpOpen = true },
             onOpenMushafPicker = { mushafPickerOpen = true },
+            onToggleAutoHide = { vm.toggleAutoHideControls() },
             onToggleMode = { vm.toggleDisplayMode() },
         )
         }

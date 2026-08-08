@@ -188,6 +188,11 @@ class PlayerViewModel(
         viewModelScope.launch { sessionRepository.setMushafStyle(value.coerceIn(0, 5)) }
     }
 
+    fun toggleAutoHideControls() {
+        val next = !_screen.value.settings.autoHideControls
+        viewModelScope.launch { sessionRepository.setAutoHideControls(next) }
+    }
+
     // ------------------------------------------------------------------ session persistence
 
     private fun startSessionSaveLoop() {

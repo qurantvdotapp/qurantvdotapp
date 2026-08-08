@@ -6,14 +6,19 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -23,7 +28,9 @@ import com.qurantv.app.domain.KsuHiliteGeometry
 import com.qurantv.app.domain.PageAyahBand
 import com.qurantv.app.domain.PointF
 import com.qurantv.app.domain.ViewBox
-import androidx.compose.animation.core.tween
+
+private const val SPINE = 10f
+private const val SPINE_SHADOW = 14f
 
 /** One side of the two-page mushaf spread. */
 data class SpreadSide(
@@ -79,7 +86,7 @@ fun MushafSpreadView(
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             Row(
                 modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(0.dp),
             ) {
                 // In RTL the first child is the RIGHT page.
                 Box(Modifier.weight(1f).fillMaxHeight()) {
@@ -92,6 +99,43 @@ fun MushafSpreadView(
                         bandsFractional = target.right?.bandsFractional ?: false,
                         rects = target.right?.rects,
                     )
+                    // Inner edge shadow toward the spine.
+                    Box(
+                        Modifier
+                            .fillMaxHeight()
+                            .width(SPINE_SHADOW.dp)
+                            .align(Alignment.CenterEnd)
+                            .background(
+                                Brush.horizontalGradient(
+                                    colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.45f)),
+                                ),
+                            ),
+                    )
+                }
+                // The folded spine: a ribbon joining the two pages like a real mushaf.
+                Box(
+                    Modifier
+                        .width(SPINE.dp)
+                        .fillMaxHeight()
+                        .background(
+                            Brush.verticalGradient(
+                                listOf(
+                                    Color(0xFF3A3126),
+                                    Color(0xFF5C4F3C),
+                                    Color(0xFF7A6A50),
+                                    Color(0xFF5C4F3C),
+                                    Color(0xFF3A3126),
+                                ),
+                            ),
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Box(
+                        Modifier
+                            .fillMaxHeight()
+                            .width(2.dp)
+                            .background(Color.Black.copy(alpha = 0.5f)),
+                    )
                 }
                 Box(Modifier.weight(1f).fillMaxHeight()) {
                     PageModeView(
@@ -102,6 +146,18 @@ fun MushafSpreadView(
                         bands = target.left?.bands,
                         bandsFractional = target.left?.bandsFractional ?: false,
                         rects = target.left?.rects,
+                    )
+                    // Inner edge shadow toward the spine.
+                    Box(
+                        Modifier
+                            .fillMaxHeight()
+                            .width(SPINE_SHADOW.dp)
+                            .align(Alignment.CenterStart)
+                            .background(
+                                Brush.horizontalGradient(
+                                    colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.45f)),
+                                ),
+                            ),
                     )
                 }
             }

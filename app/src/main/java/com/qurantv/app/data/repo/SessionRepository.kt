@@ -22,8 +22,9 @@ data class AppSettings(
     val fontSizeIndex: Int = 1, // 0 = small, 1 = normal, 2 = large
     val highlightColorIndex: Int = 0, // 0 = gold, 1 = green, 2 = cyan
     val displayMode: Int = 1, // 0 = text mode, 1 = mushaf page mode (default: the mushaf SVG)
-    val mushafStyle: Int = 0, // page mode style: 0 = Madinah SVG (mp3quran), 1 = Tajweed per-ayah images, 2 = Madinah SVG (islamic.app)
+    val mushafStyle: Int = 0, // page mode style: 0 = Madinah SVG (mp3quran), 1 = Tajweed per-ayah images, 2 = Madinah SVG (islamic.app), 3/4/5 = KSU
     val ayahOffset: Int = 0, // basmala offset for non-Hafs riwayat (best effort)
+    val autoHideControls: Boolean = true, // auto-hide the player chrome while playing in page mode
 )
 
 data class LastSession(
@@ -53,6 +54,7 @@ class SessionRepository(private val context: Context) {
         val displayMode = intPreferencesKey("display_mode")
         val mushafStyle = intPreferencesKey("mushaf_style")
         val ayahOffset = intPreferencesKey("ayah_offset")
+        val autoHideControls = booleanPreferencesKey("auto_hide_controls")
 
         val sReciterId = intPreferencesKey("s_reciter_id")
         val sReciterName = stringPreferencesKey("s_reciter_name")
@@ -74,6 +76,7 @@ class SessionRepository(private val context: Context) {
             displayMode = p[Keys.displayMode] ?: 1,
             mushafStyle = p[Keys.mushafStyle] ?: 0,
             ayahOffset = p[Keys.ayahOffset] ?: 0,
+            autoHideControls = p[Keys.autoHideControls] ?: true,
         )
     }
 
@@ -99,6 +102,7 @@ class SessionRepository(private val context: Context) {
     suspend fun setDisplayMode(mode: Int) = context.dataStore.edit { it[Keys.displayMode] = mode }
     suspend fun setMushafStyle(style: Int) = context.dataStore.edit { it[Keys.mushafStyle] = style }
     suspend fun setAyahOffset(offset: Int) = context.dataStore.edit { it[Keys.ayahOffset] = offset }
+    suspend fun setAutoHideControls(enabled: Boolean) = context.dataStore.edit { it[Keys.autoHideControls] = enabled }
 
     suspend fun saveLastSession(
         reciter: Reciter,

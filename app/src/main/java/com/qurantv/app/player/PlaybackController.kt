@@ -323,7 +323,7 @@ class PlaybackController(
 
     /** Playback position mapped into the timing timeline (linear speed correction). */
     private fun mappedPosition(pos: Long): Long =
-        if (timingCorrection > 1f) (pos / timingCorrection).toLong() else pos
+        if (timingCorrection != 1f) (pos / timingCorrection).toLong() else pos
 
     /**
      * Pushes the highlight state for [idx] only when it actually changed — the

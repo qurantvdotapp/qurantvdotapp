@@ -462,6 +462,29 @@ class TimingCorrectionTest {
         assertEquals(1f, TimingCorrection.ratio(10_000L, 6_000_000L))
         assertEquals(1f, TimingCorrection.ratio(6_000_000L, 10_000L))
     }
+
+    @Test
+    fun `stretched timing (ratio below 1) is corrected too`() {
+        // Verified: read 137 (أحمد طالب بن حميد) surah 2 — mp3 5874 s vs timing
+        // 7458 s, ratio 0.788 (the timing assumes a slower recitation, so the
+        // highlight LAGS without correction).
+        val mp3 = 5_874_000L
+        val total = 7_458_000L
+        val r = TimingCorrection.ratio(mp3, total)
+        assertEquals(0.788f, r, 0.003f)
+        // The mapped position is pushed FURTHER into the (longer) timing.
+        assertTrue(TimingCorrection.mapped(mp3, total, 1_000_000L) > 1_000_000L)
+        // At the audio end the mapped position lands at the timing end.
+        val mappedEnd = TimingCorrection.mapped(mp3, total, mp3)
+        assertTrue(kotlin.math.abs(mappedEnd - total) < 3_000L)
+    }
+
+    @Test
+    fun `moderately compressed timing is corrected`() {
+        // Verified: read 259 (أحمد النفيس) surah 2 — ratio 1.095.
+        val r = TimingCorrection.ratio(8_164_000L, 7_455_000L)
+        assertEquals(1.095f, r, 0.003f)
+    }
 }
 
 class IslamicPageBandsTest {

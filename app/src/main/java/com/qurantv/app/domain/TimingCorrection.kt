@@ -15,18 +15,20 @@ object TimingCorrection {
 
     /**
      * The ratio to divide playback positions by, or 1f when the mp3 and the
-     * timing are consistent (or the mismatch is implausible — e.g. a partial
-     * download or a wildly different file).
+     * timing are consistent (or the mismatch is implausible — e.g. a wrong file).
+     * Handles BOTH directions: ratio > 1 (timing compressed, highlight drifts
+     * ahead — read 135 السويّد ~1.12, read 259 النفيس ~1.10) and ratio < 1
+     * (timing stretched, highlight lags — read 137 أحمد طالب بن حميد ~0.79).
      */
     fun ratio(mp3DurationMs: Long, timingTotalMs: Long): Float {
         if (mp3DurationMs <= 0 || timingTotalMs <= 0) return 1f
         val r = mp3DurationMs.toFloat() / timingTotalMs
-        return if (r in 0.80f..1.25f && kotlin.math.abs(r - 1f) > 0.03f) r else 1f
+        return if (r in 0.70f..1.30f && kotlin.math.abs(r - 1f) > 0.03f) r else 1f
     }
 
     /** Maps a playback position into the timing timeline (no-op when consistent). */
     fun mapped(mp3DurationMs: Long, timingTotalMs: Long, positionMs: Long): Long {
         val r = ratio(mp3DurationMs, timingTotalMs)
-        return if (r > 1f) (positionMs / r).toLong() else positionMs
+        return if (r != 1f) (positionMs / r).toLong() else positionMs
     }
 }

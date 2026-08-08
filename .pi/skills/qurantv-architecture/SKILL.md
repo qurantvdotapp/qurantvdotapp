@@ -123,16 +123,16 @@ timing index via `SurahTiming.entryFor(ayah)` — never `entries.getOrNull(listP
 Position 0's virtual basmala slot returns timing index 0 (the header). Runs every
 100 ms in the ticker; UI state only updates when the index changes.
 
-**Timing speed correction** (`TimingCorrection`): some reads' per-ayah timing is
-compressed vs the actual mp3 (e.g. read 135 — عبدالرحمن السويّد — surah 2 timing
-6039 s vs mp3 6757 s, ratio 1.119; verified reads 5/13/17 are 1.000). When the
-mp3 duration meaningfully exceeds the timing's last end, playback positions are
-mapped into timing space with `pos / ratio` (ratio = mp3 duration / timing
-total, clamped 0.80..1.25 and ignored under 1.03) — otherwise the highlight
-drifts progressively AHEAD of the voice (up to ~200 s by the end of a long
-surah). The ratio is recomputed per surah once the mp3 duration is known
-(`updateTimingCorrection`) and applied in the ticker, after seeks, and at
-resume. Unit-tested with the verified read-135 values.
+**Timing speed correction** (`TimingCorrection`): some reads' per-ayah timing does
+not match the actual mp3 — verified compressed (timing SHORTER than the mp3 →
+highlight drifts AHEAD): read 135 عبدالرحمن السويّد s2 6039 s vs 6757 s (1.119),
+read 259 أحمد النفيس (1.095); and stretched (timing LONGER → highlight LAGS):
+read 137 أحمد طالب بن حميد s2 7458 s vs 5874 s (0.788). Reads 5/13/17 are 1.000
+(untouched). The app auto-detects per surah once the mp3 duration is known:
+`TimingCorrection.ratio` = mp3 duration / timing's last end (clamped 0.70..1.30,
+ignored under 1.03) and `PlaybackController` maps every playback position into
+timing space with `pos / ratio` (BOTH directions) in the ticker, after seeks,
+and at resume. Unit-tested with the verified values.
 
 ### 5.2 Basmala / verse mapping (`BasmalaOffset`)
 - Timing index **0 = un-numbered basmala/header slot** (no polygon/page → skip highlight; surah 9 has no basmala).

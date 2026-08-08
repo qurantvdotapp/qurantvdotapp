@@ -1,6 +1,7 @@
 package com.qurantv.app.domain
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -430,60 +431,40 @@ class KsuWarshPageDataTest {
     }
 }
 
-class TimingCorrectionTest {
+class TimingAccuracyTest {
 
     @Test
-    fun `consistent reads get no correction`() {
-        // Verified: reads 5/13/17 surah 2 — mp3 duration ≈ timing total.
-        assertEquals(1f, TimingCorrection.ratio(6_705_000L, 6_704_000L))
-        assertEquals(1f, TimingCorrection.ratio(6_641_000L, 6_638_900L))
-        assertEquals(1f, TimingCorrection.ratio(6_906_000L, 6_904_000L))
+    fun `consistent reads are reliable`() {
+        // Verified: reads 5/13/17/62/273 surah 2 — mp3 duration ≈ timing total
+        // (ratio 1.000 ± 0.002; the tiny remainder is trailing silence).
+        assertTrue(TimingAccuracy.isReliable(6_705_000L, 6_704_000L))
+        assertTrue(TimingAccuracy.isReliable(6_641_000L, 6_638_900L))
+        assertTrue(TimingAccuracy.isReliable(6_906_000L, 6_904_000L))
+        assertTrue(TimingAccuracy.isReliable(5_964_000L, 5_970_000L))
+        assertTrue(TimingAccuracy.isReliable(7_200_000L, 7_183_000L))
     }
 
     @Test
-    fun `compressed read gets a linear correction`() {
-        // Verified: read 135 (السويّد) surah 2 — mp3 6757 s vs timing 6039 s.
-        val mp3 = 6_757_368L
-        val total = 6_038_900L
-        val r = TimingCorrection.ratio(mp3, total)
-        assertEquals(1.119f, r, 0.002f)
-        // At the audio END (mp3 duration), the mapped position lands at the
-        // timing's end — the last ayah finishes with the file.
-        val mappedEnd = TimingCorrection.mapped(mp3, total, mp3)
-        assertTrue(kotlin.math.abs(mappedEnd - total) < 3_000L)
-        // Mid-surah: audio 3000 s -> mapped ~2681 s (the timing's position).
-        val mappedMid = TimingCorrection.mapped(mp3, total, 3_000_000L)
-        assertTrue(kotlin.math.abs(mappedMid - 2_681_030L) < 3_000L)
+    fun `compressed timing is unreliable`() {
+        // Verified: read 135 (السويّد) s2 — mp3 6757 s vs timing 6039 s (1.119);
+        // read 259 (أحمد النفيس) 1.095. Sync is disabled, never estimated.
+        assertFalse(TimingAccuracy.isReliable(6_757_368L, 6_038_900L))
+        assertFalse(TimingAccuracy.isReliable(8_164_000L, 7_455_000L))
     }
 
     @Test
-    fun `implausible ratios are ignored`() {
-        // A partial download or wildly different file must not be corrected.
-        assertEquals(1f, TimingCorrection.ratio(10_000L, 6_000_000L))
-        assertEquals(1f, TimingCorrection.ratio(6_000_000L, 10_000L))
+    fun `stretched timing is unreliable`() {
+        // Verified: read 137 (أحمد طالب بن حميد) s2 — mp3 5874 s vs timing
+        // 7458 s (0.788).
+        assertFalse(TimingAccuracy.isReliable(5_874_000L, 7_458_000L))
     }
 
     @Test
-    fun `stretched timing (ratio below 1) is corrected too`() {
-        // Verified: read 137 (أحمد طالب بن حميد) surah 2 — mp3 5874 s vs timing
-        // 7458 s, ratio 0.788 (the timing assumes a slower recitation, so the
-        // highlight LAGS without correction).
-        val mp3 = 5_874_000L
-        val total = 7_458_000L
-        val r = TimingCorrection.ratio(mp3, total)
-        assertEquals(0.788f, r, 0.003f)
-        // The mapped position is pushed FURTHER into the (longer) timing.
-        assertTrue(TimingCorrection.mapped(mp3, total, 1_000_000L) > 1_000_000L)
-        // At the audio end the mapped position lands at the timing end.
-        val mappedEnd = TimingCorrection.mapped(mp3, total, mp3)
-        assertTrue(kotlin.math.abs(mappedEnd - total) < 3_000L)
-    }
-
-    @Test
-    fun `moderately compressed timing is corrected`() {
-        // Verified: read 259 (أحمد النفيس) surah 2 — ratio 1.095.
-        val r = TimingCorrection.ratio(8_164_000L, 7_455_000L)
-        assertEquals(1.095f, r, 0.003f)
+    fun `implausible durations are unreliable`() {
+        assertFalse(TimingAccuracy.isReliable(0L, 6_000_000L))
+        assertFalse(TimingAccuracy.isReliable(6_000_000L, 0L))
+        // A wildly different file (wrong surah) is never treated as reliable.
+        assertFalse(TimingAccuracy.isReliable(10_000L, 6_000_000L))
     }
 }
 

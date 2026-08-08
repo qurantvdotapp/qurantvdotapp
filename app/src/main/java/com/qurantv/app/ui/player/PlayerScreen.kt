@@ -280,24 +280,39 @@ fun PlayerScreen(
             }
         }
 
+    /** The first page of the surah in the active pagination (used without timing). */
+    fun firstPageOfSurah(surah: com.qurantv.app.domain.QuranSurah): Int? = when (settings.mushafStyle) {
+        4 -> com.qurantv.app.domain.KsuWarshPageData.warshPageFor(surah.id, 1)
+        5 -> com.qurantv.app.domain.KsuTajweedPageData.tajweedPageFor(surah.id, 1)
+        else -> surah.startPage // styles 0, 2, 3 — standard Madinah pagination
+    }
+
     // Load the spread for the current page; prefetch the next spread.
-    LaunchedEffect(ui.currentPageUrl, settings.mushafStyle, ui.currentAyahIndex, ui.surah?.id) {
-        if (!isPageMode || settings.mushafStyle == 1 || ui.surah == null || ui.currentAyahIndex <= 0) {
+    // Without reliable timing (no match, or the mp3 does not match the timing),
+    // the surah's FIRST page is shown statically — no highlight, no page turn:
+    // ayah boundaries are never estimated.
+    LaunchedEffect(ui.currentPageUrl, settings.mushafStyle, ui.currentAyahIndex, ui.surah?.id, ui.hasTiming) {
+        if (!isPageMode || settings.mushafStyle == 1 || ui.surah == null) {
             spread = SpreadState()
             return@LaunchedEffect
         }
         val surah = ui.surah
-        val P = currentPageNumber(surah.id, ui.currentAyahIndex) ?: return@LaunchedEffect
+        val track = ui.hasTiming && ui.currentAyahIndex > 0
+        val P = (if (track) currentPageNumber(surah.id, ui.currentAyahIndex) else firstPageOfSurah(surah))
+            ?: return@LaunchedEffect
         val rightPage = if (P % 2 == 1) P else P - 1
         val leftPage = rightPage + 1
-        val right = loadSpreadSide(rightPage, isCurrent = P == rightPage, surah = surah)
-        val left = loadSpreadSide(leftPage, isCurrent = P == leftPage, surah = surah)
+        val right = loadSpreadSide(rightPage, isCurrent = track && P == rightPage, surah = surah)
+        val left = loadSpreadSide(leftPage, isCurrent = track && P == leftPage, surah = surah)
         spread = SpreadState(right = right, left = left, key = rightPage)
-        // Prefetch the next spread's pages.
-        val nextRight = rightPage + 2
-        if (nextRight <= 604) {
-            loadSpreadSide(nextRight, false, surah)
-            loadSpreadSide(nextRight + 1, false, surah)
+        // Prefetch the next spread's pages (only when tracking — the static
+        // fallback never turns pages).
+        if (track) {
+            val nextRight = rightPage + 2
+            if (nextRight <= 604) {
+                loadSpreadSide(nextRight, false, surah)
+                loadSpreadSide(nextRight + 1, false, surah)
+            }
         }
     }
 

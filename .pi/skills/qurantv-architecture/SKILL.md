@@ -123,16 +123,18 @@ timing index via `SurahTiming.entryFor(ayah)` — never `entries.getOrNull(listP
 Position 0's virtual basmala slot returns timing index 0 (the header). Runs every
 100 ms in the ticker; UI state only updates when the index changes.
 
-**Timing speed correction** (`TimingCorrection`): some reads' per-ayah timing does
-not match the actual mp3 — verified compressed (timing SHORTER than the mp3 →
-highlight drifts AHEAD): read 135 عبدالرحمن السويّد s2 6039 s vs 6757 s (1.119),
-read 259 أحمد النفيس (1.095); and stretched (timing LONGER → highlight LAGS):
-read 137 أحمد طالب بن حميد s2 7458 s vs 5874 s (0.788). Reads 5/13/17 are 1.000
-(untouched). The app auto-detects per surah once the mp3 duration is known:
-`TimingCorrection.ratio` = mp3 duration / timing's last end (clamped 0.70..1.30,
-ignored under 1.03) and `PlaybackController` maps every playback position into
-timing space with `pos / ratio` (BOTH directions) in the ticker, after seeks,
-and at resume. Unit-tested with the verified values.
+**Timing reliability check** (`TimingAccuracy`): ayah boundaries are NEVER
+estimated. Some reads' per-ayah timing does not match the actual mp3 — verified
+compressed: read 135 عبدالرحمن السويّد s2 6039 s vs 6757 s (1.119), read 259
+أحمد النفيس (1.095); stretched: read 137 أحمد طالب بن حميد 7458 s vs 5874 s
+(0.788). Reads 5/13/17/62/273 are ≈ 1.000 (reliable). Once the mp3 duration is
+known, `PlaybackController.checkTimingAccuracy` compares it with the timing's
+last end (tolerance 2%); an unreliable read is treated as having NO timing —
+the audio plays but the player shows the surah's FIRST page statically (`spread`
+falls back to `firstPageOfSurah`: surah.startPage for the standard Madinah
+pagination, `warshPageFor(s,1)` / `tajweedPageFor(s,1)` for Warsh/Tajweed) with
+no highlight and no page turn; the “لا يوجد توقيت” notice appears. Unit-tested
+with the verified values.
 
 ### 5.2 Basmala / verse mapping (`BasmalaOffset`)
 - Timing index **0 = un-numbered basmala/header slot** (no polygon/page → skip highlight; surah 9 has no basmala).

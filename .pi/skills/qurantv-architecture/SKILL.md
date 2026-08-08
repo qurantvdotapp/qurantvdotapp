@@ -51,6 +51,11 @@ domain/                    PURE Kotlin, no Android deps → unit tested
   TimingIndex.kt           binary-search ayah locator (playback position → ayah index)
   BasmalaOffset.kt         timing index ↔ verse key mapping (+ non-Hafs riwayat offset)
   PageMapping.kt           SVG viewBox parsing + page-space → screen-space mapping
+  KsuWarshPageData.kt      Warsh mushaf pagination (page → first ayah, binary search)
+  KsuTajweedPageData.kt    Tajweed (Page2) mushaf pagination
+  PageAyahEstimator.kt     text-length band estimate (offline fallback for KSU pages)
+  KsuHiliteGeometry.kt     the KSU site's hilitePage() algorithm → per-ayah rects
+  IslamicPageBands.kt      islamic.app data-ayah tspans → line bands
 data/api/
   ApiClient.kt             thin OkHttp wrapper (all calls on Dispatchers.IO, User-Agent set)
   Mp3QuranApi.kt           mp3quran.net API v3 client + DTO→domain mappers (defensive)
@@ -62,8 +67,9 @@ data/repo/
   TimingRepository.kt      reads list + per-(read,surah) timing, folder_url↔server matching
   QuranTextRepository.kt   Tanzil asset map (verse_key→text) + Quran.com per-surah fallback cache
   SessionRepository.kt     DataStore: AppSettings + LastSession
+  KsuHilitesRepository.kt  KSU per-ayah hilites API + disk cache (forever)
 player/
-  PlaybackController.kt    app-scoped ExoPlayer + MediaSession + audio focus + 200ms ticker
+  PlaybackController.kt    app-scoped ExoPlayer + MediaSession + audio focus + 100ms ticker
   RepeatMode.kt            OFF / AYAH / SURAH
 ui/
   QuranTvRoot.kt           shell: theme, RTL direction, back handling, screen switch
@@ -75,11 +81,15 @@ ui/
   surahs/                  SurahGridScreen (8-col grid, moshaf picker), SurahGridViewModel
   player/                  PlayerScreen, PlayerViewModel, TextModeList, TransportBar,
                             PageModeView, PageImageLoader (AndroidSVG→Bitmap),
+                            IslamicNetworkPageLoader (islamic.app SVG + bands),
+                            KsuPageLoader (KSU hafs/warsh/tajweed PNGs),
                             TajweedAyahView, AyahImageLoader (islamic.network CDN)
   settings/                SettingsScreen, SettingsViewModel
 res/                       values/ + values-ar/ strings.xml, colors, themes (values-v27 cutout mode),
                            drawable ic_launcher + tv_banner
 assets/quran/quran-uthmani.txt   Tanzil text committed (~1.3 MB); Gradle task re-downloads if missing
+scripts/run-emulator.sh     boot TV AVD with audio + install/launch + fullscreen
+scripts/emulator-fullscreen.py  EWMH _NET_WM_STATE_FULLSCREEN via python-Xlib
 ```
 
 ## 4. Data flow per screen

@@ -46,4 +46,8 @@ class SettingsViewModel(
     fun setAyahOffset(offset: Int) {
         viewModelScope.launch { sessions.setAyahOffset(offset) }
     }
+
+    fun setOnlyTimedReciters(enabled: Boolean) {
+        viewModelScope.launch { sessions.setOnlyTimedReciters(enabled) }
+    }
 }

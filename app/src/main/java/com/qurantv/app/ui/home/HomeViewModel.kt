@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.qurantv.app.data.repo.CatalogRepository
 import com.qurantv.app.data.repo.LastSession
 import com.qurantv.app.data.repo.SessionRepository
+import com.qurantv.app.data.repo.TimingRepository
+import com.qurantv.app.domain.CatalogParsing
 import com.qurantv.app.domain.Moshaf
 import com.qurantv.app.domain.QuranSurah
 import com.qurantv.app.domain.Reciter
@@ -25,6 +27,7 @@ data class HomeUiState(
     val recentReads: List<Reciter> = emptyList(),
     val recentReadsError: Boolean = false,
     val lastSession: LastSession? = null,
+    val onlyTimed: Boolean = false, // "only reciters with ayah timing" setting
     val searchOpen: Boolean = false,
     val searchQuery: String = "",
     val selectedLetter: String? = null,
@@ -33,15 +36,30 @@ data class HomeUiState(
 class HomeViewModel(
     private val catalog: CatalogRepository,
     private val sessions: SessionRepository,
+    private val timing: TimingRepository,
 ) : ViewModel() {
 
     private val _ui = MutableStateFlow(HomeUiState())
     val ui: StateFlow<HomeUiState> = _ui.asStateFlow()
 
+    private val arabicCollator = java.text.Collator.getInstance(java.util.Locale("ar"))
+
+    /** Normalized folder URLs of every read that has ayah timing (server match). */
+    private var timedServerUrls: Set<String> = emptySet()
+    private var allReciters: List<Reciter> = emptyList()
+    private var allRecentReads: List<Reciter> = emptyList()
+
     init {
         viewModelScope.launch {
             sessions.lastSession.collect { session ->
                 _ui.update { it.copy(lastSession = session) }
+            }
+        }
+        viewModelScope.launch {
+            sessions.settings.collect { settings ->
+                // Re-apply the "only timed" filter whenever the setting changes.
+                _ui.update { it.copy(onlyTimed = settings.onlyTimedReciters) }
+                applyFilter()
             }
         }
         viewModelScope.launch {
@@ -52,19 +70,14 @@ class HomeViewModel(
     private suspend fun loadCatalog() {
         _ui.update { it.copy(recitersLoading = true, recitersError = false) }
         try {
-            val reciters = catalog.reciters("ar").first()
-            val grouped = reciters.groupBy { it.letter ?: "?" }
-            _ui.update {
-                it.copy(
-                    reciters = reciters,
-                    recitersLoading = false,
-                    recitersError = false,
-                    recitersByLetter = grouped,
-                    letters = grouped.keys.sorted(),
-                    selectedLetter = it.selectedLetter ?: grouped.keys.sorted().firstOrNull(),
-                )
-            }
+            // The reads list (cached forever) tells us which moshaf servers have
+            // ayah timing — matched by normalized folder_url ↔ server.
+            val reads = timing.reads()
+            timedServerUrls = reads.map { CatalogParsing.normalizeServerUrl(it.folderUrl) }.toSet()
+            allReciters = catalog.reciters("ar").first()
+            applyFilter()
         } catch (e: Exception) {
+            android.util.Log.e("QuranTv", "catalog load failed", e)
             _ui.update { it.copy(recitersLoading = false, recitersError = true) }
         }
         // Surah names (Arabic + English) — cached on disk, used by Continue + grid.
@@ -76,10 +89,39 @@ class HomeViewModel(
         }
         // Recent reads is a soft-fail row.
         try {
-            val recent = catalog.recentReads().first()
-            _ui.update { it.copy(recentReads = recent, recentReadsError = false) }
+            allRecentReads = catalog.recentReads().first()
+            _ui.update { it.copy(recentReads = filtered(allRecentReads), recentReadsError = false) }
         } catch (e: Exception) {
             _ui.update { it.copy(recentReadsError = true) }
+        }
+    }
+
+    private fun isMoshafTimed(moshaf: Moshaf): Boolean =
+        CatalogParsing.normalizeServerUrl(moshaf.server) in timedServerUrls
+
+    /** Filters a reciter list to those with at least one timed moshaf (when the
+     *  setting is on), keeping only the timed moshafs. */
+    private fun filtered(reciters: List<Reciter>): List<Reciter> {
+        if (!_ui.value.onlyTimed || timedServerUrls.isEmpty()) return reciters
+        return reciters.map { r ->
+            r.copy(moshafs = r.moshafs.filter { isMoshafTimed(it) })
+        }.filter { it.moshafs.isNotEmpty() }
+    }
+
+    private fun applyFilter() {
+        val shown = filtered(allReciters)
+        // Sort each letter group alphabetically (Arabic collation).
+        val grouped = shown.groupBy { it.letter ?: "?" }
+            .mapValues { (_, list) -> list.sortedWith(Comparator { a, b -> arabicCollator.compare(a.name, b.name) }) }
+        _ui.update {
+            it.copy(
+                reciters = shown,
+                recitersLoading = false,
+                recitersError = false,
+                recitersByLetter = grouped,
+                letters = grouped.keys.sorted(),
+                selectedLetter = it.selectedLetter?.takeIf { l -> l in grouped } ?: grouped.keys.sorted().firstOrNull(),
+            )
         }
     }
 
@@ -103,7 +145,7 @@ class HomeViewModel(
         }
     }
 
-    /** Resolves the saved session against the loaded catalog for the Continue card. */
+    /** Resolves the saved session against the (filtered) catalog for the Continue card. */
     fun continueTarget(): Triple<Reciter, Moshaf, LastSession>? {
         val session = _ui.value.lastSession ?: return null
         val reciter = _ui.value.reciters.firstOrNull { it.id == session.reciterId } ?: return null

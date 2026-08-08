@@ -152,6 +152,17 @@ fun SettingsScreen(
             )
         }
 
+        SettingsSection(title = stringResource(R.string.only_timed_reciters)) {
+            OptionRow(
+                options = listOf(
+                    stringResource(R.string.option_off) to false,
+                    stringResource(R.string.option_on) to true,
+                ),
+                selected = settings.onlyTimedReciters,
+                onSelect = { value -> vm.setOnlyTimedReciters(value) },
+            )
+        }
+
         Spacer(Modifier.width(24.dp))
         Text(
             text = stringResource(R.string.about_text),

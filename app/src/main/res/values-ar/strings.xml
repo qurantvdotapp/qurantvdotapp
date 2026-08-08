@@ -51,6 +51,9 @@
     <string name="jump_to_surah_short">السور</string>
     <string name="auto_hide">إخفاء التحكمات تلقائيًا</string>
     <string name="mushaf_pick_hint">اختر شكل صفحات المصحف</string>
+    <string name="only_timed_reciters">فقط القراء مع توقيت الآيات</string>
+    <string name="option_off">معطل</string>
+    <string name="option_on">مفعل</string>
     <string name="loading">جارٍ التحميل…</string>
     <string name="retry">إعادة المحاولة</string>
     <string name="error_network">تعذر تحميل البيانات. تحقق من الاتصال.</string>

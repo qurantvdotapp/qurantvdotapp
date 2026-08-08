@@ -68,7 +68,7 @@ class AppContainer(context: Context) {
     val ksuPageLoader = KsuPageLoader(okHttpClient)
     val navigator = AppNavigator()
 
-    val homeViewModel by lazy { HomeViewModel(catalogRepository, sessionRepository) }
+    val homeViewModel by lazy { HomeViewModel(catalogRepository, sessionRepository, timingRepository) }
     val surahGridViewModel by lazy { SurahGridViewModel(catalogRepository, timingRepository) }
     val playerViewModel by lazy {
         PlayerViewModel(

@@ -25,6 +25,7 @@ data class AppSettings(
     val mushafStyle: Int = 0, // page mode style: 0 = Madinah SVG (mp3quran), 1 = Tajweed per-ayah images, 2 = Madinah SVG (islamic.app), 3/4/5 = KSU
     val ayahOffset: Int = 0, // basmala offset for non-Hafs riwayat (best effort)
     val autoHideControls: Boolean = true, // auto-hide the player chrome while playing in page mode
+    val onlyTimedReciters: Boolean = false, // show only reciters/moshafs with ayah timing data
 )
 
 data class LastSession(
@@ -55,6 +56,7 @@ class SessionRepository(private val context: Context) {
         val mushafStyle = intPreferencesKey("mushaf_style")
         val ayahOffset = intPreferencesKey("ayah_offset")
         val autoHideControls = booleanPreferencesKey("auto_hide_controls")
+        val onlyTimedReciters = booleanPreferencesKey("only_timed_reciters")
 
         val sReciterId = intPreferencesKey("s_reciter_id")
         val sReciterName = stringPreferencesKey("s_reciter_name")
@@ -77,6 +79,7 @@ class SessionRepository(private val context: Context) {
             mushafStyle = p[Keys.mushafStyle] ?: 0,
             ayahOffset = p[Keys.ayahOffset] ?: 0,
             autoHideControls = p[Keys.autoHideControls] ?: true,
+            onlyTimedReciters = p[Keys.onlyTimedReciters] ?: false,
         )
     }
 
@@ -103,6 +106,7 @@ class SessionRepository(private val context: Context) {
     suspend fun setMushafStyle(style: Int) = context.dataStore.edit { it[Keys.mushafStyle] = style }
     suspend fun setAyahOffset(offset: Int) = context.dataStore.edit { it[Keys.ayahOffset] = offset }
     suspend fun setAutoHideControls(enabled: Boolean) = context.dataStore.edit { it[Keys.autoHideControls] = enabled }
+    suspend fun setOnlyTimedReciters(enabled: Boolean) = context.dataStore.edit { it[Keys.onlyTimedReciters] = enabled }
 
     suspend fun saveLastSession(
         reciter: Reciter,

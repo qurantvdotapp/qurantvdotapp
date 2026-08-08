@@ -50,6 +50,7 @@ domain/                    PURE Kotlin, no Android deps → unit tested
                            PageAyahBand (fractional highlight band for estimates/fallbacks)
   CatalogParsing.kt        surah_list parsing, server URL normalization, audio URL rule, polygon parse
   TimingIndex.kt           binary-search ayah locator (playback position → TIMING index, not list pos)
+  TimingCorrection.kt      linear timing↔audio speed correction (compressed reads, e.g. read 135)
   BasmalaOffset.kt         timing index ↔ verse key mapping (+ non-Hafs riwayat offset)
   PageMapping.kt           SVG viewBox parsing + page-space → screen-space mapping
   KsuWarshPageData.kt      Warsh mushaf pagination (page → first ayah, binary search)
@@ -121,6 +122,17 @@ timing index), others omit it (entries start at 1). Always look entries up by
 timing index via `SurahTiming.entryFor(ayah)` — never `entries.getOrNull(listPos)`.
 Position 0's virtual basmala slot returns timing index 0 (the header). Runs every
 100 ms in the ticker; UI state only updates when the index changes.
+
+**Timing speed correction** (`TimingCorrection`): some reads' per-ayah timing is
+compressed vs the actual mp3 (e.g. read 135 — عبدالرحمن السويّد — surah 2 timing
+6039 s vs mp3 6757 s, ratio 1.119; verified reads 5/13/17 are 1.000). When the
+mp3 duration meaningfully exceeds the timing's last end, playback positions are
+mapped into timing space with `pos / ratio` (ratio = mp3 duration / timing
+total, clamped 0.80..1.25 and ignored under 1.03) — otherwise the highlight
+drifts progressively AHEAD of the voice (up to ~200 s by the end of a long
+surah). The ratio is recomputed per surah once the mp3 duration is known
+(`updateTimingCorrection`) and applied in the ticker, after seeks, and at
+resume. Unit-tested with the verified read-135 values.
 
 ### 5.2 Basmala / verse mapping (`BasmalaOffset`)
 - Timing index **0 = un-numbered basmala/header slot** (no polygon/page → skip highlight; surah 9 has no basmala).

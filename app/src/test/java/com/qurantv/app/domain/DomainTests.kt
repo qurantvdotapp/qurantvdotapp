@@ -430,6 +430,40 @@ class KsuWarshPageDataTest {
     }
 }
 
+class TimingCorrectionTest {
+
+    @Test
+    fun `consistent reads get no correction`() {
+        // Verified: reads 5/13/17 surah 2 — mp3 duration ≈ timing total.
+        assertEquals(1f, TimingCorrection.ratio(6_705_000L, 6_704_000L))
+        assertEquals(1f, TimingCorrection.ratio(6_641_000L, 6_638_900L))
+        assertEquals(1f, TimingCorrection.ratio(6_906_000L, 6_904_000L))
+    }
+
+    @Test
+    fun `compressed read gets a linear correction`() {
+        // Verified: read 135 (السويّد) surah 2 — mp3 6757 s vs timing 6039 s.
+        val mp3 = 6_757_368L
+        val total = 6_038_900L
+        val r = TimingCorrection.ratio(mp3, total)
+        assertEquals(1.119f, r, 0.002f)
+        // At the audio END (mp3 duration), the mapped position lands at the
+        // timing's end — the last ayah finishes with the file.
+        val mappedEnd = TimingCorrection.mapped(mp3, total, mp3)
+        assertTrue(kotlin.math.abs(mappedEnd - total) < 3_000L)
+        // Mid-surah: audio 3000 s -> mapped ~2681 s (the timing's position).
+        val mappedMid = TimingCorrection.mapped(mp3, total, 3_000_000L)
+        assertTrue(kotlin.math.abs(mappedMid - 2_681_030L) < 3_000L)
+    }
+
+    @Test
+    fun `implausible ratios are ignored`() {
+        // A partial download or wildly different file must not be corrected.
+        assertEquals(1f, TimingCorrection.ratio(10_000L, 6_000_000L))
+        assertEquals(1f, TimingCorrection.ratio(6_000_000L, 10_000L))
+    }
+}
+
 class IslamicPageBandsTest {
 
     private val sampleSvg = """<?xml version="1.0" encoding="UTF-8"?>

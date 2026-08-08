@@ -98,6 +98,17 @@ class PlaybackController(
     private var focusRequest: AudioFocusRequest? = null
     private var wasPlayingBeforeFocusLoss = false
 
+    /**
+     * Linear timing→audio speed correction. mp3quran's per-ayah timing is
+     * occasionally generated from a FASTER rendition than the actual mp3 (e.g.
+     * read 135 — عبدالرحمن السويّد — is ~12% compressed: surah 2 timing 6039 s
+     * vs mp3 6757 s), so the highlight drifts ahead of the voice. When the mp3
+     * is meaningfully longer than the timing's last end, playback positions are
+     * mapped into timing space with `pos / ratio` (ratio = mp3 duration / timing
+     * total). Verified reads 5/13/17 are 1.000 — they stay untouched.
+     */
+    private var timingCorrection: Float = 1f
+
     init {
         player.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -131,6 +142,7 @@ class PlaybackController(
         autoPlay: Boolean = true,
     ) {
         this.timing = timing
+        timingCorrection = 1f // recomputed once the new mp3 duration is known
         pendingResumePositionMs = startPositionMs.coerceAtLeast(0)
         val url = CatalogParsing.audioUrlFor(moshaf.server, surah.id)
         player.setMediaItem(MediaItem.fromUri(url))
@@ -279,15 +291,17 @@ class PlaybackController(
                 val duration = player.duration.takeIf { it > 0 } ?: _state.value.durationMs
                 if (duration != _state.value.durationMs) {
                     _state.value = _state.value.copy(durationMs = duration)
+                    updateTimingCorrection(duration)
                 }
                 if (t != null) {
-                    val idx = TimingIndex.ayahAt(t, pos)
+                    val lookup = mappedPosition(pos)
+                    val idx = TimingIndex.ayahAt(t, lookup)
                     updateAyahUiState(idx)
                     // Repeat ayah: at the ayah end, jump back to its start.
                     val s = _state.value
                     if (s.repeatMode == RepeatMode.AYAH) {
                         val entry = t.entryFor(idx)
-                        if (entry != null && pos >= effectiveEndMs(t, idx, entry)) {
+                        if (entry != null && lookup >= effectiveEndMs(t, idx, entry)) {
                             player.seekTo(entry.startMs)
                             refreshAfterSeek(entry.startMs)
                         }
@@ -297,6 +311,19 @@ class PlaybackController(
             }
         }
     }
+
+    /** Computes the linear correction once the mp3 duration is known. */
+    private fun updateTimingCorrection(durationMs: Long) {
+        val t = timing ?: return
+        timingCorrection = com.qurantv.app.domain.TimingCorrection.ratio(durationMs, t.lastEndMs)
+        if (timingCorrection != 1f) {
+            Log.d("QuranTv", "timing correction ${String.format(java.util.Locale.US, "%.3f", timingCorrection)} (mp3 ${durationMs / 1000}s vs timing ${t.lastEndMs / 1000}s)")
+        }
+    }
+
+    /** Playback position mapped into the timing timeline (linear speed correction). */
+    private fun mappedPosition(pos: Long): Long =
+        if (timingCorrection > 1f) (pos / timingCorrection).toLong() else pos
 
     /**
      * Pushes the highlight state for [idx] only when it actually changed — the
@@ -317,7 +344,7 @@ class PlaybackController(
     /** Recompute highlight immediately after a seek (don't wait for the ticker). */
     private fun refreshAfterSeek(targetPositionMs: Long) {
         val t = timing ?: return
-        updateAyahUiState(TimingIndex.ayahAt(t, targetPositionMs))
+        updateAyahUiState(TimingIndex.ayahAt(t, mappedPosition(targetPositionMs)))
     }
 
     /**
@@ -359,12 +386,12 @@ class PlaybackController(
 
     private fun computeAyahIndex(): Int {
         val t = timing ?: return -1
-        return TimingIndex.ayahAt(t, pendingResumePositionMs)
+        return TimingIndex.ayahAt(t, mappedPosition(pendingResumePositionMs))
     }
 
     private fun currentPageUrlFor(): String? {
         val t = timing ?: return null
-        val idx = TimingIndex.ayahAt(t, pendingResumePositionMs)
+        val idx = TimingIndex.ayahAt(t, mappedPosition(pendingResumePositionMs))
         return t.entryFor(idx)?.pageUrl
     }
 

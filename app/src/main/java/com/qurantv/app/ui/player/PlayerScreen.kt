@@ -124,6 +124,9 @@ fun PlayerScreen(
     val isWarsh = settings.mushafStyle == 4
     val isTajweedPages = settings.mushafStyle == 5
     var spread by remember { mutableStateOf(SpreadState()) }
+    // Manual mushaf browsing when the surah has NO ayah timing: the spread shows
+    // the surah's first page statically and prev/next ayah turn the page instead.
+    var noTimingPage by remember { mutableStateOf<Int?>(null) }
     val isTextMode = settings.displayMode == 0
     val isPageMode = !isTextMode
 
@@ -298,15 +301,16 @@ fun PlayerScreen(
     // Load the spread for the current page; prefetch the next spread.
     // Without reliable timing (no match, or the mp3 does not match the timing),
     // the surah's FIRST page is shown statically — no highlight, no page turn:
-    // ayah boundaries are never estimated.
-    LaunchedEffect(ui.currentPageUrl, settings.mushafStyle, ui.currentAyahIndex, ui.surah?.id, ui.hasTiming) {
+    // ayah boundaries are never estimated. The user can still browse the mushaf
+    // page by page with the prev/next ayah buttons ([noTimingPage]).
+    LaunchedEffect(ui.currentPageUrl, settings.mushafStyle, ui.currentAyahIndex, ui.surah?.id, ui.hasTiming, noTimingPage) {
         if (!isPageMode || settings.mushafStyle == 1 || ui.surah == null) {
             spread = SpreadState()
             return@LaunchedEffect
         }
         val surah = ui.surah
         val track = ui.hasTiming && ui.currentAyahIndex > 0
-        val P = (if (track) currentPageNumber(surah.id, ui.currentAyahIndex) else firstPageOfSurah(surah))
+        val P = (if (track) currentPageNumber(surah.id, ui.currentAyahIndex) else (noTimingPage ?: firstPageOfSurah(surah)))
             ?: return@LaunchedEffect
         val rightPage = if (P % 2 == 1) P else P - 1
         val leftPage = rightPage + 1
@@ -480,6 +484,14 @@ fun PlayerScreen(
             5 -> stringResource(R.string.mushaf_hafs_tajweed)
             else -> stringResource(R.string.mushaf_madinah)
         }
+        // Without ayah timing the prev/next ayah buttons browse the mushaf page
+        // by page instead (the spread is static — this is the only navigation).
+        // Each press turns a full spread (two pages) so the view always advances.
+        fun stepNoTimingPage(delta: Int) {
+            val base = noTimingPage ?: firstPageOfSurah(ui.surah ?: return) ?: return
+            noTimingPage = (base + delta).coerceIn(1, 604)
+        }
+        val canBrowsePages = isPageMode && settings.mushafStyle != 1 && !ui.hasTiming
         TransportBar(
             state = ui,
             positionMs = positionMs,
@@ -487,8 +499,8 @@ fun PlayerScreen(
             autoHideEnabled = settings.autoHideControls,
             playFocusRequester = playFocus,
             onTogglePlayPause = { vm.togglePlayPause() },
-            onPrevAyah = { vm.previousAyah() },
-            onNextAyah = { vm.nextAyah() },
+            onPrevAyah = { if (canBrowsePages) stepNoTimingPage(-2) else vm.previousAyah() },
+            onNextAyah = { if (canBrowsePages) stepNoTimingPage(2) else vm.nextAyah() },
             onPrevSurah = { vm.previousSurah() },
             onNextSurah = { vm.nextSurah() },
             onCycleRepeat = { vm.cycleRepeat() },
@@ -499,6 +511,11 @@ fun PlayerScreen(
             onToggleMode = { vm.toggleDisplayMode() },
         )
         }
+    }
+
+    // Reset the manual page browse when the surah changes (or timing appears).
+    LaunchedEffect(ui.surah?.id, ui.hasTiming) {
+        noTimingPage = null
     }
 
     if (jumpOpen) {

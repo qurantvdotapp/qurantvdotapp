@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -48,13 +49,14 @@ import androidx.compose.ui.focus.focusRequester
  *
  *  - RIGHT zone (RTL start): view controls — display-mode toggle (the book /
  *    text icon) with the auto-hide eye next to it.
- *  - CENTER zone: the playback controls — previous surah · previous ayah ·
- *    play/pause · next ayah · next surah — with the time readout, dead centre.
+ *  - CENTER zone: the playback controls — next surah · next ayah · play/pause ·
+ *    previous ayah · previous surah (next on the left of play, previous on the
+ *    right, RTL style) — with the time readout, dead centre.
  *  - LEFT zone (RTL end): repeat · speed · mushaf style · jump-to-surah.
  *
  * The playback cluster is emitted direction-aware so the ON-SCREEN (left →
- * right) order is always prev surah · prev ayah · play · next ayah · next
- * surah, in both RTL (Arabic) and LTR layouts, with auto-mirrored icons that
+ * right) order is always next surah · next ayah · play · previous ayah ·
+ * previous surah, in both RTL (Arabic) and LTR layouts, with auto-mirrored icons that
  * point outward from the play button. No seek bar — seeking is done with the
  * prev/next ayah and surah buttons; only a plain (non-focusable) time readout
  * is shown.
@@ -122,13 +124,14 @@ fun TransportBar(
                 )
                 Spacer(Modifier.width(14.dp))
 
-                // Playback cluster. Desired on-screen (left → right) order: prev
-                // surah · prev ayah · play · next ayah · next surah. A Row lays
-                // children right-to-left in RTL, so the declaration order there is
-                // the reverse of the visual order.
+                // Playback cluster. Desired on-screen (left → right) order: next
+                // surah · next ayah · play · previous ayah · previous surah (next
+                // on the left of play, previous on the right). A Row lays children
+                // right-to-left in RTL, so the declaration order there is the
+                // reverse of the visual order.
                 val cluster: List<@Composable () -> Unit> = listOf(
-                    { TransportButton(icon = Icons.Filled.SkipPrevious, onClick = onPrevSurah, label = stringResource(R.string.prev_surah)) },
-                    { TransportButton(icon = Icons.Filled.NavigateBefore, onClick = onPrevAyah, label = stringResource(R.string.prev_ayah)) },
+                    { TransportButton(icon = Icons.Filled.SkipNext, onClick = onNextSurah, label = stringResource(R.string.next_surah), mirror = rtl) },
+                    { TransportButton(icon = Icons.Filled.NavigateNext, onClick = onNextAyah, label = stringResource(R.string.next_ayah), mirror = rtl) },
                     {
                         TvIconButton(
                             onClick = onTogglePlayPause,
@@ -142,8 +145,8 @@ fun TransportBar(
                             )
                         }
                     },
-                    { TransportButton(icon = Icons.Filled.NavigateNext, onClick = onNextAyah, label = stringResource(R.string.next_ayah)) },
-                    { TransportButton(icon = Icons.Filled.SkipNext, onClick = onNextSurah, label = stringResource(R.string.next_surah)) },
+                    { TransportButton(icon = Icons.Filled.NavigateBefore, onClick = onPrevAyah, label = stringResource(R.string.prev_ayah), mirror = rtl) },
+                    { TransportButton(icon = Icons.Filled.SkipPrevious, onClick = onPrevSurah, label = stringResource(R.string.prev_surah), mirror = rtl) },
                 )
                 val ordered = if (rtl) cluster.asReversed() else cluster
                 ordered.forEachIndexed { i, slot ->
@@ -186,12 +189,16 @@ private fun TransportButton(
     icon: ImageVector,
     onClick: () -> Unit,
     label: String,
+    mirror: Boolean = false,
 ) {
     TvIconButton(onClick = onClick) {
         Icon(
             imageVector = icon,
             contentDescription = label,
-            modifier = Modifier.size(24.dp),
+            // The material directional icons auto-mirror in RTL; un-mirror them
+            // so the arrows always point outward from play (prev ← , next →) in
+            // both Arabic and English layouts.
+            modifier = (if (mirror) Modifier.scale(scaleX = -1f, scaleY = 1f) else Modifier).size(24.dp),
             tint = MaterialTheme.colorScheme.onSurface,
         )
     }

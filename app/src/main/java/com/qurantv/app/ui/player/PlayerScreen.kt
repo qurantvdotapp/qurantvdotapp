@@ -100,6 +100,16 @@ fun PlayerScreen(
         view.viewTreeObserver.addOnWindowFocusChangeListener(listener)
         onDispose { view.viewTreeObserver.removeOnWindowFocusChangeListener(listener) }
     }
+
+    // Keep the TV's screensaver (daydream) away while playback is active: the
+    // system idle timer would otherwise fire after a few minutes of no D-pad
+    // input (the chrome auto-hides), dimming to the backdrop even though the
+    // audio is playing. FLAG_KEEP_SCREEN_ON needs no permission; it is cleared
+    // on pause and when leaving the player.
+    DisposableEffect(ui.isPlaying) {
+        view.keepScreenOn = ui.isPlaying
+        onDispose { view.keepScreenOn = false }
+    }
     LaunchedEffect(Unit) {
         repeat(8) {
             withFrameNanos { }

@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -165,11 +166,21 @@ fun SettingsScreen(
 
         Spacer(Modifier.width(24.dp))
         Text(
-            text = stringResource(R.string.about_text),
+            text = stringResource(R.string.about_text) + " · v" + versionName(),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(Modifier.width(48.dp))
+    }
+}
+
+@Composable
+private fun versionName(): String {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    return remember(context) {
+        runCatching {
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName
+        }.getOrNull() ?: ""
     }
 }
 

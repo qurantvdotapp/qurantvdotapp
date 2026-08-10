@@ -91,3 +91,27 @@ plain http 301-redirects (OkHttp follows by default; do not disable).
 | Quran Foundation Pages API | `https://apis.quran.foundation/content/api/v4/pages/lookup` + `verses/by_page` | ❌ requires `x-auth-token`/`x-client-id` | Word-level `page_number`/`line_number` data exists but auth-gated; not viable for an open app. |
 | alquran.cloud page images | `https://cdn.islamic.network/quran/pages/001.png` | ❌ 403 | Even with Referer; only the per-ayah `images/high-resolution/{s}_{a}.png` (used by the Tajweed style) is open. |
 | **quran.ksu.edu.sa (Ayat KSU — the reference app)** | Hafs: `https://quran.ksu.edu.sa/ayat/safahat1/{page}.png` (456×672) · Warsh: `https://quran.ksu.edu.sa/warsh/{page}.png` (620×1005) · Tajweed: `https://quran.ksu.edu.sa/tajweed_png/{page}.png` (456×707) · **exact per-ayah positions**: `https://quran.ksu.edu.sa/interface.php?ui=pc&do=hilites&mosshaf=<hafs|warsh|tajweed>&t=28&page=<p>` → `{"p":{"s_a":[x,y],...}}` | ✅ USED (styles “آيات حفص”/“آيات ورش”/“حفص ملون”) | Hafs pagination == standard Madinah == timing `page` field (verified 2:1→2, 2:6→3, 2:255→42, 50:1→518). Warsh/Tajweed have their own paginations (bundled `KsuWarshPageData`/`KsuTajweedPageData` from quran-data.js, Tanzil-sourced). The hilites x/y are in the image's NATIVE pixel space (verified empirically: tajweed p9 y=136/222/351/648 ↔ detected lines 3/5/8/15, ±1px) — bands = [y_k, y_{k+1}) as fractions of the image height. |
+
+## Per-ayah timing sources (research, 2026-08-08)
+
+mp3quran's per-ayah timing (`/api/v3/ayat_timing`) is GENERATED data and is
+reliable for most reads (verified ratio ≈ 1.000: reads 5/13/17/62/273) but
+systematically WRONG for a few — compressed (read 135 السويّد s2 6039 s vs
+mp3 6757 s; read 259 النفيس 1.095) or stretched (read 137 طالب بن حميد
+7458 s vs 5874 s). The app NEVER estimates ayah boundaries: it validates the
+mp3 length against the timing total (`TimingAccuracy`, tolerance 2%) and, for
+unreliable reads, plays the audio but shows the surah's first page statically
+(no highlight, no page turn).
+
+Better timing sources:
+
+| Source | Endpoint / format | Status | Notes |
+|---|---|---|---|
+| **Qur'anic Universal Audio (QUA)** — github.com/Wider-Community/quranic-universal-audio | GitHub Releases: per-recitation zips (~3 MB) with `verse_timestamps.json.gz` (`{"verse_key": [start_ms, end_ms]}`) + word/letter tiers; `catalog.json` has `audio.chapter_urls` (per-surah audio) | ✅ recommended | Community-verified, phoneme-level (20 ms) alignment. v2.3.0: 35 recitations aligned; 1,214 reciters in the catalog, growing. For `_mp3quran` recitations the `chapter_urls` ARE the mp3quran files (e.g. `server13.mp3quran.net/husr/018.mp3`) → timestamps apply directly; last-ayah end matches the mp3 within trailing silence (~3 s). 10 of 35 map directly to an app read today (husary 118, afasy 123, shuraim 31, qatami 86, minshawi 112, al-Maasaraawi 289, al-Huthaifi 74, Shaheen 256, Imad Zuhair 78, Haneef 71). |
+| Quran.com / Quran Foundation API | `/audio/reciters/{id}/audio_files?chapter_number=N` → per-ayah `timestamp_from/to` + word `segments`; `/audio/.../timestamp` range endpoint | ❌ auth-gated | Moved to apis.quran.foundation requiring `x-auth-token`/`x-client-id`; api.quran.com 404s. |
+| alquran.cloud / islamic.network | `/v1/surah/{n}/ar.alafasy` → per-ayah `audio` file URLs | per-ayah FILES only | `https://cdn.islamic.network/quran/audio/128/{edition}/{globalAyah}.mp3` — no continuous-surah timestamps; durations could be derived but are not exact for gapless playback. |
+| KSU (Ayat) quran.ksu.edu.sa | per-ayah mp3s | per-ayah FILES only | Same limitation; the site plays per-ayah files. |
+
+Mapping QUA → app: match by AUDIO URL (`chapter_urls` ↔ moshaf `server`), not
+by name (name matches may be aligned against different audio: tarteel/qdc/
+drive/yt/tvquran sources). Names alone over-match (26 of 35) vs URL (10).

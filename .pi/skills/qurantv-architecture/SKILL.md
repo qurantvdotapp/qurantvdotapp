@@ -50,7 +50,7 @@ domain/                    PURE Kotlin, no Android deps → unit tested
                            PageAyahBand (fractional highlight band for estimates/fallbacks)
   CatalogParsing.kt        surah_list parsing, server URL normalization, audio URL rule, polygon parse
   TimingIndex.kt           binary-search ayah locator (playback position → TIMING index, not list pos)
-  TimingCorrection.kt      linear timing↔audio speed correction (compressed reads, e.g. read 135)
+  TimingAccuracy.kt        mp3-length vs timing-total reliability check (never estimate sync)
   BasmalaOffset.kt         timing index ↔ verse key mapping (+ non-Hafs riwayat offset)
   PageMapping.kt           SVG viewBox parsing + page-space → screen-space mapping
   KsuWarshPageData.kt      Warsh mushaf pagination (page → first ayah, binary search)
@@ -69,7 +69,7 @@ data/repo/
   CatalogRepository.kt     surahs (ar+en merged), reciters, recent_reads — disk cached
   TimingRepository.kt      reads list + per-(read,surah) timing, folder_url↔server matching
   QuranTextRepository.kt   Tanzil asset map (verse_key→text + verseTextLength) + Quran.com fallback
-  SessionRepository.kt     DataStore: AppSettings (incl. autoHideControls) + LastSession
+  SessionRepository.kt     DataStore: AppSettings (incl. autoHideControls, onlyTimedReciters) + LastSession
   KsuHilitesRepository.kt  KSU per-ayah hilites API + disk cache (forever)
 player/
   PlaybackController.kt    app-scoped ExoPlayer + MediaSession + audio focus + 100ms ticker
@@ -100,7 +100,7 @@ scripts/emulator-fullscreen.py  EWMH _NET_WM_STATE_FULLSCREEN via python-Xlib
 
 ## 4. Data flow per screen
 
-**Home**: `HomeViewModel.loadCatalog()` → `CatalogRepository.reciters("ar")` (disk-cached, 24h TTL, single-flight) → grouped by `letter` → vertical list of one `LazyRow` chip-row per letter + `LetterRail`; `lastSession` flows from DataStore for the Continue card. `continueTarget()` resolves the saved session against the catalog (reciter/moshaf may have moved).
+**Home**: `HomeViewModel.loadCatalog()` → `TimingRepository.reads()` (cached forever; normalized `folder_url`s mark which moshaf `server`s have ayah timing) → `CatalogRepository.reciters("ar")` (disk-cached, 24h TTL, single-flight) → grouped by `letter`, each group SORTED alphabetically (Arabic Collator) → vertical list of one `LazyRow` chip-row per letter + `LetterRail`. Setting `onlyTimedReciters` (Settings → فقط القراء مع توقيت الآيات) filters to reciters with ≥1 timed moshaf and keeps only the timed moshafs per reciter (134 of 241 reciters are untimed) — applied live when the setting changes; the Continue card (`continueTarget()`, resolves against the filtered list) and the recent-reads row follow the same filter.
 
 **Surah grid**: `SurahGridViewModel.open(reciter, moshaf)` → `catalog.surahs("ar")` filtered by `moshaf.availableSurahIds` (empty `surah_list` → assume 1..114). Moshaf picker swaps via `selectMoshaf(index)`. Warms timing cache for the first surah.
 

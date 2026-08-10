@@ -6,11 +6,15 @@ package com.qurantv.app.domain
  *
  * The hilites API (`interface.php?do=hilites&mosshaf=<m>&page=<p>`) returns
  * `"<sura>_<aya>" : [x, y]` = the position where that ayah **ENDS**, in the
- * page image's NATIVE pixel space (verified empirically for all three mushafs:
- * the y-values are the vertical center of the text line the ayah ends on —
- * tajweed p9 2:61 y=648 ↔ line center 654 of a 456×707 image, hafs p3 2:16
- * y=616 ↔ 612 of 456×672, warsh p192 9:36 y=685 ↔ 683 of 620×1005). An ayah's
- * highlight therefore runs from where the PREVIOUS ayah ended to where this
+ * page's DISPLAY space (the height the site renders the page at — empirically
+ * verified per mushaf: the y-values are the vertical center of the text line
+ * the ayah ends on, and consecutive-line gaps are integer multiples of the
+ * display-space line pitch). Hafs and Tajweed are served at their NATIVE pixel
+ * size (456×672 / 456×707 — [Meta.displayHeight] equals the image height), but
+ * Warsh is scaled to the site's display height of 760 (620×1005 image — 49/49
+ * ayah gaps on pages 190–199 fit the 46.2px display pitch vs 4/49 for native).
+ *
+ * An ayah's highlight runs from where the PREVIOUS ayah ended to where this
  * ayah ends, drawn as up to three rectangles:
  *
  *  1. the tail of the previous ayah's last line (from the left margin to the
@@ -40,22 +44,31 @@ object KsuHiliteGeometry {
         val fpTwidth: Float,
         val fpOfwidth: Float,
         val fpOfheight: Float,
+        /**
+         * Height of the API's coordinate space (the height the site renders
+         * this mushaf's pages at). Hafs/Tajweed are served at native size, so
+         * this equals the image height; Warsh is display-scaled to 760.
+         */
+        val displayHeight: Float,
     )
 
     val HAFS = Meta(
         height = 30f, mgwidth = 40f, twidth = 416f, ofwidth = 10f, ofheight = 15f,
         faselSura = 110f, pageTop = 37f, pageSuraTop = 80f,
         fpHeight = 20f, fpMgwidth = 80f, fpTwidth = 376f, fpOfwidth = 5f, fpOfheight = 10f,
+        displayHeight = 672f, // native 456×672
     )
     val WARSH = Meta(
         height = 40f, mgwidth = 25f, twidth = 427f, ofwidth = 17f, ofheight = 20f,
         faselSura = 140f, pageTop = 30f, pageSuraTop = 80f,
         fpHeight = 20f, fpMgwidth = 80f, fpTwidth = 376f, fpOfwidth = 5f, fpOfheight = 10f,
+        displayHeight = 760f, // display-scaled from 620×1005
     )
     val TAJWEED = Meta(
         height = 40f, mgwidth = 25f, twidth = 427f, ofwidth = 17f, ofheight = 20f,
         faselSura = 140f, pageTop = 30f, pageSuraTop = 80f,
         fpHeight = 30f, fpMgwidth = 100f, fpTwidth = 350f, fpOfwidth = 10f, fpOfheight = 15f,
+        displayHeight = 707f, // native 456×707
     )
 
     /** `prev_top` seed for the ornamental opening pages (engine.js hard-codes 270). */
@@ -73,11 +86,10 @@ object KsuHiliteGeometry {
      * @param ayahs page ayahs in document order (as the API returns them)
      * @param page mushaf page number (1 and 2 use the opening-spread layout)
      * @param meta the mushaf's layout constants
-     * @param imageWidth /[imageHeight] native size of the page image — the
-     *        hilites API reports positions in this SAME native pixel space, so
-     *        the fractions are computed directly against the image dimensions
-     *        (no display-space scaling; verified empirically for hafs/warsh/
-     *        tajweed: API y = the vertical center of the text line).
+     * @param imageWidth /[imageHeight] native size of the page image — combined
+     *        with [Meta.displayHeight] to derive the API's coordinate space
+     *        (equal to the image size for Hafs/Tajweed; the site scales Warsh
+     *        to its 760px display height, verified by pitch analysis).
      * @return `"surah:ayah" -> rects` in fraction-of-page units
      */
     fun build(
@@ -95,9 +107,12 @@ object KsuHiliteGeometry {
         val ofwidth = if (firstPages) meta.fpOfwidth else meta.ofwidth
         val ofheight = if (firstPages) meta.fpOfheight else meta.ofheight
 
-        // Fractions are computed in the page image's native pixel space.
-        val spaceW = imageWidth.toFloat()
-        val spaceH = imageHeight.toFloat()
+        // Fractions are computed in the API's coordinate space: the page scaled
+        // to the site's display height ([Meta.displayHeight]). This equals the
+        // image's native height for Hafs/Tajweed (served at native size) and is
+        // 760 for Warsh (the site display-scaled the 1005-tall image).
+        val spaceH = meta.displayHeight
+        val spaceW = imageWidth * spaceH / imageHeight
 
         val out = LinkedHashMap<String, List<Rect>>(ayahs.size)
         var prevTop = 0f

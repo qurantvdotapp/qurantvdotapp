@@ -325,6 +325,30 @@ class KsuHiliteGeometryTest {
     }
 
     @Test
+    fun `warsh ayah ends stay in the site's display space`() {
+        // Verified warsh p192: 9_35 ends [316,502], 9_36 ends [47,685]. The
+        // warsh API is DISPLAY-scaled (site renders the 1005-tall image at 760,
+        // so display-space line pitch 46.2 = native 61 × 760/1005 — 49/49 ayah
+        // gaps on pages 190–199 fit the display pitch). 9:36's last partial line
+        // band [665,705] display = native ink 659..707 of line 11 — dividing by
+        // the native height instead would put it ~220px too high.
+        val rects = KsuHiliteGeometry.build(
+            ayahs = listOf(ayahEnd(9, 35, 316, 502), ayahEnd(9, 36, 47, 685)),
+            page = 192,
+            meta = KsuHiliteGeometry.WARSH,
+            imageWidth = 620,
+            imageHeight = 1005,
+        )
+        val r36 = rects["9:36"]!!
+        val spaceW = 620f * 760f / 1005f
+        val last = r36[1]
+        assertEquals(30f / spaceW, last.left, 0.001f)   // 47-17
+        assertEquals(665f / 760f, last.top, 0.001f)     // 685-20
+        assertEquals(427f / spaceW, last.right, 0.001f)
+        assertEquals(705f / 760f, last.bottom, 0.001f)  // 665+40
+    }
+
+    @Test
     fun `last line of the page spans the full native line ink`() {
         // Verified: tajweed p9 2_61 ends at [46,648] — the vertical CENTER of
         // the last text line (ink 642..666). The band [y-20, y+20] = [628,668]

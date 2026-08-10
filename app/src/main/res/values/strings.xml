@@ -11,6 +11,8 @@
     <string name="recent_reads">Recently added reads</string>
     <string name="search_reciters">Search reciters</string>
     <string name="search_hint">Type a reciter name…</string>
+    <string name="search_action">Search</string>
+    <string name="search_enter_hint">Press Search / Enter to open the first match</string>
     <string name="surahs_title">Surahs</string>
     <string name="change_moshaf">Change moshaf</string>
     <string name="select_moshaf">Select moshaf</string>

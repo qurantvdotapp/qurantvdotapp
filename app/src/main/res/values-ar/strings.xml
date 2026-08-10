@@ -11,6 +11,8 @@
     <string name="recent_reads">أحدث القراءات</string>
     <string name="search_reciters">البحث عن قارئ</string>
     <string name="search_hint">اكتب اسم القارئ…</string>
+    <string name="search_action">بحث</string>
+    <string name="search_enter_hint">اضغط بحث أو Enter لفتح أول نتيجة</string>
     <string name="surahs_title">السور</string>
     <string name="change_moshaf">تغيير المصحف</string>
     <string name="select_moshaf">اختر المصحف</string>

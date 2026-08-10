@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.MenuBook
-import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -428,14 +426,6 @@ fun PlayerScreen(
                     text = stringResource(R.string.no_timing_short),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.error,
-                )
-            }
-            Spacer(Modifier.width(8.dp))
-            TvIconButton(onClick = { vm.toggleDisplayMode() }) {
-                Icon(
-                    imageVector = if (isTextMode) Icons.AutoMirrored.Filled.MenuBook else Icons.Filled.TextFields,
-                    contentDescription = stringResource(R.string.display_mode),
-                    tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }

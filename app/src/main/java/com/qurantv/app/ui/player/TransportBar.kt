@@ -110,20 +110,10 @@ fun TransportBar(
             }
         }
 
-        // ---- Center zone: time readout + the playback cluster, dead centre.
+        // ---- Center zone: the playback cluster, dead centre (next surah · next
+        // ayah · play · previous ayah · previous surah).
         Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                // Plain time readout — NOT focusable, so D-pad never gets stuck on it.
-                Text(
-                    text = "${formatTime(positionMs)} / ${formatTime(state.durationMs)}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .background(com.qurantv.app.ui.theme.SurfaceContainer, RoundedCornerShape(8.dp))
-                        .padding(horizontal = 12.dp, vertical = 6.dp),
-                )
-                Spacer(Modifier.width(14.dp))
-
                 // Playback cluster. Desired on-screen (left → right) order: next
                 // surah · next ayah · play · previous ayah · previous surah (next
                 // on the left of play, previous on the right). A Row lays children
@@ -179,6 +169,18 @@ fun TransportBar(
                 LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
                 Spacer(Modifier.width(8.dp))
                 LabeledButton(label = stringResource(R.string.jump_to_surah_short), onClick = onOpenSurahJump)
+                Spacer(Modifier.width(10.dp))
+                // Time readout at the FAR side from the playback cluster (declared
+                // last so RTL places it leftmost). NOT focusable — the D-pad never
+                // gets stuck on it.
+                Text(
+                    text = "${formatTime(positionMs)} / ${formatTime(state.durationMs)}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .background(com.qurantv.app.ui.theme.SurfaceContainer, RoundedCornerShape(8.dp))
+                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                )
             }
         }
     }

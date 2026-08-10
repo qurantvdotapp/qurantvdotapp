@@ -3,10 +3,20 @@ package com.qurantv.app.ui.theme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.tv.material3.ColorScheme
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Shapes
 import androidx.tv.material3.Typography
+import com.qurantv.app.R
+
+/**
+ * Quran text typeface (Amiri Quran, SIL OFL) — a proper naskh face designed for
+ * the uthmani mushaf script with full diacritics coverage. Used ONLY for Quran
+ * content (ayah text, basmala), never for UI chrome.
+ */
+val QuranFontFamily = FontFamily(Font(R.font.amiri_quran))
 
 /** tv-material 1.0.x has no `surfaceContainer*` tokens — provide stable equivalents. */
 val SurfaceContainerLow = Color(0xFF0D1726)

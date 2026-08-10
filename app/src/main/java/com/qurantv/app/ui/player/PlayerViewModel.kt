@@ -63,6 +63,11 @@ class PlayerViewModel(
             }
         }
         playback.onBoundaryExceeded = { forward -> if (forward) nextSurah() else previousSurah() }
+        playback.onSurahAdvanced = {
+            // The queued playlist advanced (or the user skipped) to a new surah
+            // and its audio is already playing — swap the timing/text state.
+            viewModelScope.launch { handleSurahAdvanced() }
+        }
     }
 
     /** Enters the player for a surah; no-op when it is already the loaded surah. */
@@ -98,10 +103,37 @@ class PlayerViewModel(
             }
             buildTextItems(surah, timing)
             _screen.update { it.copy(textLoading = false) }
-            playback.playSurah(reciter, moshaf, surah, timing, startPositionMs = startPos, autoPlay = true)
+            playback.playSurah(
+                reciter = reciter,
+                moshaf = moshaf,
+                surah = surah,
+                timing = timing,
+                availableSurahs = availableSurahs,
+                startPositionMs = startPos,
+                autoPlay = true,
+            )
             startSessionSaveLoop()
             prefetchNextSurah(surah)
         }
+    }
+
+    /**
+     * Called when the queued playlist moves to a new surah (seamless audio
+     * transition, or a remote/media-key skip): loads the new surah's timing and
+     * text WITHOUT touching the audio, so playback continues without a gap.
+     */
+    private suspend fun handleSurahAdvanced() {
+        val id = playback.player.currentMediaItem?.mediaId?.toIntOrNull() ?: return
+        val surah = _screen.value.availableSurahs.firstOrNull { it.id == id } ?: return
+        val reciter = _screen.value.ui.reciter ?: return
+        val moshaf = _screen.value.ui.moshaf ?: return
+        loadedKey = "${reciter.id}/${moshaf.id}/${surah.id}"
+        val timing = loadTiming(moshaf, surah)
+        _screen.update { it.copy(timingAvailable = timing != null, textLoading = true) }
+        buildTextItems(surah, timing)
+        _screen.update { it.copy(textLoading = false) }
+        playback.attachSurah(surah, timing)
+        prefetchNextSurah(surah)
     }
 
     private suspend fun loadTiming(moshaf: Moshaf, surah: QuranSurah): SurahTiming? {
@@ -158,6 +190,15 @@ class PlayerViewModel(
     fun retry() = playback.retry()
 
     fun nextSurah() {
+        // With the queued playlist, skip to the next item — ExoPlayer transitions
+        // seamlessly and [onSurahAdvanced] swaps the timing/text state.
+        if (playback.player.hasNextMediaItem()) {
+            playback.player.seekToNextMediaItem()
+            if (!playback.state.value.isPlaying) playback.player.play()
+            return
+        }
+        // No queued item (repeat modes, or the last surah): fall back to a fresh
+        // play (no-op when there is no next surah).
         val current = _screen.value.ui.surah ?: return
         val next = _screen.value.availableSurahs.firstOrNull { it.id > current.id } ?: return
         val reciter = _screen.value.ui.reciter ?: return
@@ -166,6 +207,11 @@ class PlayerViewModel(
     }
 
     fun previousSurah() {
+        if (playback.player.hasPreviousMediaItem()) {
+            playback.player.seekToPreviousMediaItem()
+            if (!playback.state.value.isPlaying) playback.player.play()
+            return
+        }
         val current = _screen.value.ui.surah ?: return
         val prev = _screen.value.availableSurahs.lastOrNull { it.id < current.id } ?: return
         val reciter = _screen.value.ui.reciter ?: return

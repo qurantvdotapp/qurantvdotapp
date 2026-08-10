@@ -563,6 +563,8 @@ private fun BasmalaHeader(isCurrent: Boolean) {
         Text(
             text = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
             style = MaterialTheme.typography.bodyMedium,
+            fontFamily = com.qurantv.app.ui.theme.QuranFontFamily,
+            fontSize = 30.sp,
             color = if (isCurrent) highlightColors[0] else MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }

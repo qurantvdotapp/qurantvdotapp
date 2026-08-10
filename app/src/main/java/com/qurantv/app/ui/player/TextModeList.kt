@@ -176,6 +176,7 @@ fun TextModeList(
                     text = item.text,
                     modifier = Modifier.padding(start = 18.dp),
                     style = MaterialTheme.typography.bodyLarge,
+                    fontFamily = com.qurantv.app.ui.theme.QuranFontFamily,
                     fontSize = fontSizeSp.sp,
                     lineHeight = (fontSizeSp * 1.55f).sp,
                     color = MaterialTheme.colorScheme.onSurface,

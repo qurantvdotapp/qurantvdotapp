@@ -125,38 +125,49 @@ class PlaybackController(
                 _state.value = _state.value.copy(error = true, isBuffering = false, isPlaying = false)
                 stopTicker()
             }
+
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                // The playlist holds the remaining surahs, so ExoPlayer advances
+                // to the next one with no re-buffer. Tell the UI layer so it can
+                // swap timing/text for the new surah (audio is already flowing).
+                val id = mediaItem?.mediaId?.toIntOrNull()
+                if (id != null && id != _state.value.surah?.id) {
+                    Log.d("QuranTv", "media transition -> surah $id (reason $reason)")
+                    onSurahAdvanced?.invoke()
+                }
+            }
         })
     }
 
     // ------------------------------------------------------------------ control
 
+    /**
+     * Plays a surah. When repeat is OFF and [availableSurahs] contains surahs
+     * after this one, the whole remaining sequence is queued as one playlist:
+     * ExoPlayer pre-buffers and transitions between surahs seamlessly (no gap),
+     * and [onSurahAdvanced] fires at each transition so the UI can swap the
+     * timing/text state for the new surah.
+     */
     fun playSurah(
         reciter: Reciter,
         moshaf: Moshaf,
         surah: QuranSurah,
         timing: SurahTiming?,
+        availableSurahs: List<QuranSurah> = emptyList(),
         startPositionMs: Long = 0L,
         autoPlay: Boolean = true,
     ) {
         this.timing = timing
         timingChecked = false // re-checked once the new mp3 duration is known
         pendingResumePositionMs = startPositionMs.coerceAtLeast(0)
-        val url = CatalogParsing.audioUrlFor(moshaf.server, surah.id)
-        player.setMediaItem(MediaItem.fromUri(url))
-        player.prepare()
-        player.playbackParameters = androidx.media3.common.PlaybackParameters(_state.value.speed)
-        // Ayah repeat is implemented by the position ticker (seek back to the ayah
-        // start); ExoPlayer's own repeat modes would loop the whole mp3 file.
-        player.repeatMode = if (_state.value.repeatMode == RepeatMode.SURAH) {
-            Player.REPEAT_MODE_ALL
+        val following = if (_state.value.repeatMode == RepeatMode.OFF) {
+            availableSurahs.filter { it.id > surah.id }
         } else {
-            Player.REPEAT_MODE_OFF
+            emptyList()
         }
-        if (startPositionMs > 0) player.seekTo(startPositionMs)
-        if (autoPlay) {
-            requestAudioFocus()
-            player.play()
-        }
+        // Update the state BEFORE (re)building the playlist: setMediaItems fires
+        // onMediaItemTransition, whose guard compares against the current surah
+        // — it must already be the new one so no spurious [onSurahAdvanced].
         _state.value = _state.value.copy(
             reciter = reciter,
             moshaf = moshaf,
@@ -167,8 +178,53 @@ class PlaybackController(
             currentPageUrl = currentPageUrlFor(),
             error = false,
         )
+        val items = (listOf(surah) + following).map { s ->
+            MediaItem.Builder()
+                .setUri(CatalogParsing.audioUrlFor(moshaf.server, s.id))
+                .setMediaId(s.id.toString())
+                .build()
+        }
+        player.setMediaItems(items, 0, pendingResumePositionMs)
+        player.prepare()
+        player.playbackParameters = androidx.media3.common.PlaybackParameters(_state.value.speed)
+        // Ayah repeat is implemented by the position ticker (seek back to the ayah
+        // start). Surah repeat loops the CURRENT media item (REPEAT_MODE_ONE — with
+        // a queued playlist, ALL would loop the whole remaining sequence).
+        player.repeatMode = if (_state.value.repeatMode == RepeatMode.SURAH) {
+            Player.REPEAT_MODE_ONE
+        } else {
+            Player.REPEAT_MODE_OFF
+        }
+        if (autoPlay) {
+            requestAudioFocus()
+            player.play()
+        }
         startTicker()
     }
+
+    /**
+     * Swaps the surah-level state (timing/text/meta) WITHOUT touching the audio
+     * playlist — used when the queued playlist advanced to the next surah (the
+     * audio is already playing seamlessly via [onMediaItemTransition]).
+     */
+    fun attachSurah(surah: QuranSurah, timing: SurahTiming?) {
+        this.timing = timing
+        timingChecked = false // the new mp3's duration re-validates the timing
+        val pos = player.currentPosition.coerceAtLeast(0)
+        val idx = timing?.let { TimingIndex.ayahAt(it, pos) } ?: -1
+        _state.value = _state.value.copy(
+            surah = surah,
+            timing = timing,
+            hasTiming = timing != null,
+            currentAyahIndex = idx,
+            currentPageUrl = timing?.entryFor(idx)?.pageUrl,
+            error = false,
+        )
+        startTicker()
+    }
+
+    /** Set by the UI layer to react to the queued playlist advancing surahs. */
+    var onSurahAdvanced: (() -> Unit)? = null
 
     fun togglePlayPause() {
         if (player.isPlaying) {
@@ -241,8 +297,10 @@ class PlaybackController(
             RepeatMode.AYAH -> RepeatMode.SURAH
             RepeatMode.SURAH -> RepeatMode.OFF
         }
+        // ONE loops only the current item (with the queued playlist, ALL would
+        // loop the whole remaining sequence).
         player.repeatMode = if (next == RepeatMode.SURAH) {
-            Player.REPEAT_MODE_ALL
+            Player.REPEAT_MODE_ONE
         } else {
             Player.REPEAT_MODE_OFF
         }

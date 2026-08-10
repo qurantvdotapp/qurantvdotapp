@@ -3,6 +3,7 @@ package com.qurantv.app.ui.surahs
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.qurantv.app.data.repo.CatalogRepository
+import com.qurantv.app.data.repo.SessionRepository
 import com.qurantv.app.data.repo.TimingRepository
 import com.qurantv.app.domain.Moshaf
 import com.qurantv.app.domain.QuranSurah
@@ -22,15 +23,34 @@ data class SurahGridUiState(
     val loading: Boolean = true,
     val error: Boolean = false,
     val pickerOpen: Boolean = false,
+    // "only reciters with ayah timing" setting — when ON the grid lists only
+    // the surahs that have per-ayah timing files for the selected read.
+    val onlyTimed: Boolean = false,
 )
 
 class SurahGridViewModel(
     private val catalog: CatalogRepository,
     private val timing: TimingRepository,
+    private val sessions: SessionRepository,
 ) : ViewModel() {
 
     private val _ui = MutableStateFlow(SurahGridUiState())
     val ui: StateFlow<SurahGridUiState> = _ui.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            sessions.settings.collect { settings ->
+                val changed = _ui.value.onlyTimed != settings.onlyTimedReciters
+                _ui.update { it.copy(onlyTimed = settings.onlyTimedReciters) }
+                // Re-apply the surah filter whenever the setting changes.
+                if (changed) {
+                    _ui.value.reciter?.let { r ->
+                        _ui.value.moshaf?.let { m -> loadSurahs(r, m) }
+                    }
+                }
+            }
+        }
+    }
 
     fun open(reciter: Reciter, moshaf: Moshaf) {
         if (_ui.value.reciter?.id == reciter.id && _ui.value.moshaf?.id == moshaf.id) return
@@ -54,7 +74,16 @@ class SurahGridViewModel(
         try {
             val all = catalog.surahs("ar").first()
             val availableIds = moshaf.availableSurahIds.toSet()
-            val surahs = all.filter { it.id in availableIds }
+            var surahs = all.filter { it.id in availableIds }
+            // "Only reciters with ayah timing": intersect with the read's timed
+            // surah list (unknown timing → keep the full list, graceful).
+            if (_ui.value.onlyTimed) {
+                val read = timing.readForMoshaf(moshaf.server)
+                if (read != null) {
+                    val timed = timing.surahsWithTiming(read.id)
+                    if (timed != null) surahs = surahs.filter { it.id in timed }
+                }
+            }
             _ui.update { it.copy(surahs = surahs, loading = false, error = false) }
             // Warm the timing cache for the first surah (common next step).
             viewModelScope.launch {

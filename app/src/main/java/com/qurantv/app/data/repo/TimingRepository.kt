@@ -2,6 +2,7 @@ package com.qurantv.app.data.repo
 
 import com.qurantv.app.data.api.AyahTimingDto
 import com.qurantv.app.data.api.Mp3QuranApi
+import com.qurantv.app.data.api.SoarDto
 import com.qurantv.app.data.api.TimingReadDto
 import com.qurantv.app.data.api.toDomain
 import com.qurantv.app.data.cache.JsonDiskCache
@@ -44,6 +45,29 @@ class TimingRepository(
     suspend fun readForMoshaf(server: String): TimingRead? {
         val target = CatalogParsing.normalizeServerUrl(server)
         return reads().firstOrNull { CatalogParsing.normalizeServerUrl(it.folderUrl) == target }
+    }
+
+    /**
+     * The surah ids that have per-ayah timing files for this read (the
+     * `ayat_timing/soar` list — some reads cover fewer than all 114 surahs).
+     * Immutable → cached forever. Returns null on failure so callers can fall
+     * back to showing the full list (graceful degradation).
+     */
+    suspend fun surahsWithTiming(readId: Int): Set<Int>? {
+        val key = "soar_r$readId"
+        return cache.singleFlight(key) {
+            val cached = cache.read(JsonDiskCache.TIMING, key)
+            if (cached != null) {
+                return@singleFlight json.decodeFromString<List<SoarDto>>(cached).map { it.id }.toSet()
+            }
+            try {
+                val list = api.soar(readId)
+                runCatching { cache.write(JsonDiskCache.TIMING, key, json.encodeToString(list)) }
+                list.map { it.id }.toSet()
+            } catch (e: Exception) {
+                null // unknown — callers keep the full surah list
+            }
+        }
     }
 
     /** Timing for (read, surah); null on any failure → graceful degradation. */

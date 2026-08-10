@@ -69,7 +69,7 @@ class AppContainer(context: Context) {
     val navigator = AppNavigator()
 
     val homeViewModel by lazy { HomeViewModel(catalogRepository, sessionRepository, timingRepository) }
-    val surahGridViewModel by lazy { SurahGridViewModel(catalogRepository, timingRepository) }
+    val surahGridViewModel by lazy { SurahGridViewModel(catalogRepository, timingRepository, sessionRepository) }
     val playerViewModel by lazy {
         PlayerViewModel(
             playback = playbackController,

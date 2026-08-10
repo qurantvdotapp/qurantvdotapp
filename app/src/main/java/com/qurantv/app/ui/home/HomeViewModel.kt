@@ -31,6 +31,8 @@ data class HomeUiState(
     val searchOpen: Boolean = false,
     val searchQuery: String = "",
     val selectedLetter: String? = null,
+    // Reciter waiting for the pre-grid mushaf chooser (reciters with >1 moshaf).
+    val pendingMoshafReciterId: Int? = null,
 )
 
 class HomeViewModel(
@@ -144,6 +146,21 @@ class HomeViewModel(
             it.name.contains(q, ignoreCase = true) || it.letter?.equals(q, ignoreCase = true) == true
         }
     }
+
+    /**
+     * Registers a reciter for the pre-grid mushaf chooser. Returns true when the
+     * chooser must open (reciter has several moshafs); false when the caller may
+     * navigate straight to the surah grid (single moshaf — first one is implied).
+     */
+    fun requestMoshafSelection(reciter: Reciter): Boolean {
+        if (reciter.moshafs.size > 1) {
+            _ui.update { it.copy(pendingMoshafReciterId = reciter.id) }
+            return true
+        }
+        return false
+    }
+
+    fun dismissMoshafSelection() = _ui.update { it.copy(pendingMoshafReciterId = null) }
 
     /** Resolves the saved session against the (filtered) catalog for the Continue card. */
     fun continueTarget(): Triple<Reciter, Moshaf, LastSession>? {

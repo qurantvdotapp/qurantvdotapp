@@ -51,6 +51,7 @@ import com.qurantv.app.domain.Reciter
 import com.qurantv.app.navigation.Screen
 import com.qurantv.app.ui.components.ErrorState
 import com.qurantv.app.ui.components.LoadingState
+import com.qurantv.app.ui.components.MoshafSelectionDialog
 import com.qurantv.app.ui.components.TvCard
 import com.qurantv.app.ui.components.TvIconButton
 import com.qurantv.app.ui.theme.BackgroundBrush
@@ -191,8 +192,11 @@ fun HomeScreen(
                                 ReciterChipRow(
                                     reciters = ui.recitersByLetter[letter].orEmpty(),
                                     onClick = { reciter ->
-                                        val moshaf = reciter.moshafs.firstOrNull()
-                                        if (moshaf != null) navigator.push(Screen.SurahGrid(reciter, moshaf))
+                                        if (!vm.requestMoshafSelection(reciter)) {
+                                            reciter.moshafs.firstOrNull()?.let {
+                                                navigator.push(Screen.SurahGrid(reciter, it))
+                                            }
+                                        }
                                     },
                                 )
                             }
@@ -207,6 +211,24 @@ fun HomeScreen(
                     )
                 }
             }
+        }
+    }
+
+    // Mushaf chooser first: reciters with several moshafs must pick one before
+    // the surah grid opens (single-moshaf reciters navigate directly).
+    ui.pendingMoshafReciterId?.let { id ->
+        ui.reciters.firstOrNull { it.id == id }?.let { reciter ->
+            MoshafSelectionDialog(
+                moshafs = reciter.moshafs,
+                currentIndex = null,
+                onSelect = { index ->
+                    reciter.moshafs.getOrNull(index)?.let {
+                        navigator.push(Screen.SurahGrid(reciter, it))
+                    }
+                    vm.dismissMoshafSelection()
+                },
+                onDismiss = { vm.dismissMoshafSelection() },
+            )
         }
     }
 }

@@ -34,20 +34,17 @@ import androidx.compose.ui.platform.LocalView
 import android.view.ViewTreeObserver
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import com.qurantv.app.R
 import com.qurantv.app.data.repo.AppSettings
 import com.qurantv.app.di.AppContainer
-import com.qurantv.app.domain.Moshaf
 import com.qurantv.app.domain.QuranSurah
 import com.qurantv.app.navigation.Screen
 import com.qurantv.app.ui.components.EmptyState
 import com.qurantv.app.ui.components.ErrorState
 import com.qurantv.app.ui.components.LoadingState
+import com.qurantv.app.ui.components.MoshafSelectionDialog
 import com.qurantv.app.ui.components.SurahJumpDialog
 import com.qurantv.app.ui.components.TvCard
 import com.qurantv.app.ui.components.TvIconButton
@@ -158,7 +155,7 @@ fun SurahGridScreen(
 
     if (ui.pickerOpen) {
         ui.reciter?.let { reciter ->
-            MoshafPickerDialog(
+            MoshafSelectionDialog(
                 moshafs = reciter.moshafs,
                 currentIndex = ui.moshafIndex,
                 onSelect = { index ->
@@ -240,61 +237,6 @@ private fun SurahGrid(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun MoshafPickerDialog(
-    moshafs: List<Moshaf>,
-    currentIndex: Int,
-    onSelect: (Int) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    Dialog(onDismissRequest = onDismiss) {
-        val dialogFocus = remember { FocusRequester() }
-        LaunchedEffect(Unit) {
-    withFrameNanos { }
-    dialogFocus.requestFocus()
-}
-        Column(
-            modifier = Modifier
-                .width(640.dp)
-                .background(com.qurantv.app.ui.theme.SurfaceContainer, MaterialTheme.shapes.extraLarge)
-                .padding(24.dp),
-        ) {
-            Text(
-                text = stringResource(R.string.select_moshaf),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth().heightIn(max = 480.dp).padding(top = 16.dp),
-            ) {
-                items(moshafs, key = { it.id }) { moshaf ->
-                    val index = moshafs.indexOf(moshaf)
-                    TvCard(
-                        onClick = { onSelect(index) },
-                        modifier = if (index == 0) {
-                            Modifier.fillMaxWidth().focusRequester(dialogFocus)
-                        } else {
-                            Modifier.fillMaxWidth()
-                        },
-                        backgroundColor = if (index == currentIndex) {
-                            MaterialTheme.colorScheme.primaryContainer
-                        } else {
-                            com.qurantv.app.ui.theme.SurfaceContainerHigh
-                        },
-                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
-                    ) {
-                        Text(
-                            text = moshaf.name,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
                     }
                 }
             }

@@ -90,12 +90,15 @@ fun SearchOverlay(
                 items(results, key = { it.id }) { reciter ->
                     TvCard(
                         onClick = {
-                            val moshaf = reciter.moshafs.firstOrNull()
-                            if (moshaf != null) {
-                                vm.closeSearch()
-                                navigator.push(Screen.SurahGrid(reciter, moshaf))
-                                onClose()
+                            // Multi-moshaf reciters pick the mushaf first (the
+                            // chooser opens on Home once search closes).
+                            if (!vm.requestMoshafSelection(reciter)) {
+                                reciter.moshafs.firstOrNull()?.let {
+                                    navigator.push(Screen.SurahGrid(reciter, it))
+                                }
                             }
+                            vm.closeSearch()
+                            onClose()
                         },
                         modifier = Modifier.fillMaxWidth(),
                         backgroundColor = com.qurantv.app.ui.theme.SurfaceContainerHigh,

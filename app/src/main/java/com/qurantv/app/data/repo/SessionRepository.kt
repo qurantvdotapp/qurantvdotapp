@@ -22,7 +22,7 @@ data class AppSettings(
     val fontSizeIndex: Int = 1, // 0 = small, 1 = normal, 2 = large
     val highlightColorIndex: Int = 0, // 0 = gold, 1 = green, 2 = cyan
     val displayMode: Int = 1, // 0 = text mode, 1 = mushaf page mode (default: the mushaf SVG)
-    val mushafStyle: Int = 0, // page mode style: 0 = Madinah SVG (mp3quran), 1 = Tajweed per-ayah images, 2 = Madinah SVG (islamic.app), 3/4/5 = KSU
+    val mushafStyle: Int = 5, // page mode style: 0 = Madinah SVG (mp3quran), 1 = Tajweed per-ayah images, 2 = Madinah SVG (islamic.app), 3/4/5 = KSU; default 5 = Hafs Tajweed (حفص ملون)
     val ayahOffset: Int = 0, // basmala offset for non-Hafs riwayat (best effort)
     val autoHideControls: Boolean = true, // auto-hide the player chrome while playing in page mode
     val onlyTimedReciters: Boolean = false, // show only reciters/moshafs with ayah timing data
@@ -76,7 +76,7 @@ class SessionRepository(private val context: Context) {
             fontSizeIndex = p[Keys.fontSize] ?: 1,
             highlightColorIndex = p[Keys.highlightColor] ?: 0,
             displayMode = p[Keys.displayMode] ?: 1,
-            mushafStyle = p[Keys.mushafStyle] ?: 0,
+            mushafStyle = p[Keys.mushafStyle] ?: 5,
             ayahOffset = p[Keys.ayahOffset] ?: 0,
             autoHideControls = p[Keys.autoHideControls] ?: true,
             onlyTimedReciters = p[Keys.onlyTimedReciters] ?: false,

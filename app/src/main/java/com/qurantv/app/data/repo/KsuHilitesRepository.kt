@@ -52,6 +52,7 @@ class KsuHilitesRepository(
                         parsed.ordered
                     }
                 } catch (e: Exception) {
+                    android.util.Log.w("QuranTv", "ksu hilites fetch failed for $key: $e")
                     null
                 }
             }
@@ -59,7 +60,11 @@ class KsuHilitesRepository(
     }
 
     private fun parse(raw: String): PagePositions? {
-        val obj = runCatching { json.parseToJsonElement(raw) as? JsonObject }.getOrNull() ?: return null
+        val obj = runCatching { json.parseToJsonElement(raw) as? JsonObject }.getOrNull()
+        if (obj == null) {
+            android.util.Log.w("QuranTv", "ksu hilites parse failed, raw=${raw.take(120)}")
+            return null
+        }
         val pageObj = obj.values.firstOrNull() as? JsonObject ?: return null
         val ordered = ArrayList<AyahPosition>(pageObj.size)
         pageObj.forEach { (key, value) ->

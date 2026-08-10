@@ -304,21 +304,48 @@ class KsuHiliteGeometryTest {
         )
         val r58 = rects["2:58"]!!
         // prev_top = pageTop = 30; top = 136-20 = 116; diff 86 > 1.6*40 -> 3 rects.
+        // Fractions are computed in the page image's NATIVE pixel space (456×707),
+        // not the old display-space height (720) — that drift left the highlight
+        // short of the line in the lower half of the page.
         assertEquals(3, r58.size)
         // tail of the first line (left margin 25 .. twidth 427, y 30..70)
         val r1 = r58[0]
-        assertEquals(25f / 464.3f, r1.left, 0.001f)
-        assertEquals(30f / 720f, r1.top, 0.001f)
-        assertEquals(427f / 464.3f, r1.right, 0.001f)
-        assertEquals(70f / 720f, r1.bottom, 0.001f)
+        assertEquals(25f / 456f, r1.left, 0.001f)
+        assertEquals(30f / 707f, r1.top, 0.001f)
+        assertEquals(427f / 456f, r1.right, 0.001f)
+        assertEquals(70f / 707f, r1.bottom, 0.001f)
         // this ayah's last partial line: left = 248-17 = 231, y 116..156
         val r2 = r58[1]
-        assertEquals(231f / 464.3f, r2.left, 0.001f)
-        assertEquals(116f / 720f, r2.top, 0.001f)
+        assertEquals(231f / 456f, r2.left, 0.001f)
+        assertEquals(116f / 707f, r2.top, 0.001f)
         // full-width middle block y 70..116
         val r3 = r58[2]
-        assertEquals(70f / 720f, r3.top, 0.001f)
-        assertEquals(116f / 720f, r3.bottom, 0.001f)
+        assertEquals(70f / 707f, r3.top, 0.001f)
+        assertEquals(116f / 707f, r3.bottom, 0.001f)
+    }
+
+    @Test
+    fun `last line of the page spans the full native line ink`() {
+        // Verified: tajweed p9 2_61 ends at [46,648] — the vertical CENTER of
+        // the last text line (ink 642..666). The band [y-20, y+20] = [628,668]
+        // must render in native fractions of the 707-tall image so it covers
+        // the whole line — with the old display-space height (720) it drifted
+        // ~12px short (the reported “stops mid-height, lower half” bug).
+        val rects = KsuHiliteGeometry.build(
+            ayahs = listOf(ayahEnd(2, 60, 46, 351), ayahEnd(2, 61, 46, 648)),
+            page = 9,
+            meta = KsuHiliteGeometry.TAJWEED,
+            imageWidth = 456,
+            imageHeight = 707,
+        )
+        val r61 = rects["2:61"]!!
+        // 2_61's last partial line: left = 46-17 = 29, top = 648-20 = 628,
+        // bottom = 628+40 = 668 — native fractions of 456×707.
+        val last = r61[1]
+        assertEquals(29f / 456f, last.left, 0.001f)
+        assertEquals(628f / 707f, last.top, 0.001f)
+        assertEquals(427f / 456f, last.right, 0.001f)
+        assertEquals(668f / 707f, last.bottom, 0.001f)
     }
 
     @Test
@@ -335,9 +362,10 @@ class KsuHiliteGeometryTest {
         val r4 = rects["1:4"]!!
         // fp layout: ofheight 10 -> top = 352-10 = 342, prev top = 353-10 = 343,
         // diff = -1 -> same line -> single rect from prev left (243-5) to left (138-5).
+        // Native space: fractions are of the 456-wide image directly.
         assertEquals(1, r4.size)
-        assertEquals(138f - 5f, r4[0].left * (456f * 690f / 672f), 1.5f)
-        assertEquals(243f - 5f, r4[0].right * (456f * 690f / 672f), 1.5f)
+        assertEquals(138f - 5f, r4[0].left * 456f, 1.5f)
+        assertEquals(243f - 5f, r4[0].right * 456f, 1.5f)
     }
 
     @Test
@@ -353,7 +381,7 @@ class KsuHiliteGeometryTest {
         // fp: ofheight 10 -> top = 314; prev_top = 270 (opening spread); diff 44 > 32
         // (1.6*fpHeight 20) -> 3 rects; the last partial line starts at x = 283-5.
         assertEquals(3, r1.size)
-        assertEquals(278f, r1[1].left * (456f * 690f / 672f), 1.5f)
+        assertEquals(278f, r1[1].left * 456f, 1.5f)
     }
 
     @Test

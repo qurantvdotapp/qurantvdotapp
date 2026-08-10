@@ -1,7 +1,7 @@
 package com.qurantv.app.ui.player
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -10,13 +10,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.NavigateBefore
-import androidx.compose.material.icons.automirrored.filled.NavigateNext
+import androidx.compose.material.icons.filled.NavigateBefore
+import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Repeat
+import androidx.compose.material.icons.filled.RepeatOne
 import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -26,7 +28,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
@@ -39,11 +43,21 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 
 /**
- * Transport bar: play/pause, prev/next ayah + surah, repeat, speed, mushaf
- * picker, jump-to-surah, auto-hide toggle and mode toggle. Compact buttons so
- * the mushaf keeps as much screen as possible. No seek bar — seeking is done
- * with the prev/next ayah and surah buttons (it used to grab D-pad focus
- * unnecessarily); only a plain (non-focusable) time readout is shown.
+ * Transport bar, organised into three logical zones so it is easy to scan and
+ * navigate with a D-pad:
+ *
+ *  - RIGHT zone (RTL start): view controls — display-mode toggle (the book /
+ *    text icon) with the auto-hide eye next to it.
+ *  - CENTER zone: the playback controls — previous surah · previous ayah ·
+ *    play/pause · next ayah · next surah — with the time readout, dead centre.
+ *  - LEFT zone (RTL end): repeat · speed · mushaf style · jump-to-surah.
+ *
+ * The playback cluster is emitted direction-aware so the ON-SCREEN (left →
+ * right) order is always prev surah · prev ayah · play · next ayah · next
+ * surah, in both RTL (Arabic) and LTR layouts, with auto-mirrored icons that
+ * point outward from the play button. No seek bar — seeking is done with the
+ * prev/next ayah and surah buttons; only a plain (non-focusable) time readout
+ * is shown.
  */
 @Composable
 fun TransportBar(
@@ -65,73 +79,104 @@ fun TransportBar(
     onToggleMode: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+
     Row(
         modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        TransportButton(icon = Icons.Filled.SkipPrevious, onClick = onPrevSurah, label = stringResource(R.string.prev_surah))
-        Spacer(Modifier.width(8.dp))
-        TransportButton(icon = Icons.AutoMirrored.Filled.NavigateBefore, onClick = onPrevAyah, label = stringResource(R.string.prev_ayah))
-        Spacer(Modifier.width(8.dp))
-        TvIconButton(
-            onClick = onTogglePlayPause,
-            modifier = if (playFocusRequester != null) Modifier.focusRequester(playFocusRequester) else Modifier,
-        ) {
-            Icon(
-                imageVector = if (state.isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                contentDescription = null,
-                modifier = Modifier.size(34.dp),
-                tint = MaterialTheme.colorScheme.onSurface,
-            )
+        // ---- Right zone: view controls — display mode "close on the right".
+        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                TvIconButton(onClick = onToggleMode) {
+                    Icon(
+                        imageVector = if (state.hasTiming || state.timing != null) Icons.AutoMirrored.Filled.MenuBook else Icons.Filled.TextFields,
+                        contentDescription = stringResource(R.string.display_mode),
+                        modifier = Modifier.size(22.dp),
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+                Spacer(Modifier.width(8.dp))
+                TvIconButton(onClick = onToggleAutoHide) {
+                    Icon(
+                        imageVector = if (autoHideEnabled) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                        contentDescription = stringResource(R.string.auto_hide),
+                        modifier = Modifier.size(22.dp),
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+            }
         }
-        Spacer(Modifier.width(8.dp))
-        TransportButton(icon = Icons.AutoMirrored.Filled.NavigateNext, onClick = onNextAyah, label = stringResource(R.string.next_ayah))
-        Spacer(Modifier.width(8.dp))
-        TransportButton(icon = Icons.Filled.SkipNext, onClick = onNextSurah, label = stringResource(R.string.next_surah))
-        Spacer(Modifier.width(12.dp))
 
-        // Plain time readout — NOT focusable, so D-pad never gets stuck on it.
-        Text(
-            text = "${formatTime(positionMs)} / ${formatTime(state.durationMs)}",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier
-                .background(com.qurantv.app.ui.theme.SurfaceContainer, RoundedCornerShape(8.dp))
-                .padding(horizontal = 12.dp, vertical = 6.dp),
-        )
-        Spacer(Modifier.width(12.dp))
+        // ---- Center zone: time readout + the playback cluster, dead centre.
+        Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                // Plain time readout — NOT focusable, so D-pad never gets stuck on it.
+                Text(
+                    text = "${formatTime(positionMs)} / ${formatTime(state.durationMs)}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .background(com.qurantv.app.ui.theme.SurfaceContainer, RoundedCornerShape(8.dp))
+                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                )
+                Spacer(Modifier.width(14.dp))
 
-        val repeatLabel = when (state.repeatMode) {
-            RepeatMode.OFF -> stringResource(R.string.repeat_off_short)
-            RepeatMode.AYAH -> stringResource(R.string.repeat_ayah_short)
-            RepeatMode.SURAH -> stringResource(R.string.repeat_surah_short)
+                // Playback cluster. Desired on-screen (left → right) order: prev
+                // surah · prev ayah · play · next ayah · next surah. A Row lays
+                // children right-to-left in RTL, so the declaration order there is
+                // the reverse of the visual order.
+                val cluster: List<@Composable () -> Unit> = listOf(
+                    { TransportButton(icon = Icons.Filled.SkipPrevious, onClick = onPrevSurah, label = stringResource(R.string.prev_surah)) },
+                    { TransportButton(icon = Icons.Filled.NavigateBefore, onClick = onPrevAyah, label = stringResource(R.string.prev_ayah)) },
+                    {
+                        TvIconButton(
+                            onClick = onTogglePlayPause,
+                            modifier = if (playFocusRequester != null) Modifier.focusRequester(playFocusRequester) else Modifier,
+                        ) {
+                            Icon(
+                                imageVector = if (state.isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                                contentDescription = null,
+                                modifier = Modifier.size(34.dp),
+                                tint = MaterialTheme.colorScheme.onSurface,
+                            )
+                        }
+                    },
+                    { TransportButton(icon = Icons.Filled.NavigateNext, onClick = onNextAyah, label = stringResource(R.string.next_ayah)) },
+                    { TransportButton(icon = Icons.Filled.SkipNext, onClick = onNextSurah, label = stringResource(R.string.next_surah)) },
+                )
+                val ordered = if (rtl) cluster.asReversed() else cluster
+                ordered.forEachIndexed { i, slot ->
+                    if (i > 0) Spacer(Modifier.width(8.dp))
+                    slot()
+                }
+            }
         }
-        LabeledButton(label = repeatLabel, onClick = onCycleRepeat)
-        Spacer(Modifier.width(8.dp))
-        LabeledButton(label = speedLabel(state.speed), onClick = onCycleSpeed)
-        Spacer(Modifier.width(8.dp))
-        // Mushaf style selection lives in the transport bar for easy D-pad access.
-        LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
-        Spacer(Modifier.width(8.dp))
-        LabeledButton(label = stringResource(R.string.jump_to_surah_short), onClick = onOpenSurahJump)
-        Spacer(Modifier.width(8.dp))
-        TvIconButton(onClick = onToggleAutoHide) {
-            Icon(
-                imageVector = if (autoHideEnabled) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                contentDescription = stringResource(R.string.auto_hide),
-                modifier = Modifier.size(22.dp),
-                tint = MaterialTheme.colorScheme.onSurface,
-            )
-        }
-        Spacer(Modifier.width(8.dp))
-        TvIconButton(onClick = onToggleMode) {
-            Icon(
-                imageVector = if (state.hasTiming || state.timing != null) Icons.AutoMirrored.Filled.MenuBook else Icons.Filled.TextFields,
-                contentDescription = stringResource(R.string.display_mode),
-                modifier = Modifier.size(22.dp),
-                tint = MaterialTheme.colorScheme.onSurface,
-            )
+
+        // ---- Left zone: repeat · speed · mushaf style · jump-to-surah.
+        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                val repeatActive = state.repeatMode != RepeatMode.OFF
+                TvIconButton(onClick = onCycleRepeat) {
+                    Icon(
+                        imageVector = if (state.repeatMode == RepeatMode.AYAH) Icons.Filled.RepeatOne else Icons.Filled.Repeat,
+                        contentDescription = when (state.repeatMode) {
+                            RepeatMode.OFF -> stringResource(R.string.repeat_off_short)
+                            RepeatMode.AYAH -> stringResource(R.string.repeat_ayah_short)
+                            RepeatMode.SURAH -> stringResource(R.string.repeat_surah_short)
+                        },
+                        modifier = Modifier.size(22.dp),
+                        tint = if (repeatActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+                Spacer(Modifier.width(8.dp))
+                LabeledButton(label = speedLabel(state.speed), onClick = onCycleSpeed)
+                Spacer(Modifier.width(8.dp))
+                // Mushaf style selection lives in the transport bar for easy D-pad access.
+                LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
+                Spacer(Modifier.width(8.dp))
+                LabeledButton(label = stringResource(R.string.jump_to_surah_short), onClick = onOpenSurahJump)
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ export function HomeScreen(props: HomeProps) {
   const [searchOpen, setSearchOpen] = createSignal(false);
   const [query, setQuery] = createSignal("");
   const [session] = createSignal<LastSession | null>(c.session.lastSession());
+  const [recent, setRecent] = createSignal<Reciter[] | null>(null);
 
   async function load() {
     setError(false);
@@ -44,6 +45,12 @@ export function HomeScreen(props: HomeProps) {
             .filter((r) => r.moshafs.length > 0)
         : all;
       setReciters(filtered);
+      // Recently added reads (soft-fail row — hidden on error)
+      try {
+        setRecent(await c.catalog.recentReads());
+      } catch {
+        setRecent(null);
+      }
       setTimeout(() => {
         const rail = document.querySelector(".h-scroll");
         if (rail) focusFirst(rail);
@@ -160,6 +167,23 @@ export function HomeScreen(props: HomeProps) {
         }} />
         <Chip id="home-settings" label={props.t("settings")} onClick={() => props.onOpenSettings()} />
       </div>
+
+      {/* recently added reads */}
+      <Show when={recent() !== null && recent()!.length > 0}>
+        <div style="margin-bottom:22px">
+          <div style="font-size:24px;color:var(--text-dim);padding-bottom:10px">{props.t("recent_reads")}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px">
+            {recent()!.slice(0, 10).map((r) => (
+              <Chip
+                id={`recent-${r.id}`}
+                label={r.name}
+                dim={props.lang === "ar" ? !reciterTimed(r) : false}
+                onClick={() => openReciter(r)}
+              />
+            ))}
+          </div>
+        </div>
+      </Show>
 
       {/* continue card */}
       <Show when={session()}>

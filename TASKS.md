@@ -250,9 +250,9 @@ ar/en RTL. Tafseer side panel (KSU .ayt → JSON conversion) DEFERRED to a later
 - [x] Surah grid: 8-col grid, only available surahs, moshaf picker, jump dialog, untimed badges (soar list)
 - [x] Player transport: 3 zones (jump · speed · repeat · time | next-su · next-ay · play · prev-ay · prev-su | no-timing notice · eye · reciter · mushaf), repeat indicator, speed cycle
 - [x] Text mode: ayah list (Amiri), current ayah highlighted + auto-scroll, tap-to-seek, basmala header
-- [~] Page mode: SVG render + polygon overlay highlight + next-page prefetch + auto-hide chrome 5 s — **single current page for now; two-page spread + page-turn animation deferred** (layout polish; the sync/highlight math is identical)
+- [x] Page mode: **two-page mushaf spread (odd right/even left) + spine + page-turn animation + prefetch + auto-hide chrome 5 s**; ALL 6 mushaf styles: Madinah SVG, per-ayah tajweed, islamic.app HD (computed rects), KSU Hafs/Warsh/Tajweed PNGs with EXACT hilite-API rects (CORS fallback → text-length estimator bands); 7-option picker (default حفص ملون)
 - [x] Settings: language, default speed, font size, highlight color, auto-hide toggle, onlyTimedReciters
-- [~] Commit: `feat: UI shell + screens + player engine` (B3/B4/B5 landed together)
+- [x] Commit: `feat: UI shell + screens + player engine` (B3/B4/B5 landed together)
 
 ## Phase B5 — Player engine (web audio)
 

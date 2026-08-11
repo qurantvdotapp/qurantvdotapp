@@ -19,6 +19,7 @@ import { focusFirst } from "../focus";
 import { TextModeList, type TextItem } from "./TextModeList";
 import { TransportBar } from "./TransportBar";
 import { MushafPageView } from "./MushafPageView";
+import { MushafSpreadView } from "./MushafSpreadView";
 import { MUSHAF_STYLES, mushafStyle } from "./mushafStyles";
 import { SideContextPanel, modeLabel, modeShortLabel } from "./SideContextPanel";
 import type { TafseerMode } from "../../data/repo/TafseerRepository";
@@ -502,6 +503,24 @@ export function PlayerScreen(props: PlayerProps) {
               <Show when={displayMode() === 0} fallback={
                 sideView() !== null ? (
                   <div dir="rtl" style="display:flex;flex-direction:row;height:100%;width:100%">
+                    {/* current highlighted page on the RIGHT, aligned toward the spine */}
+                    <div style="flex:1;min-width:0;height:100%">
+                      <MushafPageView
+                        style={style()}
+                        entry={entry()}
+                        timingEntries={timing()?.entries ?? null}
+                        currentAyah={currentAyah()}
+                        verseKey={verseKey()}
+                        surah={activeSurah()}
+                        noTimingPage={noTimingPage()}
+                        hasTiming={hasTiming()}
+                        color={color}
+                        align="end"
+                        onError={() => setAudioError(true)}
+                      />
+                    </div>
+                    {/* folded spine ribbon */}
+                    <div style="width:14px;background:linear-gradient(to right,#3a2f1f 0%,#7a5c2e 45%,#a8874a 55%,#3a2f1f 100%);flex-shrink:0" />
                     {/* context panel (LEFT page's place, rows start at the spine) */}
                     <div style="flex:1;min-width:0;height:100%">
                       <Show when={ctxContent()} fallback={<LoadingState t={props.t} />}>
@@ -519,27 +538,9 @@ export function PlayerScreen(props: PlayerProps) {
                         )}
                       </Show>
                     </div>
-                    {/* folded spine ribbon */}
-                    <div style="width:14px;background:linear-gradient(to right,#3a2f1f 0%,#7a5c2e 45%,#a8874a 55%,#3a2f1f 100%);flex-shrink:0" />
-                    {/* current highlighted page aligned toward the spine */}
-                    <div style="flex:1;min-width:0;height:100%">
-                      <MushafPageView
-                        style={style()}
-                        entry={entry()}
-                        timingEntries={timing()?.entries ?? null}
-                        currentAyah={currentAyah()}
-                        verseKey={verseKey()}
-                        surah={activeSurah()}
-                        noTimingPage={noTimingPage()}
-                        hasTiming={hasTiming()}
-                        color={color}
-                        align="end"
-                        onError={() => setAudioError(true)}
-                      />
-                    </div>
                   </div>
                 ) : (
-                <MushafPageView
+                <MushafSpreadView
                   style={style()}
                   entry={entry()}
                   timingEntries={timing()?.entries ?? null}

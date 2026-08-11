@@ -37,7 +37,11 @@ interface MushafPageViewProps {
   noTimingPage: number;
   hasTiming: boolean;
   color: string;
-  align?: "center" | "end";
+  align?: "center" | "start" | "end";
+  /** Skip highlight computation (non-current spread side) — saves fetches. */
+  showHighlight?: boolean;
+  /** Override the computed page (spread sides render specific pages). */
+  forcedPage?: number | null;
   onError?: (msg: string) => void;
 }
 
@@ -76,12 +80,28 @@ export function MushafPageView(props: MushafPageViewProps) {
     return m ? Number.parseInt(m[1], 10) : null;
   });
 
-  const page = createMemo(() => {
+  const computedPage = createMemo(() => {
     const s = style();
     const p =
       pageForVerse(s, timingPage(), props.surah.id, props.currentAyah) ??
       (props.hasTiming ? null : props.noTimingPage);
     return p && p >= 1 ? p : null;
+  });
+
+  // The timing pageUrl is sparse (only some entries carry it) — keep the LAST
+  // known page so the mushaf stays put until a new page-bearing entry arrives
+  // (mirrors the Android's page-turn-on-pageUrl-change behavior).
+  const [lastKnownPage, setLastKnownPage] = createSignal<number | null>(null);
+  createEffect(() => {
+    const p = computedPage();
+    if (p !== null && p >= 1) setLastKnownPage(p);
+  });
+
+  const page = createMemo(() => {
+    if (props.forcedPage !== undefined) {
+      return props.forcedPage !== null && props.forcedPage >= 1 ? props.forcedPage : null;
+    }
+    return computedPage() ?? lastKnownPage();
   });
 
   /* ---------- source URL ---------- */
@@ -109,6 +129,7 @@ export function MushafPageView(props: MushafPageViewProps) {
   createEffect(() => {
     const s = style();
     const p = page();
+    if (props.showHighlight === false) return;
     if (s.kind !== "islamic-svg" || p === null || !props.verseKey) return;
     const url = islamicPageUrl(p);
     void (async () => {
@@ -135,6 +156,7 @@ export function MushafPageView(props: MushafPageViewProps) {
   createEffect(() => {
     const s = style();
     const p = page();
+    if (props.showHighlight === false) return;
     if (s.kind !== "ksu" || p === null) {
       setPositions(null);
       setKsuRectsMap(new Map());
@@ -189,6 +211,7 @@ export function MushafPageView(props: MushafPageViewProps) {
 
   /* ---------- highlight ---------- */
   const highlight = createMemo<Highlight | null>(() => {
+    if (props.showHighlight === false) return null;
     if (props.currentAyah < 1) return null;
     const s = style();
     const p = page();
@@ -287,7 +310,8 @@ export function MushafPageView(props: MushafPageViewProps) {
       .filter((r) => r.w > 1 && r.h > 1);
   });
 
-  const alignStyle = props.align === "end" ? "justify-content:flex-end" : "justify-content:center";
+  const alignStyle =
+    props.align === "end" ? "justify-content:flex-end" : props.align === "start" ? "justify-content:flex-start" : "justify-content:center";
 
   return (
     <div ref={containerRef} style={`width:100%;height:100%;display:flex;align-items:center;${alignStyle};overflow:hidden;background:#f5efe2`}>

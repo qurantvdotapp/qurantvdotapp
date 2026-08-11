@@ -1,11 +1,12 @@
 // Surah grid screen — 8-column grid of available surahs, moshaf picker,
 // jump-to-surah dialog, untimed badges (soar list), select → player.
 
-import { createMemo, createSignal, onMount, Show } from "solid-js";
+import { createEffect, createMemo, createSignal, onMount, Show } from "solid-js";
 import type { Moshaf, Reciter, QuranSurah } from "../domain/Models";
 import { availableSurahIds } from "../domain/Models";
 import type { TFunction } from "../i18n/strings";
 import { appContainer } from "../data/AppContainer";
+import { audioUrlFor } from "../domain/CatalogParsing";
 import { Chip, Dialog, DialogRow, ErrorState, LoadingState , focusable } from "./components";
 import { focusFirst } from "./focus";
 
@@ -23,8 +24,38 @@ export function SurahGridScreen(props: SurahGridProps) {
   const [surahs, setSurahs] = createSignal<QuranSurah[] | null>(null);
   const [error, setError] = createSignal(false);
   const [untimed, setUntimed] = createSignal<Set<number>>(new Set());
+  const [matchedReadId, setMatchedReadId] = createSignal<number | undefined>(undefined);
   const [jumpOpen, setJumpOpen] = createSignal(false);
   const [pickerOpen, setPickerOpen] = createSignal(false);
+  // Real mp3-duration probes (the soar list OVER-CLAIMS): verdict per surah.
+  const [usability, setUsability] = createSignal<Map<number, boolean>>(new Map());
+  const [probeFrom, setProbeFrom] = createSignal(0);
+
+  // Probe lazily as cards scroll into view (≤10 MB files only; cached forever).
+  createEffect(() => {
+    const readId = matchedReadId();
+    const start = probeFrom();
+    if (readId === undefined || start < 0) return;
+    const all = grid();
+    const batch = all.slice(start, start + 12);
+    if (batch.length === 0) return;
+    let cancelled = false;
+    void (async () => {
+      const next = new Map(usability());
+      for (const surah of batch) {
+        if (cancelled) return;
+        const verdict = await c.timing.timingUsability(
+          readId,
+          surah.id,
+          audioUrlFor(props.moshaf.server, surah.id),
+        );
+        if (verdict !== null) next.set(surah.id, verdict);
+      }
+      if (!cancelled) setUsability(next);
+      setProbeFrom(start + 12); // schedule the next batch
+    })();
+    return () => { cancelled = true; };
+  });
 
   async function load() {
     setError(false);
@@ -60,6 +91,18 @@ export function SurahGridScreen(props: SurahGridProps) {
 
   const grid = createMemo(() => surahs() ?? []);
 
+  /** Untimed = outside the soar list, OR the real mp3 probe says unusable. */
+  function effectiveUntimed(surahId: number): boolean {
+    const u = usability().get(surahId);
+    if (u === false) return true; // probe verdict: timing unusable
+    return untimed().has(surahId); // soar-list gap
+  }
+
+  // Re-probe the first batch after the initial load.
+  createEffect(() => {
+    if (surahs() !== null && probeFrom() === 0) setProbeFrom(1);
+  });
+
   return (
     <div class="screen">
       {/* header */}
@@ -92,12 +135,13 @@ export function SurahGridScreen(props: SurahGridProps) {
               <div
                 use:focusable={`surah-${s.id}`}
                 class="tv-card"
+                classList={{ dim: effectiveUntimed(s.id) }}
                 style="flex-direction:column;gap:6px;padding:14px;text-align:center;min-height:96px;justify-content:center"
                 onClick={() => props.onOpenSurah(s, grid())}
               >
                 <div style="font-size:18px;color:var(--gold)">{s.id}</div>
                 <div class="quran-text" style="font-size:26px">{s.nameAr}</div>
-                <Show when={untimed().has(s.id)}>
+                <Show when={effectiveUntimed(s.id)}>
                   <span class="badge">{props.t("no_timing_badge")}</span>
                 </Show>
               </div>

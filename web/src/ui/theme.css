@@ -222,3 +222,13 @@ body,
 .quran-font {
   font-family: "Amiri Quran", serif;
 }
+
+/* ------- mushaf spread page-turn ------- */
+@keyframes spread-turn-next {
+  from { transform: translateX(4%); opacity: 0.3; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes spread-turn-back {
+  from { transform: translateX(-4%); opacity: 0.3; }
+  to { transform: translateX(0); opacity: 1; }
+}

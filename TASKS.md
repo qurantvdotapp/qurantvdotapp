@@ -175,3 +175,110 @@ Build prompt lives in `PROMPT.md`; this file tracks delivery phases and git prog
 | 2026-08-11 | 5+ | **Split view keeps the spine — the mushaf page and the context panel meet around it like an open mushaf**. User feedback: "keep the spine & align the mushaf & tafseer around it as with the 2 page mushaf". The split view (context panel open) is still 50/50 but now laid out as an OPEN MUSHAF: the current highlighted page sits on the RIGHT aligned toward the spine (`SingleMushafPage` gets an `alignment` param → `PageModeView(alignment = CenterEnd)`), the folded `MushafSpine()` ribbon joins it, and the context panel takes the LEFT page's place with its rows starting at the spine (RTL `start = 14dp` inner margin vs `26dp` outer, same for the panel header). The spine + inner-edge shadow were extracted from `MushafSpreadView` into shared composables (`MushafSpine()`, `BoxScope.SpineEdgeShadow(alignment)`) so the mushaf-only mode and the split view share the identical book look. Verified on the emulator (أحمد عيسى المعصراوي • البقرة, Hafs Tajweed): pixel scan shows panel (ends x≈948) · spine ribbon x 951–969 with the darker center crease (106,92,69 / 60,52,40 leather tones) · edge shadow · the highlighted page hugging the spine from x≈990 with the highlight band (ayah 228, x 1008–1614, y 252–870); switching back to مصحف فقط shows the full two-page spread with the same spine at center (x 918–968). 60/60 tests + lint green | done |
 | 2026-08-11 | release | **v1.27 released to the samba share** (`/mnt/rpi-share`). Bumped `versionCode` 27→28 / `versionName` "1.26"→"1.27". Carries the three 2026-08-11 features: (1) the mushaf page is always visible with tafseer / word meanings / translation as an OPTIONAL side panel chosen from the top-bar dropdown (صفحة المصحف فقط = full-screen mushaf) + chrome auto-hide 3 s→5 s + empty content rows hidden (2,576 empty word-meaning rows) with nearest-preceding-row pinning; (2) the split view shows only the CURRENT highlighted page half-and-half with the context; (3) the split is laid out as an open mushaf — the highlighted page and the context panel meet around the folded spine (shared `MushafSpine()` / `SpineEdgeShadow`). Pushed as `QuranTV-1.27-debug.apk` (26.7 MB, MD5 477e014918e920178af0327e492c13ea, verified copy); `QuranTV-1.26-debug.apk` kept for rollback. aapt-verified: versionCode 28 / versionName 1.27 | done |
 | 2026-08-11 | 5+ | **Side-view (tafseer) selector moved from the top bar into the transport bar**. The view chooser button (مصحف/تفسير/معاني/ترجمة) now lives in the LOWER transport bar's right zone, immediately LEFT of the display-mode/mushaf button (right zone reads eye · reciter · side view · display mode), as requested; the player top bar now holds only the back button + surah/reciter title. `TransportBar` gained `sideViewLabel` + `onOpenViewPicker` (null label hides the button in TEXT mode — the side panel is a page-mode concept); `PlayerTopBar` lost the `showViewPicker` slot. Verified on the emulator: top bar shows only back + title; the transport right zone reads eye(1451) · mic(1551) · مصحف(1662) · حفص ملون(1802); tapping the button opens the chooser and picking التفسير الميسر opens the split with the label updating to تفسير. 60/60 tests + lint green | done |
+
+---
+
+# Part B — Tizen OS + Vidaa OS port (shared web app)
+
+**Context (locked 2026-08-11)**: Neither Tizen (Samsung) nor Vidaa (Hisense) runs Android apps.
+Both run HTML5 web apps → ONE shared TypeScript web app targets both: packaged as a `.wgt`
+for Tizen, hosted/PWA for Vidaa. Verified live: mp3quran.net sends `Access-Control-Allow-Origin: *`
+on ALL endpoints (API JSON, timing, SVG pages, MP3 audio) → a hosted web app can consume the
+whole backend from any origin. Tizen: official SDK + QEMU TV emulator (KVM confirmed on this
+machine, Tizen Studio web-cli 280 MB downloading). Vidaa: **no official public SDK and NO
+emulator exists** — apps are plain web apps (Hisense_installApp / Appinfo.json, community
+tooling `vidaa-edge`); Vidaa target is validated in Chromium (same web runtime family) + real
+device. Scope: **A** = Home + surah grid + player with TEXT mode + MUSHAF PAGE mode + timing
+sync (incl. trailing-silence accuracy gate) + repeat/speed + continue-listening + settings +
+ar/en RTL. Tafseer side panel (KSU .ayt → JSON conversion) DEFERRED to a later phase.
+
+## Decisions for the port
+
+| ID | Decision |
+|----|----------|
+| W1 | One shared **TypeScript/HTML5 web app** (`web/` in this repo) — packaged as Tizen `.wgt` + hosted Vidaa PWA |
+| W2 | SolidJS (fine-grained reactivity, small runtime, compiles clean for old TV webviews) + Vite build (target es2019) + Vitest for the pure domain layer |
+| W3 | Domain layer ported 1:1 from the Kotlin pure code (`src/domain/*.ts` — no framework deps, unit tested) |
+| W4 | Audio via HTML5 `<audio>` + 100 ms ticker; sync via ported `TimingIndex` binary search; accuracy via ported asymmetric `TimingAccuracy` gate |
+| W5 | Mushaf pages = mp3quran SVG rendered natively (img/object) + overlay highlight divs from ported `PageMapping` viewBox math; 2-page spread + page-turn |
+| W6 | Remote keys: standard DOM keycodes (37/38/39/40, 13 Enter, 10009 Back, 415/19 PlayPause — Tizen); Vidaa same DOM codes; unified key abstraction |
+| W7 | Persistence: localStorage (settings + session + JSON disk-cache equivalent, TTL 24 h catalog / forever timing) |
+| W8 | Reuse Android assets: `quran-uthmani.txt`, `amiri_quran.ttf` (copied into `web/public/`); tafseer `.ayt` → JSON conversion deferred |
+| W9 | Verification: Vitest (domain) + Playwright TV-keycode smoke tests in Chromium (Vidaa-runtime stand-in) + REAL Tizen QEMU TV emulator (install .wgt via sdb, walk checklist) |
+| W10 | No real Samsung/Hisense TV assumed; real-device kit (signed .wgt + vidaa-edge PWA installer + instructions) produced for user-side pass |
+
+## Phase B0 — Scaffold + toolchain (in progress)
+
+- [~] Create task tracker (this file) + lock W1–W10
+- [~] `web/` scaffold: Vite + TypeScript + SolidJS + Vitest; `npm run build` green; `.gitignore` for node_modules/dist
+- [~] Tizen Studio web-cli download (280 MB) + install + Package Manager: Web CLI, TV platform, emulator packages
+- [ ] Boot a Tizen TV emulator instance headless (em-cli); `sdb devices` sees it; permit installs
+- [ ] Playwright + Chromium harness for Vidaa-target smoke tests
+- [ ] Commit: `feat: tizen/vidaa port scaffold + task tracker`
+
+## Phase B1 — Domain layer port (pure TS, mirrors Kotlin)
+
+- [ ] `Models.ts` (Reciter, Moshaf, QuranSurah, timing shapes, PageAyahBand…)
+- [ ] `CatalogParsing.ts` (surah_list defensive parse, server URL normalization, audio URL rule, polygon parse)
+- [ ] `TimingIndex.ts` (binary-search ayah locator, degenerate-interval skip, ayah-0 basmala slot)
+- [ ] `TimingAccuracy.ts` (ASYMMETRIC trailing-silence-aware gate: mp3 may exceed timing by max(8 s, 2%), timing may only over-claim 2%)
+- [ ] `BasmalaOffset.ts` (timing index ↔ verse key, non-Hafs offset suggestion)
+- [ ] `PageMapping.ts` (SVG viewBox → screen mapping — parse REAL viewBox, never assume 235)
+- [ ] Port Kotlin unit test fixtures (surah 1 read 5, page 187 viewBox 345×550, silence cases) to Vitest — all green
+- [ ] Commit: `feat: port domain layer to TS`
+
+## Phase B2 — Data layer (TS)
+
+- [ ] `ApiClient` (fetch + ACAO verified, User-Agent), `Mp3QuranApi`, `QuranComApi`, DTOs (defensive)
+- [ ] Cache: localStorage JSON cache (TTL 24 h catalog / forever timing+text) + single-flight
+- [ ] Repos: Catalog, Timing (folder_url ↔ server match, soar, timedServerUrls), QuranText (bundled Tanzil + fallback, basmala strip), Session (localStorage)
+- [ ] i18n ar/en (strings ported from strings.xml), RTL via dir=rtl, Amiri font @font-face for Quran content only
+- [ ] Commit: `feat: data layer + i18n`
+
+## Phase B3 — UI shell + focus engine
+
+- [ ] Focus manager: explicit focus, spatial d-pad navigation, scale+border focus ring, wrap, initial focus
+- [ ] Theme (night-sky gold/green/cyan on deep navy), cards, dialogs, loading/error/empty + Retry
+- [ ] Navigation: Home → SurahGrid → Player back stack; double-Back exits; dir-aware layout (RTL)
+- [ ] Commit: `feat: UI shell + focus engine`
+
+## Phase B4 — Screens
+
+- [ ] Home: Continue card, reciters grouped by letter with wrapped FlowRows + A–Z rail, search overlay (Arabic-tolerant normalize أ/إ/آ→ا, ة→ه, ى→ي; empty query = full list; visible بحث button + Enter/OK)
+- [ ] Surah grid: 8-col grid, only available surahs, moshaf picker, jump dialog, untimed badges
+- [ ] Player transport: 3 zones (time · repeat · speed · jump | next-su · next-ay · play · prev-ay · prev-su | no-timing notice · eye · reciter · side view · mushaf), no seek bar, repeat indicator, speed cycle
+- [ ] Text mode: ayah list (Amiri), current ayah highlighted + auto-scroll (pin + proportional), tap-to-seek, basmala header
+- [ ] Page mode: SVG render + polygon overlay highlight + 2-page spread (odd right/even left) + page-turn animation + next-page prefetch + auto-hide chrome 5 s
+- [ ] Settings: language, default speed, font size, highlight color, auto-hide toggle, onlyTimedReciters
+- [ ] Commit: `feat: screens`
+
+## Phase B5 — Player engine (web audio)
+
+- [ ] `AudioEngine` (HTMLAudio + ticker 100 ms + media keys + seek + speed + error/retry)
+- [ ] Sync integration: timing → current ayah (index change only), accuracy gate disables sync, no-timing page browse mode
+- [ ] Repeat OFF / AYAH / SURAH; queued surah playlist with preload for seamless transitions
+- [ ] Session save loop (~5 s throttled), Continue restore
+- [ ] Commit: `feat: player engine`
+
+## Phase B6 — Packaging + docs
+
+- [ ] Tizen: `config.xml` (widget id, `http://tizen.org/privilege/internet`), TV icons, `tizen build-web` + `tizen package -t wgt -s <profile>`; signing profile (author cert)
+- [ ] Vidaa: PWA manifest + hosted-app install kit (Appinfo.json + vidaa-edge instructions) + CORS-ready note
+- [ ] README (build, run, emulator setup, real-device install for both platforms), manual test checklist
+- [ ] Commit: `feat: packaging + docs`
+
+## Phase B7 — Verification (emulators)
+
+- [ ] Vitest domain tests green (ported fixtures)
+- [ ] Playwright Chromium smoke tests: launch, browse reciters, open surah grid, play (real audio), ayah highlight advances, transport keys, back stack, RTL — automated D-pad keycode walk
+- [ ] Tizen TV emulator: install .wgt, launch, `sdb dlog` crash check, drive UI via remote keys, screenshots
+- [ ] Vidaa-target: same bundle served over http(s) in Chromium (stand-in) + record real-device steps (user-side)
+- [ ] Samba release: `QuranTV-web-<ver>.wgt` + hosted bundle + install kit
+- [ ] Update this tracker + commit: `docs: port verification complete`
+
+## Known constraints / deferred (port)
+
+- Vidaa has no emulator — Chromium validation + user real-device pass only (W9/W10)
+- Tafseer side panel: needs `.ayt` SQLite → JSON build-time conversion (deferred phase)
+- KSU raster mushaf styles (آيات حفص/ورش/التجويد + hilite API) + islamic.app HD pages: later phase (mp3quran SVG page mode first — W5)
+- Tizen hosted apps / Vidaa store listing: not covered (sideload/community installer)

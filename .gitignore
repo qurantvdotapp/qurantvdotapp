@@ -33,3 +33,7 @@ output.json
 
 # Tanzil downloaded asset cache (keep the download task re-runnable; asset itself stays in git)
 app/src/main/assets/quran/*.tmp
+
+# web app (Tizen/Vidaa port)
+web/node_modules/
+web/dist/

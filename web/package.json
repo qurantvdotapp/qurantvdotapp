@@ -1,0 +1,27 @@
+{
+  "name": "qurantv-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Quran TV — shared Tizen OS + Vidaa OS port (web app). Same product as the Android app in app/: reciters → surahs → player with ayah sync + mushaf page mode.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "check": "tsc --noEmit",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "serve:dist": "vite preview --host 0.0.0.0 --port 4173",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "assets": "bash scripts/copy-assets.sh"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0",
+    "vite-plugin-solid": "^2.11.0",
+    "vitest": "^2.1.0"
+  }
+}

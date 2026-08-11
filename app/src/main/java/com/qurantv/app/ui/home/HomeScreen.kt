@@ -192,6 +192,7 @@ fun HomeScreen(
                                 )
                                 ReciterChipFlow(
                                     reciters = ui.recitersByLetter[letter].orEmpty(),
+                                    timedServers = ui.timedServerUrls,
                                     onClick = { reciter ->
                                         if (!vm.requestMoshafSelection(reciter)) {
                                             reciter.moshafs.firstOrNull()?.let {
@@ -316,7 +317,11 @@ private fun ContinueCard(session: LastSession?, focusRequester: FocusRequester, 
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ReciterChipFlow(reciters: List<Reciter>, onClick: (Reciter) -> Unit) {
+private fun ReciterChipFlow(
+    reciters: List<Reciter>,
+    timedServers: Set<String>,
+    onClick: (Reciter) -> Unit,
+) {
     if (reciters.isEmpty()) return
     // Multiple short rows per letter instead of one long horizontal row — the
     // chips wrap to the available width so every reciter is a few D-pad presses
@@ -326,13 +331,16 @@ private fun ReciterChipFlow(reciters: List<Reciter>, onClick: (Reciter) -> Unit)
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         reciters.forEach { reciter ->
-            ReciterChip(reciter = reciter, onClick = { onClick(reciter) })
+            val timed = reciter.moshafs.any {
+                com.qurantv.app.domain.CatalogParsing.normalizeServerUrl(it.server) in timedServers
+            }
+            ReciterChip(reciter = reciter, timed = timed, onClick = { onClick(reciter) })
         }
     }
 }
 
 @Composable
-private fun ReciterChip(reciter: Reciter, onClick: () -> Unit) {
+private fun ReciterChip(reciter: Reciter, timed: Boolean, onClick: () -> Unit) {
     TvCard(
         onClick = onClick,
         modifier = Modifier.width(150.dp),
@@ -342,7 +350,8 @@ private fun ReciterChip(reciter: Reciter, onClick: () -> Unit) {
         Text(
             text = reciter.name,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = if (timed) MaterialTheme.colorScheme.onSurface
+            else MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
         )
@@ -351,6 +360,13 @@ private fun ReciterChip(reciter: Reciter, onClick: () -> Unit) {
                 text = stringResource(R.string.moshafs_count, reciter.moshafs.size),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        if (!timed) {
+            Text(
+                text = stringResource(R.string.no_timing_badge),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error,
             )
         }
     }

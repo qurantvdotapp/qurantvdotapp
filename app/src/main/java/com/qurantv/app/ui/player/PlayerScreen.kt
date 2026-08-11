@@ -351,13 +351,16 @@ fun PlayerScreen(
     LaunchedEffect(ui.moshaf?.id, ui.surah?.id) {
         val moshaf = ui.moshaf ?: return@LaunchedEffect
         val read = runCatching { container.timingRepository.readForMoshaf(moshaf.server) }.getOrNull()
-        val timed = read?.let {
-            runCatching { container.timingRepository.surahsWithTiming(it.id) }.getOrNull()
-        }
-        untimedSurahs = if (timed == null) {
-            emptySet()
+        if (read == null) {
+            // No timing read at all → every available surah is untimed.
+            untimedSurahs = viewState.availableSurahs.map { it.id }.toSet()
         } else {
-            viewState.availableSurahs.filter { it.id !in timed }.map { it.id }.toSet()
+            val timed = runCatching { container.timingRepository.surahsWithTiming(read.id) }.getOrNull()
+            untimedSurahs = if (timed == null) {
+                emptySet() // unknown — graceful
+            } else {
+                viewState.availableSurahs.filter { it.id !in timed }.map { it.id }.toSet()
+            }
         }
     }
 

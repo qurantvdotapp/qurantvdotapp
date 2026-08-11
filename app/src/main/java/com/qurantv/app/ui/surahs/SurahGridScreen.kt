@@ -133,6 +133,7 @@ fun SurahGridScreen(
             else -> SurahGrid(
                 surahs = ui.surahs,
                 isEnglish = isEnglish,
+                untimedSurahIds = ui.untimedSurahIds,
                 firstItemFocus = initialFocus,
                 onSurahClick = { surah ->
                     ui.reciter?.let { reciter ->
@@ -197,6 +198,7 @@ fun SurahGridScreen(
 private fun SurahGrid(
     surahs: List<QuranSurah>,
     isEnglish: Boolean,
+    untimedSurahIds: Set<Int>,
     firstItemFocus: FocusRequester,
     onSurahClick: (QuranSurah) -> Unit,
     modifier: Modifier = Modifier,
@@ -227,16 +229,25 @@ private fun SurahGrid(
                     )
                     Spacer(Modifier.width(10.dp))
                     Column {
+                        val untimed = surah.id in untimedSurahIds
                         Text(
                             text = surah.nameAr,
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurface,
+                            color = if (untimed) MaterialTheme.colorScheme.onSurfaceVariant
+                            else MaterialTheme.colorScheme.onSurface,
                         )
                         if (isEnglish && !surah.nameEn.isNullOrBlank()) {
                             Text(
                                 text = surah.nameEn,
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        if (untimed) {
+                            Text(
+                                text = stringResource(R.string.no_timing_badge),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.error,
                             )
                         }
                     }

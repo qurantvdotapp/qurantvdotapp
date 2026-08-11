@@ -90,6 +90,9 @@ class SurahGridViewModel(
                     if (_ui.value.onlyTimed) surahs = surahs.filter { it.id in timed }
                     untimed = availableIds - timed
                 }
+            } else {
+                // No timing read at all → every surah is untimed.
+                untimed = availableIds
             }
             if (timedServers.isEmpty()) {
                 timedServers = timing.timedServerUrls()

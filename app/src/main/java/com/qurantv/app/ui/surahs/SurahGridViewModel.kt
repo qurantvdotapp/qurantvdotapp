@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.qurantv.app.data.repo.CatalogRepository
 import com.qurantv.app.data.repo.SessionRepository
 import com.qurantv.app.data.repo.TimingRepository
+import com.qurantv.app.domain.CatalogParsing
 import com.qurantv.app.domain.Moshaf
 import com.qurantv.app.domain.QuranSurah
 import com.qurantv.app.domain.Reciter
@@ -40,6 +41,7 @@ class SurahGridViewModel(
 
     private val _ui = MutableStateFlow(SurahGridUiState())
     val ui: StateFlow<SurahGridUiState> = _ui.asStateFlow()
+    private var currentReadId: Int? = null
 
     init {
         viewModelScope.launch {
@@ -84,6 +86,7 @@ class SurahGridViewModel(
             var timedServers = _ui.value.timedServerUrls
             var untimed = emptySet<Int>()
             val read = timing.readForMoshaf(moshaf.server)
+            currentReadId = read?.id
             if (read != null) {
                 val timed = timing.surahsWithTiming(read.id)
                 if (timed != null) {
@@ -118,6 +121,26 @@ class SurahGridViewModel(
     }
 
     fun togglePicker() = _ui.update { it.copy(pickerOpen = !it.pickerOpen) }
+
+    /**
+     * Called as surah cards become visible: probes whether the (read, surah)
+     * timing is actually USABLE (the soar list can over-claim — the mp3 may not
+     * match the timing, so sync is disabled at playback). Marks the surah
+     * untimed when the probe says the timing is unusable. The verdict is cached
+     * forever, so this only costs network once per surah.
+     */
+    fun refineSurahTiming(surah: QuranSurah) {
+        if (surah.id in _ui.value.untimedSurahIds) return // already known untimed
+        val moshaf = _ui.value.moshaf ?: return
+        val readId = currentReadId ?: return // no read → all surahs already untimed
+        val url = CatalogParsing.audioUrlFor(moshaf.server, surah.id)
+        viewModelScope.launch {
+            val usable = timing.timingUsability(readId, surah.id, url)
+            if (usable == false) {
+                _ui.update { it.copy(untimedSurahIds = it.untimedSurahIds + surah.id) }
+            }
+        }
+    }
 
     fun surahFor(id: Int): QuranSurah? = _ui.value.surahs.firstOrNull { it.id == id }
 }

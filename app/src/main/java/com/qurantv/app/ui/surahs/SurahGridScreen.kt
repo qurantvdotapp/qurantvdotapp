@@ -135,6 +135,7 @@ fun SurahGridScreen(
                 isEnglish = isEnglish,
                 untimedSurahIds = ui.untimedSurahIds,
                 firstItemFocus = initialFocus,
+                onCheckTiming = vm::refineSurahTiming,
                 onSurahClick = { surah ->
                     ui.reciter?.let { reciter ->
                         ui.moshaf?.let { moshaf ->
@@ -201,6 +202,7 @@ private fun SurahGrid(
     untimedSurahIds: Set<Int>,
     firstItemFocus: FocusRequester,
     onSurahClick: (QuranSurah) -> Unit,
+    onCheckTiming: (QuranSurah) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
@@ -211,6 +213,9 @@ private fun SurahGrid(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(surahs, key = { it.id }) { surah ->
+            // As each card becomes visible, verify the timing is actually usable
+            // (the soar list can over-claim) and mark it untimed if not.
+            LaunchedEffect(surah.id) { onCheckTiming(surah) }
             TvCard(
                 onClick = { onSurahClick(surah) },
                 modifier = if (surah.id == surahs.first().id) {

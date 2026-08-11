@@ -8,9 +8,12 @@ import com.qurantv.app.data.api.toDomain
 import com.qurantv.app.data.cache.JsonDiskCache
 import com.qurantv.app.domain.CatalogParsing
 import com.qurantv.app.domain.SurahTiming
+import com.qurantv.app.domain.TimingAccuracy
 import com.qurantv.app.domain.TimingRead
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
 /**
@@ -72,6 +75,64 @@ class TimingRepository(
                 null // unknown — callers keep the full surah list
             }
         }
+    }
+
+    /**
+     * Whether the (read, surah) timing is ACTUALLY usable — the soar list can
+     * over-claim (e.g. read 122 البنا المجود lists surah 97, but the timing's
+     * total is ~6% shorter than the real mp3, so sync is disabled at playback).
+     * Verdict: the timing exists AND (when the mp3 is small enough to probe) the
+     * mp3 duration matches the timing total within the accuracy tolerance.
+     * Cached forever once computed. Returns null when the verdict is unknown
+     * (mp3 too large to probe, or the probe failed).
+     */
+    suspend fun timingUsability(readId: Int, surahId: Int, mp3Url: String): Boolean? {
+        val timing = timingFor(readId, surahId) ?: return false
+        val verdictKey = "usable_r${readId}_s$surahId"
+        cache.read(JsonDiskCache.TIMING, verdictKey)?.let { return it == "1" }
+        val usable = withContext(Dispatchers.IO) {
+            probeMp3DurationMs(mp3Url)?.let { mp3Ms ->
+                TimingAccuracy.isReliable(mp3Ms, timing.lastEndMs)
+            }
+        }
+        if (usable != null) {
+            runCatching { cache.write(JsonDiskCache.TIMING, verdictKey, if (usable) "1" else "0") }
+        }
+        return usable
+    }
+
+    /**
+     * Probes an mp3's duration via MediaMetadataRetriever. Only files up to
+     * [MAX_PROBE_BYTES] are probed (VBR mp3s without a Xing header require a
+     * full scan, so huge surah files would cost too much to check eagerly).
+     */
+    private fun probeMp3DurationMs(url: String): Long? {
+        return try {
+            val size = runCatching {
+                val conn = java.net.URL(url).openConnection() as java.net.HttpURLConnection
+                conn.requestMethod = "HEAD"
+                conn.setRequestProperty("Range", "bytes=0-0")
+                conn.setRequestProperty("User-Agent", "QuranTv/1.0")
+                val cl = conn.getHeaderField("Content-Range")?.substringAfter('/')?.toLongOrNull()
+                conn.disconnect()
+                cl
+            }.getOrNull()
+            if (size != null && size > MAX_PROBE_BYTES) return null
+            val mmr = android.media.MediaMetadataRetriever()
+            try {
+                mmr.setDataSource(url)
+                mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull()
+            } finally {
+                runCatching { mmr.release() }
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private companion object {
+        /** Largest mp3 (bytes) we'll eagerly probe for timing accuracy. */
+        const val MAX_PROBE_BYTES = 10L * 1024 * 1024
     }
 
     /** Timing for (read, surah); null on any failure → graceful degradation. */

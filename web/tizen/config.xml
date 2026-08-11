@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:tizen="http://tizen.org/ns/widgets"
+        id="http://qurantv.app/tv"
+        version="0.1.0"
+        viewmodes="maximized">
+    <!-- Quran TV — shared Tizen port (see web/ in the mp3qurantv repo) -->
+    <tizen:application id="QuranTV.web" package="org.qurantv" required_version="2.3"/>
+    <content src="index.html"/>
+    <feature name="http://tizen.org/feature/screen.size.normal.1080p"/>
+    <feature name="http://tizen.org/feature/screen.size.normal.uhd"/>
+    <icon src="icons/icon_512.png"/>
+    <name>القرآن — Quran TV</name>
+    <tizen:privilege name="http://tizen.org/privilege/internet"/>
+    <tizen:profile name="tv"/>
+    <!-- landscape TV app; hardware keys (back/play/rewind…) delivered to the app -->
+    <tizen:setting screen-orientation="landscape"
+                   context-menu="enable"
+                   background-support="disable"
+                   encryption="disable"
+                   install-location="internal"
+                   hwkey-event="enable"/>
+</widget>

@@ -12,24 +12,24 @@ if (!page) { console.log("no ripple page"); process.exit(1); }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // 1. install the wgt (idempotent: only if not already registered)
-const installed = await page.evaluate((appId) => {
-  const db = window.requirejs("ripple/db");
-  const consts = window.requirejs("ripple/constants");
-  const pk = db.retrieveObject(consts.DB_APP_KEYS.PACKAGE_KEY);
-  return !!(pk?.installedList?.[appId]);
-}, APP_DIR);
-console.log("already installed:", installed);
-
-if (!installed) {
-  const res = await page.evaluate(async (wgt) => {
-    try {
-      await window.requirejs("ripple/worker").installWgtApp([{ path: wgt, name: "QuranTV.wgt" }]);
-      return "installed";
-    } catch (e) { return "install err: " + e.message; }
-  }, WGT);
-  console.log("install:", res);
-  await sleep(8000);
-}
+// Fresh install every run (drops the package DB keys + app dir)
+import { rmSync, existsSync } from "node:fs";
+const appDir = `/home/mohamed/tizen-studio/tools/sec-tv-simulator/appLauncher/app/${APP_DIR}`;
+if (existsSync(appDir)) rmSync(appDir, { recursive: true, force: true });
+const dropKeys = await page.evaluate(() => {
+  const keys = Object.keys(localStorage).filter((k) => /package|installed|applist/i.test(k));
+  for (const k of keys) localStorage.removeItem(k);
+  return keys;
+});
+console.log("dropped db keys:", dropKeys.length);
+const res = await page.evaluate(async (wgt) => {
+  try {
+    await window.requirejs("ripple/worker").installWgtApp([{ path: wgt, name: "QuranTV.wgt" }]);
+    return "installed";
+  } catch (e) { return "install err: " + e.message; }
+}, WGT);
+console.log("install:", res);
+await sleep(8000);
 
 // 2. launch: point the app iframe at the installed app's index.html
 const appUrl = `file:///home/mohamed/tizen-studio/tools/sec-tv-simulator/appLauncher/app/${APP_DIR}/index.html`;
@@ -87,12 +87,13 @@ await app.evaluate(() => {
 });
 await sleep(3000);
 const panelRows = await app.evaluate(() => document.querySelectorAll('[id^="ctx-row-"]').length);
-const imgStill = await app.evaluate(() => !!document.querySelector('img[src*="quran_pages_svg"]'));
+const imgStill = await app.evaluate(() =>
+  !!document.querySelector('img[src*="tajweed_png"], img[src*="quran_pages_svg"], img[src*="safahat1"], img[src*="/warsh/"], img[src*="islamic.app"]'));
 const pinned = await app.evaluate(() => {
   const rows = [...document.querySelectorAll('[id^="ctx-row-"]')];
   return rows.filter((r) => r.offsetHeight > 0).length;
 });
-console.log("SIDE PANEL: rows=", panelRows, "mushaf still visible:", imgStill, "visible rows:", pinned);
+console.log("SIDE PANEL: rows=", panelRows, "page image still visible:", imgStill, "visible rows:", pinned);
 
 // 5. audio check
 const audio = await app.evaluate(() => {

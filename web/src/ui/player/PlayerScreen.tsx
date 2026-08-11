@@ -18,7 +18,8 @@ import { Chip, Dialog, DialogRow, LoadingState, ErrorState, focusable } from "..
 import { focusFirst } from "../focus";
 import { TextModeList, type TextItem } from "./TextModeList";
 import { TransportBar } from "./TransportBar";
-import { PageModeView, nextPageUrlFor } from "./PageModeView";
+import { MushafPageView } from "./MushafPageView";
+import { MUSHAF_STYLES, mushafStyle } from "./mushafStyles";
 import { SideContextPanel, modeLabel, modeShortLabel } from "./SideContextPanel";
 import type { TafseerMode } from "../../data/repo/TafseerRepository";
 import type { Navigator } from "../navigation";
@@ -55,6 +56,7 @@ export function PlayerScreen(props: PlayerProps) {
   const [repeat, setRepeat] = createSignal<RepeatMode>("off");
   const [speed, setSpeed] = createSignal(settings.defaultSpeed);
   const [displayMode, setDisplayMode] = createSignal(settings.displayMode);
+  const [style, setStyle] = createSignal<number>(settings.mushafStyle);
   const [noTimingPage, setNoTimingPage] = createSignal(props.surah.startPage);
   const [chromeVisible, setChromeVisible] = createSignal(true);
   const [activeSurah, setActiveSurah] = createSignal<QuranSurah>(props.surah);
@@ -384,6 +386,11 @@ export function PlayerScreen(props: PlayerProps) {
 
   /* ---------- derived ---------- */
   const rtl = props.lang === "ar";
+  const verseKey = createMemo(() => {
+    if (currentAyah() < 1) return null;
+    const versesCount = activeSurah().versesCount;
+    return verseKeyFor(currentAyah(), activeSurah().id, versesCount, settings.ayahOffset);
+  });
 
   // Load the context content when the side panel is open.
   createEffect(async () => {
@@ -408,18 +415,6 @@ export function PlayerScreen(props: PlayerProps) {
     return t.entryFor(currentAyah()) ?? null;
   });
 
-  const pageUrl = createMemo(() => {
-    if (hasTiming()) return entry()?.pageUrl ?? null;
-    // No timing: show the surah's current browse page (mp3quran SVG pattern).
-    return `https://www.mp3quran.net/api/quran_pages_svg/${noTimingPage().toString().padStart(3, "0")}.svg`;
-  });
-
-  const nextUrl = createMemo(() => {
-    const t = timing();
-    if (t && hasTiming()) return nextPageUrlFor(t.entries, currentAyah());
-    return null;
-  });
-
   const filteredReciters = createMemo(() => {
     const q = query().trim();
     const list = allReciters();
@@ -427,7 +422,10 @@ export function PlayerScreen(props: PlayerProps) {
     return list.filter((r) => reciterMatchesQuery(r, q));
   });
 
-  const mushafLabel = createMemo(() => (displayMode() === 0 ? props.t("text_mode") : props.t("mushaf_madinah")));
+  const mushafLabel = createMemo(() => {
+    if (displayMode() === 0) return props.t("text_mode");
+    return props.t(mushafStyle(style()).labelKey);
+  });
   const sideViewLabel = createMemo(() => {
     if (displayMode() === 0) return null;
     const v = sideView();
@@ -446,7 +444,7 @@ export function PlayerScreen(props: PlayerProps) {
       positionMs: positionMs(),
       durationMs: durationMs(),
       displayMode: displayMode(),
-      pageUrl: pageUrl(),
+      style: style(),
       polygonPoints: entry()?.polygon?.length ?? 0,
       lastEndMs: timing()?.lastEndMs ?? -1,
       entries: timing()?.entries.length ?? -1,
@@ -525,23 +523,33 @@ export function PlayerScreen(props: PlayerProps) {
                     <div style="width:14px;background:linear-gradient(to right,#3a2f1f 0%,#7a5c2e 45%,#a8874a 55%,#3a2f1f 100%);flex-shrink:0" />
                     {/* current highlighted page aligned toward the spine */}
                     <div style="flex:1;min-width:0;height:100%">
-                      <PageModeView
-                        pageUrl={pageUrl()}
-                        polygon={entry()?.polygon ?? null}
-                        nextPageUrl={nextUrl()}
+                      <MushafPageView
+                        style={style()}
+                        entry={entry()}
+                        timingEntries={timing()?.entries ?? null}
+                        currentAyah={currentAyah()}
+                        verseKey={verseKey()}
+                        surah={activeSurah()}
+                        noTimingPage={noTimingPage()}
+                        hasTiming={hasTiming()}
                         color={color}
                         align="end"
-                        onPageError={() => setAudioError(true)}
+                        onError={() => setAudioError(true)}
                       />
                     </div>
                   </div>
                 ) : (
-                <PageModeView
-                  pageUrl={pageUrl()}
-                  polygon={entry()?.polygon ?? null}
-                  nextPageUrl={nextUrl()}
+                <MushafPageView
+                  style={style()}
+                  entry={entry()}
+                  timingEntries={timing()?.entries ?? null}
+                  currentAyah={currentAyah()}
+                  verseKey={verseKey()}
+                  surah={activeSurah()}
+                  noTimingPage={noTimingPage()}
+                  hasTiming={hasTiming()}
                   color={color}
-                  onPageError={() => setAudioError(true)}
+                  onError={() => setAudioError(true)}
                 />
                 )
               }>
@@ -634,15 +642,19 @@ export function PlayerScreen(props: PlayerProps) {
                 setDisplayMode(0);
               }}
             />
-            <DialogRow
-              id="pm-madinah"
-              label={props.t("mushaf_madinah")}
-              checked={displayMode() === 1}
-              onClick={() => {
-                setDialog(null);
-                setDisplayMode(1);
-              }}
-            />
+            {MUSHAF_STYLES.map((st) => (
+              <DialogRow
+                id={`pm-${st.id}`}
+                label={props.t(st.labelKey)}
+                checked={displayMode() === 1 && style() === st.id}
+                onClick={() => {
+                  setDialog(null);
+                  setStyle(st.id);
+                  setDisplayMode(1); // picking a style enters page mode (Android behavior)
+                  c.session.setMushafStyle(st.id);
+                }}
+              />
+            ))}
           </div>
         </Dialog>
       </Show>

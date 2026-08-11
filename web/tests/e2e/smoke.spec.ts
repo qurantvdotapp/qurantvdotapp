@@ -4,6 +4,9 @@
 
 import { expect, test } from "@playwright/test";
 
+// Any mushaf page image (the default style is حفص ملون = KSU tajweed PNG).
+const PAGE_IMG = 'img[src*="tajweed_png"], img[src*="quran_pages_svg"], img[src*="safahat1"], img[src*="/warsh/"], img[src*="islamic.app"]';
+
 test("catalog loads and reciters are reachable by D-pad", async ({ page }) => {
   await page.goto("/");
   // Home renders (Arabic primary, RTL)
@@ -57,9 +60,9 @@ test("timed reciter (العجمي, read 5) → grid → player plays and syncs",
   });
   expect(pos).toBeGreaterThan(0);
 
-  // The player opens in mushaf page mode by default — the SVG page appears
-  // once the basmala (ayah 0, no page) gives way to ayah 1 (~2.7 s in).
-  const img = page.locator('img[src*="quran_pages_svg"]').first();
+  // The player opens in mushaf page mode by default (style 5 = KSU tajweed) —
+  // the page appears once the basmala (ayah 0, no page) gives way to ayah 1.
+  const img = page.locator(PAGE_IMG).first();
   await expect(img).toBeVisible({ timeout: 15_000 });
 
   // SYNC CHECK: the highlight rect moves as the recitation advances
@@ -160,8 +163,8 @@ test("tafseer side panel opens beside the mushaf and follows the recitation", as
   await page.locator("[data-focus-id='surah-1']").click();
   await expect(page.locator("[data-focus-id='player-back']")).toBeVisible({ timeout: 20_000 });
 
-  // Wait for the mushaf page (page mode default)
-  const img = page.locator('img[src*="quran_pages_svg"]').first();
+  // Wait for the mushaf page (page mode default — KSU tajweed PNG)
+  const img = page.locator(PAGE_IMG).first();
   await expect(img).toBeVisible({ timeout: 15_000 });
 
   // Open the side-view picker (button labelled مصحف in the transport right zone).
@@ -175,7 +178,7 @@ test("tafseer side panel opens beside the mushaf and follows the recitation", as
   await page.waitForTimeout(2500);
 
   // Split view: the mushaf page is still visible AND the tafseer panel is beside it
-  await expect(page.locator('img[src*="quran_pages_svg"]')).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator(PAGE_IMG)).toBeVisible({ timeout: 10_000 });
   const panelRows = await page.evaluate(() =>
     [...document.querySelectorAll('[id^="ctx-row-"]')].length,
   );
@@ -213,4 +216,58 @@ test("tafseer side panel opens beside the mushaf and follows the recitation", as
   await page.waitForTimeout(1500);
   const splitGone = await page.evaluate(() => ![...document.querySelectorAll('[id^="ctx-row-"]')].length);
   expect(splitGone).toBe(true);
+});
+
+
+test("mushaf styles: every page source loads (SVG, HD, KSU Hafs/Warsh/Tajweed)", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
+  await page.locator("#home-search").click();
+  await page.waitForTimeout(300);
+  await page.locator("#search-input").fill("العجمي");
+  await page.keyboard.press("Enter");
+  await page.waitForTimeout(1500);
+  const chooser = page.locator(".dialog-row").first();
+  if (await chooser.isVisible().catch(() => false)) {
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(1500);
+  }
+  await expect(page.locator("[data-focus-id='grid-jump']")).toBeVisible({ timeout: 20_000 });
+  await page.locator("[data-focus-id='surah-1']").click();
+  await expect(page.locator("[data-focus-id='player-back']")).toBeVisible({ timeout: 20_000 });
+  // let the audio pass the basmala so a page is shown
+  await expect(page.locator(PAGE_IMG).first()).toBeVisible({ timeout: 15_000 });
+
+  const openPickerAndPick = async (label: string) => {
+    await page.keyboard.press("ArrowDown");
+    await page.waitForTimeout(200);
+    await page.locator(".icon-btn").last().click(); // mushaf style button
+    await page.waitForTimeout(500);
+    await page.getByText(label, { exact: true }).click();
+    await page.waitForTimeout(2000);
+  };
+
+  // KSU Hafs (آيات حفص → safahat1 PNG)
+  await openPickerAndPick("آيات حفص");
+  await expect(page.locator('img[src*="safahat1"]').first()).toBeVisible({ timeout: 15_000 });
+
+  // KSU Warsh
+  await openPickerAndPick("آيات ورش");
+  await expect(page.locator('img[src*="/warsh/"]').first()).toBeVisible({ timeout: 15_000 });
+
+  // KSU Tajweed (حفص ملون — the default)
+  await openPickerAndPick("حفص ملون");
+  await expect(page.locator('img[src*="tajweed_png"]').first()).toBeVisible({ timeout: 15_000 });
+
+  // Madinah SVG
+  await openPickerAndPick("المدينة");
+  await expect(page.locator('img[src*="quran_pages_svg"]').first()).toBeVisible({ timeout: 15_000 });
+
+  // Madinah HD (islamic.app)
+  await openPickerAndPick("المدينة HD");
+  await expect(page.locator('img[src*="islamic.app"]').first()).toBeVisible({ timeout: 15_000 });
+
+  // back to the default style and text mode toggle still works
+  await openPickerAndPick("حفص ملون");
+  await expect(page.locator('img[src*="tajweed_png"]').first()).toBeVisible({ timeout: 15_000 });
 });

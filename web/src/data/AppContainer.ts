@@ -9,6 +9,7 @@ import { TimingRepository } from "./repo/TimingRepository";
 import { QuranTextRepository } from "./repo/QuranTextRepository";
 import { SessionRepository } from "./repo/SessionRepository";
 import { TafseerRepository } from "./repo/TafseerRepository";
+import { KsuHilitesRepository } from "./repo/KsuHilitesRepository";
 
 export interface AppContainer {
   api: Mp3QuranApi;
@@ -19,6 +20,7 @@ export interface AppContainer {
   quranText: QuranTextRepository;
   session: SessionRepository;
   tafseer: TafseerRepository;
+  ksuHilites: KsuHilitesRepository;
 }
 
 let container: AppContainer | null = null;
@@ -38,6 +40,7 @@ export function appContainer(): AppContainer {
       quranText: new QuranTextRepository(quranApi, cache),
       session: new SessionRepository(),
       tafseer: new TafseerRepository(),
+      ksuHilites: new KsuHilitesRepository(cache, (url) => client.getText(url)),
     };
   }
   return container;

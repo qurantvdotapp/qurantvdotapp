@@ -61,7 +61,8 @@
     <string name="tafseer_simplified">Simplified tafseer</string>
     <string name="tafseer_translation">Translation</string>
     <string name="view_picker_title">View</string>
-    <string name="view_mushaf">Surah image</string>
+    <string name="view_side_hint">The mushaf page stays on screen — choose what appears beside it</string>
+    <string name="view_mushaf">Mushaf only</string>
     <string name="view_tafseer">Simplified tafseer</string>
     <string name="view_meanings">Word meanings</string>
     <string name="view_translation">Translation</string>

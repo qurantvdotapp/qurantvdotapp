@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalView
 import android.view.ViewTreeObserver
 import androidx.compose.ui.graphics.Color
@@ -43,6 +46,7 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.MaterialTheme
@@ -137,8 +141,9 @@ fun PlayerScreen(
     // Manual mushaf browsing when the surah has NO ayah timing: the spread shows
     // the surah's first page statically and prev/next ayah turn the page instead.
     var noTimingPage by remember { mutableStateOf<Int?>(null) }
-    // Page view selector: the whole page area shows either the mushaf spread or
-    // the full-surah simplified tafseer / word meanings / translation.
+    // Side view selector: the mushaf spread is ALWAYS shown; the other views
+    // (simplified tafseer / word meanings / translation) appear as an optional
+    // side panel chosen from the top-bar dropdown (MUSHAF = mushaf only).
     var viewMode by remember { mutableStateOf(PlayerViewMode.MUSHAF) }
     var viewPickerOpen by remember { mutableStateOf(false) }
     var contentItems by remember { mutableStateOf<List<SurahContentRow>>(emptyList()) }
@@ -168,7 +173,11 @@ fun PlayerScreen(
             val key = com.qurantv.app.domain.BasmalaOffset.verseKeyFor(i, surah.id, surah.versesCount, offset)
             val verse = key?.substringAfter(':')?.toIntOrNull()
             val text = verse?.let { content[it] }?.replace("<br>", "\n")?.replace("<br/>", "\n")?.replace("<br />", "\n") ?: ""
-            rows += SurahContentRow(index = i, verseNumber = verse?.toString(), text = text)
+            // Skip ayahs with no content for this mode (e.g. a word-meaning
+            // entry can be empty) — an empty row adds no context.
+            if (text.isNotBlank()) {
+                rows += SurahContentRow(index = i, verseNumber = verse?.toString(), text = text)
+            }
         }
         contentItems = rows
     }
@@ -397,16 +406,16 @@ fun PlayerScreen(
         }
     }
 
-    // Page mode maximizes the mushaf: chrome (top bar + transport) auto-hides a
-    // few seconds after the LAST key press while playing (the timer resets on
-    // every button press, so navigating the controls never hides them), so the
-    // spread fills the screen.
+    // Page mode maximizes the mushaf: chrome (top bar + transport) auto-hides 5 s
+    // after the LAST key press while playing (the timer resets on every button
+    // press, so navigating the controls never hides them), so the spread fills
+    // the screen.
     var chromeVisible by remember { mutableStateOf(true) }
     var lastKeyPress by remember { mutableLongStateOf(0L) }
     val pageFocus = remember { FocusRequester() }
     LaunchedEffect(isPageMode, ui.isPlaying, chromeVisible, settings.autoHideControls, lastKeyPress) {
         if (isPageMode && ui.isPlaying && chromeVisible && settings.autoHideControls) {
-            kotlinx.coroutines.delay(3_000)
+            kotlinx.coroutines.delay(5_000)
             chromeVisible = false
         }
     }
@@ -576,29 +585,58 @@ fun PlayerScreen(
             ) {
                 if (ui.error) {
                     ErrorState(onRetry = { vm.retry() }, message = stringResource(R.string.error_audio))
-                } else if (settings.mushafStyle == 1) {
-                    TajweedAyahView(
-                        bitmap = tajweedBitmap,
-                        highlightColor = highlightColor,
-                        showBasmala = ui.currentAyahIndex <= 0,
-                    )
                 } else if (viewMode == PlayerViewMode.MUSHAF) {
-                    MushafSpreadView(spread = spread, highlightColor = highlightColor)
+                    // Mushaf only — the spread (or the tajweed ayah image for
+                    // style 1) fills the whole screen, no side panel.
+                    if (settings.mushafStyle == 1) {
+                        TajweedAyahView(
+                            bitmap = tajweedBitmap,
+                            highlightColor = highlightColor,
+                            showBasmala = ui.currentAyahIndex <= 0,
+                        )
+                    } else {
+                        MushafSpreadView(spread = spread, highlightColor = highlightColor)
+                    }
                 } else {
-                    // Full-surah content view (tafseer / meanings / translation):
-                    // the current ayah follows the recitation when timing exists.
-                    SurahContentView(
-                        items = contentItems,
-                        currentIndex = ui.currentAyahIndex,
-                        highlightColor = highlightColor,
-                        onSelect = { index -> vm.seekToAyah(index) },
-                        resetKey = "${viewMode.name}/${ui.surah?.id}",
-                        modifier = Modifier.fillMaxSize(),
-                        positionMs = positionMs,
-                        currentAyahStartMs = currentAyah?.startMs ?: 0L,
-                        currentAyahEndMs = currentAyah?.endMs ?: 0L,
-                        isPlaying = ui.isPlaying,
-                    )
+                    // The mushaf page is ALWAYS on screen (with the highlighted
+                    // ayah); the chosen view (tafseer / meanings / translation)
+                    // is an OPTIONAL side panel — the viewer sees the ayah and
+                    // its context at the same time. Forced RTL keeps the mushaf
+                    // on the right in both UI languages (it reads right-to-left).
+                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+                        Row(Modifier.fillMaxSize()) {
+                            Box(Modifier.weight(3f).fillMaxHeight()) {
+                                if (settings.mushafStyle == 1) {
+                                    TajweedAyahView(
+                                        bitmap = tajweedBitmap,
+                                        highlightColor = highlightColor,
+                                        showBasmala = ui.currentAyahIndex <= 0,
+                                    )
+                                } else {
+                                    MushafSpreadView(spread = spread, highlightColor = highlightColor)
+                                }
+                            }
+                            Box(
+                                Modifier
+                                    .weight(2f)
+                                    .fillMaxHeight()
+                                    .background(com.qurantv.app.ui.theme.SurfaceContainerHigh),
+                            ) {
+                                SideContextPanel(
+                                    mode = viewMode,
+                                    items = contentItems,
+                                    currentIndex = ui.currentAyahIndex,
+                                    highlightColor = highlightColor,
+                                    onSelect = { index -> vm.seekToAyah(index) },
+                                    resetKey = "${viewMode.name}/${ui.surah?.id}",
+                                    positionMs = positionMs,
+                                    currentAyahStartMs = currentAyah?.startMs ?: 0L,
+                                    currentAyahEndMs = currentAyah?.endMs ?: 0L,
+                                    isPlaying = ui.isPlaying,
+                                )
+                            }
+                        }
+                    }
                 }
                 if (chromeVisible) {
                     PlayerTopBar(
@@ -715,7 +753,8 @@ private fun viewLabel(mode: PlayerViewMode): String = when (mode) {
     PlayerViewMode.TRANSLATION -> stringResource(R.string.view_translation_short)
 }
 
-/** Chooser for the page view: Surah image · simplified tafseer · word meanings · translation. */
+/** Chooser for the side view: the mushaf stays on screen; picking tafseer /
+ *  word meanings / translation shows that content as a side panel beside it. */
 @Composable
 private fun ViewModeDialog(
     currentMode: PlayerViewMode,
@@ -749,6 +788,12 @@ private fun ViewModeDialog(
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
             )
+            Text(
+                text = stringResource(R.string.view_side_hint),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp),
+            )
             LazyColumn(
                 modifier = Modifier.fillMaxWidth().heightIn(max = 420.dp).padding(top = 14.dp),
             ) {
@@ -781,6 +826,57 @@ private fun ViewModeDialog(
                 }
             }
         }
+    }
+}
+
+/**
+ * The optional side panel beside the always-visible mushaf: the chosen context
+ * view (simplified tafseer / word meanings / translation) for the whole surah,
+ * one ayah per row — the current ayah is highlighted and follows the recitation
+ * (same auto-scroll behavior as the full-screen content view). [mode] is never
+ * MUSHAF here (that selection means "mushaf only", no panel).
+ */
+@Composable
+private fun SideContextPanel(
+    mode: PlayerViewMode,
+    items: List<SurahContentRow>,
+    currentIndex: Int,
+    highlightColor: Color,
+    onSelect: (Int) -> Unit,
+    resetKey: Any,
+    positionMs: Long,
+    currentAyahStartMs: Long,
+    currentAyahEndMs: Long,
+    isPlaying: Boolean,
+) {
+    Column(Modifier.fillMaxSize()) {
+        Text(
+            text = when (mode) {
+                PlayerViewMode.TAFSEER -> stringResource(R.string.view_tafseer)
+                PlayerViewMode.MEANINGS -> stringResource(R.string.view_meanings)
+                else -> stringResource(R.string.view_translation)
+            },
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(start = 18.dp, end = 18.dp, top = 12.dp, bottom = 2.dp),
+        )
+        SurahContentView(
+            items = items,
+            currentIndex = currentIndex,
+            highlightColor = highlightColor,
+            onSelect = onSelect,
+            resetKey = resetKey,
+            modifier = Modifier.weight(1f),
+            positionMs = positionMs,
+            currentAyahStartMs = currentAyahStartMs,
+            currentAyahEndMs = currentAyahEndMs,
+            isPlaying = isPlaying,
+            // The panel is narrower than the full-screen view — tighter padding
+            // and slightly smaller text keep rows readable.
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+            fontSizeSp = 18f,
+            rowSpacing = 4.dp,
+        )
     }
 }
 

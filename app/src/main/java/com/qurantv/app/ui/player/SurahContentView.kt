@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.MaterialTheme
@@ -65,6 +66,12 @@ fun SurahContentView(
     currentAyahStartMs: Long = 0L,
     currentAyahEndMs: Long = 0L,
     isPlaying: Boolean = false,
+    /** Horizontal padding of the list (narrower in the side panel). */
+    contentPadding: PaddingValues = PaddingValues(horizontal = 56.dp, vertical = 6.dp),
+    /** Text size in sp (slightly smaller in the side panel). */
+    fontSizeSp: Float = 20f,
+    /** Gap between rows. */
+    rowSpacing: Dp = 6.dp,
 ) {
     val listState = remember(resetKey) { LazyListState() }
     val livePosition by rememberUpdatedState(positionMs)
@@ -72,11 +79,19 @@ fun SurahContentView(
     val liveStart by rememberUpdatedState(currentAyahStartMs)
     val liveEnd by rememberUpdatedState(currentAyahEndMs)
 
-    // Pin the current ayah's row to the top on ayah change; walk long rows
-    // proportionally to playback progress (same as text mode).
-    LaunchedEffect(currentIndex) {
-        if (currentIndex >= 0) {
-            listState.animateScrollToItem((currentIndex - 1).coerceAtLeast(0), scrollOffset = 0)
+    // Pin the current ayah's row to the top on ayah change, and also when the
+    // list (re)populates (e.g. the side panel switches mode: the list starts
+    // empty, then fills — the pin must re-apply so the view lands on the
+    // CURRENT ayah, not the top of the surah). Rows with empty content are
+    // skipped, so the row is found by TIMING INDEX, not list position; when the
+    // current ayah itself has no row (empty content), pin to the nearest
+    // preceding row so the view still follows the recitation.
+    LaunchedEffect(currentIndex, items.size) {
+        if (currentIndex >= 0 && items.isNotEmpty()) {
+            val pos = items.indexOfLast { it.index <= currentIndex }
+            if (pos >= 0) {
+                listState.animateScrollToItem(pos, scrollOffset = 0)
+            }
         }
     }
     LaunchedEffect(currentIndex) {
@@ -92,7 +107,8 @@ fun SurahContentView(
             }
             if (livePlaying) {
                 val info = listState.layoutInfo
-                val item = info.visibleItemsInfo.firstOrNull { it.index == currentIndex - 1 }
+                // The current ayah's row, found by timing index (skipped rows shift positions).
+                val item = info.visibleItemsInfo.firstOrNull { items.getOrNull(it.index)?.index == currentIndex }
                 val viewportH = (info.viewportEndOffset - info.viewportStartOffset).coerceAtLeast(1)
                 val overflow = (item?.size ?: 0) - viewportH
                 if (item != null && overflow > 0) {
@@ -115,8 +131,8 @@ fun SurahContentView(
     LazyColumn(
         state = listState,
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 56.dp, vertical = 6.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+        contentPadding = contentPadding,
+        verticalArrangement = Arrangement.spacedBy(rowSpacing),
     ) {
         items(items, key = { it.index }) { item ->
             val isCurrent = item.index == currentIndex
@@ -174,8 +190,8 @@ fun SurahContentView(
                     text = item.text,
                     modifier = Modifier.padding(start = 18.dp),
                     style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 20.sp,
-                    lineHeight = 30.sp,
+                    fontSize = fontSizeSp.sp,
+                    lineHeight = (fontSizeSp * 1.5f).sp,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }

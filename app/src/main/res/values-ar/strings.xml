@@ -61,7 +61,8 @@
     <string name="tafseer_simplified">التفسير الميسر</string>
     <string name="tafseer_translation">الترجمة</string>
     <string name="view_picker_title">العرض</string>
-    <string name="view_mushaf">صفحة المصحف</string>
+    <string name="view_side_hint">صفحة المصحف معروضة دائمًا — اختر ما يظهر بجانبها</string>
+    <string name="view_mushaf">صفحة المصحف فقط</string>
     <string name="view_tafseer">التفسير الميسر</string>
     <string name="view_meanings">معاني الكلمات</string>
     <string name="view_translation">الترجمة</string>

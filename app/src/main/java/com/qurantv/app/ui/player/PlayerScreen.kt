@@ -1,6 +1,11 @@
 package com.qurantv.app.ui.player
 
 import android.view.KeyEvent
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
@@ -376,6 +381,18 @@ fun PlayerScreen(
         }
     }
 
+    // The page number of the currently highlighted ayah — the SINGLE mushaf page
+    // shown beside the context panel (the split view shows one page instead of
+    // the two-page spread so each half gets maximum screen space).
+    val currentSinglePage: Int? =
+        if (isPageMode && settings.mushafStyle != 1 && ui.surah != null) {
+            val track = ui.hasTiming && ui.currentAyahIndex > 0
+            if (track) currentPageNumber(ui.surah.id, ui.currentAyahIndex)
+            else noTimingPage ?: firstPageOfSurah(ui.surah)
+        } else {
+            null
+        }
+
     var jumpOpen by remember { mutableStateOf(false) }
     var mushafPickerOpen by remember { mutableStateOf(false) }
     var reciterPickerOpen by remember { mutableStateOf(false) }
@@ -603,9 +620,12 @@ fun PlayerScreen(
                     // is an OPTIONAL side panel — the viewer sees the ayah and
                     // its context at the same time. Forced RTL keeps the mushaf
                     // on the right in both UI languages (it reads right-to-left).
+                    // The screen is split HALF AND HALF to maximise space: the
+                    // mushaf side shows only the CURRENT page (not the spread),
+                    // the other half shows the context.
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                         Row(Modifier.fillMaxSize()) {
-                            Box(Modifier.weight(3f).fillMaxHeight()) {
+                            Box(Modifier.weight(1f).fillMaxHeight()) {
                                 if (settings.mushafStyle == 1) {
                                     TajweedAyahView(
                                         bitmap = tajweedBitmap,
@@ -613,12 +633,16 @@ fun PlayerScreen(
                                         showBasmala = ui.currentAyahIndex <= 0,
                                     )
                                 } else {
-                                    MushafSpreadView(spread = spread, highlightColor = highlightColor)
+                                    SingleMushafPage(
+                                        spread = spread,
+                                        pageNumber = currentSinglePage,
+                                        highlightColor = highlightColor,
+                                    )
                                 }
                             }
                             Box(
                                 Modifier
-                                    .weight(2f)
+                                    .weight(1f)
                                     .fillMaxHeight()
                                     .background(com.qurantv.app.ui.theme.SurfaceContainerHigh),
                             ) {
@@ -871,11 +895,53 @@ private fun SideContextPanel(
             currentAyahStartMs = currentAyahStartMs,
             currentAyahEndMs = currentAyahEndMs,
             isPlaying = isPlaying,
-            // The panel is narrower than the full-screen view — tighter padding
-            // and slightly smaller text keep rows readable.
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
-            fontSizeSp = 18f,
-            rowSpacing = 4.dp,
+            // The panel owns half the screen (same as the mushaf page), so rows
+            // use the full text size.
+            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 4.dp),
+            fontSizeSp = 20f,
+            rowSpacing = 6.dp,
+        )
+    }
+}
+
+/**
+ * The single mushaf page holding the currently highlighted ayah, shown beside
+ * the context panel (mushaf-only mode keeps the full two-page spread). The page
+ * is picked from the loaded spread by page parity (odd = right side, even =
+ * left side — the same rule the spread uses); page changes crossfade.
+ */
+@Composable
+private fun SingleMushafPage(
+    spread: SpreadState,
+    pageNumber: Int?,
+    highlightColor: Color,
+    modifier: Modifier = Modifier,
+) {
+    if (pageNumber == null) {
+        Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(
+                text = "…",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        return
+    }
+    AnimatedContent(
+        targetState = pageNumber,
+        modifier = modifier,
+        transitionSpec = { fadeIn(tween(250)) togetherWith fadeOut(tween(250)) },
+    ) { page ->
+        val side = if (page % 2 == 1) spread.right else spread.left
+        PageModeView(
+            bitmap = side?.bitmap,
+            viewBox = side?.viewBox,
+            polygon = side?.polygon,
+            rects = side?.rects,
+            bands = side?.bands,
+            bandsFractional = side?.bandsFractional ?: false,
+            highlightColor = highlightColor,
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

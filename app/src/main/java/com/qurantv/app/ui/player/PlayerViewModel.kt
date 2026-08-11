@@ -3,6 +3,7 @@ package com.qurantv.app.ui.player
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.qurantv.app.data.repo.AppSettings
+import com.qurantv.app.data.repo.CatalogRepository
 import com.qurantv.app.data.repo.SessionRepository
 import com.qurantv.app.data.repo.TimingRepository
 import com.qurantv.app.domain.BasmalaOffset
@@ -45,6 +46,7 @@ class PlayerViewModel(
     private val timingRepository: TimingRepository,
     private val quranTextRepository: QuranTextRepository,
     private val sessionRepository: SessionRepository,
+    private val catalog: CatalogRepository,
 ) : ViewModel() {
 
     private val _screen = MutableStateFlow(PlayerScreenUiState())
@@ -173,6 +175,21 @@ class PlayerViewModel(
     }
 
     // ------------------------------------------------------------------ actions
+
+    /**
+     * Switches to a different reciter/moshaf, keeping the current surah (or the
+     * moshaf's first surah when it doesn't cover it) and starting from its first
+     * ayah. Used by the transport-bar reciter picker.
+     */
+    fun switchReciter(reciter: Reciter, moshaf: Moshaf) {
+        val currentSurahId = _screen.value.ui.surah?.id ?: 1
+        viewModelScope.launch {
+            val all = catalog.surahs("ar").first()
+            val surahs = all.filter { it.id in moshaf.availableSurahIds.toSet() }
+            val surah = surahs.firstOrNull { it.id == currentSurahId } ?: surahs.firstOrNull() ?: return@launch
+            play(reciter, moshaf, surah, surahs, resumeFromSession = false)
+        }
+    }
 
     fun togglePlayPause() = playback.togglePlayPause()
     fun pause() = playback.pause()

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.NavigateBefore
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.filled.SkipNext
@@ -76,6 +77,7 @@ fun TransportBar(
     onCycleSpeed: () -> Unit,
     onOpenSurahJump: () -> Unit,
     onOpenMushafPicker: () -> Unit,
+    onOpenReciterPicker: () -> Unit,
     onToggleAutoHide: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -85,10 +87,23 @@ fun TransportBar(
         modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // ---- Right zone: view controls — the auto-hide eye, and the single
-        // mushaf button (opens the combined display-mode + style list).
+        // ---- Right zone: view/content controls — auto-hide eye, reciter
+        // chooser, and the single mushaf button (display-mode + style list).
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
             Row(verticalAlignment = Alignment.CenterVertically) {
+                // The combined display-mode + mushaf-style chooser.
+                LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
+                Spacer(Modifier.width(8.dp))
+                // Change the reciter while staying on the same surah.
+                TvIconButton(onClick = onOpenReciterPicker) {
+                    Icon(
+                        imageVector = Icons.Filled.Mic,
+                        contentDescription = stringResource(R.string.change_reciter),
+                        modifier = Modifier.size(22.dp),
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+                Spacer(Modifier.width(8.dp))
                 TvIconButton(onClick = onToggleAutoHide) {
                     Icon(
                         imageVector = if (autoHideEnabled) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
@@ -97,9 +112,6 @@ fun TransportBar(
                         tint = MaterialTheme.colorScheme.onSurface,
                     )
                 }
-                Spacer(Modifier.width(8.dp))
-                // The combined display-mode + mushaf-style chooser.
-                LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
             }
         }
 

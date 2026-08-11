@@ -76,6 +76,7 @@ class AppContainer(context: Context) {
             timingRepository = timingRepository,
             quranTextRepository = quranTextRepository,
             sessionRepository = sessionRepository,
+            catalog = catalogRepository,
         )
     }
     val settingsViewModel by lazy { SettingsViewModel(sessionRepository) }

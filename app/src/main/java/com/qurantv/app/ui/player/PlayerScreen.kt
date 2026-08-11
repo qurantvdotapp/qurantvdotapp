@@ -48,12 +48,15 @@ import com.qurantv.app.data.repo.AppSettings
 import com.qurantv.app.di.AppContainer
 import com.qurantv.app.navigation.Screen
 import com.qurantv.app.ui.components.ErrorState
+import com.qurantv.app.ui.components.MoshafSelectionDialog
 import com.qurantv.app.ui.components.MushafPickerDialog
+import com.qurantv.app.ui.components.ReciterPickerDialog
 import com.qurantv.app.ui.components.SurahJumpDialog
 import com.qurantv.app.ui.player.TajweedAyahView
 import com.qurantv.app.ui.components.TvCard
 import com.qurantv.app.ui.components.TvIconButton
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import androidx.compose.ui.window.Dialog
 
@@ -333,6 +336,13 @@ fun PlayerScreen(
 
     var jumpOpen by remember { mutableStateOf(false) }
     var mushafPickerOpen by remember { mutableStateOf(false) }
+    var reciterPickerOpen by remember { mutableStateOf(false) }
+    // Reciter chosen in the picker that still needs a mushaf (multi-moshaf).
+    var pendingReciter by remember { mutableStateOf<com.qurantv.app.domain.Reciter?>(null) }
+    var allReciters by remember { mutableStateOf<List<com.qurantv.app.domain.Reciter>>(emptyList()) }
+    LaunchedEffect(Unit) {
+        allReciters = runCatching { container.catalogRepository.reciters("ar").first() }.getOrDefault(emptyList())
+    }
 
     // Page mode maximizes the mushaf: chrome (top bar + transport) auto-hides a
     // few seconds after the LAST key press while playing (the timer resets on
@@ -419,6 +429,7 @@ fun PlayerScreen(
                 onCycleSpeed = { vm.cycleSpeed() },
                 onOpenSurahJump = { jumpOpen = true },
                 onOpenMushafPicker = { mushafPickerOpen = true },
+                onOpenReciterPicker = { reciterPickerOpen = true },
                 onToggleAutoHide = { vm.toggleAutoHideControls() },
             )
         }
@@ -572,6 +583,33 @@ fun PlayerScreen(
                 vm.setDisplayMode(1) // picking a mushaf shows the mushaf page
             },
             onDismiss = { mushafPickerOpen = false },
+        )
+    }
+
+    if (reciterPickerOpen) {
+        ReciterPickerDialog(
+            reciters = allReciters,
+            currentReciterId = ui.reciter?.id,
+            onSelect = { reciter ->
+                reciterPickerOpen = false
+                if (reciter.moshafs.size > 1) {
+                    pendingReciter = reciter // pick the mushaf next
+                } else {
+                    reciter.moshafs.firstOrNull()?.let { vm.switchReciter(reciter, it) }
+                }
+            },
+            onDismiss = { reciterPickerOpen = false },
+        )
+    }
+    pendingReciter?.let { reciter ->
+        MoshafSelectionDialog(
+            moshafs = reciter.moshafs,
+            currentIndex = null,
+            onSelect = { index ->
+                reciter.moshafs.getOrNull(index)?.let { vm.switchReciter(reciter, it) }
+                pendingReciter = null
+            },
+            onDismiss = { pendingReciter = null },
         )
     }
 }

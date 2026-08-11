@@ -10,6 +10,8 @@
     <string name="reciters_title">القراء</string>
     <string name="recent_reads">أحدث القراءات</string>
     <string name="search_reciters">البحث عن قارئ</string>
+    <string name="change_reciter">تغيير القارئ</string>
+    <string name="choose_reciter">اختر القارئ</string>
     <string name="search_hint">اكتب اسم القارئ…</string>
     <string name="search_action">بحث</string>
     <string name="search_enter_hint">اضغط بحث أو Enter لفتح أول نتيجة</string>

@@ -10,6 +10,8 @@
     <string name="reciters_title">Reciters</string>
     <string name="recent_reads">Recently added reads</string>
     <string name="search_reciters">Search reciters</string>
+    <string name="change_reciter">Change reciter</string>
+    <string name="choose_reciter">Choose reciter</string>
     <string name="search_hint">Type a reciter name…</string>
     <string name="search_action">Search</string>
     <string name="search_enter_hint">Press Search / Enter to open the first match</string>

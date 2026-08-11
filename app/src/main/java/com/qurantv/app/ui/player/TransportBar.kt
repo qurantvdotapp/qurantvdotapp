@@ -112,6 +112,16 @@ fun TransportBar(
                         tint = MaterialTheme.colorScheme.onSurface,
                     )
                 }
+                // "No timing data" notice, just LEFT of the show/hide (auto-hide)
+                // button.
+                if (!state.hasTiming) {
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        text = stringResource(R.string.no_timing_short),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
             }
         }
 

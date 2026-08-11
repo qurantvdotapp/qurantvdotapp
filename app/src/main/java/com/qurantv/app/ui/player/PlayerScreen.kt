@@ -460,13 +460,6 @@ fun PlayerScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-                if (ui.hasTiming.not()) {
-                    Text(
-                        text = stringResource(R.string.no_timing_short),
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.error,
-                    )
-                }
             }
         }
 

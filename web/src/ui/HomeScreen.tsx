@@ -193,7 +193,7 @@ export function HomeScreen(props: HomeProps) {
             <div>
               <div style="font-size:20px;color:var(--text-dim)">{props.t("continue_listening")}</div>
               <div>
-                {s().reciterName} · {s().surahNameAr}
+                {s().reciterName} · <span class="quran-text">{s().surahNameAr}</span>
               </div>
             </div>
           </TvCard>

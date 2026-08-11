@@ -84,6 +84,7 @@ export function SideContextPanel(props: SideContextPanelProps) {
           return (
             <div
               id={`ctx-row-${r.ayah}`}
+              class={props.mode === "translation" ? undefined : "content-text"}
               style={{
                 "font-size": `${props.fontSizePx}px`,
                 "line-height": 1.8,

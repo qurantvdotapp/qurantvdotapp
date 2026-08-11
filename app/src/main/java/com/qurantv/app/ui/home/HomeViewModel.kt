@@ -139,12 +139,19 @@ class HomeViewModel(
     fun closeSearch() = _ui.update { it.copy(searchOpen = false) }
     fun setSearchQuery(q: String) = _ui.update { it.copy(searchQuery = q) }
 
+    /**
+     * Reciters matching the query, sorted alphabetically (Arabic collation). An
+     * EMPTY query returns the whole list (the overlay browses too, and typing
+     * visibly narrows it). Matching is Arabic-tolerant — see [reciterMatchesQuery].
+     */
     fun searchResults(): List<Reciter> {
         val q = _ui.value.searchQuery.trim()
-        if (q.isEmpty()) return emptyList()
-        return _ui.value.reciters.filter {
-            it.name.contains(q, ignoreCase = true) || it.letter?.equals(q, ignoreCase = true) == true
+        val base = if (q.isEmpty()) {
+            _ui.value.reciters
+        } else {
+            _ui.value.reciters.filter { reciterMatchesQuery(it, q) }
         }
+        return base.sortedWith(Comparator { a, b -> arabicCollator.compare(a.name, b.name) })
     }
 
     /**
@@ -175,5 +182,31 @@ class HomeViewModel(
     fun surahsFor(moshaf: Moshaf): List<QuranSurah> {
         val ids = moshaf.availableSurahIds.toSet()
         return _ui.value.surahs.filter { it.id in ids }
+    }
+}
+
+/**
+ * Arabic-tolerant reciter search: case-insensitive substring match after
+ * normalizing common letter forms — hamza variants (أ/إ/آ/ٱ → ا), ta marbuta
+ * (ة → ه) and alif maqsura (ى → ي) — so typing "الحصري", "الحسرى" or
+ * "الاحصري" all match "محمود خليل الحصري". Also matches the initial letter.
+ */
+fun reciterMatchesQuery(reciter: Reciter, query: String): Boolean {
+    val q = query.trim()
+    if (q.isEmpty()) return true
+    val needle = normalizeArabic(q)
+    if (normalizeArabic(reciter.name).contains(needle, ignoreCase = true)) return true
+    return reciter.letter?.let { normalizeArabic(it) == needle } == true
+}
+
+/** Folds common Arabic letter variants so search is forgiving. */
+fun normalizeArabic(s: String): String = buildString(s.length) {
+    for (c in s) {
+        when (c) {
+            'أ', 'إ', 'آ', 'ٱ' -> append('ا')
+            'ة' -> append('ه')
+            'ى' -> append('ي')
+            else -> append(c)
+        }
     }
 }

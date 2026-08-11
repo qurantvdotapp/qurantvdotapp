@@ -1,5 +1,6 @@
 package com.qurantv.app.domain
 
+import com.qurantv.app.ui.home.reciterMatchesQuery
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -590,5 +591,56 @@ class IslamicPageBandsTest {
         // ...and ends on line 3 at its tspan end (300) — last rect to line 3's right
         assertEquals(300f, r2[1].left * 720f, 0.5f)
         assertEquals(420f, r2[1].right * 720f, 0.5f)
+    }
+}
+
+class ReciterSearchTest {
+
+    private fun reciter(name: String, letter: String? = null) = Reciter(
+        id = name.hashCode(),
+        name = name,
+        letter = letter,
+        moshafs = listOf(Moshaf(1, "حفص", "https://example/", null, null, null, emptyList())),
+    )
+
+    @Test
+    fun `exact arabic name matches`() {
+        assertTrue(reciterMatchesQuery(reciter("محمود خليل الحصري"), "الحصري"))
+    }
+
+    @Test
+    fun `partial name matches`() {
+        assertTrue(reciterMatchesQuery(reciter("عبدالباسط عبدالصمد"), "عبدالباسط"))
+        assertTrue(reciterMatchesQuery(reciter("مشاري العفاسي"), "عفاسي"))
+    }
+
+    @Test
+    fun `hamza variants are normalized`() {
+        // Typed without the hamza on أ still matches أحمد.
+        assertTrue(reciterMatchesQuery(reciter("أحمد بن علي العجمي"), "احمد"))
+        assertTrue(reciterMatchesQuery(reciter("أحمد الحواشي"), "أحمد الحواشي"))
+    }
+
+    @Test
+    fun `alif maqsura and ta marbuta are normalized`() {
+        assertTrue(reciterMatchesQuery(reciter("مصطفى إسماعيل"), "مصطفي اسماعيل"))
+        assertTrue(reciterMatchesQuery(reciter("عبدالرحمن السديس"), "السديس"))
+    }
+
+    @Test
+    fun `initial letter matches`() {
+        assertTrue(reciterMatchesQuery(reciter("مشاري العفاسي", "م"), "م"))
+        assertFalse(reciterMatchesQuery(reciter("مشاري العفاسي", "م"), "ح"))
+    }
+
+    @Test
+    fun `empty query matches everything`() {
+        assertTrue(reciterMatchesQuery(reciter("أي أحد"), ""))
+        assertTrue(reciterMatchesQuery(reciter("أي أحد"), "   "))
+    }
+
+    @Test
+    fun `non matching returns false`() {
+        assertFalse(reciterMatchesQuery(reciter("محمود خليل الحصري"), "المنشاوي"))
     }
 }

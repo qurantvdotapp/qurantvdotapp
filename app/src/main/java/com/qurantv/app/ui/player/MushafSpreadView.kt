@@ -55,8 +55,8 @@ data class SpreadState(
 
 /**
  * Two-page mushaf spread with a realistic page-turn:
- *  - when the spread changes (recitation crosses to the next spread) the new
- *    spread slides in from the right while the old one slides out to the left;
+ *  - when the spread changes (recitation crosses to the NEXT spread) the new
+ *    spread slides in from the LEFT while the old one slides out to the RIGHT;
  *  - moving backwards reverses the direction;
  *  - highlight moving between the two sides (same spread) is instant.
  */
@@ -73,11 +73,13 @@ fun MushafSpreadView(
         transitionSpec = {
             val forward = targetState.key > initialState.key
             if (forward) {
-                (slideInHorizontally { it / 3 } + fadeIn(tween(320))) togetherWith
-                    (slideOutHorizontally { -it / 4 } + fadeOut(tween(320)))
-            } else {
+                // NEXT page: the new spread slides in from the LEFT while the old
+                // one slides out to the RIGHT (the reverse of a leftward flow).
                 (slideInHorizontally { -it / 3 } + fadeIn(tween(320))) togetherWith
                     (slideOutHorizontally { it / 4 } + fadeOut(tween(320)))
+            } else {
+                (slideInHorizontally { it / 3 } + fadeIn(tween(320))) togetherWith
+                    (slideOutHorizontally { -it / 4 } + fadeOut(tween(320)))
             }
         },
     ) { target ->

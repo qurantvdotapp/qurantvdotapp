@@ -33,6 +33,8 @@ data class HomeUiState(
     val selectedLetter: String? = null,
     // Reciter waiting for the pre-grid mushaf chooser (reciters with >1 moshaf).
     val pendingMoshafReciterId: Int? = null,
+    // Normalized folder URLs of every read with ayah timing.
+    val timedServerUrls: Set<String> = emptySet(),
 )
 
 class HomeViewModel(
@@ -76,6 +78,7 @@ class HomeViewModel(
             // ayah timing — matched by normalized folder_url ↔ server.
             val reads = timing.reads()
             timedServerUrls = reads.map { CatalogParsing.normalizeServerUrl(it.folderUrl) }.toSet()
+            _ui.update { it.copy(timedServerUrls = timedServerUrls) }
             allReciters = catalog.reciters("ar").first()
             applyFilter()
         } catch (e: Exception) {

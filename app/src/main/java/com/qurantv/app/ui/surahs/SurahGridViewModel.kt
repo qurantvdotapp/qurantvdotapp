@@ -26,6 +26,10 @@ data class SurahGridUiState(
     // "only reciters with ayah timing" setting — when ON the grid lists only
     // the surahs that have per-ayah timing files for the selected read.
     val onlyTimed: Boolean = false,
+    // Normalized folder URLs of every read with ayah timing.
+    val timedServerUrls: Set<String> = emptySet(),
+    // Surahs of the current moshaf WITHOUT timing for the matched read.
+    val untimedSurahIds: Set<Int> = emptySet(),
 )
 
 class SurahGridViewModel(
@@ -77,18 +81,32 @@ class SurahGridViewModel(
             var surahs = all.filter { it.id in availableIds }
             // "Only reciters with ayah timing": intersect with the read's timed
             // surah list (unknown timing → keep the full list, graceful).
-            if (_ui.value.onlyTimed) {
-                val read = timing.readForMoshaf(moshaf.server)
-                if (read != null) {
-                    val timed = timing.surahsWithTiming(read.id)
-                    if (timed != null) surahs = surahs.filter { it.id in timed }
+            var timedServers = _ui.value.timedServerUrls
+            var untimed = emptySet<Int>()
+            val read = timing.readForMoshaf(moshaf.server)
+            if (read != null) {
+                val timed = timing.surahsWithTiming(read.id)
+                if (timed != null) {
+                    if (_ui.value.onlyTimed) surahs = surahs.filter { it.id in timed }
+                    untimed = availableIds - timed
                 }
             }
-            _ui.update { it.copy(surahs = surahs, loading = false, error = false) }
+            if (timedServers.isEmpty()) {
+                timedServers = timing.timedServerUrls()
+            }
+            _ui.update {
+                it.copy(
+                    surahs = surahs,
+                    loading = false,
+                    error = false,
+                    timedServerUrls = timedServers,
+                    untimedSurahIds = untimed,
+                )
+            }
             // Warm the timing cache for the first surah (common next step).
             viewModelScope.launch {
-                timing.readForMoshaf(moshaf.server)?.let { read ->
-                    surahs.firstOrNull()?.let { s -> timing.timingFor(read.id, s.id) }
+                timing.readForMoshaf(moshaf.server)?.let { r ->
+                    surahs.firstOrNull()?.let { s -> timing.timingFor(r.id, s.id) }
                 }
             }
         } catch (e: Exception) {

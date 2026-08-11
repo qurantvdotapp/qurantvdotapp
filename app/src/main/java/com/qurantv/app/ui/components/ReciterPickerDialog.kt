@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -22,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -40,6 +43,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import com.qurantv.app.R
+import com.qurantv.app.domain.CatalogParsing
 import com.qurantv.app.domain.Reciter
 import com.qurantv.app.ui.theme.SurfaceContainer
 import com.qurantv.app.ui.theme.SurfaceContainerHigh
@@ -56,6 +60,7 @@ import java.util.Locale
 fun ReciterPickerDialog(
     reciters: List<Reciter>,
     currentReciterId: Int?,
+    timedServers: Set<String>,
     onSelect: (Reciter) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -160,6 +165,11 @@ fun ReciterPickerDialog(
             ) {
                 items(visible, key = { it.id }) { reciter ->
                     val selected = reciter.id == currentReciterId
+                    // A reciter has timing when at least one of its moshafs
+                    // matches a timing read's folder.
+                    val timed = reciter.moshafs.any {
+                        CatalogParsing.normalizeServerUrl(it.server) in timedServers
+                    }
                     TvCard(
                         onClick = { onSelect(reciter) },
                         modifier = Modifier.fillMaxWidth(),
@@ -170,15 +180,24 @@ fun ReciterPickerDialog(
                         },
                         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
                     ) {
-                        Text(
-                            text = (if (selected) "✓ " else "") + reciter.name,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = if (selected) {
-                                MaterialTheme.colorScheme.onPrimaryContainer
-                            } else {
-                                MaterialTheme.colorScheme.onSurface
-                            },
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = (if (selected) "✓ " else "") + reciter.name,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = if (selected) {
+                                    MaterialTheme.colorScheme.onPrimaryContainer
+                                } else if (timed) {
+                                    MaterialTheme.colorScheme.onSurface
+                                } else {
+                                    // Untimed reciters are dimmed with a badge.
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                },
+                            )
+                            if (!timed) {
+                                Spacer(Modifier.width(10.dp))
+                                NoTimingBadge()
+                            }
+                        }
                     }
                 }
             }

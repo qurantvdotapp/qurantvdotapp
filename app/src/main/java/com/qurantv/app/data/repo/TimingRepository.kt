@@ -47,6 +47,10 @@ class TimingRepository(
         return reads().firstOrNull { CatalogParsing.normalizeServerUrl(it.folderUrl) == target }
     }
 
+    /** Normalized folder URLs of every read that has ayah timing. */
+    suspend fun timedServerUrls(): Set<String> =
+        reads().map { CatalogParsing.normalizeServerUrl(it.folderUrl) }.toSet()
+
     /**
      * The surah ids that have per-ayah timing files for this read (the
      * `ayat_timing/soar` list — some reads cover fewer than all 114 surahs).

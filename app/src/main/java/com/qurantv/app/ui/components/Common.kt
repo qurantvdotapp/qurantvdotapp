@@ -185,3 +185,16 @@ fun EmptyState(modifier: Modifier = Modifier, message: String) {
         )
     }
 }
+
+/**
+ * Small "no timing" badge shown next to reciters / moshafs / surahs that have
+ * no ayah timing data, so the user can tell them apart at a glance.
+ */
+@Composable
+fun NoTimingBadge() {
+    Text(
+        text = stringResource(R.string.no_timing_badge),
+        style = MaterialTheme.typography.labelSmall,
+        color = MaterialTheme.colorScheme.error,
+    )
+}

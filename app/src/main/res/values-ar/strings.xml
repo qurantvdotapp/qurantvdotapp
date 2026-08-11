@@ -48,6 +48,7 @@
     <string name="mushaf_hafs_tajweed">حفص ملون</string>
     <string name="no_timing">لا يوجد توقيت لهذه القراءة — مزامنة الآيات غير متاحة</string>
     <string name="no_timing_short">لا يوجد توقيت</string>
+    <string name="no_timing_badge">بدون توقيت</string>
     <string name="retry_action">↻ إعادة المحاولة</string>
     <string name="repeat_off_short">⇄ متوقف</string>
     <string name="repeat_ayah_short">⟲ 1</string>

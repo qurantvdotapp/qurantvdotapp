@@ -48,6 +48,7 @@
     <string name="mushaf_hafs_tajweed">Hafs Tajweed</string>
     <string name="no_timing">No ayah timing for this recitation — ayah sync is unavailable</string>
     <string name="no_timing_short">no timing data</string>
+    <string name="no_timing_badge">no timing</string>
     <string name="retry_action">↻  Retry</string>
     <string name="repeat_off_short">⇄ Off</string>
     <string name="repeat_ayah_short">⟲ 1</string>

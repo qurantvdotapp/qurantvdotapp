@@ -340,8 +340,25 @@ fun PlayerScreen(
     // Reciter chosen in the picker that still needs a mushaf (multi-moshaf).
     var pendingReciter by remember { mutableStateOf<com.qurantv.app.domain.Reciter?>(null) }
     var allReciters by remember { mutableStateOf<List<com.qurantv.app.domain.Reciter>>(emptyList()) }
+    // Normalized folder URLs of every read with ayah timing — used to mark
+    // reciters/moshafs/surahs that have no timing data.
+    var timedServers by remember { mutableStateOf<Set<String>>(emptySet()) }
+    var untimedSurahs by remember { mutableStateOf<Set<Int>>(emptySet()) }
     LaunchedEffect(Unit) {
         allReciters = runCatching { container.catalogRepository.reciters("ar").first() }.getOrDefault(emptyList())
+        timedServers = runCatching { container.timingRepository.timedServerUrls() }.getOrDefault(emptySet())
+    }
+    LaunchedEffect(ui.moshaf?.id, ui.surah?.id) {
+        val moshaf = ui.moshaf ?: return@LaunchedEffect
+        val read = runCatching { container.timingRepository.readForMoshaf(moshaf.server) }.getOrNull()
+        val timed = read?.let {
+            runCatching { container.timingRepository.surahsWithTiming(it.id) }.getOrNull()
+        }
+        untimedSurahs = if (timed == null) {
+            emptySet()
+        } else {
+            viewState.availableSurahs.filter { it.id !in timed }.map { it.id }.toSet()
+        }
     }
 
     // Page mode maximizes the mushaf: chrome (top bar + transport) auto-hides a
@@ -548,6 +565,7 @@ fun PlayerScreen(
         SurahJumpDialog(
             surahs = viewState.availableSurahs,
             currentSurahId = ui.surah?.id,
+            untimedSurahIds = untimedSurahs,
             onSelect = { surah ->
                 jumpOpen = false
                 vm.play(
@@ -583,6 +601,7 @@ fun PlayerScreen(
         ReciterPickerDialog(
             reciters = allReciters,
             currentReciterId = ui.reciter?.id,
+            timedServers = timedServers,
             onSelect = { reciter ->
                 reciterPickerOpen = false
                 if (reciter.moshafs.size > 1) {
@@ -598,6 +617,7 @@ fun PlayerScreen(
         MoshafSelectionDialog(
             moshafs = reciter.moshafs,
             currentIndex = null,
+            timedServers = timedServers,
             onSelect = { index ->
                 reciter.moshafs.getOrNull(index)?.let { vm.switchReciter(reciter, it) }
                 pendingReciter = null

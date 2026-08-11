@@ -222,6 +222,7 @@ fun HomeScreen(
             MoshafSelectionDialog(
                 moshafs = reciter.moshafs,
                 currentIndex = null,
+                timedServers = ui.timedServerUrls,
                 onSelect = { index ->
                     reciter.moshafs.getOrNull(index)?.let {
                         navigator.push(Screen.SurahGrid(reciter, it))

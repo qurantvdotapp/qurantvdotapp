@@ -158,6 +158,7 @@ fun SurahGridScreen(
             MoshafSelectionDialog(
                 moshafs = reciter.moshafs,
                 currentIndex = ui.moshafIndex,
+                timedServers = ui.timedServerUrls,
                 onSelect = { index ->
                     vm.selectMoshaf(index)
                     vm.togglePicker()
@@ -171,6 +172,7 @@ fun SurahGridScreen(
         SurahJumpDialog(
             surahs = ui.surahs,
             currentSurahId = null,
+            untimedSurahIds = ui.untimedSurahIds,
             onSelect = { surah ->
                 jumpOpen = false
                 ui.reciter?.let { reciter ->

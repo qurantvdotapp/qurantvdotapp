@@ -3,6 +3,8 @@ package com.qurantv.app.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -13,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.withFrameNanos
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -24,11 +27,15 @@ import androidx.tv.material3.Text
 import com.qurantv.app.R
 import com.qurantv.app.domain.QuranSurah
 
-/** Jump-to-surah list dialog, shared by the surah grid and the player. */
+/**
+ * Jump-to-surah list dialog, shared by the surah grid and the player. Surahs
+ * with no ayah timing for the current read are dimmed with a badge.
+ */
 @Composable
 fun SurahJumpDialog(
     surahs: List<QuranSurah>,
     currentSurahId: Int?,
+    untimedSurahIds: Set<Int> = emptySet(),
     onSelect: (QuranSurah) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -71,11 +78,21 @@ fun SurahJumpDialog(
                         },
                         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
                     ) {
-                        Text(
-                            text = "${surah.id} — ${surah.nameAr}",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = "${surah.id} — ${surah.nameAr}",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = if (surah.id in untimedSurahIds) {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                } else {
+                                    MaterialTheme.colorScheme.onSurface
+                                },
+                            )
+                            if (surah.id in untimedSurahIds) {
+                                Spacer(Modifier.width(10.dp))
+                                NoTimingBadge()
+                            }
+                        }
                     }
                 }
             }

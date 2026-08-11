@@ -148,7 +148,7 @@ fun PlayerScreen(
     var noTimingPage by remember { mutableStateOf<Int?>(null) }
     // Side view selector: the mushaf spread is ALWAYS shown; the other views
     // (simplified tafseer / word meanings / translation) appear as an optional
-    // side panel chosen from the top-bar dropdown (MUSHAF = mushaf only).
+    // side panel chosen from the transport dropdown (MUSHAF = mushaf only).
     var viewMode by remember { mutableStateOf(PlayerViewMode.MUSHAF) }
     var viewPickerOpen by remember { mutableStateOf(false) }
     var contentItems by remember { mutableStateOf<List<SurahContentRow>>(emptyList()) }
@@ -510,11 +510,16 @@ fun PlayerScreen(
                 onOpenMushafPicker = { mushafPickerOpen = true },
                 onOpenReciterPicker = { reciterPickerOpen = true },
                 onToggleAutoHide = { vm.toggleAutoHideControls() },
+                // The side-view selector lives in the transport, immediately
+                // LEFT of the display-mode/mushaf button (page mode only — the
+                // side panel is a page-mode concept).
+                sideViewLabel = if (isPageMode) viewLabel(viewMode) else null,
+                onOpenViewPicker = { viewPickerOpen = true },
             )
         }
 
         @Composable
-        fun PlayerTopBar(modifier: Modifier = Modifier, showViewPicker: Boolean = false) {
+        fun PlayerTopBar(modifier: Modifier = Modifier) {
             Row(
                 modifier = modifier.padding(start = 32.dp, end = 32.dp, top = 10.dp, bottom = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -538,19 +543,6 @@ fun PlayerScreen(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
-                }
-                if (showViewPicker) {
-                    TvCard(
-                        onClick = { viewPickerOpen = true },
-                        backgroundColor = com.qurantv.app.ui.theme.SurfaceContainer,
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
-                    ) {
-                        Text(
-                            text = viewLabel(viewMode),
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
                 }
             }
         }
@@ -668,7 +660,6 @@ fun PlayerScreen(
                 }
                 if (chromeVisible) {
                     PlayerTopBar(
-                        showViewPicker = true,
                         modifier = Modifier
                             .fillMaxWidth()
                             .align(Alignment.TopCenter)

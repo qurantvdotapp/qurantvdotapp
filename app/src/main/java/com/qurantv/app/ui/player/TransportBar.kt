@@ -47,12 +47,12 @@ import androidx.compose.ui.focus.focusRequester
  * Transport bar, organised into three logical zones so it is easy to scan and
  * navigate with a D-pad:
  *
- *  - RIGHT zone (RTL start): view controls — display-mode toggle (the book /
- *    text icon) with the auto-hide eye next to it.
+ *  - RIGHT zone (RTL start): view controls — auto-hide eye · reciter · side
+ *    view (tafseer) selector · the display-mode/mushaf button.
  *  - CENTER zone: the playback controls — next surah · next ayah · play/pause ·
  *    previous ayah · previous surah (next on the left of play, previous on the
  *    right, RTL style) — with the time readout, dead centre.
- *  - LEFT zone (RTL end): repeat · speed · mushaf style · jump-to-surah.
+ *  - LEFT zone (RTL end): repeat · speed · jump-to-surah.
  *
  * The playback cluster is emitted direction-aware so the ON-SCREEN (left →
  * right) order is always next surah · next ayah · play · previous ayah ·
@@ -79,6 +79,11 @@ fun TransportBar(
     onOpenMushafPicker: () -> Unit,
     onOpenReciterPicker: () -> Unit,
     onToggleAutoHide: () -> Unit,
+    /** The side-view selector label (مصحف/تفسير/معاني/ترجمة), shown in the
+     *  right zone immediately LEFT of the display toggle; null hides it (text
+     *  mode — the side panel only exists in page mode). */
+    sideViewLabel: String? = null,
+    onOpenViewPicker: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
@@ -93,6 +98,12 @@ fun TransportBar(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 // The combined display-mode + mushaf-style chooser.
                 LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
+                // Side-view selector (the tafseer choice) — declared right after
+                // the display toggle so it lands immediately LEFT of it in RTL.
+                if (sideViewLabel != null) {
+                    Spacer(Modifier.width(8.dp))
+                    LabeledButton(label = sideViewLabel, onClick = onOpenViewPicker)
+                }
                 Spacer(Modifier.width(8.dp))
                 // Change the reciter while staying on the same surah.
                 TvIconButton(onClick = onOpenReciterPicker) {

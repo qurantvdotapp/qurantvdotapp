@@ -1,6 +1,6 @@
 ---
 name: qurantv-architecture
-description: Architecture reference and refinement workflow for the Quran TV Android TV app (mp3qurantv repo, Kotlin + Compose for TV + Media3). Use when extending, debugging, refactoring, or reviewing this codebase — screens and navigation, data flow, verified mp3quran.net/Quran.com API contracts, ayah timing/sync algorithm, mushaf page coordinate math, caching/offline strategy, settings persistence, localization, and the build/test/emulator verification workflow.
+description: Architecture reference and refinement workflow for the Quran TV Android TV app (mp3qurantv repo, Kotlin + Compose for TV + Media3). Use when extending, debugging, refactoring, or reviewing this codebase — screens and navigation, data flow, verified mp3quran.net/Quran.com API contracts, ayah timing/sync algorithm (incl. the trailing-silence-aware accuracy gate), mushaf page coordinate math, bundled KSU Ayat tafseer data, caching/offline strategy, settings persistence, localization, and the build/test/emulator verification + samba-release workflow.
 ---
 
 # Quran TV — Architecture & Refinement Guide
@@ -25,7 +25,7 @@ page SVGs — all live-tested): see [references/api-contracts.md](references/api
 | D1 | Kotlin + Jetpack Compose for TV (`androidx.tv:tv-foundation`, `tv-material`) + Media3/ExoPlayer |
 | D2 | Authentic Uthmani text: bundled Tanzil `quran-uthmani.txt` (canonical) + Quran.com API v4 fallback; pages = mp3quran SVG (authentic Madinah mushaf) |
 | D3 | Arabic primary (RTL) + English secondary via resources |
-| D4 | Core scope only: Reciters → Surahs → Player + highlight. No radio/live TV/tafsir |
+| D4 | Core scope only: Reciters → Surahs → Player + highlight. No radio/live TV; **simplified tafseer / word meanings / translation IS in scope** via the player's page-view selector (KSU Ayat data) |
 | D5 | All riwayat, ayah sync best-effort where timing exists, graceful degradation |
 | D6 | Emulator-first verification (Android TV AVD) → sideload to real Chromecast with Google TV |
 
@@ -36,6 +36,8 @@ page SVGs — all live-tested): see [references/api-contracts.md](references/api
 - Media3 ExoPlayer 1.10.x (`media3-exoplayer`, `media3-common`, `media3-session`, `media3-datasource-okhttp`)
 - OkHttp + kotlinx-serialization (no Retrofit), Coil (+ coil-svg) listed but AndroidSVG (`com.caverock:androidsvg`) is what actually renders page SVGs
 - `androidx.datastore-preferences` (settings + session), manual constructor DI (`AppContainer`), coroutines + Flow, version catalog `gradle/libs.versions.toml`
+- **Amiri Quran font** bundled at `res/font/amiri_quran.ttf` (SIL OFL) → `QuranFontFamily` in the theme — used ONLY for Quran content (ayah text list, basmala header); UI chrome keeps the system font
+- **KSU Ayat tafseer data**: three SQLite databases bundled as assets (`assets/tafseer/ar_muyassar.ayt` التفسير الميسر, `ar_ma3any.ayt` معاني الكلمات, `en_sahih.ayt` English translation) — each a `(id, sura, aya, text)` table with one row per ayah (6236). Extracted from the official Ayat Linux package (`Images_Tafasir_Translations/contents.standard.ayt`, itself a zip; the inner `.ayt` files are SQLite). Copied to files on first use (`TafseerRepository`), ~2.3 MB in the APK
 
 ## 3. Source map (`app/src/main/java/com/qurantv/app/`)
 
@@ -67,23 +69,28 @@ data/api/
 data/cache/JsonDiskCache.kt atomic tmp-file writes, TTL 24h catalog / forever timing+text+hilites, per-key single-flight
 data/repo/
   CatalogRepository.kt     surahs (ar+en merged), reciters, recent_reads — disk cached
-  TimingRepository.kt      reads list + per-(read,surah) timing, folder_url↔server matching
+  TimingRepository.kt      reads list + per-(read,surah) timing, folder_url↔server matching,
+                           timedServerUrls(), surahsWithTiming() (soar), timingUsability() probe
   QuranTextRepository.kt   Tanzil asset map (verse_key→text + verseTextLength) + Quran.com fallback
   SessionRepository.kt     DataStore: AppSettings (incl. autoHideControls, onlyTimedReciters) + LastSession
   KsuHilitesRepository.kt  KSU per-ayah hilites API + disk cache (forever)
+  TafseerRepository.kt     KSU Ayat SQLite DBs (muyassar/ma3any/en_sahih): tafseerFor(s,a), surahContent(s, mode)
 player/
-  PlaybackController.kt    app-scoped ExoPlayer + MediaSession + audio focus + 100ms ticker
+  PlaybackController.kt    app-scoped ExoPlayer + MediaSession + audio focus + 100ms ticker;
+                           queued-playlist seamless transitions (onMediaItemTransition→attachSurah)
   RepeatMode.kt            OFF / AYAH / SURAH
 ui/
   QuranTvRoot.kt           shell: theme, RTL direction, back handling, screen switch
-  theme/Theme.kt           tv-material night palette (gold/green/cyan on deep navy); SurfaceContainer* shims
-  components/Common.kt     TvCard, TvIconButton (scale+border focus), Loading/Error/Empty states
-  components/SurahJumpDialog.kt
-  components/MushafPickerDialog.kt  style chooser (name + ✓ on current, immediate select)
-  home/                    HomeScreen (header, search bar, Continue card, A–Z rail + reciter rows),
-                            HomeViewModel, SearchOverlay
-  surahs/                  SurahGridScreen (8-col grid, moshaf picker), SurahGridViewModel
-  player/                  PlayerScreen, PlayerViewModel, TextModeList, TransportBar (no seek bar),
+  theme/Theme.kt           tv-material night palette (gold/green/cyan on deep navy); SurfaceContainer* shims; QuranFontFamily
+  components/Common.kt     TvCard, TvIconButton (scale+border focus), Loading/Error/Empty states, NoTimingBadge
+  components/SurahJumpDialog.kt   surah list (dimmed + بدون توقيت badge for untimed surahs)
+  components/MushafPickerDialog.kt  combined display-mode + style chooser (ONE flat list: حفص ملون·آيات حفص·آيات ورش·المدينة·المدينة HD·التجويد الملون·نص; picking a style also enters page mode)
+  components/MoshafSelectionDialog.kt  reciter riwaya chooser (timedServers badges; used by Home, grid, player reciter switch)
+  components/ReciterPickerDialog.kt  player reciter chooser — Arabic-collator sorted + live search + no-timing badges
+  home/                    HomeScreen (header, search bar, Continue card, A–Z rail + reciter FlowRows), HomeViewModel, SearchOverlay
+  surahs/                  SurahGridScreen (8-col grid, moshaf picker, untimed-surah badges), SurahGridViewModel
+  player/                  PlayerScreen, PlayerViewModel, TextModeList, TransportBar (3-zone layout, no seek bar),
+                            SurahContentView (full-surah tafseer/meanings/translation lists w/ auto-scroll),
                             MushafSpreadView (two-page spread + spine + page-turn animation),
                             PageModeView (single page renderer; alignment param),
                             PageImageLoader (mp3quran AndroidSVG→Bitmap),
@@ -92,24 +99,27 @@ ui/
                             TajweedAyahView, AyahImageLoader (islamic.network CDN)
   settings/                SettingsScreen, SettingsViewModel
 res/                       values/ + values-ar/ strings.xml, colors, themes (values-v27 cutout mode),
-                           drawable ic_launcher + tv_banner
+                           drawable ic_launcher + tv_banner; font/amiri_quran.ttf
 assets/quran/quran-uthmani.txt   Tanzil text committed (~1.3 MB); Gradle task re-downloads if missing
+assets/tafseer/*.ayt       KSU Ayat SQLite DBs (ميسر/معاني/ترجمة), ~6.8 MB raw / ~2.3 MB compressed
 scripts/run-emulator.sh     boot TV AVD with audio + install/launch + fullscreen
 scripts/emulator-fullscreen.py  EWMH _NET_WM_STATE_FULLSCREEN via python-Xlib
 ```
 
 ## 4. Data flow per screen
 
-**Home**: `HomeViewModel.loadCatalog()` → `TimingRepository.reads()` (cached forever; normalized `folder_url`s mark which moshaf `server`s have ayah timing) → `CatalogRepository.reciters("ar")` (disk-cached, 24h TTL, single-flight) → grouped by `letter`, each group SORTED alphabetically (Arabic Collator) → vertical list of one `LazyRow` chip-row per letter + `LetterRail`. Setting `onlyTimedReciters` (Settings → فقط القراء مع توقيت الآيات) filters to reciters with ≥1 timed moshaf and keeps only the timed moshafs per reciter (134 of 241 reciters are untimed) — applied live when the setting changes; the Continue card (`continueTarget()`, resolves against the filtered list) and the recent-reads row follow the same filter.
+**Home**: `HomeViewModel.loadCatalog()` → `TimingRepository.reads()` (cached forever; normalized `folder_url`s mark which moshaf `server`s have ayah timing) → `CatalogRepository.reciters("ar")` (disk-cached, 24h TTL, single-flight) → grouped by `letter`, each group SORTED alphabetically (Arabic Collator) → vertical list of `FlowRow` chip-groups per letter (reciters WRAP into multiple short rows — no horizontal scrolling; single-moshaf reciters show NO moshaf count, only >1) + `LetterRail`. Setting `onlyTimedReciters` (Settings → فقط القراء مع توقيت الآيات) filters to reciters with ≥1 timed moshaf and keeps only the timed moshafs per reciter — applied live; the Continue card and recent-reads follow the same filter. **Search** (`SearchOverlay`): an EMPTY query returns the whole sorted list (browsable; typing visibly narrows it); `reciterMatchesQuery` is Arabic-tolerant (normalizes أ/إ/آ/ٱ→ا, ة→ه, ى→ي; case-insensitive substring + initial-letter match); the overlay opens with the field focused + the keyboard shown explicitly (TVs don't always connect the IME — see gotchas), ImeAction.Search + Enter/OK open the first match, plus a visible بحث button.
 
 **Surah grid**: `SurahGridViewModel.open(reciter, moshaf)` → `catalog.surahs("ar")` filtered by `moshaf.availableSurahIds` (empty `surah_list` → assume 1..114). Moshaf picker swaps via `selectMoshaf(index)`. Warms timing cache for the first surah.
 
-**Player**: `PlayerViewModel.play(reciter, moshaf, surah, availableSurahs, resumeFromSession)`:
-1. `TimingRepository.readForMoshaf(moshaf.server)` — match **timing read id** via `folder_url` ↔ `server` (normalized); no match → `hasTiming=false`, audio plays without sync, “no timing data” notice.
+**Player**: `PlayerViewModel.play(reciter, moshaf, surah, availableSurahs, resumeFromSession, startAyahIndex?)`:
+1. `TimingRepository.readForMoshaf(moshaf.server)` — match **timing read id** via `folder_url` ↔ `server` (normalized); no match → `hasTiming=false`, audio plays without sync, “no timing data” notice (moved to the TRANSPORT bar, left of the auto-hide eye).
 2. `timingFor(readId, surahId)` — disk-cached forever; null → graceful degradation.
 3. `buildTextItems()` — timing index i≥1 → verse key via `BasmalaOffset.verseKeyFor` → text from `QuranTextRepository.verseText` (Tanzil first, Quran.com fallback).
 4. `PlaybackController.playSurah(...)` builds `{server}{surah:03d}.mp3`, prepares ExoPlayer, starts ticker.
 5. Session save loop every ~5 s (position throttled).
+6. **Seamless transitions**: when repeat is OFF, the playlist queues the REMAINING surahs (mediaId = surah id); ExoPlayer pre-buffers and transitions with no gap; `onMediaItemTransition` → `onSurahAdvanced` → `handleSurahAdvanced` swaps timing/text via `attachSurah` (no audio re-prepare). Next/prev surah use `seekToNext/PreviousMediaItem`. Surah repeat uses `REPEAT_MODE_ONE` (loops the current item only; ALL would loop the whole queue).
+7. **Reciter switch** from the transport (🎤): `switchReciter` keeps the CURRENT surah (fallback to the moshaf's first) and resumes from the SAME ayah (`startAyahIndex` → the new timing's entry start) when the surah is kept.
 
 ## 5. Core algorithms (unit tested in `app/src/test/.../DomainTests.kt`)
 
@@ -124,17 +134,32 @@ Position 0's virtual basmala slot returns timing index 0 (the header). Runs ever
 100 ms in the ticker; UI state only updates when the index changes.
 
 **Timing reliability check** (`TimingAccuracy`): ayah boundaries are NEVER
-estimated. Some reads' per-ayah timing does not match the actual mp3 — verified
-compressed: read 135 عبدالرحمن السويّد s2 6039 s vs 6757 s (1.119), read 259
-أحمد النفيس (1.095); stretched: read 137 أحمد طالب بن حميد 7458 s vs 5874 s
-(0.788). Reads 5/13/17/62/273 are ≈ 1.000 (reliable). Once the mp3 duration is
-known, `PlaybackController.checkTimingAccuracy` compares it with the timing's
-last end (tolerance 2%); an unreliable read is treated as having NO timing —
-the audio plays but the player shows the surah's FIRST page statically (`spread`
-falls back to `firstPageOfSurah`: surah.startPage for the standard Madinah
-pagination, `warshPageFor(s,1)` / `tajweedPageFor(s,1)` for Warsh/Tajweed) with
-no highlight and no page turn; the “لا يوجد توقيت” notice appears. Unit-tested
-with the verified values.
+estimated. The check is now ASYMMETRIC and trailing-silence aware — mp3quran
+files commonly END WITH SILENCE (verified 1–6 s across reads; e.g. البنا
+المجود s97's file is 84.1 s but the recitation ends at 80.9 s — the timing's
+79.1 s total is EXACT). So the mp3 may be LONGER than the timing by up to
+`max(SILENCE_ALLOWANCE_MS=8_000, 2% relative)` while the timing stays exact
+(covers silence on short AND long surahs), but the timing must never
+significantly OVER-CLAIM the mp3 (reject when the mp3 is shorter than the
+timing by >2% — e.g. read 17 s114: timing 39.1 s vs a 31.0 s file). Genuinely
+bad reads stay rejected: read 135 السويّد compressed (s2 6039 vs 6757 = 1.119),
+read 259 النفيس 1.095, read 137 طالب stretched 0.788, truncations (الحذيفي s1
+timing stops at 45.7 s while the recitation continues to 61.3 s; البنا المجود
+s114 45.0 s timing vs 75.1 s of audio). Reads 5/13/17/62/273 are ≈ 1.000
+(reliable). `PlaybackController.checkTimingAccuracy` compares ExoPlayer's
+mp3 duration against the timing's last end; an unreliable read has NO timing —
+the audio plays but the surah's FIRST page shows statically, with the
+“لا يوجد توقيت” notice; prev/next ayah then BROWSE the mushaf page by page
+(`noTimingPage`, full spread per press, clamped 1..604).
+
+**Badge accuracy** (`TimingRepository.timingUsability`): the `ayat_timing/soar`
+list OVER-CLAIMS (it lists surahs whose timing doesn't match the mp3 — e.g. read
+122 البنا المجود includes s97/s1 which are actually accurate-but-silent, and
+s114 which is truncated). The no-timing badges (reciter cards, surah grid,
+choosers) therefore probe each visible surah's mp3 duration via
+`MediaMetadataRetriever` (skipped for files >10 MB) and cache the verdict
+(`usable2_r<read>_s<surah>`, key versioned because the gate changed). Per-surah
+verdicts are computed lazily as cards are composed (`refineSurahTiming`).
 
 ### 5.2 Basmala / verse mapping (`BasmalaOffset`)
 - Timing index **0 = un-numbered basmala/header slot** (no polygon/page → skip highlight; surah 9 has no basmala).
@@ -148,17 +173,21 @@ with the verified values.
 - **Second source — “Madinah HD” (islamic.app)**: `https://api.islamic.app/v1/mushaf/page/{page}.svg?theme=dark&width=1200` — same standard Madinah pagination as the timing `page` field, so page sync is unchanged. The page's `<text y>` is the BASELINE (glyphs sit above it), and every ayah's text ends with its embedded ۝+digits marker in the last tspan. **RTL text**: AndroidSVG lays MULTIPLE tspans per line in LTR order (single-tspan bidi is fine; `direction=rtl` has no effect — verified by probe), so each line's tspans are MERGED into one for rendering (a single drawText lets Android's bidi lay the RTL line out correctly); the original structure is still parsed for the highlight. `IslamicPageBands.parseLines` extracts the structured lines; `IslamicHiliteRects` (pure, with an injected width `measure` lambda; the loader uses `Paint.measureText`) computes EXACT per-ayah rects with the same region logic as the KSU site — first partial line from the line's left edge to the previous ayah's end, full middle lines, last partial line from the ayah's end (its number) to the line's right edge, same-line ayahs collapse to one rect; vertical band = baseline − 0.95×font … baseline + 0.35×font. See references/api-contracts.md for the source research.
 - **Third source — KSU (Ayat) raster pages** (styles “آيات حفص”/“آيات ورش”/“حفص ملون”): `ayat/safahat1/{p}.png` (456×672), `warsh/{p}.png` (620×1005), `tajweed_png/{p}.png` (456×707). Hafs == standard Madinah pagination (timing `page` field); Warsh and Tajweed use their own bundled paginations (`KsuWarshPageData`, `KsuTajweedPageData` — generated from quran.ksu.edu.sa quran-data.js, Tanzil-sourced page facts).
 - **EXACT per-ayah highlight = the site's own `hilitePage()` algorithm** (`KsuHiliteGeometry`): the hilites values are where each ayah **ENDS**; ayah *k*'s highlight spans from where ayah *k−1* ended to where *k* ends, drawn as up to three rects — the tail of the previous line (left margin → previous end-x = this ayah's first partial line), this ayah's last partial line (end-x → right margin), and the full-width block of complete lines between them; same-line ayahs collapse to one rect. Constants from `engine.js _hlMeta` per mushaf (height/mgwidth/twidth/ofwidth/ofheight/fasel_sura/page_top/page_sura_top; fp_* for the opening pages 1–2 with `prev_top=270`); mid-page surah starts add `fasel_sura`. `KsuHilitesRepository` fetches + caches forever (JsonDiskCache `ksu_hilites`); `PageAyahEstimator` (text-length estimate) is only the offline/fallback path.
-- Page-turn: the page view is a TWO-PAGE SPREAD (odd page right, even page left — the same `page % 2` rule the KSU site uses), forced RTL so it never flips; `MushafSpreadView` animates spread changes as a page turn (slide+fade, direction-aware) via AnimatedContent keyed on the spread's right-page number, and joins the two pages with a folded SPINE ribbon + inner-edge shadows. Both pages are ALIGNED toward the spine (`PageModeView.alignment`: right page CenterEnd, left page CenterStart in the RTL row) so they meet realistically at the center. The spread loader (`loadSpreadSide`) consolidates all page sources with the highlight only on the current-ayah side + next-spread prefetch.
-- Mushaf selection lives in the LOWER transport bar (compact button showing the localized style name → `MushafPickerDialog`: name + ✓ on the current style, immediate select, no redundant hints). The transport has NO seek bar (seeking is via prev/next ayah + surah buttons) — just a non-focusable time readout, plus an eye toggle for auto-hide (persisted `autoHideControls`).
-- Page-mode chrome auto-hides 8 s after the LAST key press while playing — the countdown RESETS on every button press (`lastKeyPress` bumps in the screen-level key handler and keys the hide effect), so navigating the controls never hides them; any key reveals it. The fullscreen page is `.focusable()` so D-pad events keep flowing; pause reveals chrome; INFO/MENU toggles text/page mode.
+- Page-turn: the page view is a TWO-PAGE SPREAD (odd page right, even page left — the same `page % 2` rule the KSU site uses), forced RTL so it never flips; `MushafSpreadView` animates spread changes as a page turn via AnimatedContent keyed on the spread's right-page number — **NEXT page: the new spread slides in from the LEFT, the old slides out to the RIGHT** (reversed from the original), backwards is the mirror — with a folded SPINE ribbon + inner-edge shadows. Both pages ALIGNED toward the spine (`PageModeView.alignment`: right CenterEnd, left CenterStart). The spread loader (`loadSpreadSide`) consolidates all page sources with the highlight only on the current-ayah side + next-spread prefetch.
+- Mushaf selection lives in the LOWER transport bar (compact button showing the localized style name → `MushafPickerDialog`: ONE flat list — حفص ملون · آيات حفص · آيات ورش · المدينة · المدينة HD · التجويد الملون · نص — with ✓ on current and initial focus; picking a mushaf style ALSO switches to page mode). The transport has NO seek bar — just a non-focusable time readout, plus the auto-hide eye toggle.
+- Page-mode chrome is a TRANSLUCENT OVERLAY (0.62-alpha scrim) over the always-full-screen mushaf, auto-hiding **3 s** after the LAST key press while playing (countdown resets on every press via `lastKeyPress`); any key reveals it; pause reveals it; INFO/MENU toggles text/page mode.
 
 ### 5.4 Tanzil basmala stripping (`QuranTextRepository.stripBasmala`)
 Tanzil embeds the basmala prefix in verse 1 of surahs 2–114, but the recitation recites it as the header. Strip it using the data's own `1:1` text (exact character match) so displayed text matches audio 1:1.
 
 ### 5.5 Repeat
 - **Ayah**: ticker sees `pos ≥ entry.endMs` → `seekTo(entry.startMs)`.
-- **Surah**: ExoPlayer `REPEAT_MODE_ALL` on the single-item playlist.
-- **Off**: on `STATE_ENDED` → `onBoundaryExceeded(true)` → autoplay next available surah (none → stop).
+- **Surah**: `REPEAT_MODE_ONE` (loops the CURRENT media item — with the queued playlist, ALL would loop the whole remaining sequence).
+- **Off**: on `STATE_ENDED` (only at the END of the queued playlist) → `onBoundaryExceeded(true)` → next surah (none → stop).
+
+### 5.6 Transport bar layout & page views
+- The transport bar is THREE equal zones (D-pad friendly): LEFT `[السور][1×][repeat][time]` · CENTER the playback cluster dead-centre `[next-su][next-ay][⏯][prev-ay][prev-su]` (RTL: next on the LEFT of play) · RIGHT `[eye][🎤 reciter][mushaf style]`. The cluster is emitted direction-aware (children reversed in RTL) so the on-screen order is identical in Arabic and English; the material directional icons auto-mirror in RTL, so `TransportButton` un-mirrors them with `Modifier.scale(scaleX = -1f)` when RTL to keep the standard outward-pointing look.
+- **Page view selector** (top-bar button, label shows the current view → 4-option chooser with ✓): `صفحة المصحف` (the two-page spread) · `التفسير الميسر` · `معاني الكلمات` · `الترجمة`. The non-mushaf views show the WHOLE SURAH, one ayah per row (`SurahContentView`, text-mode-style follow: current ayah highlighted + AUTO-SCROLLS with the recitation when timing exists, static without). Data from `TafseerRepository.surahContent(surahId, mode)` (bundled SQLite DBs).
 
 ## 6. Caching & offline
 
@@ -170,7 +199,7 @@ Tanzil embeds the basmala prefix in verse 1 of surahs 2–114, but the recitatio
 
 ## 7. Session & settings (`SessionRepository`, DataStore)
 
-- `AppSettings`: language (ar/en), defaultSpeed, fontSizeIndex (0..2), highlightColorIndex (0..2), displayMode (0=text, 1=page), mushafStyle (0=Madinah SVG, 1=Tajweed images), ayahOffset.
+- `AppSettings`: language (ar/en), defaultSpeed, fontSizeIndex (0..2), highlightColorIndex (0..2), displayMode (0=text, 1=page — the DEFAULT, page mode), mushafStyle (0..5 — default **5 = حفص ملون** Hafs Tajweed), ayahOffset, autoHideControls, onlyTimedReciters. (A transient `showTafseer` setting was tried then REMOVED — the page view is chosen in the player's view selector instead.)
 - `LastSession`: reciter/moshaf/surah/ayah/position/updatedAt; written ≤ every 5 s; shown as the Home Continue card; position restored on play when `resumeFromSession=true`.
 - Locale: `LocaleManager` mirrors language to SharedPreferences so `MainActivity.attachBaseContext` can wrap synchronously; language change triggers `recreate()`.
 
@@ -185,7 +214,7 @@ Tanzil embeds the basmala prefix in verse 1 of surahs 2–114, but the recitatio
 ```bash
 export JAVA_HOME=/home/mohamed/jdk            # or any JDK 17+
 ./gradlew :app:assembleDebug                  # APK → app/build/outputs/apk/debug/app-debug.apk
-./gradlew :app:testDebugUnitTest              # 26 unit tests (parsing, URLs, timing search, mapping, basmala)
+./gradlew :app:testDebugUnitTest              # 60 unit tests (parsing, URLs, timing search, mapping, basmala, accuracy incl. silence, reciter search)
 ./gradlew :app:lintDebug                      # MUST pass 0 errors (minSdk 23 gate)
 ```
 
@@ -208,12 +237,16 @@ Note: this model cannot view screenshots — verify UI via uiautomator dumps (te
 - Conventional commits (`feat:` `fix:` `chore:` `docs:` `test:`); work on `phase/N-<name>` branches or commit directly to `main` for small changes.
 - Never commit `local.properties`, build outputs, IDE files (`.gitignore` covers them).
 - After each change: run assemble + tests + lint, update `TASKS.md` progress log, commit.
+- **Release**: bump `versionCode`/`versionName` in `app/build.gradle.kts`, rebuild, and push the APK to the samba share as `QuranTV-<version>-debug.apk` (`/mnt/rpi-share`, CIFS; verify with md5sum — keep the previous versions for rollback).
 
 ## 11. Gotchas & constraints (verified, do not re-invent)
 
 - Timing **read id ≠ reciter id** — always match `reads[].folder_url` ↔ `moshaf.server` (trailing slashes normalized; servers may contain subdirectories).
 - `surah_list` is a comma string, may end with `,`, may be a subset (e.g. 83/114) — parse defensively, only list available surahs; a missing surah 404s.
 - Audio URL: `{normalized server}{surah:03d}.mp3`.
+- **Trailing silence**: mp3quran mp3s commonly end with 1–6 s of silence — the TIMING is exact but the FILE is longer. The accuracy gate is asymmetric (`max(8 s, 2%)` longer side, 2% over-claim); do NOT revert to a symmetric 2% gate or accurate timings get wrongly disabled. The `soar` list OVER-CLAIMS surahs whose timing doesn't actually match — trust `timingUsability` (MediaMetadataRetriever probe, ≤10 MB) for badges, not the soar list.
+- **TV keyboard/IME**: a focused text field does NOT reliably create an input connection on some TV builds (`mServedInputConnection=null` — reproducible on the TV AVD, which ships GBoard refusing TV input). Text fields must explicitly `keyboard?.show()` after gaining focus; provide `ImeAction.Search` + Enter/OK handling AND a visible fallback button. Typing can't be exercised on the emulator.
+- **Reciter search Arabic**: match after normalizing أ/إ/آ/ٱ→ا, ة→ه, ى→ي (see `reciterMatchesQuery`) — plain `contains` misses alternate spellings.
 - `ayah 0` = basmala/header (no polygon/page) → skip highlight; surah 9 has none.
 - Timestamps are integer ms; guard zero-width intervals (done in `TimingIndex` + `toDomain`).
 - Always https; OkHttp follows the 301 redirects (do not disable).
@@ -221,12 +254,14 @@ Note: this model cannot view screenshots — verify UI via uiautomator dumps (te
 - Page SVGs vary in viewBox — always parse it from the SVG.
 - Media3 APIs are `@UnstableApi` — new ExoPlayer/MediaSession code needs `@OptIn(UnstableApi::class)` (see `PlaybackController`); don't propagate to callers.
 - Some resource strings in `strings.xml` are intentionally unused long-forms (repeat_off, play, …) — harmless; prefer short variants in the UI.
-- No ads, payments, analytics; free-feeling app; keep modules separable for later phases (radio/live-TV/tafsir slot in without rewriting).
+- **Material icons auto-mirror in RTL** — directional icons (NavigateBefore/Next, SkipPrevious/Next) render flipped in an RTL composition; un-mirror with `Modifier.scale(scaleX = -1f)` when RTL for the standard look.
+- **Screen saver**: page mode sets `view.keepScreenOn = ui.isPlaying` (DisposableEffect) so the TV's daydream doesn't dim during playback; the AVD has no dream service so the flag is verified via window attrs.
+- No ads, payments, analytics; free-feeling app; keep modules separable for later phases (radio/live-TV slot in without rewriting).
 
 ## 12. Known limitations / deferred work
 
 - **Background `MediaSessionService`**: deliberately out of scope (activity-scoped `MediaSession` only). Would need FOREGROUND_SERVICE + notification + a service in `AndroidManifest.xml`; keep playback app-scoped via `PlaybackController` in `AppContainer` (already survives navigation).
-- **Real-device pass** (user-side, README): remote media-key routing, offline audio-failure → Retry, focus feel/60fps on actual TV GPU, on-screen keyboard search, banner appearance.
+- **Real-device pass** (user-side, README): remote media-key routing, offline audio-failure → Retry, focus feel/60fps on actual TV GPU, banner appearance. (Search typing depends on the TV's Leanback keyboard; the field + IME-action + visible button are in place but typing can't be verified on the emulator.)
 - **Emulator airplane mode** doesn't block Ethernet → offline audio-failure path can't be exercised there; code path is `onPlayerError → error state`.
 - Non-Hafs riwayat sync is best-effort.
 - `recent_reads` row on Home is a soft-fail row (error → hidden).

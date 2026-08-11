@@ -5,7 +5,7 @@
         version="0.1.0"
         viewmodes="maximized">
     <!-- Quran TV — shared Tizen port (see web/ in the mp3qurantv repo) -->
-    <tizen:application id="QuranTV.web" package="org.qurantv" required_version="2.3"/>
+    <tizen:application id="QuranTV.web" package="org.qurantv" required_version="2.2"/>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.normal.1080p"/>
     <feature name="http://tizen.org/feature/screen.size.normal.uhd"/>

@@ -262,10 +262,18 @@ ar/en RTL. Tafseer side panel (KSU .ayt → JSON conversion) DEFERRED to a later
 - [x] Session save loop (~5 s), Continue restore (startAyahIndex)
 - [~] Commit: `feat: UI shell + screens + player engine`
 
-## Phase B7 — Verification (in progress early)
+## Phase B7 — Verification (in progress)
 
 - [x] Playwright Chromium TV-keycode smoke tests (Vidaa-runtime stand-in): catalog+D-pad, timed reciter → grid → player → REAL audio + highlight movement (sync) + page mode + text toggle + play/pause + back stack; no-timing graceful degradation — 3/3 green
-- [~] Tizen TV emulator: boot, install .wgt, launch, drive UI (blocked on emulator package download)
+- [x] **Tizen TV Simulator (Samsung's own)**: app installed from the built `QuranTV.wgt` (extracted + registered via `ripple/worker.installWgtApp` over CDP) and LAUNCHED — full runtime walk: Home (live reciters) → search العجمي → grid → player → real audio (001.mp3 → auto-advanced to 002.mp3 at surah end!) → ayah sync (currentAyah 6→7 with `hasTiming:true`, polygonPoints 9) → text mode (287 rows) → page mode (003.svg + highlight overlay). Verified 2026-08-11. Screenshot: `web/docs-simulator-tizen.png`
+- [~] **Tizen TV emulator (QEMU, tv-samsung-10.0)**: boots, sdb connects, wgt pushes — install blocked by Samsung's signing gate ("Operation not allowed" — needs author+distributor certs; CLI cert plumbing hit an XML-signature issue; the GUI Certificate Manager or a Samsung cert is the supported path). Simulator verification covers the runtime; emulator install requires the user-side certificate step.
+
+### Tizen install/signing notes (from this session)
+
+- `tizen install` on the TV emulator needs `tizen install-permit` which needs an ACTIVE certificate profile with BOTH an author AND a distributor cert
+- `tizen certificate` CLI creates only the author cert; profiles.xml must contain a distributor p12 too (keytool-generated p12 must use the bundled JDK 8 — modern JDKs write PBES2 formats the signer can't read)
+- The wgt XML-signing step failed with "Can't create XML Signature file" (the signer wants a CA cert file path) — the GUI Certificate Manager (Samsung certificate extension) is the supported way to mint a proper TV profile
+- The **TV Simulator** (sec-tv-simulator, nw.js, `--remote-debugging-port`) needs NO signing and validated the app end-to-end; the TV QEMU emulator's sdb shell channel is silent on this image (known TV-emulator quirk), so simulator+CDP is the practical automation path
 
 ## Phase B6 — Packaging + docs
 

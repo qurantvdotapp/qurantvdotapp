@@ -337,11 +337,13 @@ private fun ReciterChip(reciter: Reciter, onClick: () -> Unit) {
             maxLines = 1,
             overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
         )
-        Text(
-            text = stringResource(R.string.moshafs_count, reciter.moshafs.size),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        if (reciter.moshafs.size > 1) {
+            Text(
+                text = stringResource(R.string.moshafs_count, reciter.moshafs.size),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
     }
 }
 

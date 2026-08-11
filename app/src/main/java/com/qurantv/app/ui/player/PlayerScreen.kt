@@ -63,6 +63,9 @@ private val highlightColors = listOf(
     Color(0xFF4FC3F7), // cyan
 )
 
+/** Translucent scrim behind the overlay top bar / transport in page mode. */
+private val ChromeScrim = Color.Black.copy(alpha = 0.62f)
+
 private val fontSizeSpByIndex = mapOf(0 to 22, 1 to 26, 2 to 32)
 
 @Composable
@@ -340,7 +343,7 @@ fun PlayerScreen(
     val pageFocus = remember { FocusRequester() }
     LaunchedEffect(isPageMode, ui.isPlaying, chromeVisible, settings.autoHideControls, lastKeyPress) {
         if (isPageMode && ui.isPlaying && chromeVisible && settings.autoHideControls) {
-            kotlinx.coroutines.delay(8_000)
+            kotlinx.coroutines.delay(3_000)
             chromeVisible = false
         }
     }
@@ -380,102 +383,8 @@ fun PlayerScreen(
                 } else false
             },
     ) {
-        if (isPageMode && !chromeVisible) {
-            // Chrome hidden: just the mushaf page, full-bleed (focusable so key
-            // events keep flowing through the screen-level handler).
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .focusRequester(pageFocus)
-                    .focusable(),
-            ) {
-                if (settings.mushafStyle == 1) {
-                    TajweedAyahView(
-                        bitmap = tajweedBitmap,
-                        highlightColor = highlightColor,
-                        showBasmala = ui.currentAyahIndex <= 0,
-                    )
-                } else {
-                    MushafSpreadView(spread = spread, highlightColor = highlightColor)
-                }
-            }
-        } else {
-        // Top bar (compact to leave room for more ayahs)
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(start = 32.dp, end = 32.dp, top = 10.dp, bottom = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            TvIconButton(onClick = onBack) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.back),
-                    tint = MaterialTheme.colorScheme.onSurface,
-                )
-            }
-            Spacer(Modifier.width(14.dp))
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = ui.surah?.nameAr ?: "",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                Text(
-                    text = listOfNotNull(ui.reciter?.name, ui.moshaf?.name).joinToString(" • "),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            if (ui.hasTiming.not()) {
-                Text(
-                    text = stringResource(R.string.no_timing_short),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
-        }
-
-        // Content
-        Box(Modifier.weight(1f).fillMaxWidth()) {
-            if (ui.error) {
-                ErrorState(onRetry = { vm.retry() }, message = stringResource(R.string.error_audio))
-            } else if (isTextMode) {
-                Column(Modifier.fillMaxSize()) {
-                    // The recited basmala is its own audio segment (timing index 0),
-                    // so it is shown as a surah header above the verse list and
-                    // highlighted while it plays. Every surah starts with it except
-                    // Al-Tawbah (9); surah 1's verse 1:1 IS the basmala (no header).
-                    val surahId = ui.surah?.id
-                    if (surahId != null && surahId != 1 && surahId != 9) {
-                        BasmalaHeader(isCurrent = ui.currentAyahIndex == 0)
-                    }
-                    TextModeList(
-                        items = viewState.textItems,
-                        currentIndex = ui.currentAyahIndex,
-                        fontSizeSp = fontSizeSp,
-                        highlightColor = highlightColor,
-                        onSelect = { index -> vm.seekToAyah(index) },
-                        resetKey = screen.surah.id,
-                        modifier = Modifier.weight(1f),
-                        positionMs = positionMs,
-                        currentAyahStartMs = currentAyah?.startMs ?: 0L,
-                        currentAyahEndMs = currentAyah?.endMs ?: 0L,
-                        isPlaying = ui.isPlaying,
-                    )
-                }
-            } else if (settings.mushafStyle == 1) {
-                TajweedAyahView(
-                    bitmap = tajweedBitmap,
-                    highlightColor = highlightColor,
-                    showBasmala = ui.currentAyahIndex <= 0,
-                )
-            } else {
-                Box(Modifier.fillMaxSize()) {
-                    MushafSpreadView(spread = spread, highlightColor = highlightColor)
-                }
-            }
-        }
-
-        // Transport
+        // Transport helpers shared by text mode (normal layout) and page mode
+        // (translucent overlay).
         val mushafLabel = when (settings.mushafStyle) {
             1 -> stringResource(R.string.mushaf_tajweed)
             2 -> stringResource(R.string.mushaf_madinah_hd)
@@ -492,23 +401,137 @@ fun PlayerScreen(
             noTimingPage = (base + delta).coerceIn(1, 604)
         }
         val canBrowsePages = isPageMode && settings.mushafStyle != 1 && !ui.hasTiming
-        TransportBar(
-            state = ui,
-            positionMs = positionMs,
-            mushafLabel = mushafLabel,
-            autoHideEnabled = settings.autoHideControls,
-            playFocusRequester = playFocus,
-            onTogglePlayPause = { vm.togglePlayPause() },
-            onPrevAyah = { if (canBrowsePages) stepNoTimingPage(-2) else vm.previousAyah() },
-            onNextAyah = { if (canBrowsePages) stepNoTimingPage(2) else vm.nextAyah() },
-            onPrevSurah = { vm.previousSurah() },
-            onNextSurah = { vm.nextSurah() },
-            onCycleRepeat = { vm.cycleRepeat() },
-            onCycleSpeed = { vm.cycleSpeed() },
-            onOpenSurahJump = { jumpOpen = true },
-            onOpenMushafPicker = { mushafPickerOpen = true },
-            onToggleAutoHide = { vm.toggleAutoHideControls() },
-        )
+
+        @Composable
+        fun PlayerTransport() {
+            TransportBar(
+                state = ui,
+                positionMs = positionMs,
+                mushafLabel = mushafLabel,
+                autoHideEnabled = settings.autoHideControls,
+                playFocusRequester = playFocus,
+                onTogglePlayPause = { vm.togglePlayPause() },
+                onPrevAyah = { if (canBrowsePages) stepNoTimingPage(-2) else vm.previousAyah() },
+                onNextAyah = { if (canBrowsePages) stepNoTimingPage(2) else vm.nextAyah() },
+                onPrevSurah = { vm.previousSurah() },
+                onNextSurah = { vm.nextSurah() },
+                onCycleRepeat = { vm.cycleRepeat() },
+                onCycleSpeed = { vm.cycleSpeed() },
+                onOpenSurahJump = { jumpOpen = true },
+                onOpenMushafPicker = { mushafPickerOpen = true },
+                onToggleAutoHide = { vm.toggleAutoHideControls() },
+            )
+        }
+
+        @Composable
+        fun PlayerTopBar(modifier: Modifier = Modifier) {
+            Row(
+                modifier = modifier.padding(start = 32.dp, end = 32.dp, top = 10.dp, bottom = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                TvIconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back),
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+                Spacer(Modifier.width(14.dp))
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        text = ui.surah?.nameAr ?: "",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    Text(
+                        text = listOfNotNull(ui.reciter?.name, ui.moshaf?.name).joinToString(" • "),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                if (ui.hasTiming.not()) {
+                    Text(
+                        text = stringResource(R.string.no_timing_short),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            }
+        }
+
+        if (isTextMode) {
+            // Text mode keeps a normal layout: bars above/below the verse list.
+            PlayerTopBar()
+            Box(Modifier.weight(1f).fillMaxWidth()) {
+                if (ui.error) {
+                    ErrorState(onRetry = { vm.retry() }, message = stringResource(R.string.error_audio))
+                } else {
+                    Column(Modifier.fillMaxSize()) {
+                        // The recited basmala is its own audio segment (timing index 0),
+                        // so it is shown as a surah header above the verse list and
+                        // highlighted while it plays. Every surah starts with it except
+                        // Al-Tawbah (9); surah 1's verse 1:1 IS the basmala (no header).
+                        val surahId = ui.surah?.id
+                        if (surahId != null && surahId != 1 && surahId != 9) {
+                            BasmalaHeader(isCurrent = ui.currentAyahIndex == 0)
+                        }
+                        TextModeList(
+                            items = viewState.textItems,
+                            currentIndex = ui.currentAyahIndex,
+                            fontSizeSp = fontSizeSp,
+                            highlightColor = highlightColor,
+                            onSelect = { index -> vm.seekToAyah(index) },
+                            resetKey = screen.surah.id,
+                            modifier = Modifier.weight(1f),
+                            positionMs = positionMs,
+                            currentAyahStartMs = currentAyah?.startMs ?: 0L,
+                            currentAyahEndMs = currentAyah?.endMs ?: 0L,
+                            isPlaying = ui.isPlaying,
+                        )
+                    }
+                }
+            }
+            PlayerTransport()
+        } else {
+            // Page mode: the mushaf always fills the screen and the chrome (top
+            // bar + transport) is a translucent OVERLAY that appears on a key press
+            // and auto-hides after a few seconds.
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .then(
+                        if (chromeVisible) Modifier
+                        else Modifier.focusRequester(pageFocus).focusable()
+                    ),
+            ) {
+                if (ui.error) {
+                    ErrorState(onRetry = { vm.retry() }, message = stringResource(R.string.error_audio))
+                } else if (settings.mushafStyle == 1) {
+                    TajweedAyahView(
+                        bitmap = tajweedBitmap,
+                        highlightColor = highlightColor,
+                        showBasmala = ui.currentAyahIndex <= 0,
+                    )
+                } else {
+                    MushafSpreadView(spread = spread, highlightColor = highlightColor)
+                }
+                if (chromeVisible) {
+                    PlayerTopBar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.TopCenter)
+                            .background(ChromeScrim),
+                    )
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.BottomCenter)
+                            .background(ChromeScrim),
+                    ) {
+                        PlayerTransport()
+                    }
+                }
+            }
         }
     }
 

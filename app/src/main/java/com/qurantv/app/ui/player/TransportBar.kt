@@ -8,18 +8,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.NavigateBefore
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
-import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.RepeatOne
-import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
@@ -78,7 +77,6 @@ fun TransportBar(
     onOpenSurahJump: () -> Unit,
     onOpenMushafPicker: () -> Unit,
     onToggleAutoHide: () -> Unit,
-    onToggleMode: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
@@ -87,22 +85,12 @@ fun TransportBar(
         modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // ---- Right zone: view controls — display mode at the far right, the
-        // mushaf style picker immediately to its left, then the auto-hide eye.
-        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+        // ---- Right zone: view controls — the auto-hide eye, and the single
+        // mushaf button (opens the combined display-mode + style list).
+        // Zone weights: the center (playback cluster + time) gets extra room so
+        // the time readout always fits on ONE line next to the next-surah button.
+        Box(Modifier.weight(0.8f), contentAlignment = Alignment.CenterStart) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                TvIconButton(onClick = onToggleMode) {
-                    Icon(
-                        imageVector = if (state.hasTiming || state.timing != null) Icons.AutoMirrored.Filled.MenuBook else Icons.Filled.TextFields,
-                        contentDescription = stringResource(R.string.display_mode),
-                        modifier = Modifier.size(22.dp),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                    )
-                }
-                Spacer(Modifier.width(8.dp))
-                // Mushaf style selection, immediately left of the mode toggle.
-                LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
-                Spacer(Modifier.width(8.dp))
                 TvIconButton(onClick = onToggleAutoHide) {
                     Icon(
                         imageVector = if (autoHideEnabled) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
@@ -111,29 +99,25 @@ fun TransportBar(
                         tint = MaterialTheme.colorScheme.onSurface,
                     )
                 }
+                Spacer(Modifier.width(8.dp))
+                // The combined display-mode + mushaf-style chooser.
+                LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
             }
         }
 
         // ---- Center zone: the playback cluster, dead centre — with the time
         // readout immediately LEFT of the next-surah button.
-        Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
+        Box(Modifier.weight(1.4f), contentAlignment = Alignment.Center) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                // Playback cluster. Desired on-screen (left → right) order: time ·
-                // next surah · next ayah · play · previous ayah · previous surah.
-                // A Row lays children right-to-left in RTL, so the declaration
-                // order there is the reverse of the visual order.
+                // Desired on-screen (left → right) order: time · next surah · next
+                // ayah · play · previous ayah · previous surah. A Row lays children
+                // right-to-left in RTL, so the time is emitted LAST there (which
+                // puts it leftmost) and FIRST in LTR.
+                if (!rtl) {
+                    TimeReadout(positionMs, state.durationMs)
+                    Spacer(Modifier.width(10.dp))
+                }
                 val cluster: List<@Composable () -> Unit> = listOf(
-                    {
-                        // Time readout — NOT focusable, so D-pad never gets stuck on it.
-                        Text(
-                            text = "${formatTime(positionMs)} / ${formatTime(state.durationMs)}",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier
-                                .background(com.qurantv.app.ui.theme.SurfaceContainer, RoundedCornerShape(8.dp))
-                                .padding(horizontal = 12.dp, vertical = 6.dp),
-                        )
-                    },
                     { TransportButton(icon = Icons.Filled.SkipNext, onClick = onNextSurah, label = stringResource(R.string.next_surah), mirror = rtl) },
                     { TransportButton(icon = Icons.Filled.NavigateNext, onClick = onNextAyah, label = stringResource(R.string.next_ayah), mirror = rtl) },
                     {
@@ -157,11 +141,15 @@ fun TransportBar(
                     if (i > 0) Spacer(Modifier.width(8.dp))
                     slot()
                 }
+                if (rtl) {
+                    Spacer(Modifier.width(10.dp))
+                    TimeReadout(positionMs, state.durationMs)
+                }
             }
         }
 
         // ---- Left zone: repeat · speed · jump-to-surah.
-        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
+        Box(Modifier.weight(0.8f), contentAlignment = Alignment.CenterEnd) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 val repeatActive = state.repeatMode != RepeatMode.OFF
                 TvIconButton(onClick = onCycleRepeat) {
@@ -203,6 +191,20 @@ private fun TransportButton(
             tint = MaterialTheme.colorScheme.onSurface,
         )
     }
+}
+
+@Composable
+private fun TimeReadout(positionMs: Long, durationMs: Long) {
+    Text(
+        text = "${formatTime(positionMs)} / ${formatTime(durationMs)}",
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        maxLines = 1,
+        modifier = Modifier
+            .widthIn(min = 130.dp)
+            .background(com.qurantv.app.ui.theme.SurfaceContainer, RoundedCornerShape(8.dp))
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+    )
 }
 
 private fun speedLabel(speed: Float): String {

@@ -224,6 +224,10 @@ class PlayerViewModel(
         viewModelScope.launch { sessionRepository.setDisplayMode(next) }
     }
 
+    fun setDisplayMode(mode: Int) {
+        viewModelScope.launch { sessionRepository.setDisplayMode(mode.coerceIn(0, 1)) }
+    }
+
     fun toggleMushafStyle() {
         // Cycle Madinah SVG → Tajweed → Madinah HD → Ayat Hafs → Ayat Warsh → Hafs Tajweed → back.
         val next = (_screen.value.settings.mushafStyle + 1) % 6

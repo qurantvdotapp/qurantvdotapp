@@ -508,7 +508,6 @@ fun PlayerScreen(
             onOpenSurahJump = { jumpOpen = true },
             onOpenMushafPicker = { mushafPickerOpen = true },
             onToggleAutoHide = { vm.toggleAutoHideControls() },
-            onToggleMode = { vm.toggleDisplayMode() },
         )
         }
     }
@@ -538,7 +537,12 @@ fun PlayerScreen(
 
     if (mushafPickerOpen) {
         MushafPickerDialog(
+            displayMode = settings.displayMode,
             currentStyle = settings.mushafStyle,
+            onSelectDisplayMode = { mode ->
+                mushafPickerOpen = false
+                vm.setDisplayMode(mode)
+            },
             onSelect = { style ->
                 mushafPickerOpen = false
                 vm.selectMushafStyle(style)

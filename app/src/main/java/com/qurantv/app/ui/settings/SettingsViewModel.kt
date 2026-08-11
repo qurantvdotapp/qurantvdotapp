@@ -50,4 +50,8 @@ class SettingsViewModel(
     fun setOnlyTimedReciters(enabled: Boolean) {
         viewModelScope.launch { sessions.setOnlyTimedReciters(enabled) }
     }
+
+    fun setShowTafseer(enabled: Boolean) {
+        viewModelScope.launch { sessions.setShowTafseer(enabled) }
+    }
 }

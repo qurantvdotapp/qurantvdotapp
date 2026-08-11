@@ -164,6 +164,23 @@ fun SettingsScreen(
             )
         }
 
+        SettingsSection(title = stringResource(R.string.show_tafseer)) {
+            Text(
+                text = stringResource(R.string.show_tafseer_desc),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 8.dp),
+            )
+            OptionRow(
+                options = listOf(
+                    stringResource(R.string.option_off) to false,
+                    stringResource(R.string.option_on) to true,
+                ),
+                selected = settings.showTafseer,
+                onSelect = { value -> vm.setShowTafseer(value) },
+            )
+        }
+
         Spacer(Modifier.width(24.dp))
         Text(
             text = stringResource(R.string.about_text) + " · v" + versionName(),

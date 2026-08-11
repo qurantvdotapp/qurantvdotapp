@@ -57,6 +57,11 @@
     <string name="auto_hide">Auto-hide controls</string>
     <string name="mushaf_pick_hint">Choose how the Quran pages look</string>
     <string name="only_timed_reciters">Only reciters with ayah timing</string>
+    <string name="show_tafseer">Tafseer on the other mushaf page</string>
+    <string name="show_tafseer_desc">Show the simplified tafseer, word meanings and translation on the page that is not reciting</string>
+    <string name="tafseer_word_meanings">Word meanings</string>
+    <string name="tafseer_simplified">Simplified tafseer</string>
+    <string name="tafseer_translation">Translation</string>
     <string name="option_off">Off</string>
     <string name="option_on">On</string>
     <string name="loading">Loading…</string>

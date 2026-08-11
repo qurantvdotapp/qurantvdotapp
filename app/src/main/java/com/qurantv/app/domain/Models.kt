@@ -86,3 +86,11 @@ data class SurahTiming(
  * Used by the offline text-length estimate and KSU fallback paths.
  */
 data class PageAyahBand(val yTop: Float, val yBottom: Float)
+
+/** Simplified tafseer (الميسر) + word meanings (المعاني) + English translation
+ *  for one ayah, from the KSU Ayat app's bundled databases. */
+data class AyahTafseer(
+    val tafseer: String,
+    val wordMeanings: String,
+    val translation: String,
+)

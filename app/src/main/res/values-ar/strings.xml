@@ -57,6 +57,11 @@
     <string name="auto_hide">إخفاء التحكمات تلقائيًا</string>
     <string name="mushaf_pick_hint">اختر شكل صفحات المصحف</string>
     <string name="only_timed_reciters">فقط القراء مع توقيت الآيات</string>
+    <string name="show_tafseer">التفسير في صفحة المصحف الأخرى</string>
+    <string name="show_tafseer_desc">عرض التفسير الميسر ومعاني الكلمات والترجمة في الصفحة غير المتلوة</string>
+    <string name="tafseer_word_meanings">معاني الكلمات</string>
+    <string name="tafseer_simplified">التفسير الميسر</string>
+    <string name="tafseer_translation">الترجمة</string>
     <string name="option_off">معطل</string>
     <string name="option_on">مفعل</string>
     <string name="loading">جارٍ التحميل…</string>

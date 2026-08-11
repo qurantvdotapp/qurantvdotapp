@@ -133,12 +133,39 @@ fun PlayerScreen(
     // Manual mushaf browsing when the surah has NO ayah timing: the spread shows
     // the surah's first page statically and prev/next ayah turn the page instead.
     var noTimingPage by remember { mutableStateOf<Int?>(null) }
+    // Tafseer panel: the mushaf page that is NOT reciting shows the current
+    // ayah's simplified tafseer / word meanings / translation.
+    var currentSideRight by remember { mutableStateOf(true) }
+    var tafseer by remember { mutableStateOf<com.qurantv.app.domain.AyahTafseer?>(null) }
+    val tafseerFocus = remember { FocusRequester() }
+    var tafseerFocused by remember { mutableStateOf(false) }
     val isTextMode = settings.displayMode == 0
     val isPageMode = !isTextMode
 
     // Look the current ayah's entry up by TIMING INDEX (reads may omit the
     // index-0 basmala entry, so list position ≠ timing index).
     val currentAyah = ui.timing?.entryFor(ui.currentAyahIndex)
+
+    // Tafseer: the current ayah's verse reference, text and (loaded) tafseer.
+    val tafseerVerseLabel = remember(ui.surah?.id, ui.currentAyahIndex) {
+        val s = ui.surah?.id ?: return@remember ""
+        val a = com.qurantv.app.domain.BasmalaOffset.verseKeyFor(
+            ui.currentAyahIndex, s, ui.surah?.versesCount ?: 0, viewState.ayahOffset,
+        )?.substringAfter(':')
+        if (a != null) "$s : $a" else ""
+    }
+    val currentAyahText = remember(ui.currentAyahIndex, viewState.textItems) {
+        viewState.textItems.firstOrNull { it.index == ui.currentAyahIndex }?.text ?: ""
+    }
+    LaunchedEffect(ui.surah?.id, ui.currentAyahIndex, settings.showTafseer) {
+        tafseer = null
+        if (!settings.showTafseer || ui.currentAyahIndex <= 0) return@LaunchedEffect
+        val surah = ui.surah ?: return@LaunchedEffect
+        val a = com.qurantv.app.domain.BasmalaOffset.verseKeyFor(
+            ui.currentAyahIndex, surah.id, surah.versesCount, viewState.ayahOffset,
+        )?.substringAfter(':')?.toIntOrNull() ?: return@LaunchedEffect
+        tafseer = container.tafseerRepository.tafseerFor(surah.id, a)
+    }
 
     // Tajweed per-ayah image loading (style 1 — single image, not a spread).
     val ayahLoader = remember { container.ayahImageLoader }
@@ -320,6 +347,7 @@ fun PlayerScreen(
             ?: return@LaunchedEffect
         val rightPage = if (P % 2 == 1) P else P - 1
         val leftPage = rightPage + 1
+        currentSideRight = P == rightPage
         val right = loadSpreadSide(rightPage, isCurrent = track && P == rightPage, surah = surah)
         val left = loadSpreadSide(leftPage, isCurrent = track && P == leftPage, surah = surah)
         spread = SpreadState(right = right, left = left, key = rightPage)
@@ -382,8 +410,16 @@ fun PlayerScreen(
     LaunchedEffect(ui.isPlaying) {
         if (!ui.isPlaying && isPageMode) chromeVisible = true
     }
-    LaunchedEffect(chromeVisible) {
-        if (chromeVisible) playFocus.requestFocus() else pageFocus.requestFocus()
+    LaunchedEffect(chromeVisible, settings.showTafseer) {
+        if (chromeVisible) {
+            playFocus.requestFocus()
+        } else if (settings.showTafseer && isPageMode && tafseer != null) {
+            // Fullscreen with tafseer: the panel holds focus so the D-pad
+            // scrolls it (any other key still reveals the chrome).
+            tafseerFocus.requestFocus()
+        } else {
+            pageFocus.requestFocus()
+        }
     }
 
     Column(
@@ -406,7 +442,7 @@ fun PlayerScreen(
                             false
                         }
                         else -> {
-                            if (isPageMode && !chromeVisible) chromeVisible = true
+                            if (isPageMode && !chromeVisible && !tafseerFocused) chromeVisible = true
                             false
                         }
                     }
@@ -537,7 +573,16 @@ fun PlayerScreen(
                         showBasmala = ui.currentAyahIndex <= 0,
                     )
                 } else {
-                    MushafSpreadView(spread = spread, highlightColor = highlightColor)
+                    MushafSpreadView(
+                        spread = spread,
+                        highlightColor = highlightColor,
+                        tafseer = if (settings.showTafseer) tafseer else null,
+                        tafseerOnLeft = !currentSideRight,
+                        tafseerVerseLabel = tafseerVerseLabel,
+                        tafseerAyahText = currentAyahText,
+                        tafseerFocus = tafseerFocus,
+                        onTafseerFocusChanged = { tafseerFocused = it },
+                    )
                 }
                 if (chromeVisible) {
                     PlayerTopBar(

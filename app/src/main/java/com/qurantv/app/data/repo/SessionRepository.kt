@@ -26,6 +26,7 @@ data class AppSettings(
     val ayahOffset: Int = 0, // basmala offset for non-Hafs riwayat (best effort)
     val autoHideControls: Boolean = true, // auto-hide the player chrome while playing in page mode
     val onlyTimedReciters: Boolean = false, // show only reciters/moshafs with ayah timing data
+    val showTafseer: Boolean = false, // show the simplified tafseer on the mushaf page NOT reciting
 )
 
 data class LastSession(
@@ -57,6 +58,7 @@ class SessionRepository(private val context: Context) {
         val ayahOffset = intPreferencesKey("ayah_offset")
         val autoHideControls = booleanPreferencesKey("auto_hide_controls")
         val onlyTimedReciters = booleanPreferencesKey("only_timed_reciters")
+        val showTafseer = booleanPreferencesKey("show_tafseer")
 
         val sReciterId = intPreferencesKey("s_reciter_id")
         val sReciterName = stringPreferencesKey("s_reciter_name")
@@ -80,6 +82,7 @@ class SessionRepository(private val context: Context) {
             ayahOffset = p[Keys.ayahOffset] ?: 0,
             autoHideControls = p[Keys.autoHideControls] ?: true,
             onlyTimedReciters = p[Keys.onlyTimedReciters] ?: false,
+            showTafseer = p[Keys.showTafseer] ?: false,
         )
     }
 
@@ -107,6 +110,7 @@ class SessionRepository(private val context: Context) {
     suspend fun setAyahOffset(offset: Int) = context.dataStore.edit { it[Keys.ayahOffset] = offset }
     suspend fun setAutoHideControls(enabled: Boolean) = context.dataStore.edit { it[Keys.autoHideControls] = enabled }
     suspend fun setOnlyTimedReciters(enabled: Boolean) = context.dataStore.edit { it[Keys.onlyTimedReciters] = enabled }
+    suspend fun setShowTafseer(enabled: Boolean) = context.dataStore.edit { it[Keys.showTafseer] = enabled }
 
     suspend fun saveLastSession(
         reciter: Reciter,

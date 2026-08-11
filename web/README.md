@@ -52,6 +52,38 @@ bash scripts/build-tizen.sh     # → dist/QuranTV.wgt (unsigned)
 The `.wgt` contains `config.xml` (TV profile, `internet` privilege, `hwkey-event`),
 `index.html`, the JS/CSS bundle, icons, the bundled Tanzil text and the Amiri font.
 
+### TV Simulator (fastest — no signing needed, verified working)
+
+Samsung's WebKit-based simulator (part of the TV-SAMSUNG-Public-WebAppDevelopment
+package) runs the app with the Tizen UA and no certificate. Automatable over CDP:
+
+```bash
+cd ~/tizen-studio/tools/sec-tv-simulator
+./simulator --platform tv --tizentvversion 10.0 \
+  --file /path/to/QuranTV.wgt --remote-debugging-port=9223 &
+# install the wgt into the simulator (from a script, via the DevTools protocol):
+node -e '
+  const { chromium } = require("playwright");
+  (async () => {
+    const b = await chromium.connectOverCDP("http://127.0.0.1:9223");
+    const p = b.contexts()[0].pages().find(x => x.url().includes("ripple"));
+    await p.evaluate(() => window.requirejs("ripple/worker")
+      .installWgtApp([{ path: "/path/to/QuranTV.wgt", name: "QuranTV.wgt" }]));
+    await new Promise(r => setTimeout(r, 8000));
+    // the app is now in "Recent Apps"; point the iframe at it:
+    await p.evaluate(() => document.querySelector("iframe").src =
+      "file:///home/USER/tizen-studio/tools/sec-tv-simulator/appLauncher/app/org.qurantv/index.html");
+  })();'
+# drive with TV keys: dispatch KeyboardEvents (keyCode 13 Enter, 37-40 arrows,
+# 73 'i' Info, 32 space play/pause) on the app frame's window; read the live
+# state hook `window.__quranTv.getState()` for sync assertions.
+```
+
+Verified 2026-08-11: installed from the built wgt, walked Home → search → grid →
+player with real audio, ayah sync advancing (currentAyah 6→7, hasTiming true),
+auto-advance 001→002.mp3 at surah end, text mode (287 rows), page mode
+(003.svg + polygon highlight overlay). Screenshot: `docs-simulator-tizen.png`.
+
 ### TV emulator (Linux, KVM)
 
 Requires Tizen Studio (web-cli) + the `TV-SAMSUNG-Public-Emulator` device image

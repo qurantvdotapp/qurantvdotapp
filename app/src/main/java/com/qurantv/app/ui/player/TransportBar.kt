@@ -87,7 +87,8 @@ fun TransportBar(
         modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // ---- Right zone: view controls — display mode "close on the right".
+        // ---- Right zone: view controls — display mode at the far right, the
+        // mushaf style picker immediately to its left, then the auto-hide eye.
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 TvIconButton(onClick = onToggleMode) {
@@ -98,6 +99,9 @@ fun TransportBar(
                         tint = MaterialTheme.colorScheme.onSurface,
                     )
                 }
+                Spacer(Modifier.width(8.dp))
+                // Mushaf style selection, immediately left of the mode toggle.
+                LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
                 Spacer(Modifier.width(8.dp))
                 TvIconButton(onClick = onToggleAutoHide) {
                     Icon(
@@ -110,16 +114,26 @@ fun TransportBar(
             }
         }
 
-        // ---- Center zone: the playback cluster, dead centre (next surah · next
-        // ayah · play · previous ayah · previous surah).
+        // ---- Center zone: the playback cluster, dead centre — with the time
+        // readout immediately LEFT of the next-surah button.
         Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                // Playback cluster. Desired on-screen (left → right) order: next
-                // surah · next ayah · play · previous ayah · previous surah (next
-                // on the left of play, previous on the right). A Row lays children
-                // right-to-left in RTL, so the declaration order there is the
-                // reverse of the visual order.
+                // Playback cluster. Desired on-screen (left → right) order: time ·
+                // next surah · next ayah · play · previous ayah · previous surah.
+                // A Row lays children right-to-left in RTL, so the declaration
+                // order there is the reverse of the visual order.
                 val cluster: List<@Composable () -> Unit> = listOf(
+                    {
+                        // Time readout — NOT focusable, so D-pad never gets stuck on it.
+                        Text(
+                            text = "${formatTime(positionMs)} / ${formatTime(state.durationMs)}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier
+                                .background(com.qurantv.app.ui.theme.SurfaceContainer, RoundedCornerShape(8.dp))
+                                .padding(horizontal = 12.dp, vertical = 6.dp),
+                        )
+                    },
                     { TransportButton(icon = Icons.Filled.SkipNext, onClick = onNextSurah, label = stringResource(R.string.next_surah), mirror = rtl) },
                     { TransportButton(icon = Icons.Filled.NavigateNext, onClick = onNextAyah, label = stringResource(R.string.next_ayah), mirror = rtl) },
                     {
@@ -146,7 +160,7 @@ fun TransportBar(
             }
         }
 
-        // ---- Left zone: repeat · speed · mushaf style · jump-to-surah.
+        // ---- Left zone: repeat · speed · jump-to-surah.
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 val repeatActive = state.repeatMode != RepeatMode.OFF
@@ -165,22 +179,7 @@ fun TransportBar(
                 Spacer(Modifier.width(8.dp))
                 LabeledButton(label = speedLabel(state.speed), onClick = onCycleSpeed)
                 Spacer(Modifier.width(8.dp))
-                // Mushaf style selection lives in the transport bar for easy D-pad access.
-                LabeledButton(label = mushafLabel, onClick = onOpenMushafPicker)
-                Spacer(Modifier.width(8.dp))
                 LabeledButton(label = stringResource(R.string.jump_to_surah_short), onClick = onOpenSurahJump)
-                Spacer(Modifier.width(10.dp))
-                // Time readout at the FAR side from the playback cluster (declared
-                // last so RTL places it leftmost). NOT focusable — the D-pad never
-                // gets stuck on it.
-                Text(
-                    text = "${formatTime(positionMs)} / ${formatTime(state.durationMs)}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .background(com.qurantv.app.ui.theme.SurfaceContainer, RoundedCornerShape(8.dp))
-                        .padding(horizontal = 12.dp, vertical = 6.dp),
-                )
             }
         }
     }

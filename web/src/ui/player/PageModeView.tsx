@@ -15,6 +15,8 @@ interface PageModeViewProps {
   nextPageUrl: string | null;
   /** Highlight color (settings). */
   color: string;
+  /** Align the rendered page toward the spine when in the split view. */
+  align?: "center" | "end";
   onPageError?: (url: string) => void;
 }
 
@@ -98,8 +100,9 @@ export function PageModeView(props: PageModeViewProps) {
     ];
   });
 
+  const alignStyle = props.align === "end" ? "justify-content:flex-end" : "justify-content:center";
   return (
-    <div ref={containerRef} style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f5efe2">
+    <div ref={containerRef} style={`width:100%;height:100%;display:flex;align-items:center;${alignStyle};overflow:hidden;background:#f5efe2`}>
       <Show when={box()} fallback={<div style="color:#555;font-size:22px">…</div>}>
         {(b) => (
           <div style={`position:relative;width:${b().w}px;height:${b().h}px`}>

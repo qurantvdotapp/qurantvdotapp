@@ -140,3 +140,77 @@ test("no-timing reciter opens and degrades gracefully (no crash)", async ({ page
   });
   expect(crashed).toBe(false);
 });
+
+test("tafseer side panel opens beside the mushaf and follows the recitation", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
+
+  // Open a timed reciter: search → العجمي → surah 1
+  await page.locator("#home-search").click();
+  await page.waitForTimeout(300);
+  await page.locator("#search-input").fill("العجمي");
+  await page.keyboard.press("Enter");
+  await page.waitForTimeout(1500);
+  const chooser = page.locator(".dialog-row").first();
+  if (await chooser.isVisible().catch(() => false)) {
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(1500);
+  }
+  await expect(page.locator("[data-focus-id='grid-jump']")).toBeVisible({ timeout: 20_000 });
+  await page.locator("[data-focus-id='surah-1']").click();
+  await expect(page.locator("[data-focus-id='player-back']")).toBeVisible({ timeout: 20_000 });
+
+  // Wait for the mushaf page (page mode default)
+  const img = page.locator('img[src*="quran_pages_svg"]').first();
+  await expect(img).toBeVisible({ timeout: 15_000 });
+
+  // Open the side-view picker (button labelled مصحف in the transport right zone).
+  // Press a key first: the page-mode chrome auto-hides 5 s after the LAST KEY
+  // press (mouse clicks don't reset the timer), so clicks alone can race it.
+  await page.keyboard.press("ArrowDown");
+  await page.waitForTimeout(200);
+  await page.getByText("مصحف", { exact: true }).first().click();
+  await page.waitForTimeout(600);
+  await page.getByText("التفسير الميسر", { exact: true }).click();
+  await page.waitForTimeout(2500);
+
+  // Split view: the mushaf page is still visible AND the tafseer panel is beside it
+  await expect(page.locator('img[src*="quran_pages_svg"]')).toBeVisible({ timeout: 10_000 });
+  const panelRows = await page.evaluate(() =>
+    [...document.querySelectorAll('[id^="ctx-row-"]')].length,
+  );
+  expect(panelRows).toBeGreaterThan(0);
+
+  // The panel follows the recitation: the pinned row is the current ayah
+  const pinned = await page.evaluate(() => {
+    const els = [...document.querySelectorAll('[id^="ctx-row-"]')];
+    const vis = els.filter((e) => (e as HTMLElement).getBoundingClientRect().height > 0);
+    return vis.length;
+  });
+  expect(pinned).toBeGreaterThan(0);
+
+  // Switch to word meanings: empty rows are hidden (surah 1 has meanings)
+  await page.keyboard.press("ArrowDown");
+  await page.waitForTimeout(200);
+  await page.getByText("تفسير", { exact: true }).first().click();
+  await page.waitForTimeout(400);
+  await page.getByText("معاني الكلمات", { exact: true }).click();
+  await page.waitForTimeout(2000);
+  const meaningsRows = await page.evaluate(() =>
+    [...document.querySelectorAll('[id^="ctx-row-"]')].filter((e) => {
+      const el = e as HTMLElement;
+      return el.offsetHeight > 0 && el.innerText.trim().length > 0;
+    }).length,
+  );
+  expect(meaningsRows).toBeGreaterThan(0);
+
+  // Back to mushaf-only restores the full page
+  await page.keyboard.press("ArrowDown");
+  await page.waitForTimeout(200);
+  await page.getByText("معاني", { exact: true }).first().click();
+  await page.waitForTimeout(400);
+  await page.getByText("صفحة المصحف فقط", { exact: true }).click();
+  await page.waitForTimeout(1500);
+  const splitGone = await page.evaluate(() => ![...document.querySelectorAll('[id^="ctx-row-"]')].length);
+  expect(splitGone).toBe(true);
+});

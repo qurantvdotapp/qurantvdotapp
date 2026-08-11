@@ -1,7 +1,7 @@
 // Player screen — timing load, audio engine, ayah sync (ported TimingIndex +
 // accuracy gate), text mode, mushaf page mode, transport, dialogs, session.
 
-import { createMemo, createSignal, onCleanup, onMount, Show } from "solid-js";
+import { createEffect, createMemo, createSignal, onCleanup, onMount, Show } from "solid-js";
 import type { Moshaf, QuranSurah, Reciter, SurahTiming } from "../../domain/Models";
 import { availableSurahIds } from "../../domain/Models";
 import { audioUrlFor, normalizeServerUrl } from "../../domain/CatalogParsing";
@@ -19,6 +19,8 @@ import { focusFirst } from "../focus";
 import { TextModeList, type TextItem } from "./TextModeList";
 import { TransportBar } from "./TransportBar";
 import { PageModeView, nextPageUrlFor } from "./PageModeView";
+import { SideContextPanel, modeLabel, modeShortLabel } from "./SideContextPanel";
+import type { TafseerMode } from "../../data/repo/TafseerRepository";
 import type { Navigator } from "../navigation";
 
 interface PlayerProps {
@@ -55,7 +57,10 @@ export function PlayerScreen(props: PlayerProps) {
   const [displayMode, setDisplayMode] = createSignal(settings.displayMode);
   const [noTimingPage, setNoTimingPage] = createSignal(props.surah.startPage);
   const [chromeVisible, setChromeVisible] = createSignal(true);
-  const [dialog, setDialog] = createSignal<null | "jump" | "mushaf" | "reciter" | "moshaf">(null);
+  const [activeSurah, setActiveSurah] = createSignal<QuranSurah>(props.surah);
+  const [dialog, setDialog] = createSignal<null | "jump" | "mushaf" | "reciter" | "moshaf" | "view">(null);
+  const [sideView, setSideView] = createSignal<null | TafseerMode>(null);
+  const [ctxContent, setCtxContent] = createSignal<Map<number, { text: string; ayah: number }> | null>(null);
   const [pickerReciter, setPickerReciter] = createSignal<Reciter | null>(null);
   const [query, setQuery] = createSignal("");
   const [allReciters, setAllReciters] = createSignal<Reciter[]>([]);
@@ -190,6 +195,7 @@ export function PlayerScreen(props: PlayerProps) {
         setHasTiming(false);
       }
 
+      setActiveSurah(props.surah);
       setPhase("ready");
       setTimeout(() => {
         const list = document.querySelector(".dialog-list");
@@ -241,6 +247,7 @@ export function PlayerScreen(props: PlayerProps) {
 
   /** (Re)start playback for a surah (used by next/prev/jump). */
   async function playSurah(surah: QuranSurah, startAyahIndex?: number, resumeFrom = 0) {
+    setActiveSurah(surah);
     const read = await c.timing.readForMoshaf(props.moshaf.server);
     const t = read ? await c.timing.timingFor(read.id, surah.id) : null;
     setTiming(t);
@@ -251,7 +258,7 @@ export function PlayerScreen(props: PlayerProps) {
     setAudioError(false);
 
     const versesCount = surah.versesCount;
-    if (props.surah.id >= 2 && props.surah.id <= 114) {
+    if (surah.id >= 2 && surah.id <= 114) {
       setBasmala(await c.quranText.verseText(1, 1));
     } else {
       setBasmala(null);
@@ -377,6 +384,24 @@ export function PlayerScreen(props: PlayerProps) {
 
   /* ---------- derived ---------- */
   const rtl = props.lang === "ar";
+
+  // Load the context content when the side panel is open.
+  createEffect(async () => {
+    const mode = sideView();
+    if (!mode || displayMode() === 0) return;
+    setCtxContent(null);
+    try {
+      const map = await c.tafseer.surahContent(activeSurah().id);
+      const content = new Map<number, { text: string; ayah: number }>();
+      for (const [ayah, ctx] of map) {
+        content.set(ayah, { text: textForMode(ctx, mode), ayah });
+      }
+      setCtxContent(content);
+    } catch {
+      setCtxContent(new Map());
+    }
+  });
+
   const entry = createMemo(() => {
     const t = timing();
     if (!t || !hasTiming()) return null;
@@ -403,6 +428,11 @@ export function PlayerScreen(props: PlayerProps) {
   });
 
   const mushafLabel = createMemo(() => (displayMode() === 0 ? props.t("text_mode") : props.t("mushaf_madinah")));
+  const sideViewLabel = createMemo(() => {
+    if (displayMode() === 0) return null;
+    const v = sideView();
+    return v ? modeShortLabel(v, props.t) : props.t("view_mushaf_short");
+  });
 
   const fontSize = FONT_SIZES[settings.fontSizeIndex] ?? 34;
   const color = HIGHLIGHT_COLORS[settings.highlightColorIndex] ?? "#e8c877";
@@ -472,6 +502,40 @@ export function PlayerScreen(props: PlayerProps) {
             {/* body: text mode or page mode */}
             <div style="flex:1;display:flex;flex-direction:column;min-height:0;position:relative">
               <Show when={displayMode() === 0} fallback={
+                sideView() !== null ? (
+                  <div dir="rtl" style="display:flex;flex-direction:row;height:100%;width:100%">
+                    {/* context panel (LEFT page's place, rows start at the spine) */}
+                    <div style="flex:1;min-width:0;height:100%">
+                      <Show when={ctxContent()} fallback={<LoadingState t={props.t} />}>
+                        {(content) => (
+                          <SideContextPanel
+                            t={props.t}
+                            surahId={activeSurah().id}
+                            surahNameAr={activeSurah().nameAr}
+                            mode={sideView()!}
+                            currentAyah={hasTiming() ? currentAyah() : -1}
+                            content={content()}
+                            fontSizePx={Math.max(18, fontSize - 4)}
+                            highlightColor={color}
+                          />
+                        )}
+                      </Show>
+                    </div>
+                    {/* folded spine ribbon */}
+                    <div style="width:14px;background:linear-gradient(to right,#3a2f1f 0%,#7a5c2e 45%,#a8874a 55%,#3a2f1f 100%);flex-shrink:0" />
+                    {/* current highlighted page aligned toward the spine */}
+                    <div style="flex:1;min-width:0;height:100%">
+                      <PageModeView
+                        pageUrl={pageUrl()}
+                        polygon={entry()?.polygon ?? null}
+                        nextPageUrl={nextUrl()}
+                        color={color}
+                        align="end"
+                        onPageError={() => setAudioError(true)}
+                      />
+                    </div>
+                  </div>
+                ) : (
                 <PageModeView
                   pageUrl={pageUrl()}
                   polygon={entry()?.polygon ?? null}
@@ -479,6 +543,7 @@ export function PlayerScreen(props: PlayerProps) {
                   color={color}
                   onPageError={() => setAudioError(true)}
                 />
+                )
               }>
                 <TextModeList
                   t={props.t}
@@ -514,6 +579,7 @@ export function PlayerScreen(props: PlayerProps) {
                 speed={speed()}
                 hasTiming={hasTiming()}
                 mushafLabel={mushafLabel()}
+                sideViewLabel={sideViewLabel()}
                 autoHide={settings.autoHideControls}
                 onTogglePlay={togglePlay}
                 onNextAyah={nextAyah}
@@ -529,6 +595,7 @@ export function PlayerScreen(props: PlayerProps) {
                 }}
                 onOpenReciterPicker={() => openDialog("reciter")}
                 onOpenMushafPicker={() => openDialog("mushaf")}
+                onOpenViewPicker={() => openDialog("view")}
               />
             </div>
           </>
@@ -575,6 +642,37 @@ export function PlayerScreen(props: PlayerProps) {
                 setDialog(null);
                 setDisplayMode(1);
               }}
+            />
+          </div>
+        </Dialog>
+      </Show>
+
+      <Show when={dialog() === "view"}>
+        <Dialog title={props.t("view_picker_title")} hint={props.t("view_side_hint")} onClose={() => setDialog(null)}>
+          <div class="dialog-list">
+            <DialogRow
+              id="pv-none"
+              label={props.t("view_mushaf")}
+              checked={sideView() === null}
+              onClick={() => { setDialog(null); setSideView(null); }}
+            />
+            <DialogRow
+              id="pv-tafseer"
+              label={props.t("view_tafseer")}
+              checked={sideView() === "tafseer"}
+              onClick={() => { setDialog(null); setSideView("tafseer"); }}
+            />
+            <DialogRow
+              id="pv-meanings"
+              label={props.t("view_meanings")}
+              checked={sideView() === "meanings"}
+              onClick={() => { setDialog(null); setSideView("meanings"); }}
+            />
+            <DialogRow
+              id="pv-translation"
+              label={props.t("view_translation")}
+              checked={sideView() === "translation"}
+              onClick={() => { setDialog(null); setSideView("translation"); }}
             />
           </div>
         </Dialog>
@@ -634,11 +732,22 @@ export function PlayerScreen(props: PlayerProps) {
     </div>
   );
 
-  function openDialog(name: "jump" | "mushaf" | "reciter") {
+  function openDialog(name: "jump" | "mushaf" | "reciter" | "view") {
     setDialog(name);
     setTimeout(() => {
       const listEl = document.querySelector(".dialog-list");
       if (listEl) focusFirst(listEl);
     }, 80);
+  }
+}
+
+function textForMode(ctx: { tafseer: string; meanings: string; translation: string }, mode: TafseerMode): string {
+  switch (mode) {
+    case "tafseer":
+      return ctx.tafseer;
+    case "meanings":
+      return ctx.meanings;
+    case "translation":
+      return ctx.translation;
   }
 }

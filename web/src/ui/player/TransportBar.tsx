@@ -18,6 +18,8 @@ interface TransportBarProps {
   speed: number;
   hasTiming: boolean;
   mushafLabel: string;
+  /** Side-view label (مصحف/تفسير/معاني/ترجمة); null hides the button in text mode. */
+  sideViewLabel: string | null;
   autoHide: boolean;
   onTogglePlay: () => void;
   onNextAyah: () => void;
@@ -30,6 +32,7 @@ interface TransportBarProps {
   onToggleAutoHide: () => void;
   onOpenReciterPicker: () => void;
   onOpenMushafPicker: () => void;
+  onOpenViewPicker: () => void;
 }
 
 export function TransportBar(props: TransportBarProps) {
@@ -106,6 +109,9 @@ export function TransportBar(props: TransportBarProps) {
           onClick={props.onToggleAutoHide}
         />
         <IconBtn id={btn("reciter")} label="🎤" onClick={props.onOpenReciterPicker} />
+        {props.sideViewLabel !== null ? (
+          <IconBtn id={btn("view")} label={props.sideViewLabel} onClick={props.onOpenViewPicker} />
+        ) : null}
         <IconBtn id={btn("mushaf")} label={props.mushafLabel} onClick={props.onOpenMushafPicker} />
       </div>
     </div>

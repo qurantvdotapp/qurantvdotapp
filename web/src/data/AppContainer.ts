@@ -8,6 +8,7 @@ import { CatalogRepository } from "./repo/CatalogRepository";
 import { TimingRepository } from "./repo/TimingRepository";
 import { QuranTextRepository } from "./repo/QuranTextRepository";
 import { SessionRepository } from "./repo/SessionRepository";
+import { TafseerRepository } from "./repo/TafseerRepository";
 
 export interface AppContainer {
   api: Mp3QuranApi;
@@ -17,6 +18,7 @@ export interface AppContainer {
   timing: TimingRepository;
   quranText: QuranTextRepository;
   session: SessionRepository;
+  tafseer: TafseerRepository;
 }
 
 let container: AppContainer | null = null;
@@ -35,6 +37,7 @@ export function appContainer(): AppContainer {
       timing: new TimingRepository(api, cache),
       quranText: new QuranTextRepository(quranApi, cache),
       session: new SessionRepository(),
+      tafseer: new TafseerRepository(),
     };
   }
   return container;

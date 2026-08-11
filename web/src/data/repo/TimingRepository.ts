@@ -25,9 +25,11 @@ export class TimingRepository {
       if (cached !== null) {
         return (JSON.parse(cached) as TimingReadDto[]).map(timingReadDtoToDomain);
       }
-      const list = (await this.api.timingReads()).map(timingReadDtoToDomain);
-      await this.cache.write(CACHE.TIMING, key, JSON.stringify(list));
-      return list;
+      // Store the DTOs (snake_case), exactly like the Kotlin disk cache —
+      // reading back must see folder_url, not the domain folderUrl.
+      const dtos = await this.api.timingReads();
+      await this.cache.write(CACHE.TIMING, key, JSON.stringify(dtos));
+      return dtos.map(timingReadDtoToDomain);
     });
   }
 

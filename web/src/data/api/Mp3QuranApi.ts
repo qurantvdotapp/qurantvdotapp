@@ -22,30 +22,32 @@ export class Mp3QuranApi {
   constructor(private readonly client: ApiClient) {}
 
   async suwar(language: string): Promise<SurahDto[]> {
-    const res = (await this.client.getText(`${this.base}/suwar?language=${language}`)) as unknown as SuwarResponse;
+    const res = JSON.parse(await this.client.getText(`${this.base}/suwar?language=${language}`)) as SuwarResponse;
     return res.suwar;
   }
 
   async reciters(language: string): Promise<ReciterDto[]> {
-    const res = (await this.client.getText(`${this.base}/reciters?language=${language}`)) as unknown as RecitersResponse;
+    const res = JSON.parse(await this.client.getText(`${this.base}/reciters?language=${language}`)) as RecitersResponse;
     return res.reciters;
   }
 
   async recentReads(): Promise<ReciterDto[]> {
-    const res = (await this.client.getText(`${this.base}/recent_reads`)) as unknown as RecentReadsResponse;
+    const res = JSON.parse(await this.client.getText(`${this.base}/recent_reads`)) as RecentReadsResponse;
     return res.reads;
   }
 
   async timingReads(): Promise<TimingReadDto[]> {
-    return (await this.client.getText(`${this.base}/ayat_timing/reads`)) as unknown as TimingReadDto[];
+    return JSON.parse(await this.client.getText(`${this.base}/ayat_timing/reads`)) as TimingReadDto[];
   }
 
   async soar(readId: number): Promise<SoarDto[]> {
-    return (await this.client.getText(`${this.base}/ayat_timing/soar?read=${readId}`)) as unknown as SoarDto[];
+    return JSON.parse(await this.client.getText(`${this.base}/ayat_timing/soar?read=${readId}`)) as SoarDto[];
   }
 
   async ayahTiming(surah: number, readId: number): Promise<AyahTimingDto[]> {
-    return (await this.client.getText(`${this.base}/ayat_timing?surah=${surah}&read=${readId}`)) as unknown as AyahTimingDto[];
+    return JSON.parse(
+      await this.client.getText(`${this.base}/ayat_timing?surah=${surah}&read=${readId}`),
+    ) as AyahTimingDto[];
   }
 }
 

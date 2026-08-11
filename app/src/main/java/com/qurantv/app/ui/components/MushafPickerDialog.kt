@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -26,13 +26,13 @@ import com.qurantv.app.ui.theme.SurfaceContainer
 import com.qurantv.app.ui.theme.SurfaceContainerHigh
 
 /**
- * Combined display-mode + mushaf style chooser — one list so there is no
- * separate text/image toggle to keep straight:
+ * The mushaf chooser: ONE flat list, top → bottom:
  *
- *  - display mode: text list or mushaf page (marked with ✓)
- *  - mushaf style: the six page styles (marked with ✓)
+ *   Ayah hafs colored · Ayat hafs · Ayat warsh · Almadinah · Almadinah HD ·
+ *   Tajweed colored · Text
  *
- * Pressing a row applies it immediately and closes the dialog.
+ * Picking a mushaf switches to page mode with that style; picking Text switches
+ * to the verse list. The current selection is marked with ✓ and gets focus.
  */
 @Composable
 fun MushafPickerDialog(
@@ -42,20 +42,21 @@ fun MushafPickerDialog(
     onSelect: (Int) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    data class Option(val value: Int, val name: String)
+    data class Option(val name: String, val style: Int?, val mode: Int?)
 
-    val modes = listOf(
-        Option(0, stringResource(R.string.text_mode)),
-        Option(1, stringResource(R.string.page_mode)),
+    val options = listOf(
+        Option(stringResource(R.string.mushaf_hafs_tajweed), 5, null), // Ayah hafs colored
+        Option(stringResource(R.string.mushaf_ayat_hafs), 3, null),    // Ayat hafs
+        Option(stringResource(R.string.mushaf_ayat_warsh), 4, null),   // Ayat warsh
+        Option(stringResource(R.string.mushaf_madinah), 0, null),      // Almadinah
+        Option(stringResource(R.string.mushaf_madinah_hd), 2, null),   // Almadinah HD
+        Option(stringResource(R.string.mushaf_tajweed), 1, null),      // Tajweed colored
+        Option(stringResource(R.string.text_mode), null, 0),           // Text
     )
-    val styles = listOf(
-        Option(0, stringResource(R.string.mushaf_madinah)),
-        Option(1, stringResource(R.string.mushaf_tajweed)),
-        Option(2, stringResource(R.string.mushaf_madinah_hd)),
-        Option(3, stringResource(R.string.mushaf_ayat_hafs)),
-        Option(4, stringResource(R.string.mushaf_ayat_warsh)),
-        Option(5, stringResource(R.string.mushaf_hafs_tajweed)),
-    )
+    val currentRow = options.indexOfFirst { option ->
+        if (displayMode == 0) option.mode != null else option.style == currentStyle
+    }.coerceAtLeast(0)
+
     Dialog(onDismissRequest = onDismiss) {
         val dialogFocus = remember { FocusRequester() }
         LaunchedEffect(Unit) {
@@ -72,7 +73,7 @@ fun MushafPickerDialog(
                 .padding(24.dp),
         ) {
             Text(
-                text = stringResource(R.string.display_mode),
+                text = stringResource(R.string.mushaf_style),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
             )
@@ -84,75 +85,40 @@ fun MushafPickerDialog(
             LazyColumn(
                 modifier = Modifier.fillMaxWidth().heightIn(max = 520.dp).padding(top = 14.dp),
             ) {
-                item(key = "mode_header") {
-                    SectionLabel(stringResource(R.string.display_mode))
-                }
-                items(modes, key = { "mode_${it.value}" }) { option ->
-                    OptionRow(
-                        name = option.name,
-                        selected = option.value == displayMode,
-                        dialogFocus = dialogFocus,
-                        isFirst = option.value == modes.first().value,
-                        onClick = { onSelectDisplayMode(option.value) },
-                    )
-                }
-                item(key = "style_header") {
-                    SectionLabel(stringResource(R.string.mushaf_style))
-                }
-                items(styles, key = { "style_${it.value}" }) { option ->
-                    OptionRow(
-                        name = option.name,
-                        selected = option.value == currentStyle,
-                        dialogFocus = null,
-                        isFirst = false,
-                        onClick = { onSelect(option.value) },
-                    )
+                itemsIndexed(options) { index, option ->
+                    val selected = if (option.mode != null) {
+                        displayMode == 0
+                    } else {
+                        displayMode == 1 && option.style == currentStyle
+                    }
+                    TvCard(
+                        onClick = {
+                            if (option.mode != null) onSelectDisplayMode(option.mode) else option.style?.let(onSelect)
+                        },
+                        modifier = if (index == currentRow) {
+                            Modifier.fillMaxWidth().focusRequester(dialogFocus)
+                        } else {
+                            Modifier.fillMaxWidth()
+                        },
+                        backgroundColor = if (selected) {
+                            MaterialTheme.colorScheme.primaryContainer
+                        } else {
+                            SurfaceContainerHigh
+                        },
+                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+                    ) {
+                        Text(
+                            text = (if (selected) "✓ " else "") + option.name,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = if (selected) {
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                            } else {
+                                MaterialTheme.colorScheme.onSurface
+                            },
+                        )
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun SectionLabel(text: String) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.titleMedium,
-        color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(top = 10.dp, bottom = 6.dp),
-    )
-}
-
-@Composable
-private fun OptionRow(
-    name: String,
-    selected: Boolean,
-    dialogFocus: FocusRequester?,
-    isFirst: Boolean,
-    onClick: () -> Unit,
-) {
-    TvCard(
-        onClick = onClick,
-        modifier = if (dialogFocus != null && isFirst) {
-            Modifier.fillMaxWidth().focusRequester(dialogFocus)
-        } else {
-            Modifier.fillMaxWidth()
-        },
-        backgroundColor = if (selected) {
-            MaterialTheme.colorScheme.primaryContainer
-        } else {
-            SurfaceContainerHigh
-        },
-        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
-    ) {
-        Text(
-            text = (if (selected) "✓ " else "") + name,
-            style = MaterialTheme.typography.bodyLarge,
-            color = if (selected) {
-                MaterialTheme.colorScheme.onPrimaryContainer
-            } else {
-                MaterialTheme.colorScheme.onSurface
-            },
-        )
     }
 }

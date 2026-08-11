@@ -546,6 +546,7 @@ fun PlayerScreen(
             onSelect = { style ->
                 mushafPickerOpen = false
                 vm.selectMushafStyle(style)
+                vm.setDisplayMode(1) // picking a mushaf shows the mushaf page
             },
             onDismiss = { mushafPickerOpen = false },
         )

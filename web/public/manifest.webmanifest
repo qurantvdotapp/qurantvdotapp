@@ -1,0 +1,16 @@
+{
+  "name": "القرآن — Quran TV",
+  "short_name": "Quran TV",
+  "description": "Quran recitation streaming from mp3quran.net with ayah sync and mushaf page mode (Vidaa OS web app port).",
+  "start_url": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0a1428",
+  "theme_color": "#0a1428",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    { "src": "icons/icon_512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon_128.png", "sizes": "128x128", "type": "image/png" }
+  ]
+}

@@ -486,7 +486,7 @@ export function PlayerScreen(props: PlayerProps) {
             >
               <Chip id="player-back" label="←" onClick={() => props.nav.back()} />
               <div style="flex:1;min-width:0">
-                <div class="quran-text" style="font-size:30px;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+                <div class="quran-text" style="font-size:32px;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
                   {props.surah.nameAr}
                 </div>
                 <div style="font-size:18px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">

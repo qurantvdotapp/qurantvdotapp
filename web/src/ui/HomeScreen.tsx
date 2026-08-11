@@ -154,7 +154,7 @@ export function HomeScreen(props: HomeProps) {
     <div class="screen">
       {/* header */}
       <div style="display:flex;align-items:center;gap:24px;padding-bottom:18px">
-        <h1 style="margin:0;font-size:44px;color:var(--gold)">{props.t("app_name")}</h1>
+        <h1 style="margin:0;font-size:46px;font-weight:700;color:var(--gold)">{props.t("app_name")}</h1>
         <div style="flex:1" />
         <Chip id="home-search" label={props.t("search_reciters")} onClick={() => {
           setSearchOpen(true);
@@ -212,7 +212,7 @@ export function HomeScreen(props: HomeProps) {
             {groups().map((g) => (
               <div
                 use:focusable={`rail-${g.letter}`}
-                style="width:64px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--surface);border:1px solid #26375c;font-size:22px;color:var(--gold)"
+                style="width:66px;height:54px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid #2a3c66;font-size:22px;font-weight:700;color:var(--gold);box-shadow:var(--shadow)"
                 onClick={() => {
                   document.getElementById(`group-${g.letter}`)?.scrollIntoView({ block: "start" });
                 }}
@@ -224,10 +224,10 @@ export function HomeScreen(props: HomeProps) {
 
           {/* reciter groups */}
           <div class="h-scroll" style="flex:1">
-            <div style="font-size:30px;color:var(--gold);padding-bottom:10px">{props.t("reciters_title")}</div>
+            <div style="font-size:34px;font-weight:700;color:var(--gold);padding-bottom:12px">{props.t("reciters_title")}</div>
             {groups().map((g) => (
               <div id={`group-${g.letter}`} style="margin-bottom:16px">
-                <div style="font-size:22px;color:var(--text-dim);padding:6px 0 8px">{g.letter}</div>
+                <div style="font-size:22px;font-weight:700;color:var(--text-dim);padding:6px 0 8px;letter-spacing:0.08em">{g.letter}</div>
                 <div style="display:flex;flex-wrap:wrap;gap:12px">
                   {g.reciters.map((r) => (
                     <Chip

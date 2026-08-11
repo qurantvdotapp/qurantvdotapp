@@ -1,20 +1,45 @@
-/* Quran TV web — night-sky TV theme (ported palette from the Android app).
-   Focus ring is driven by the .focused class applied by the focus engine. */
+/* Quran TV web — night-sky TV theme (Arabic-first).
+   Typography: Tajawal (Arabic UI sans, OFL) for ALL chrome; Amiri Quran for
+   Quran content only. Focus ring is driven by the .focused class. */
 
 :root {
   --bg: #0a1428;
-  --surface: #12203c;
-  --surface-2: #1a2c4e;
+  --bg-2: #0d1a33;
+  --surface: #14203c;
+  --surface-2: #1c2d52;
+  --surface-3: #243a66;
   --gold: #e8c877;
+  --gold-bright: #ffd983;
   --gold-dim: #b89a4e;
   --green: #7fd1a3;
   --cyan: #7ac7e0;
-  --text: #e8e8f0;
-  --text-dim: #9aa3b8;
+  --text: #eef0f8;
+  --text-dim: #a7b0c8;
+  --text-faint: #7c86a3;
   --danger: #e07a7a;
   --ring: #ffd983;
-  --radius: 14px;
+  --radius: 16px;
   --font-size: 26px;
+  --font-ui: "Tajawal", "Segoe UI", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-quran: "Amiri Quran", "Amiri", "Noto Naskh Arabic", serif;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 0 3px var(--ring), 0 0 22px rgba(255, 217, 131, 0.35), 0 12px 34px rgba(0, 0, 0, 0.55);
+}
+
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/Tajawal-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/Tajawal-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -37,9 +62,9 @@ body,
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: var(--bg);
+  background: radial-gradient(1200px 800px at 70% -10%, #12224a 0%, var(--bg) 55%);
   color: var(--text);
-  font-family: "Segoe UI", "Noto Sans", system-ui, sans-serif;
+  font-family: var(--font-ui);
   font-size: var(--font-size);
   user-select: none;
 }
@@ -48,19 +73,20 @@ body,
 [data-focusable] {
   outline: none;
   cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease, background-color 0.12s ease;
+  transition: transform 0.13s ease, box-shadow 0.13s ease, border-color 0.13s ease,
+    background-color 0.13s ease, opacity 0.13s ease;
 }
 
 [data-focusable].focused {
   transform: scale(1.06);
-  box-shadow: 0 0 0 3px var(--ring), 0 6px 24px rgba(0, 0, 0, 0.55);
+  box-shadow: var(--shadow-glow);
   z-index: 5;
   position: relative;
 }
 
 /* ------- quran text (Amiri) ------- */
 .quran-text {
-  font-family: "Amiri Quran", "Amiri", "Noto Naskh Arabic", serif;
+  font-family: var(--font-quran);
 }
 
 /* ------- screens ------- */
@@ -69,7 +95,7 @@ body,
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 48px 56px;
+  padding: 44px 56px;
   overflow: hidden;
 }
 
@@ -85,35 +111,44 @@ body,
 
 /* ------- cards ------- */
 .tv-card {
-  background: var(--surface);
-  border: 1px solid #26375c;
+  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+  border: 1px solid #2a3c66;
   border-radius: var(--radius);
   padding: 18px 22px;
   color: var(--text);
   display: flex;
   align-items: center;
   gap: 14px;
+  box-shadow: var(--shadow);
 }
 
 .tv-card.dim {
-  opacity: 0.55;
+  opacity: 0.5;
 }
 
 .tv-chip {
-  background: var(--surface);
-  border: 1px solid #26375c;
-  border-radius: 12px;
-  padding: 14px 20px;
+  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+  border: 1px solid #2a3c66;
+  border-radius: 14px;
+  padding: 13px 20px;
   color: var(--text);
   font-size: 22px;
+  font-weight: 400;
   white-space: nowrap;
+  box-shadow: var(--shadow);
+}
+.tv-chip.focused {
+  color: var(--gold-bright);
+  border-color: var(--gold-dim);
+  background: linear-gradient(180deg, #27406e 0%, #1a2a4e 100%);
 }
 
 /* ------- dialogs ------- */
 .dialog-scrim {
   position: fixed;
   inset: 0;
-  background: rgba(4, 8, 18, 0.72);
+  background: rgba(3, 6, 16, 0.78);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -121,24 +156,27 @@ body,
 }
 
 .dialog {
-  background: var(--surface);
-  border: 1px solid #2c3f68;
-  border-radius: 18px;
-  width: min(920px, 86vw);
+  background: linear-gradient(180deg, #16233f 0%, var(--surface) 100%);
+  border: 1px solid #33487a;
+  border-radius: 20px;
+  width: min(940px, 86vw);
   max-height: 86vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
 }
 
 .dialog-title {
-  padding: 24px 28px 10px;
-  font-size: 30px;
+  padding: 26px 30px 10px;
+  font-size: 32px;
+  font-weight: 700;
   color: var(--gold);
+  font-family: var(--font-ui);
 }
 
 .dialog-hint {
-  padding: 0 28px 12px;
+  padding: 0 30px 12px;
   font-size: 18px;
   color: var(--text-dim);
 }
@@ -154,24 +192,26 @@ body,
 
 .dialog-row {
   padding: 14px 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 24px;
   display: flex;
   align-items: center;
   gap: 12px;
 }
 .dialog-row.focused {
-  background: var(--surface-2);
+  background: linear-gradient(90deg, #27406e 0%, #1e3157 100%);
+  color: var(--gold-bright);
 }
 
 /* ------- badges ------- */
 .badge {
   font-size: 15px;
   color: var(--text-dim);
-  border: 1px solid #3a4a70;
+  border: 1px solid #41538a;
   border-radius: 999px;
   padding: 2px 10px;
   white-space: nowrap;
+  background: rgba(20, 32, 60, 0.6);
 }
 
 /* ------- states ------- */
@@ -189,6 +229,7 @@ body,
 .spin {
   animation: spin 1s linear infinite;
   font-size: 40px;
+  color: var(--gold);
 }
 @keyframes spin {
   to {
@@ -197,21 +238,27 @@ body,
 }
 
 .icon-btn {
-  background: var(--surface);
-  border: 1px solid #26375c;
-  border-radius: 12px;
-  min-width: 76px;
-  height: 76px;
+  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+  border: 1px solid #2a3c66;
+  border-radius: 14px;
+  min-width: 78px;
+  height: 78px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 30px;
   color: var(--text);
-  padding: 0 14px;
+  padding: 0 16px;
+  box-shadow: var(--shadow);
+  font-family: var(--font-ui);
 }
 .icon-btn.active {
   color: var(--gold);
   border-color: var(--gold-dim);
+}
+.icon-btn.focused {
+  color: var(--gold-bright);
+  border-color: var(--gold);
 }
 
 .chrome-hidden {
@@ -220,15 +267,27 @@ body,
 }
 
 .quran-font {
-  font-family: "Amiri Quran", serif;
+  font-family: var(--font-quran);
 }
 
 /* ------- mushaf spread page-turn ------- */
 @keyframes spread-turn-next {
-  from { transform: translateX(4%); opacity: 0.3; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(4%);
+    opacity: 0.3;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 @keyframes spread-turn-back {
-  from { transform: translateX(-4%); opacity: 0.3; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-4%);
+    opacity: 0.3;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

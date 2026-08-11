@@ -125,11 +125,15 @@ function IconBtn(props: {
   big?: boolean;
   active?: boolean;
 }) {
+  const playStyle =
+    props.label === "▶" || props.label === "⏸"
+      ? "width:100px;height:100px;font-size:42px;border-radius:50%;background:linear-gradient(180deg,#f4d488,#c9a253);border:1px solid #f4d488;color:#221a08;box-shadow:0 6px 20px rgba(232,200,119,0.35)"
+      : undefined;
   return (
     <div
       use:focusable={props.id}
       class={`icon-btn ${props.active ? "active" : ""}`}
-      style={props.big ? "width:96px;height:96px;font-size:40px;border-radius:16px" : undefined}
+      style={props.big ? (playStyle ?? "width:96px;height:96px;font-size:40px;border-radius:18px") : playStyle}
       onClick={() => props.onClick()}
     >
       {props.label}

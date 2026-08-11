@@ -10,6 +10,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -103,45 +104,9 @@ fun MushafSpreadView(
                         rects = target.right?.rects,
                         alignment = Alignment.CenterEnd,
                     )
-                    // Inner edge shadow toward the spine — darkest AT the spine,
-                    // fading INTO the page (a real page's edge shadow).
-                    Box(
-                        Modifier
-                            .fillMaxHeight()
-                            .width(SPINE_SHADOW.dp)
-                            .align(Alignment.CenterEnd)
-                            .background(
-                                Brush.horizontalGradient(
-                                    colors = listOf(Color.Black.copy(alpha = 0.45f), Color.Transparent),
-                                ),
-                            ),
-                    )
+                    SpineEdgeShadow(Alignment.CenterEnd)
                 }
-                // The folded spine: a ribbon joining the two pages like a real mushaf.
-                Box(
-                    Modifier
-                        .width(SPINE.dp)
-                        .fillMaxHeight()
-                        .background(
-                            Brush.verticalGradient(
-                                listOf(
-                                    Color(0xFF3A3126),
-                                    Color(0xFF5C4F3C),
-                                    Color(0xFF7A6A50),
-                                    Color(0xFF5C4F3C),
-                                    Color(0xFF3A3126),
-                                ),
-                            ),
-                        ),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Box(
-                        Modifier
-                            .fillMaxHeight()
-                            .width(2.dp)
-                            .background(Color.Black.copy(alpha = 0.5f)),
-                    )
-                }
+                MushafSpine()
                 Box(Modifier.weight(1f).fillMaxHeight()) {
                     PageModeView(
                         bitmap = target.left?.bitmap,
@@ -153,20 +118,64 @@ fun MushafSpreadView(
                         rects = target.left?.rects,
                         alignment = Alignment.CenterStart,
                     )
-                    // Inner edge shadow toward the spine.
-                    Box(
-                        Modifier
-                            .fillMaxHeight()
-                            .width(SPINE_SHADOW.dp)
-                            .align(Alignment.CenterStart)
-                            .background(
-                                Brush.horizontalGradient(
-                                    colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.45f)),
-                                ),
-                            ),
-                    )
+                    SpineEdgeShadow(Alignment.CenterStart)
                 }
             }
         }
     }
+}
+
+/**
+ * The folded spine: a leather-toned ribbon joining the two pages of the spread
+ * (shared with the split view, where the context panel takes the left page's
+ * place — the spine keeps the open-mushaf look).
+ */
+@Composable
+fun MushafSpine() {
+    Box(
+        Modifier
+            .width(SPINE.dp)
+            .fillMaxHeight()
+            .background(
+                Brush.verticalGradient(
+                    listOf(
+                        Color(0xFF3A3126),
+                        Color(0xFF5C4F3C),
+                        Color(0xFF7A6A50),
+                        Color(0xFF5C4F3C),
+                        Color(0xFF3A3126),
+                    ),
+                ),
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        Box(
+            Modifier
+                .fillMaxHeight()
+                .width(2.dp)
+                .background(Color.Black.copy(alpha = 0.5f)),
+        )
+    }
+}
+
+/**
+ * Inner edge shadow toward the spine — darkest AT the spine, fading INTO the
+ * page (a real page's edge shadow). [alignment] must match the side:
+ * CenterEnd for the right page, CenterStart for the left.
+ */
+@Composable
+fun BoxScope.SpineEdgeShadow(alignment: Alignment) {
+    Box(
+        Modifier
+            .fillMaxHeight()
+            .width(SPINE_SHADOW.dp)
+            .align(alignment)
+            .background(
+                if (alignment == Alignment.CenterEnd) {
+                    Brush.horizontalGradient(listOf(Color.Black.copy(alpha = 0.45f), Color.Transparent))
+                } else {
+                    Brush.horizontalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = 0.45f)))
+                },
+            ),
+    )
 }

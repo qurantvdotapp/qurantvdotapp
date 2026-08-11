@@ -620,9 +620,10 @@ fun PlayerScreen(
                     // is an OPTIONAL side panel — the viewer sees the ayah and
                     // its context at the same time. Forced RTL keeps the mushaf
                     // on the right in both UI languages (it reads right-to-left).
-                    // The screen is split HALF AND HALF to maximise space: the
-                    // mushaf side shows only the CURRENT page (not the spread),
-                    // the other half shows the context.
+                    // The screen is split HALF AND HALF to maximise space, laid
+                    // out like an OPEN MUSHAF: the current page on the right and
+                    // the context panel in the left page's place, both meeting
+                    // at the folded spine.
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                         Row(Modifier.fillMaxSize()) {
                             Box(Modifier.weight(1f).fillMaxHeight()) {
@@ -637,9 +638,12 @@ fun PlayerScreen(
                                         spread = spread,
                                         pageNumber = currentSinglePage,
                                         highlightColor = highlightColor,
+                                        alignment = Alignment.CenterEnd,
                                     )
+                                    SpineEdgeShadow(Alignment.CenterEnd)
                                 }
                             }
+                            MushafSpine()
                             Box(
                                 Modifier
                                     .weight(1f)
@@ -882,7 +886,9 @@ private fun SideContextPanel(
             },
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(start = 18.dp, end = 18.dp, top = 12.dp, bottom = 2.dp),
+            // RTL: start = the spine side — tighter margin so the panel reads
+            // from the spine outward, like a book's inner margin.
+            modifier = Modifier.padding(start = 14.dp, end = 26.dp, top = 12.dp, bottom = 2.dp),
         )
         SurahContentView(
             items = items,
@@ -896,8 +902,9 @@ private fun SideContextPanel(
             currentAyahEndMs = currentAyahEndMs,
             isPlaying = isPlaying,
             // The panel owns half the screen (same as the mushaf page), so rows
-            // use the full text size.
-            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 4.dp),
+            // use the full text size; start (RTL = spine side) is tighter so the
+            // rows read from the spine outward.
+            contentPadding = PaddingValues(start = 14.dp, top = 4.dp, end = 26.dp, bottom = 4.dp),
             fontSizeSp = 20f,
             rowSpacing = 6.dp,
         )
@@ -909,6 +916,8 @@ private fun SideContextPanel(
  * the context panel (mushaf-only mode keeps the full two-page spread). The page
  * is picked from the loaded spread by page parity (odd = right side, even =
  * left side — the same rule the spread uses); page changes crossfade.
+ * [alignment] positions the page within its half — the split view passes
+ * CenterEnd so the page hugs the spine like the spread's right page.
  */
 @Composable
 private fun SingleMushafPage(
@@ -916,6 +925,7 @@ private fun SingleMushafPage(
     pageNumber: Int?,
     highlightColor: Color,
     modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.Center,
 ) {
     if (pageNumber == null) {
         Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -942,6 +952,7 @@ private fun SingleMushafPage(
             bandsFractional = side?.bandsFractional ?: false,
             highlightColor = highlightColor,
             modifier = Modifier.fillMaxSize(),
+            alignment = alignment,
         )
     }
 }

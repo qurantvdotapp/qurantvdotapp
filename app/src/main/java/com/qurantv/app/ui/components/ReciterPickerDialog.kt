@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -39,10 +40,14 @@ fun ReciterPickerDialog(
     onDismiss: () -> Unit,
 ) {
     if (reciters.isEmpty()) return
+    val focusRow = reciters.indexOfFirst { it.id == currentReciterId }.coerceAtLeast(0)
+    val listState = rememberLazyListState()
     Dialog(onDismissRequest = onDismiss) {
         val dialogFocus = remember { FocusRequester() }
-        val focusRow = reciters.indexOfFirst { it.id == currentReciterId }.coerceAtLeast(0)
         LaunchedEffect(Unit) {
+            // Scroll to the current reciter first so its row is composed and
+            // focusable, then request focus on it.
+            if (focusRow > 0) listState.scrollToItem(focusRow)
             repeat(8) {
                 withFrameNanos { }
                 if (dialogFocus.requestFocus()) return@LaunchedEffect
@@ -61,6 +66,7 @@ fun ReciterPickerDialog(
                 color = MaterialTheme.colorScheme.onSurface,
             )
             LazyColumn(
+                state = listState,
                 modifier = Modifier.fillMaxWidth().heightIn(max = 520.dp).padding(top = 16.dp),
             ) {
                 items(reciters, key = { it.id }) { reciter ->

@@ -79,6 +79,7 @@ class PlayerViewModel(
         surah: QuranSurah,
         availableSurahs: List<QuranSurah>,
         resumeFromSession: Boolean,
+        startAyahIndex: Int? = null,
     ) {
         val key = "${reciter.id}/${moshaf.id}/${surah.id}"
         _screen.update { it.copy(availableSurahs = availableSurahs) }
@@ -96,6 +97,12 @@ class PlayerViewModel(
                 ) {
                     startPos = session.positionMs
                 }
+            }
+            if (startAyahIndex != null && startPos == 0L && timing != null) {
+                // Resume at the SAME ayah after a reciter change: the new
+                // reciter's timing has different absolute times, but the ayah
+                // boundaries align, so start at its entry (best effort).
+                startPos = timing.entryFor(startAyahIndex)?.startMs ?: 0L
             }
             _screen.update {
                 it.copy(
@@ -178,16 +185,19 @@ class PlayerViewModel(
 
     /**
      * Switches to a different reciter/moshaf, keeping the current surah (or the
-     * moshaf's first surah when it doesn't cover it) and starting from its first
-     * ayah. Used by the transport-bar reciter picker.
+     * moshaf's first surah when it doesn't cover it) and resuming from the SAME
+     * ayah when the new reciter's timing knows it (best effort).
      */
     fun switchReciter(reciter: Reciter, moshaf: Moshaf) {
         val currentSurahId = _screen.value.ui.surah?.id ?: 1
+        val currentAyahIndex = _screen.value.ui.currentAyahIndex.takeIf { it > 0 }
         viewModelScope.launch {
             val all = catalog.surahs("ar").first()
             val surahs = all.filter { it.id in moshaf.availableSurahIds.toSet() }
             val surah = surahs.firstOrNull { it.id == currentSurahId } ?: surahs.firstOrNull() ?: return@launch
-            play(reciter, moshaf, surah, surahs, resumeFromSession = false)
+            // Only carry the ayah over when the same surah is kept.
+            val sameAyah = if (surah.id == currentSurahId) currentAyahIndex else null
+            play(reciter, moshaf, surah, surahs, resumeFromSession = false, startAyahIndex = sameAyah)
         }
     }
 

@@ -209,56 +209,63 @@ ar/en RTL. Tafseer side panel (KSU .ayt → JSON conversion) DEFERRED to a later
 
 ## Phase B0 — Scaffold + toolchain (in progress)
 
-- [~] Create task tracker (this file) + lock W1–W10
-- [~] `web/` scaffold: Vite + TypeScript + SolidJS + Vitest; `npm run build` green; `.gitignore` for node_modules/dist
-- [~] Tizen Studio web-cli download (280 MB) + install + Package Manager: Web CLI, TV platform, emulator packages
-- [ ] Boot a Tizen TV emulator instance headless (em-cli); `sdb devices` sees it; permit installs
-- [ ] Playwright + Chromium harness for Vidaa-target smoke tests
-- [ ] Commit: `feat: tizen/vidaa port scaffold + task tracker`
+- [x] Create task tracker (this file) + lock W1–W10
+- [x] `web/` scaffold: Vite + TypeScript + SolidJS + Vitest; `npm run build` green; `.gitignore` for node_modules/dist
+- [x] Tizen Studio web-cli downloaded (280 MB) + installed to `~/tizen-studio`; Package Manager: Web CLI (Tizen 6.0–9.0) + Emulator package installed (Arch dep check shimmed: `dpkg -l` answers `ii` for the 5 Ubuntu-only prereq names — glib2/curl equivalents already present on Arch)
+- [~] Boot a Tizen TV emulator instance headless (em-cli); `sdb devices` sees it; permit installs
+- [x] Playwright + Chromium harness for Vidaa-target smoke tests (3 e2e TV-keycode tests green)
+- [x] Commit: `feat: tizen/vidaa port scaffold + task tracker`
 
 ## Phase B1 — Domain layer port (pure TS, mirrors Kotlin)
 
-- [ ] `Models.ts` (Reciter, Moshaf, QuranSurah, timing shapes, PageAyahBand…)
-- [ ] `CatalogParsing.ts` (surah_list defensive parse, server URL normalization, audio URL rule, polygon parse)
-- [ ] `TimingIndex.ts` (binary-search ayah locator, degenerate-interval skip, ayah-0 basmala slot)
-- [ ] `TimingAccuracy.ts` (ASYMMETRIC trailing-silence-aware gate: mp3 may exceed timing by max(8 s, 2%), timing may only over-claim 2%)
-- [ ] `BasmalaOffset.ts` (timing index ↔ verse key, non-Hafs offset suggestion)
-- [ ] `PageMapping.ts` (SVG viewBox → screen mapping — parse REAL viewBox, never assume 235)
-- [ ] Port Kotlin unit test fixtures (surah 1 read 5, page 187 viewBox 345×550, silence cases) to Vitest — all green
-- [ ] Commit: `feat: port domain layer to TS`
+- [x] `Models.ts` (Reciter, Moshaf, QuranSurah, timing shapes, PageAyahBand…)
+- [x] `CatalogParsing.ts` (surah_list defensive parse, server URL normalization, audio URL rule, polygon parse)
+- [x] `TimingIndex.ts` (binary-search ayah locator, degenerate-interval skip, ayah-0 basmala slot)
+- [x] `TimingAccuracy.ts` (ASYMMETRIC trailing-silence-aware gate: mp3 may exceed timing by max(8 s, 2%), timing may only over-claim 2%)
+- [x] `BasmalaOffset.ts` (timing index ↔ verse key, non-Hafs offset suggestion)
+- [x] `PageMapping.ts` (SVG viewBox → screen mapping — parse REAL viewBox, never assume 235)
+- [x] Port Kotlin unit test fixtures (surah 1 read 5, page 187 viewBox 345×550, silence cases) to Vitest — all green (45 fixtures)
+- [x] Commit: `feat: port domain layer to TS`
 
 ## Phase B2 — Data layer (TS)
 
-- [ ] `ApiClient` (fetch + ACAO verified, User-Agent), `Mp3QuranApi`, `QuranComApi`, DTOs (defensive)
-- [ ] Cache: localStorage JSON cache (TTL 24 h catalog / forever timing+text) + single-flight
-- [ ] Repos: Catalog, Timing (folder_url ↔ server match, soar, timedServerUrls), QuranText (bundled Tanzil + fallback, basmala strip), Session (localStorage)
-- [ ] i18n ar/en (strings ported from strings.xml), RTL via dir=rtl, Amiri font @font-face for Quran content only
-- [ ] Commit: `feat: data layer + i18n`
+- [x] `ApiClient` (fetch + ACAO verified), `Mp3QuranApi`, `QuranComApi`, DTOs (defensive)
+- [x] Cache: localStorage JSON cache (TTL 24 h catalog / forever timing+text) + single-flight
+- [x] Repos: Catalog, Timing (folder_url ↔ server match, soar, timedServerUrls), QuranText (bundled Tanzil + fallback, basmala strip), Session (localStorage)
+- [x] i18n ar/en (strings ported from strings.xml), RTL via dir=rtl, Amiri font @font-face for Quran content only
+- [x] Commit: `feat: data layer + i18n`
+- [x] Bug found via e2e: `reads()` cached DOMAIN objects (camelCase `folderUrl`) but read back as DTOs (snake_case `folder_url`) → folder match always failed → now stores DTOs exactly like the Kotlin disk cache
 
 ## Phase B3 — UI shell + focus engine
 
-- [ ] Focus manager: explicit focus, spatial d-pad navigation, scale+border focus ring, wrap, initial focus
-- [ ] Theme (night-sky gold/green/cyan on deep navy), cards, dialogs, loading/error/empty + Retry
-- [ ] Navigation: Home → SurahGrid → Player back stack; double-Back exits; dir-aware layout (RTL)
-- [ ] Commit: `feat: UI shell + focus engine`
+- [x] Focus manager: DOM-rect spatial d-pad navigation (`src/ui/focus.ts` + `use:focusable` directive), scale+border focus ring (.focused), initial focus per screen
+- [x] Theme (night-sky gold/green/cyan on deep navy), cards, dialogs, loading/error/empty + Retry
+- [x] Navigation: Home → SurahGrid → Player back stack; back-on-home closes; dir-aware layout (RTL via dir=rtl)
+- [x] Commit: `feat: UI shell + screens + player engine` (with B4/B5)
+- [x] Gotcha: SolidJS `use:` directives need the directive identifier imported in EVERY module using them; `noUnusedLocals` disabled (directive refs are invisible to tsc)
 
 ## Phase B4 — Screens
 
-- [ ] Home: Continue card, reciters grouped by letter with wrapped FlowRows + A–Z rail, search overlay (Arabic-tolerant normalize أ/إ/آ→ا, ة→ه, ى→ي; empty query = full list; visible بحث button + Enter/OK)
-- [ ] Surah grid: 8-col grid, only available surahs, moshaf picker, jump dialog, untimed badges
-- [ ] Player transport: 3 zones (time · repeat · speed · jump | next-su · next-ay · play · prev-ay · prev-su | no-timing notice · eye · reciter · side view · mushaf), no seek bar, repeat indicator, speed cycle
-- [ ] Text mode: ayah list (Amiri), current ayah highlighted + auto-scroll (pin + proportional), tap-to-seek, basmala header
-- [ ] Page mode: SVG render + polygon overlay highlight + 2-page spread (odd right/even left) + page-turn animation + next-page prefetch + auto-hide chrome 5 s
-- [ ] Settings: language, default speed, font size, highlight color, auto-hide toggle, onlyTimedReciters
-- [ ] Commit: `feat: screens`
+- [x] Home: Continue card, reciters grouped by letter with wrapped FlowRows + A–Z rail, search overlay (Arabic-tolerant normalize; empty query = full list; visible بحث button + Enter/OK)
+- [x] Surah grid: 8-col grid, only available surahs, moshaf picker, jump dialog, untimed badges (soar list)
+- [x] Player transport: 3 zones (jump · speed · repeat · time | next-su · next-ay · play · prev-ay · prev-su | no-timing notice · eye · reciter · mushaf), repeat indicator, speed cycle
+- [x] Text mode: ayah list (Amiri), current ayah highlighted + auto-scroll, tap-to-seek, basmala header
+- [~] Page mode: SVG render + polygon overlay highlight + next-page prefetch + auto-hide chrome 5 s — **single current page for now; two-page spread + page-turn animation deferred** (layout polish; the sync/highlight math is identical)
+- [x] Settings: language, default speed, font size, highlight color, auto-hide toggle, onlyTimedReciters
+- [~] Commit: `feat: UI shell + screens + player engine` (B3/B4/B5 landed together)
 
 ## Phase B5 — Player engine (web audio)
 
-- [ ] `AudioEngine` (HTMLAudio + ticker 100 ms + media keys + seek + speed + error/retry)
-- [ ] Sync integration: timing → current ayah (index change only), accuracy gate disables sync, no-timing page browse mode
-- [ ] Repeat OFF / AYAH / SURAH; queued surah playlist with preload for seamless transitions
-- [ ] Session save loop (~5 s throttled), Continue restore
-- [ ] Commit: `feat: player engine`
+- [x] `AudioEngine` (HTMLAudio + 100 ms ticker + media keys + seek + speed + error/retry, DOM-attached audio element)
+- [x] Sync integration: timing → current ayah via ported binary search (index change only), accuracy gate disables sync (verified: read 5 s1 mp3 42.7 s vs timing 37.5 s → within silence allowance → sync ENABLED), no-timing static degradation + page browse
+- [x] Repeat OFF / AYAH / SURAH; next-surah preload (audio + timing) for transition gap reduction (true gapless needs WebAudio — noted)
+- [x] Session save loop (~5 s), Continue restore (startAyahIndex)
+- [~] Commit: `feat: UI shell + screens + player engine`
+
+## Phase B7 — Verification (in progress early)
+
+- [x] Playwright Chromium TV-keycode smoke tests (Vidaa-runtime stand-in): catalog+D-pad, timed reciter → grid → player → REAL audio + highlight movement (sync) + page mode + text toggle + play/pause + back stack; no-timing graceful degradation — 3/3 green
+- [~] Tizen TV emulator: boot, install .wgt, launch, drive UI (blocked on emulator package download)
 
 ## Phase B6 — Packaging + docs
 

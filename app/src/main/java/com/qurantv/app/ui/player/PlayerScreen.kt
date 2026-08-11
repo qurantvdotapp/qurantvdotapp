@@ -7,9 +7,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -133,12 +137,11 @@ fun PlayerScreen(
     // Manual mushaf browsing when the surah has NO ayah timing: the spread shows
     // the surah's first page statically and prev/next ayah turn the page instead.
     var noTimingPage by remember { mutableStateOf<Int?>(null) }
-    // Tafseer panel: the mushaf page that is NOT reciting shows the current
-    // ayah's simplified tafseer / word meanings / translation.
-    var currentSideRight by remember { mutableStateOf(true) }
-    var tafseer by remember { mutableStateOf<com.qurantv.app.domain.AyahTafseer?>(null) }
-    val tafseerFocus = remember { FocusRequester() }
-    var tafseerFocused by remember { mutableStateOf(false) }
+    // Page view selector: the whole page area shows either the mushaf spread or
+    // the full-surah simplified tafseer / word meanings / translation.
+    var viewMode by remember { mutableStateOf(PlayerViewMode.MUSHAF) }
+    var viewPickerOpen by remember { mutableStateOf(false) }
+    var contentItems by remember { mutableStateOf<List<SurahContentRow>>(emptyList()) }
     val isTextMode = settings.displayMode == 0
     val isPageMode = !isTextMode
 
@@ -146,25 +149,28 @@ fun PlayerScreen(
     // index-0 basmala entry, so list position ≠ timing index).
     val currentAyah = ui.timing?.entryFor(ui.currentAyahIndex)
 
-    // Tafseer: the current ayah's verse reference, text and (loaded) tafseer.
-    val tafseerVerseLabel = remember(ui.surah?.id, ui.currentAyahIndex) {
-        val s = ui.surah?.id ?: return@remember ""
-        val a = com.qurantv.app.domain.BasmalaOffset.verseKeyFor(
-            ui.currentAyahIndex, s, ui.surah?.versesCount ?: 0, viewState.ayahOffset,
-        )?.substringAfter(':')
-        if (a != null) "$s : $a" else ""
-    }
-    val currentAyahText = remember(ui.currentAyahIndex, viewState.textItems) {
-        viewState.textItems.firstOrNull { it.index == ui.currentAyahIndex }?.text ?: ""
-    }
-    LaunchedEffect(ui.surah?.id, ui.currentAyahIndex, settings.showTafseer) {
-        tafseer = null
-        if (!settings.showTafseer || ui.currentAyahIndex <= 0) return@LaunchedEffect
+    // Load the full-surah content for the selected non-mushaf view.
+    LaunchedEffect(viewMode, ui.surah?.id, ui.surah?.versesCount, viewState.ayahOffset) {
+        contentItems = emptyList()
         val surah = ui.surah ?: return@LaunchedEffect
-        val a = com.qurantv.app.domain.BasmalaOffset.verseKeyFor(
-            ui.currentAyahIndex, surah.id, surah.versesCount, viewState.ayahOffset,
-        )?.substringAfter(':')?.toIntOrNull() ?: return@LaunchedEffect
-        tafseer = container.tafseerRepository.tafseerFor(surah.id, a)
+        if (viewMode == PlayerViewMode.MUSHAF) return@LaunchedEffect
+        val mode = when (viewMode) {
+            PlayerViewMode.TAFSEER -> com.qurantv.app.data.repo.TafseerRepository.ContentMode.TAFSEER
+            PlayerViewMode.MEANINGS -> com.qurantv.app.data.repo.TafseerRepository.ContentMode.MEANINGS
+            PlayerViewMode.TRANSLATION -> com.qurantv.app.data.repo.TafseerRepository.ContentMode.TRANSLATION
+            PlayerViewMode.MUSHAF -> return@LaunchedEffect
+        }
+        val content = container.tafseerRepository.surahContent(surah.id, mode) ?: return@LaunchedEffect
+        val offset = viewState.ayahOffset
+        val rowCount = ui.timing?.let { it.lastAyahIndex + 1 } ?: (surah.versesCount + 1)
+        val rows = ArrayList<SurahContentRow>((rowCount - 1).coerceAtLeast(0))
+        for (i in 1 until rowCount) {
+            val key = com.qurantv.app.domain.BasmalaOffset.verseKeyFor(i, surah.id, surah.versesCount, offset)
+            val verse = key?.substringAfter(':')?.toIntOrNull()
+            val text = verse?.let { content[it] }?.replace("<br>", "\n")?.replace("<br/>", "\n")?.replace("<br />", "\n") ?: ""
+            rows += SurahContentRow(index = i, verseNumber = verse?.toString(), text = text)
+        }
+        contentItems = rows
     }
 
     // Tajweed per-ayah image loading (style 1 — single image, not a spread).
@@ -347,7 +353,6 @@ fun PlayerScreen(
             ?: return@LaunchedEffect
         val rightPage = if (P % 2 == 1) P else P - 1
         val leftPage = rightPage + 1
-        currentSideRight = P == rightPage
         val right = loadSpreadSide(rightPage, isCurrent = track && P == rightPage, surah = surah)
         val left = loadSpreadSide(leftPage, isCurrent = track && P == leftPage, surah = surah)
         spread = SpreadState(right = right, left = left, key = rightPage)
@@ -410,16 +415,8 @@ fun PlayerScreen(
     LaunchedEffect(ui.isPlaying) {
         if (!ui.isPlaying && isPageMode) chromeVisible = true
     }
-    LaunchedEffect(chromeVisible, settings.showTafseer) {
-        if (chromeVisible) {
-            playFocus.requestFocus()
-        } else if (settings.showTafseer && isPageMode && tafseer != null) {
-            // Fullscreen with tafseer: the panel holds focus so the D-pad
-            // scrolls it (any other key still reveals the chrome).
-            tafseerFocus.requestFocus()
-        } else {
-            pageFocus.requestFocus()
-        }
+    LaunchedEffect(chromeVisible) {
+        if (chromeVisible) playFocus.requestFocus() else pageFocus.requestFocus()
     }
 
     Column(
@@ -442,7 +439,7 @@ fun PlayerScreen(
                             false
                         }
                         else -> {
-                            if (isPageMode && !chromeVisible && !tafseerFocused) chromeVisible = true
+                            if (isPageMode && !chromeVisible) chromeVisible = true
                             false
                         }
                     }
@@ -491,7 +488,7 @@ fun PlayerScreen(
         }
 
         @Composable
-        fun PlayerTopBar(modifier: Modifier = Modifier) {
+        fun PlayerTopBar(modifier: Modifier = Modifier, showViewPicker: Boolean = false) {
             Row(
                 modifier = modifier.padding(start = 32.dp, end = 32.dp, top = 10.dp, bottom = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -515,6 +512,19 @@ fun PlayerScreen(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
+                }
+                if (showViewPicker) {
+                    TvCard(
+                        onClick = { viewPickerOpen = true },
+                        backgroundColor = com.qurantv.app.ui.theme.SurfaceContainer,
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
+                    ) {
+                        Text(
+                            text = viewLabel(viewMode),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
                 }
             }
         }
@@ -572,20 +582,27 @@ fun PlayerScreen(
                         highlightColor = highlightColor,
                         showBasmala = ui.currentAyahIndex <= 0,
                     )
+                } else if (viewMode == PlayerViewMode.MUSHAF) {
+                    MushafSpreadView(spread = spread, highlightColor = highlightColor)
                 } else {
-                    MushafSpreadView(
-                        spread = spread,
+                    // Full-surah content view (tafseer / meanings / translation):
+                    // the current ayah follows the recitation when timing exists.
+                    SurahContentView(
+                        items = contentItems,
+                        currentIndex = ui.currentAyahIndex,
                         highlightColor = highlightColor,
-                        tafseer = if (settings.showTafseer) tafseer else null,
-                        tafseerOnLeft = !currentSideRight,
-                        tafseerVerseLabel = tafseerVerseLabel,
-                        tafseerAyahText = currentAyahText,
-                        tafseerFocus = tafseerFocus,
-                        onTafseerFocusChanged = { tafseerFocused = it },
+                        onSelect = { index -> vm.seekToAyah(index) },
+                        resetKey = "${viewMode.name}/${ui.surah?.id}",
+                        modifier = Modifier.fillMaxSize(),
+                        positionMs = positionMs,
+                        currentAyahStartMs = currentAyah?.startMs ?: 0L,
+                        currentAyahEndMs = currentAyah?.endMs ?: 0L,
+                        isPlaying = ui.isPlaying,
                     )
                 }
                 if (chromeVisible) {
                     PlayerTopBar(
+                        showViewPicker = true,
                         modifier = Modifier
                             .fillMaxWidth()
                             .align(Alignment.TopCenter)
@@ -672,6 +689,98 @@ fun PlayerScreen(
             },
             onDismiss = { pendingReciter = null },
         )
+    }
+
+    if (viewPickerOpen) {
+        ViewModeDialog(
+            currentMode = viewMode,
+            onSelect = { mode ->
+                viewPickerOpen = false
+                viewMode = mode
+            },
+            onDismiss = { viewPickerOpen = false },
+        )
+    }
+}
+
+/** The page-area views selectable from the top bar. */
+enum class PlayerViewMode { MUSHAF, TAFSEER, MEANINGS, TRANSLATION }
+
+/** Short label for the view button in the top bar. */
+@Composable
+private fun viewLabel(mode: PlayerViewMode): String = when (mode) {
+    PlayerViewMode.MUSHAF -> stringResource(R.string.view_mushaf_short)
+    PlayerViewMode.TAFSEER -> stringResource(R.string.view_tafseer_short)
+    PlayerViewMode.MEANINGS -> stringResource(R.string.view_meanings_short)
+    PlayerViewMode.TRANSLATION -> stringResource(R.string.view_translation_short)
+}
+
+/** Chooser for the page view: Surah image · simplified tafseer · word meanings · translation. */
+@Composable
+private fun ViewModeDialog(
+    currentMode: PlayerViewMode,
+    onSelect: (PlayerViewMode) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    data class Option(val mode: PlayerViewMode, val name: String)
+    val options = listOf(
+        Option(PlayerViewMode.MUSHAF, stringResource(R.string.view_mushaf)),
+        Option(PlayerViewMode.TAFSEER, stringResource(R.string.view_tafseer)),
+        Option(PlayerViewMode.MEANINGS, stringResource(R.string.view_meanings)),
+        Option(PlayerViewMode.TRANSLATION, stringResource(R.string.view_translation)),
+    )
+    androidx.compose.ui.window.Dialog(onDismissRequest = onDismiss) {
+        val dialogFocus = remember { FocusRequester() }
+        androidx.compose.runtime.LaunchedEffect(Unit) {
+            repeat(8) {
+                androidx.compose.runtime.withFrameNanos { }
+                if (dialogFocus.requestFocus()) return@LaunchedEffect
+                kotlinx.coroutines.delay(120)
+            }
+        }
+        Column(
+            modifier = Modifier
+                .width(560.dp)
+                .background(com.qurantv.app.ui.theme.SurfaceContainer, MaterialTheme.shapes.extraLarge)
+                .padding(24.dp),
+        ) {
+            Text(
+                text = stringResource(R.string.view_picker_title),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth().heightIn(max = 420.dp).padding(top = 14.dp),
+            ) {
+                items(options, key = { it.mode }) { option ->
+                    val selected = option.mode == currentMode
+                    TvCard(
+                        onClick = { onSelect(option.mode) },
+                        modifier = if (option.mode == options.first().mode) {
+                            Modifier.fillMaxWidth().focusRequester(dialogFocus)
+                        } else {
+                            Modifier.fillMaxWidth()
+                        },
+                        backgroundColor = if (selected) {
+                            MaterialTheme.colorScheme.primaryContainer
+                        } else {
+                            com.qurantv.app.ui.theme.SurfaceContainerHigh
+                        },
+                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+                    ) {
+                        Text(
+                            text = (if (selected) "✓ " else "") + option.name,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = if (selected) {
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                            } else {
+                                MaterialTheme.colorScheme.onSurface
+                            },
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 

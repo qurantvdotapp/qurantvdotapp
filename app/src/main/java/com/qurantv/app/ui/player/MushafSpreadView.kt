@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -66,14 +65,6 @@ fun MushafSpreadView(
     spread: SpreadState,
     highlightColor: Color,
     modifier: Modifier = Modifier,
-    // Tafseer option: when set, the mushaf page that is NOT reciting is
-    // replaced by the tafseer panel ([tafseerOnLeft] says which side).
-    tafseer: com.qurantv.app.domain.AyahTafseer? = null,
-    tafseerOnLeft: Boolean = false,
-    tafseerVerseLabel: String = "",
-    tafseerAyahText: String = "",
-    tafseerFocus: FocusRequester? = null,
-    onTafseerFocusChanged: (Boolean) -> Unit = {},
 ) {
     AnimatedContent(
         targetState = spread,
@@ -102,27 +93,16 @@ fun MushafSpreadView(
                 // In RTL the first child is the RIGHT page — align it toward the
                 // spine (its left/end edge) so the two pages meet realistically.
                 Box(Modifier.weight(1f).fillMaxHeight()) {
-                    if (tafseer != null && !tafseerOnLeft) {
-                        // The RIGHT side is not reciting — show the tafseer here.
-                        TafseerPanel(
-                            verseLabel = tafseerVerseLabel,
-                            ayahText = tafseerAyahText,
-                            tafseer = tafseer,
-                            focusRequester = tafseerFocus,
-                            onFocusChanged = onTafseerFocusChanged,
-                        )
-                    } else {
-                        PageModeView(
-                            bitmap = target.right?.bitmap,
-                            viewBox = target.right?.viewBox,
-                            polygon = target.right?.polygon,
-                            highlightColor = highlightColor,
-                            bands = target.right?.bands,
-                            bandsFractional = target.right?.bandsFractional ?: false,
-                            rects = target.right?.rects,
-                            alignment = Alignment.CenterEnd,
-                        )
-                    }
+                    PageModeView(
+                        bitmap = target.right?.bitmap,
+                        viewBox = target.right?.viewBox,
+                        polygon = target.right?.polygon,
+                        highlightColor = highlightColor,
+                        bands = target.right?.bands,
+                        bandsFractional = target.right?.bandsFractional ?: false,
+                        rects = target.right?.rects,
+                        alignment = Alignment.CenterEnd,
+                    )
                     // Inner edge shadow toward the spine — darkest AT the spine,
                     // fading INTO the page (a real page's edge shadow).
                     Box(
@@ -163,27 +143,16 @@ fun MushafSpreadView(
                     )
                 }
                 Box(Modifier.weight(1f).fillMaxHeight()) {
-                    if (tafseer != null && tafseerOnLeft) {
-                        // The LEFT side is not reciting — show the tafseer here.
-                        TafseerPanel(
-                            verseLabel = tafseerVerseLabel,
-                            ayahText = tafseerAyahText,
-                            tafseer = tafseer,
-                            focusRequester = tafseerFocus,
-                            onFocusChanged = onTafseerFocusChanged,
-                        )
-                    } else {
-                        PageModeView(
-                            bitmap = target.left?.bitmap,
-                            viewBox = target.left?.viewBox,
-                            polygon = target.left?.polygon,
-                            highlightColor = highlightColor,
-                            bands = target.left?.bands,
-                            bandsFractional = target.left?.bandsFractional ?: false,
-                            rects = target.left?.rects,
-                            alignment = Alignment.CenterStart,
-                        )
-                    }
+                    PageModeView(
+                        bitmap = target.left?.bitmap,
+                        viewBox = target.left?.viewBox,
+                        polygon = target.left?.polygon,
+                        highlightColor = highlightColor,
+                        bands = target.left?.bands,
+                        bandsFractional = target.left?.bandsFractional ?: false,
+                        rects = target.left?.rects,
+                        alignment = Alignment.CenterStart,
+                    )
                     // Inner edge shadow toward the spine.
                     Box(
                         Modifier

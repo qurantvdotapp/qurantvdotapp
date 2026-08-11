@@ -18,6 +18,10 @@ import kotlinx.coroutines.withContext
 class TafseerRepository(private val context: Context) {
 
     private val cache = HashMap<Int, AyahTafseer>()
+    private val surahCache = HashMap<String, Map<Int, String>>()
+
+    /** The full-surah content view options (which page view is active). */
+    enum class ContentMode { TAFSEER, MEANINGS, TRANSLATION }
 
     /** Tafseer for (surah, ayah), or null when unavailable. */
     suspend fun tafseerFor(surah: Int, ayah: Int): AyahTafseer? = withContext(Dispatchers.IO) {
@@ -37,6 +41,36 @@ class TafseerRepository(private val context: Context) {
             null
         }
     }
+
+    /**
+     * The given content mode for EVERY ayah of a surah (ayah number → text),
+     * used by the full-surah tafseer / word-meaning / translation views.
+     */
+    suspend fun surahContent(surahId: Int, mode: ContentMode): Map<Int, String>? =
+        withContext(Dispatchers.IO) {
+            val key = "${mode.name}_$surahId"
+            surahCache[key]?.let { return@withContext it }
+            try {
+                val table = when (mode) {
+                    ContentMode.TAFSEER -> "ar_muyassar"
+                    ContentMode.MEANINGS -> "ar_ma3any"
+                    ContentMode.TRANSLATION -> "en_sahih"
+                }
+                val db = openDb(table) ?: return@withContext null
+                val map = HashMap<Int, String>()
+                try {
+                    db.rawQuery("SELECT aya, text FROM $table WHERE sura=?", arrayOf(surahId.toString())).use { c ->
+                        while (c.moveToNext()) map[c.getInt(0)] = c.getString(1) ?: ""
+                    }
+                } finally {
+                    runCatching { db.close() }
+                }
+                surahCache[key] = map
+                map
+            } catch (e: Exception) {
+                null
+            }
+        }
 
     private fun query(table: String, surah: Int, ayah: Int): String? {
         val db = openDb(table) ?: return null

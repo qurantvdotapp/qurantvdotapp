@@ -87,9 +87,7 @@ fun TransportBar(
     ) {
         // ---- Right zone: view controls — the auto-hide eye, and the single
         // mushaf button (opens the combined display-mode + style list).
-        // Zone weights: the center (playback cluster + time) gets extra room so
-        // the time readout always fits on ONE line next to the next-surah button.
-        Box(Modifier.weight(0.8f), contentAlignment = Alignment.CenterStart) {
+        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 TvIconButton(onClick = onToggleAutoHide) {
                     Icon(
@@ -105,18 +103,12 @@ fun TransportBar(
             }
         }
 
-        // ---- Center zone: the playback cluster, dead centre — with the time
-        // readout immediately LEFT of the next-surah button.
-        Box(Modifier.weight(1.4f), contentAlignment = Alignment.Center) {
+        // ---- Center zone: ONLY the playback cluster, dead centre (next surah ·
+        // next ayah · play · previous ayah · previous surah).
+        Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                // Desired on-screen (left → right) order: time · next surah · next
-                // ayah · play · previous ayah · previous surah. A Row lays children
-                // right-to-left in RTL, so the time is emitted LAST there (which
-                // puts it leftmost) and FIRST in LTR.
-                if (!rtl) {
-                    TimeReadout(positionMs, state.durationMs)
-                    Spacer(Modifier.width(10.dp))
-                }
+                // A Row lays children right-to-left in RTL, so the declaration
+                // order there is the reverse of the on-screen (left → right) order.
                 val cluster: List<@Composable () -> Unit> = listOf(
                     { TransportButton(icon = Icons.Filled.SkipNext, onClick = onNextSurah, label = stringResource(R.string.next_surah), mirror = rtl) },
                     { TransportButton(icon = Icons.Filled.NavigateNext, onClick = onNextAyah, label = stringResource(R.string.next_ayah), mirror = rtl) },
@@ -141,16 +133,16 @@ fun TransportBar(
                     if (i > 0) Spacer(Modifier.width(8.dp))
                     slot()
                 }
-                if (rtl) {
-                    Spacer(Modifier.width(10.dp))
-                    TimeReadout(positionMs, state.durationMs)
-                }
             }
         }
 
-        // ---- Left zone: repeat · speed · jump-to-surah.
-        Box(Modifier.weight(0.8f), contentAlignment = Alignment.CenterEnd) {
+        // ---- Left zone: time readout (right of this section, next to the
+        // cluster) · repeat · speed · jump-to-surah. Declared so the on-screen
+        // (RTL) order is السور · 1× · repeat · time.
+        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
             Row(verticalAlignment = Alignment.CenterVertically) {
+                TimeReadout(positionMs, state.durationMs)
+                Spacer(Modifier.width(10.dp))
                 val repeatActive = state.repeatMode != RepeatMode.OFF
                 TvIconButton(onClick = onCycleRepeat) {
                     Icon(

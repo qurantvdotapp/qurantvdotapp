@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -189,7 +190,7 @@ fun HomeScreen(
                                     style = MaterialTheme.typography.titleLarge,
                                     color = MaterialTheme.colorScheme.primary,
                                 )
-                                ReciterChipRow(
+                                ReciterChipFlow(
                                     reciters = ui.recitersByLetter[letter].orEmpty(),
                                     onClick = { reciter ->
                                         if (!vm.requestMoshafSelection(reciter)) {
@@ -312,11 +313,18 @@ private fun ContinueCard(session: LastSession?, focusRequester: FocusRequester, 
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ReciterChipRow(reciters: List<Reciter>, onClick: (Reciter) -> Unit) {
+private fun ReciterChipFlow(reciters: List<Reciter>, onClick: (Reciter) -> Unit) {
     if (reciters.isEmpty()) return
-    LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        items(reciters, key = { it.id }) { reciter ->
+    // Multiple short rows per letter instead of one long horizontal row — the
+    // chips wrap to the available width so every reciter is a few D-pad presses
+    // away (no horizontal scrolling).
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        reciters.forEach { reciter ->
             ReciterChip(reciter = reciter, onClick = { onClick(reciter) })
         }
     }

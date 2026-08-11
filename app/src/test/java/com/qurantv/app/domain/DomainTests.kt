@@ -644,3 +644,45 @@ class ReciterSearchTest {
         assertFalse(reciterMatchesQuery(reciter("محمود خليل الحصري"), "المنشاوي"))
     }
 }
+
+class TimingAccuracySilenceTest {
+
+    @Test
+    fun `trailing silence up to the allowance is still reliable`() {
+        // Verified: البنا المجود s97 — file 84.1 s (recitation ends 80.9 s),
+        // timing 79.1 s → +5.0 s of trailing silence; the timing is exact.
+        assertTrue(TimingAccuracy.isReliable(84_088L, 79_060L))
+        // البنا s1 — file 85.1 s vs timing 78.9 s → +6.2 s.
+        assertTrue(TimingAccuracy.isReliable(85_107L, 78_900L))
+        // Normal reads with a second or two of silence.
+        assertTrue(TimingAccuracy.isReliable(47_100L, 46_300L))
+        assertTrue(TimingAccuracy.isReliable(36_100L, 32_300L))
+        // Right at the 8 s boundary.
+        assertTrue(TimingAccuracy.isReliable(80_000L, 72_000L))
+    }
+
+    @Test
+    fun `more than the silence allowance is unreliable`() {
+        // Verified: البنا المجود s114 — file 79.1 s (audio continues to 75.1 s)
+        // vs timing 45.0 s → +34 s; الحذيفي s1 timing stops at 45.7 s while the
+        // recitation continues to 61.3 s → +17 s. Both are truncated timings.
+        assertFalse(TimingAccuracy.isReliable(79_099L, 45_000L))
+        assertFalse(TimingAccuracy.isReliable(62_992L, 45_700L))
+        // read 135 السويّد s1 +9.4 s (compressed read) stays unreliable.
+        assertFalse(TimingAccuracy.isReliable(53_100L, 43_700L))
+    }
+
+    @Test
+    fun `timing over-claiming the mp3 is unreliable`() {
+        // Verified: read 17 s114 — timing 39.1 s vs a 31.0 s file (-20.7%);
+        // read 137 s2 stretched (mp3 5874 s vs timing 7458 s).
+        assertFalse(TimingAccuracy.isReliable(31_000L, 39_100L))
+        assertFalse(TimingAccuracy.isReliable(5_874_000L, 7_458_000L))
+    }
+
+    @Test
+    fun `small deficits within tolerance are reliable`() {
+        // The mp3 slightly shorter than the timing (metadata variance).
+        assertTrue(TimingAccuracy.isReliable(100_000L, 101_000L))
+    }
+}

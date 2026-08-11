@@ -88,7 +88,7 @@ class TimingRepository(
      */
     suspend fun timingUsability(readId: Int, surahId: Int, mp3Url: String): Boolean? {
         val timing = timingFor(readId, surahId) ?: return false
-        val verdictKey = "usable_r${readId}_s$surahId"
+        val verdictKey = "usable2_r${readId}_s$surahId"
         cache.read(JsonDiskCache.TIMING, verdictKey)?.let { return it == "1" }
         val usable = withContext(Dispatchers.IO) {
             probeMp3DurationMs(mp3Url)?.let { mp3Ms ->

@@ -14,7 +14,7 @@ import { appContainer } from "../../data/AppContainer";
 import { AudioEngine } from "../../player/AudioEngine";
 import { nextRepeat, type RepeatMode } from "../../player/RepeatMode";
 import { setMediaKeyHandler } from "../mediaKeys";
-import { Chip, Dialog, DialogRow, LoadingState, ErrorState, focusable } from "../components";
+import { Chip, Dialog, DialogRow, LoadingState, ErrorState, StarButton, focusable } from "../components";
 import { focusFirst } from "../focus";
 import { TextModeList, type TextItem } from "./TextModeList";
 import { TransportBar } from "./TransportBar";
@@ -68,6 +68,7 @@ export function PlayerScreen(props: PlayerProps) {
   const [query, setQuery] = createSignal("");
   const [allReciters, setAllReciters] = createSignal<Reciter[]>([]);
   const [timedUrls, setTimedUrls] = createSignal<Set<string>>(new Set());
+  const [favourites, setFavourites] = createSignal<Set<number>>(c.session.favouriteReciterIds());
   const [errorMsg, setErrorMsg] = createSignal("");
   const [audioError, setAudioError] = createSignal(false);
 
@@ -363,6 +364,13 @@ export function PlayerScreen(props: PlayerProps) {
     const next = SPEED_CYCLE[(i + 1) % SPEED_CYCLE.length];
     setSpeed(next);
     engine.setSpeed(next);
+  }
+
+  function toggleFav(id: number) {
+    const cur = favourites();
+    const added = !cur.has(id);
+    c.session.toggleFavourite(id);
+    setFavourites(added ? new Set([...cur, id]) : new Set([...cur].filter((x) => x !== id)));
   }
 
   function switchReciter(reciter: Reciter, moshaf: Moshaf) {
@@ -708,8 +716,10 @@ export function PlayerScreen(props: PlayerProps) {
               <DialogRow
                 id={`pr-${r.id}`}
                 label={r.name}
+                sub={r.nameEn ?? undefined}
                 checked={r.id === props.reciter.id}
                 dim={!r.moshafs.some((m) => timedUrls().has(normalizeServerUrl(m.server)))}
+                action={<StarButton id={`prstar-${r.id}`} active={favourites().has(r.id)} onClick={() => toggleFav(r.id)} />}
                 onClick={() => {
                   const timed = r.moshafs.filter((m) => timedUrls().has(normalizeServerUrl(m.server)));
                   const candidates = timed.length > 0 ? timed : r.moshafs;

@@ -266,3 +266,37 @@ test("mushaf styles: every page source loads (SVG, HD, KSU Hafs/Warsh/Tajweed)",
   await openPickerAndPick("حفص ملون");
   await expect(page.locator('img[src*="tajweed_png"]').first()).toBeVisible({ timeout: 15_000 });
 });
+
+test("english reciter-search + favourite reciters", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
+  await page.click("#home-search");
+  await page.waitForTimeout(400);
+
+  // Search an ENGLISH name — should match by transliteration
+  await page.locator("#search-input").fill("maher");
+  await page.waitForTimeout(600);
+  const maherRows = await page.locator(".dialog-row").filter({ hasText: "المعيقلي" }).count();
+  expect(maherRows).toBeGreaterThanOrEqual(1);
+  // clearing back to full list is visible
+  await page.locator("#search-input").fill("");
+  await page.waitForTimeout(500);
+
+  // Favourite a reciter: close search, then star the first non-starred chip
+  await page.keyboard.press("Escape"); // close search
+  await page.waitForTimeout(300);
+  await page.evaluate(() => {
+    const firstStar = document.querySelector(".star-btn:not(.active)");
+    if (firstStar) (firstStar as HTMLElement).click();
+  });
+  const starredCount = await page.evaluate(() => document.querySelectorAll(".star-btn.active").length);
+  expect(starredCount).toBeGreaterThanOrEqual(1);
+
+  // The Favourites row now appears on Home
+  await expect(page.locator("#favourites-row")).toBeVisible({ timeout: 10_000 });
+
+  // Persistence: reload and re-check the favourite survived
+  await page.reload();
+  await page.waitForSelector(".tv-chip", { timeout: 20000 });
+  await expect(page.locator("#favourites-row")).toBeVisible({ timeout: 10_000 });
+});

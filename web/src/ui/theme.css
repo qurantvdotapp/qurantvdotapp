@@ -313,3 +313,7 @@ body,
 .content-text {
   font-family: var(--font-content);
 }
+
+/* favourite star button */ 
+.star-btn[data-focusable=""] { transition: transform 0.12s ease, color 0.12s ease; }
+.star-btn.focused { color: var(--gold-bright) !important; transform: scale(1.25); }

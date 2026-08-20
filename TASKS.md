@@ -302,6 +302,9 @@ ar/en RTL. Tafseer side panel (KSU .ayt → JSON conversion) DEFERRED to a later
 
 ## Extra work completed after B7 (2026-08-11)
 
+- **Favourite reciters**: star toggle (Home chips + search overlay + reciter picker), persisted to localStorage, dedicated Favourites row on Home; verified in the TV Simulator
+- **English reciter-name search**: merges `reciters?language=en` transliterations by id → `Reciter.nameEn`; search + picker match Arabic AND English (case-insensitive); English subtitle shown on rows
+- **Roadmap** (`web/ROADMAP.md`): Kotlin ↔ web feature-parity matrix (~90% parity) + phased plan (P1 gapless/wake-lock/ayah-position, P2 About/version, P3 beyond-parity) — **pending user approval, not implemented**
 - Arabic UI font **Tajawal** (all chrome) + **Amiri** naskh for tafseer/meanings content + Amiri Quran for ayah text — simulator-verified
 - UI polish pass: gradient surfaces, glow focus, gold play button, upgraded dialogs/chips/rail
 - `web/PERFORMANCE.md` — measured comparison + "keep both" recommendation (no deletion decisions)

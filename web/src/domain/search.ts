@@ -13,6 +13,8 @@ export function reciterMatchesQuery(reciter: Reciter, query: string): boolean {
   if (q.length === 0) return true;
   const needle = normalizeArabic(q);
   if (normalizeArabic(reciter.name).toLowerCase().includes(needle.toLowerCase())) return true;
+  // English/transliterated name (case-insensitive substring).
+  if (reciter.nameEn && reciter.nameEn.toLowerCase().includes(q.toLowerCase())) return true;
   return reciter.letter !== null && normalizeArabic(reciter.letter) === needle;
 }
 

@@ -59,9 +59,34 @@ export class CatalogRepository {
     }
   }
 
-  /** Reciters, grouped by the API `letter` field (A–Z jump rail). */
+  /** Reciters (Arabic names), enriched with English names for search. */
   async reciters(language: string): Promise<Reciter[]> {
-    const key = `reciters_${language}`;
+    const key = `reciters_aug_${language}`;
+    return this.cache.singleFlight(key, async () => {
+      const cached = await this.cache.read(CACHE.CATALOG, key, CACHE_TTL_24H);
+      if (cached !== null) {
+        return JSON.parse(cached) as Reciter[];
+      }
+      const [ar, en] = await Promise.all([this.rawReciters("ar"), this.rawReciters("en")]);
+      // Key by reciter id (the ar and en lists share ids); nameEn carries the English name.
+      const enById = new Map<number, string>();
+      for (const r of en) if (r.nameEn) enById.set(r.id, r.nameEn);
+      const merged = ar.map((r) => ({ ...r, nameEn: enById.get(r.id) ?? null }));
+      await this.cache.write(CACHE.CATALOG, key, JSON.stringify(merged));
+      return merged;
+    });
+  }
+
+  /** English/transliterated reciter names, keyed by the Arabic name. */
+  async englishReciterNames(): Promise<Map<string, string>> {
+    const en = await this.rawReciters("en");
+    const map = new Map<string, string>();
+    for (const r of en) if (r.nameEn) map.set(r.name, r.nameEn);
+    return map;
+  }
+
+  private async rawReciters(language: string): Promise<Reciter[]> {
+    const key = `reciters_raw_${language}`;
     return this.cache.singleFlight(key, async () => {
       const cached = await this.cache.read(CACHE.CATALOG, key, CACHE_TTL_24H);
       const dtos: ReciterDto[] =
@@ -71,7 +96,11 @@ export class CatalogRepository {
               await this.cache.write(CACHE.CATALOG, key, JSON.stringify({ reciters: list }));
               return list;
             });
-      return dtos.map(reciterDtoToDomain);
+      return dtos.map((d) =>
+        language === "en"
+          ? { ...reciterDtoToDomain(d), nameEn: d.name }
+          : reciterDtoToDomain(d),
+      );
     });
   }
 

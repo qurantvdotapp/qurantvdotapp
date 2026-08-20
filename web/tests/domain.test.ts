@@ -350,6 +350,7 @@ describe("ReciterSearch", () => {
     return {
       id: name.length,
       name,
+      nameEn: null,
       letter,
       moshafs: [{ id: 1, name: "حفص", server: "https://example/", surahTotal: null, moshafType: null, rewayaId: null, surahList: [] }],
     };

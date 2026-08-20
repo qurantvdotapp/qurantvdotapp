@@ -57,6 +57,7 @@ export function reciterDtoToDomain(dto: ReciterDto): Reciter {
   return {
     id: dto.id,
     name: dto.name,
+    nameEn: null, // English names merged separately (CatalogRepository)
     letter: dto.letter ?? null,
     moshafs: (dto.moshaf ?? []).map(moshafDtoToDomain),
   };

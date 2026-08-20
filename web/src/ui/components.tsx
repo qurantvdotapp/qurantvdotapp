@@ -124,6 +124,8 @@ export function DialogRow(props: {
   sub?: string;
   checked?: boolean;
   dim?: boolean;
+  /** Trailing element (e.g. a favourite star); stops click propagation. */
+  action?: JSX.Element;
   onClick: () => void;
 }) {
   return (
@@ -135,7 +137,38 @@ export function DialogRow(props: {
     >
       {props.checked ? <span style="color:var(--gold)">✓</span> : null}
       <span>{props.label}</span>
-      {props.sub ? <span class="badge">{props.sub}</span> : null}
+      {props.sub ? <span class="badge" style="color:var(--text-faint)">{props.sub}</span> : null}
+      <span style="flex:1" />
+      {props.action}
+    </div>
+  );
+}
+
+/** Focusable star toggle (favourites). Whole section shouldn't re-click. */
+export function StarButton(props: {
+  id: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <div
+      use:focusable={props.id}
+      id={props.id}
+      class="star-btn"
+      classList={{ active: props.active }}
+      onClick={(e) => {
+        e.stopPropagation(); // don't trigger the row's onClick
+        props.onClick();
+      }}
+      aria-label={props.active ? "unfavourite" : "favourite"}
+      style={{
+        "font-size": "26px",
+        color: props.active ? "var(--gold)" : "var(--text-faint)",
+        padding: "4px 10px",
+        "border-radius": "10px",
+      }}
+    >
+      {props.active ? "★" : "☆"}
     </div>
   );
 }

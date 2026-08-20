@@ -43,6 +43,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
 
 const SETTINGS_KEY = "qurantv_settings";
 const SESSION_KEY = "qurantv_last_session";
+const FAVOURITES_KEY = "qurantv_favourites";
 
 export class SessionRepository {
   settings(): AppSettings {
@@ -107,6 +108,33 @@ export class SessionRepository {
 
   setOnlyTimedReciters(enabled: boolean): void {
     this.persistSettings({ ...this.settings(), onlyTimedReciters: enabled });
+  }
+
+  favouriteReciterIds(): Set<number> {
+    try {
+      const raw = localStorage.getItem(FAVOURITES_KEY);
+      const arr = raw ? (JSON.parse(raw) as number[]) : [];
+      return new Set(arr.filter((n) => Number.isInteger(n)));
+    } catch {
+      return new Set();
+    }
+  }
+
+  isFavourite(reciterId: number): boolean {
+    return this.favouriteReciterIds().has(reciterId);
+  }
+
+  toggleFavourite(reciterId: number): boolean {
+    const set = this.favouriteReciterIds();
+    const added = !set.has(reciterId);
+    if (added) set.add(reciterId);
+    else set.delete(reciterId);
+    try {
+      localStorage.setItem(FAVOURITES_KEY, JSON.stringify([...set]));
+    } catch {
+      /* ignore */
+    }
+    return added;
   }
 
   saveLastSession(

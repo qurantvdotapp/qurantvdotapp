@@ -5,6 +5,8 @@
 export interface Reciter {
   id: number;
   name: string;
+  /** English/transliterated name (from mp3quran language=en; null if unknown). */
+  nameEn: string | null;
   letter: string | null;
   moshafs: Moshaf[];
 }

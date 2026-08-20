@@ -7,7 +7,7 @@ import { reciterMatchesQuery } from "../domain/search";
 import { arabicCollator, type TFunction } from "../i18n/strings";
 import type { LastSession } from "../data/repo/SessionRepository";
 import { appContainer } from "../data/AppContainer";
-import { Chip, Dialog, DialogRow, ErrorState, LoadingState, TvCard , focusable } from "./components";
+import { Chip, Dialog, DialogRow, ErrorState, LoadingState, TvCard, StarButton, focusable } from "./components";
 import { focusFirst } from "./focus";
 import type { Navigator } from "./navigation";
 
@@ -28,6 +28,7 @@ export function HomeScreen(props: HomeProps) {
   const [query, setQuery] = createSignal("");
   const [session] = createSignal<LastSession | null>(c.session.lastSession());
   const [recent, setRecent] = createSignal<Reciter[] | null>(null);
+  const [favourites, setFavourites] = createSignal<Set<number>>(c.session.favouriteReciterIds());
 
   async function load() {
     setError(false);
@@ -86,6 +87,19 @@ export function HomeScreen(props: HomeProps) {
     const timed = timedUrls();
     return r.moshafs.some((m) => timed.has(normalizeServer(m.server)));
   }
+
+  function toggleFav(id: number) {
+    const next = new Set(c.session.toggleFavourite(id) ? [...favourites(), id] : [...favourites()].filter((x) => x !== id));
+    setFavourites(next);
+    if (!next.has(id)) {} // recompute handled by the signal
+  }
+
+  const favouritesList = createMemo(() => {
+    const list = reciters();
+    if (!list) return [];
+    const favs = favourites();
+    return list.filter((r) => favs.has(r.id)).sort((a, b) => collator().compare(a.name, b.name));
+  });
 
   const filtered = createMemo(() => {
     const list = reciters();
@@ -224,18 +238,39 @@ export function HomeScreen(props: HomeProps) {
 
           {/* reciter groups */}
           <div class="h-scroll" style="flex:1">
+            <Show when={favouritesList().length > 0}>
+              <div id="favourites-row" style="padding-bottom:16px">
+                <div style="font-size:26px;font-weight:700;color:var(--gold);padding-bottom:10px">★ {props.lang === "ar" ? "المفضلة" : "Favourites"}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:12px">
+                  {favouritesList().map((r) => (
+                    <div style="display:flex;align-items:center;gap:6px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid #2a3c66;border-radius:14px;box-shadow:var(--shadow)">
+                      <Chip
+                        id={`fav-${r.id}`}
+                        label={r.name}
+                        dim={props.lang === "ar" ? !reciterTimed(r) : false}
+                        onClick={() => openReciter(r)}
+                      />
+                      <StarButton id={`fav-star-${r.id}`} active={true} onClick={() => toggleFav(r.id)} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Show>
             <div style="font-size:34px;font-weight:700;color:var(--gold);padding-bottom:12px">{props.t("reciters_title")}</div>
             {groups().map((g) => (
               <div id={`group-${g.letter}`} style="margin-bottom:16px">
                 <div style="font-size:22px;font-weight:700;color:var(--text-dim);padding:6px 0 8px;letter-spacing:0.08em">{g.letter}</div>
                 <div style="display:flex;flex-wrap:wrap;gap:12px">
                   {g.reciters.map((r) => (
-                    <Chip
-                      id={`rec-${r.id}`}
-                      label={r.name}
-                      dim={props.lang === "ar" ? !reciterTimed(r) : false}
-                      onClick={() => openReciter(r)}
-                    />
+                    <div style="display:flex;align-items:center;gap:4px">
+                      <Chip
+                        id={`rec-${r.id}`}
+                        label={r.name}
+                        dim={props.lang === "ar" ? !reciterTimed(r) : false}
+                        onClick={() => openReciter(r)}
+                      />
+                      <StarButton id={`hstar-${r.id}`} active={favourites().has(r.id)} onClick={() => toggleFav(r.id)} />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -272,7 +307,9 @@ export function HomeScreen(props: HomeProps) {
                 <DialogRow
                   id={`sr-${r.id}`}
                   label={r.name}
+                  sub={r.nameEn ?? undefined}
                   dim={!reciterTimed(r)}
+                  action={<StarButton id={`srstar-${r.id}`} active={favourites().has(r.id)} onClick={() => toggleFav(r.id)} />}
                   onClick={() => {
                     setSearchOpen(false);
                     openReciter(r);

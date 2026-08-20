@@ -20,4 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "mp3qurantv"
-include(":app")
+include(":app", ":tvweb")

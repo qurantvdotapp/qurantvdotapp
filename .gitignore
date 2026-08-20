@@ -44,3 +44,6 @@ web/data-mirror/timing/
 web/data-mirror/hilites/
 web/data-mirror/*.tar.gz
 web/data-mirror/reads.json
+
+# Android TV webview wrapper
+tvweb/src/main/assets/www/

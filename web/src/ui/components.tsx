@@ -100,6 +100,8 @@ export function Dialog(props: {
   hint?: string;
   onClose: () => void;
   children: JSX.Element;
+  /** Anchor the dialog to the bottom as a lighter popup (e.g. the on-screen keyboard). */
+  alignBottom?: boolean;
 }) {
   // Close on the global close request (the TV Back key routes here).
   onMount(() => {
@@ -108,8 +110,16 @@ export function Dialog(props: {
     onCleanup(() => window.removeEventListener("qurantv-close-dialog", onCloseReq as EventListener));
   });
   return (
-    <div class="dialog-scrim" onClick={() => props.onClose()}>
-      <div class="dialog" onClick={(e) => e.stopPropagation()}>
+    <div
+      class="dialog-scrim"
+      style={props.alignBottom ? "align-items:flex-end;background:rgba(3,6,16,0.4);backdrop-filter:blur(2px)" : undefined}
+      onClick={() => props.onClose()}
+    >
+      <div
+        class="dialog"
+        style={props.alignBottom ? "width:min(980px,96vw);border-radius:20px 20px 0 0;max-height:none" : undefined}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div class="dialog-title">{props.title}</div>
         {props.hint ? <div class="dialog-hint">{props.hint}</div> : null}
         {props.children}

@@ -100,10 +100,15 @@ export function HomeScreen(props: HomeProps) {
   });
 
   const searching = createMemo(() => query().trim().length > 0);
-  const keyboardOpen = createMemo(() => {
-    const f = focusedId();
-    return searching() || f === "home-search" || (f !== null && f.startsWith("kb-"));
-  });
+  const [kbOpen, setKbOpen] = createSignal(false);
+
+  function openKb() {
+    setKbOpen(true);
+    setTimeout(() => {
+      const first = document.querySelector("[data-focus-id^='kb-']");
+      if (first) focusElement(first.getAttribute("data-focus-id") ?? "");
+    }, 80);
+  }
 
   function kbChar(c: string) {
     setQuery((q) => q + c);
@@ -196,10 +201,16 @@ export function HomeScreen(props: HomeProps) {
           style={`flex:1;display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid #2a3c66;border-radius:16px;padding:10px 18px;box-shadow:var(--shadow);min-width:0`}
         >
           <span style="font-size:20px;color:var(--gold)">🔍</span>
+          <div
+            use:focusable="home-search-open"
+            onClick={openKb}
+            style="cursor:pointer;font-size:22px;color:var(--gold);padding:4px 8px"
+          >⌨</div>
           <input
             ref={searchInput}
             id="search-input"
             value={query()}
+            onClick={openKb}
             onInput={(e) => setQuery(e.currentTarget.value)}
             onFocus={() => focusElement("home-search")}
             onKeyDown={(e) => {
@@ -218,15 +229,21 @@ export function HomeScreen(props: HomeProps) {
         <Chip id="home-settings" label={props.t("settings")} onClick={() => props.onOpenSettings()} />
       </div>
 
-      {/* on-screen TV keyboard (the emulator/Tizen webview lacks a native IME) */}
-      <Show when={keyboardOpen()}>
-        <TVKeyboard
-          value={query()}
-          onChar={kbChar}
-          onBackspace={kbBackspace}
-          onClear={kbClear}
-          onSubmit={openFirstMatch}
-        />
+      {/* on-screen TV keyboard — a POPUP, opened on click, closed on exit */}
+      <Show when={kbOpen()}>
+        <Dialog title={props.t("search_reciters")} alignBottom onClose={() => setKbOpen(false)}>
+          <TVKeyboard
+            value={query()}
+            onChar={kbChar}
+            onBackspace={kbBackspace}
+            onClear={kbClear}
+            onSubmit={() => {
+              setKbOpen(false);
+              openFirstMatch();
+            }}
+            onClose={() => setKbOpen(false)}
+          />
+        </Dialog>
       </Show>
 
       {/* recently added reads */}

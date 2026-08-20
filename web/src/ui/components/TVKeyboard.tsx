@@ -19,6 +19,7 @@ interface TVKeyboardProps {
   onBackspace: () => void;
   onClear: () => void;
   onSubmit: () => void;
+  onClose?: () => void;
 }
 
 export function TVKeyboard(props: TVKeyboardProps) {
@@ -42,6 +43,9 @@ export function TVKeyboard(props: TVKeyboardProps) {
         <Key id="kb-backspace" label="⌫" onClick={props.onBackspace} />
         <Key id="kb-clear" label={arabic() ? "مسح" : "Clear"} onClick={props.onClear} />
         <Key id="kb-submit" label={arabic() ? "بحث" : "Search"} accent onClick={props.onSubmit} />
+        {props.onClose ? (
+          <Key id="kb-close" label={arabic() ? "✕ إغلاق" : "✕ Close"} onClick={props.onClose} />
+        ) : null}
       </div>
       <div style="text-align:center;font-size:15px;color:var(--text-faint)">
         {arabic() ? "اضغط على الحروف، أو أَدخل من لوحة التحكم" : "Type or use the on-screen keys"}

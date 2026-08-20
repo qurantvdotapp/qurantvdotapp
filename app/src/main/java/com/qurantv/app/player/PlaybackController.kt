@@ -98,6 +98,10 @@ class PlaybackController(
     private var focusRequest: AudioFocusRequest? = null
     private var wasPlayingBeforeFocusLoss = false
 
+    /** Previous tick's ayah index + timing, for repeat-ayah boundary detection. */
+    private var lastTickAyah: Int = -1
+    private var lastTickTiming: SurahTiming? = null
+
     /**
      * We never ESTIMATE ayah boundaries. If the mp3 length does not match the
      * timing's total (e.g. read 135 السويّد is ~12% compressed, read 137
@@ -349,17 +353,32 @@ class PlaybackController(
                     checkTimingAccuracy(duration)
                 }
                 if (t != null) {
+                    if (t !== lastTickTiming) {
+                        lastTickAyah = -1
+                        lastTickTiming = t
+                    }
                     val idx = TimingIndex.ayahAt(t, pos)
                     updateAyahUiState(idx)
-                    // Repeat ayah: at the ayah end, jump back to its start.
+                    // Repeat ayah: when playback crosses the current ayah's end,
+                    // jump back to its start (decision in TimingIndex — see there
+                    // for the exact-boundary and last-ayah semantics).
                     val s = _state.value
-                    if (s.repeatMode == RepeatMode.AYAH) {
-                        val entry = t.entryFor(idx)
-                        if (entry != null && pos >= effectiveEndMs(t, idx, entry)) {
-                            player.seekTo(entry.startMs)
-                            refreshAfterSeek(entry.startMs)
+                    if (s.repeatMode == RepeatMode.AYAH && lastTickAyah >= 0) {
+                        val prev = lastTickAyah
+                        val entry = t.entryFor(prev)
+                        if (entry != null) {
+                            val end = effectiveEndMs(t, prev, entry)
+                            val target = TimingIndex.repeatAyahTarget(t, prev, idx, pos, end)
+                            if (target != null) {
+                                player.seekTo(target)
+                                refreshAfterSeek(target)
+                                lastTickAyah = TimingIndex.ayahAt(t, target)
+                                delay(100)
+                                continue
+                            }
                         }
                     }
+                    lastTickAyah = idx
                 }
                 delay(100)
             }

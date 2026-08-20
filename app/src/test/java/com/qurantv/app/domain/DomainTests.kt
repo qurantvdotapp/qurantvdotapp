@@ -150,6 +150,49 @@ class TimingIndexTest {
         assertEquals(-1, TimingIndex.ayahAt(t, 1000))
     }
 
+    // ------------------------------------------------------------ repeat ayah
+
+    private fun contiguous(entries: List<Triple<Int, Long, Long>>) = timing(entries)
+
+    @Test
+    fun `repeat fires at the exact contiguous boundary`() {
+        // Real mp3quran timing is contiguous: next.start == current.end, so
+        // ayahAt(pos) has ALREADY advanced when pos reaches the end. The repeat
+        // decision must use the previous tick's ayah and fire on that crossing.
+        val t = contiguous(listOf(Triple(1, 4620L, 8380L), Triple(2, 8380L, 12440L), Triple(3, 12440L, 15440L)))
+        assertEquals(4620L, TimingIndex.repeatAyahTarget(t, prevIdx = 1, idx = 2, posMs = 8380, endMs = 8380))
+        // 1ms before the boundary: still inside ayah 1, no fire.
+        assertNull(TimingIndex.repeatAyahTarget(t, prevIdx = 1, idx = 1, posMs = 8379, endMs = 8380))
+    }
+
+    @Test
+    fun `repeat loops the last ayah when ayahAt clamps`() {
+        // The last ayah never advances (ayahAt clamps to it), so the loop fires
+        // when pos reaches its end.
+        val t = contiguous(listOf(Triple(1, 4620L, 8380L), Triple(2, 8380L, 12440L), Triple(7, 25760L, 38520L)))
+        assertEquals(25760L, TimingIndex.repeatAyahTarget(t, prevIdx = 7, idx = 7, posMs = 38520, endMs = 38520))
+        assertEquals(25760L, TimingIndex.repeatAyahTarget(t, prevIdx = 7, idx = 7, posMs = 40000, endMs = 38520))
+    }
+
+    @Test
+    fun `repeat does not fight a manual forward seek`() {
+        // User jumped ahead (idx is more than prev+1): the newly current ayah
+        // becomes the repeat target instead of yanking back to the old one.
+        val t = contiguous(listOf(Triple(1, 4620L, 8380L), Triple(2, 8380L, 12440L), Triple(3, 12440L, 15440L)))
+        assertNull(TimingIndex.repeatAyahTarget(t, prevIdx = 1, idx = 3, posMs = 12440, endMs = 8380))
+    }
+
+    @Test
+    fun `repeat does not fire before the first entry or without a previous tick`() {
+        val t = contiguous(listOf(Triple(1, 4620L, 8380L), Triple(2, 8380L, 12440L)))
+        // No previous tick yet.
+        assertNull(TimingIndex.repeatAyahTarget(t, prevIdx = -1, idx = 1, posMs = 5000, endMs = 8380))
+        // Virtual basmala slot (no entry 0): nothing to loop.
+        assertNull(TimingIndex.repeatAyahTarget(t, prevIdx = 0, idx = 1, posMs = 5000, endMs = 8380))
+        // Still inside the ayah, mid-window.
+        assertNull(TimingIndex.repeatAyahTarget(t, prevIdx = 1, idx = 1, posMs = 6000, endMs = 8380))
+    }
+
     @Test
     fun `matches real surah 1 read 5 data`() {
         // Verified live values (read=5, surah=1): index 1 spans 2731..5720 (verse 1:1),

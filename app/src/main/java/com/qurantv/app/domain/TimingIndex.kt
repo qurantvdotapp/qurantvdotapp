@@ -45,4 +45,34 @@ object TimingIndex {
         }
         return entries[result].ayah
     }
+
+    /**
+     * Repeat-ayah decision: the seek target (the ending ayah's start ms) when
+     * playback has crossed the end of the ayah that was current on the previous
+     * tick, or null when no loop should happen.
+     *
+     * `ayahAt` advances at the exact boundary (contiguous timing:
+     * next.start == current.end), so the ayah that is ENDING is [prevIdx], not
+     * the current [idx]. The last ayah never advances (`ayahAt` clamps), so its
+     * end is detected directly. A manual forward seek (idx jumps past
+     * prevIdx + 1) does not fire — the newly current ayah becomes the repeat
+     * target.
+     *
+     * @param endMs the effective end of [prevIdx]'s ayah (timing end, or the
+     *   track duration when the last ayah's end is missing/zero).
+     */
+    fun repeatAyahTarget(
+        timing: SurahTiming,
+        prevIdx: Int,
+        idx: Int,
+        posMs: Long,
+        endMs: Long,
+    ): Long? {
+        if (prevIdx < 0) return null
+        val entry = timing.entryFor(prevIdx) ?: return null
+        val crossed = idx == prevIdx + 1 && posMs >= endMs
+        val atLastEnd = prevIdx == timing.lastAyahIndex && posMs >= endMs
+        if (!crossed && !atLastEnd) return null
+        return entry.startMs
+    }
 }

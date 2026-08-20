@@ -250,15 +250,18 @@ export function HomeScreen(props: HomeProps) {
       <Show when={!searching() && recent() !== null && recent()!.length > 0}>
         <div style="margin-bottom:18px">
           <div style="font-size:22px;color:var(--text-dim);padding-bottom:8px">{props.t("recent_reads")}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
             {recent()!.slice(0, 10).map((r) => (
-              <Chip
+              <div
+                use:focusable={`recent-${r.id}`}
                 id={`recent-${r.id}`}
-                label={r.name}
-                class="content-text"
-                dim={props.lang === "ar" ? !reciterTimed(r) : false}
+                class="tv-card qurantv-rec-cell content-text"
+                classList={{ dim: props.lang === "ar" ? !reciterTimed(r) : false }}
+                style="padding:14px;justify-content:center;text-align:center;font-size:24px;min-height:74px"
                 onClick={() => openReciter(r)}
-              />
+              >
+                {r.name}
+              </div>
             ))}
           </div>
         </div>
@@ -303,36 +306,23 @@ export function HomeScreen(props: HomeProps) {
           </Show>
         </div>
       ) : (
-        <div style="display:flex;gap:28px;flex:1;min-height:0">
-          {/* letter rail */}
-          <div style="display:flex;flex-direction:column;gap:6px;overflow-y:auto;scrollbar-width:none;padding:4px">
-            {groups().map((g) => (
-              <div
-                use:focusable={`rail-${g.letter}`}
-                style="width:66px;height:54px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid #2a3c66;font-size:22px;font-weight:700;color:var(--gold);box-shadow:var(--shadow)"
-                onClick={() => {
-                  document.getElementById(`group-${g.letter}`)?.scrollIntoView({ block: "start" });
-                }}
-              >
-                {g.letter}
-              </div>
-            ))}
-          </div>
-
+        <div style="display:flex;flex-direction:column;flex:1;min-height:0">
           {/* reciter groups */}
-          <div class="h-scroll" style="flex:1">
+          <div class="h-scroll" style="flex:1;min-height:0">
             <Show when={favouritesList().length > 0}>
               <div id="favourites-row" style="padding-bottom:14px">
                 <div style="font-size:24px;font-weight:700;color:var(--gold);padding-bottom:8px">★ {props.lang === "ar" ? "المفضلة" : "Favourites"}</div>
-                <div style="display:flex;flex-wrap:wrap;gap:12px">
+                <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
                   {favouritesList().map((r) => (
-                    <Chip
+                    <div
+                      use:focusable={`fav-${r.id}`}
                       id={`fav-${r.id}`}
-                      label={r.name}
-                      class="content-text"
-                      dim={props.lang === "ar" ? !reciterTimed(r) : false}
+                      class="tv-card qurantv-rec-cell content-text"
+                      style="padding:14px;justify-content:center;text-align:center;font-size:24px;min-height:74px"
                       onClick={() => openReciter(r)}
-                    />
+                    >
+                      {r.name}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -341,15 +331,19 @@ export function HomeScreen(props: HomeProps) {
             {groups().map((g) => (
               <div id={`group-${g.letter}`} style="margin-bottom:14px">
                 <div style="font-size:20px;font-weight:700;color:var(--text-dim);padding:6px 0 8px;letter-spacing:0.08em">{g.letter}</div>
-                <div style="display:flex;flex-wrap:wrap;gap:12px">
+                {/* fixed-column grid → cells align, so D-pad nav is coherent */}
+                <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
                   {g.reciters.map((r) => (
-                    <Chip
+                    <div
+                      use:focusable={`rec-${r.id}`}
                       id={`rec-${r.id}`}
-                      label={r.name}
-                      class="content-text"
-                      dim={props.lang === "ar" ? !reciterTimed(r) : false}
+                      class="tv-card qurantv-rec-cell content-text"
+                      classList={{ dim: props.lang === "ar" ? !reciterTimed(r) : false }}
+                      style="padding:14px;justify-content:center;text-align:center;font-size:24px;min-height:74px"
                       onClick={() => openReciter(r)}
-                    />
+                    >
+                      {r.name}
+                    </div>
                   ))}
                 </div>
               </div>

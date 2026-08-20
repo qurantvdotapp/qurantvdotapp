@@ -47,11 +47,10 @@ export function focusedElement(): HTMLElement | null {
 }
 
 /**
- * Move focus in a direction using grid-style spatial navigation:
- * the candidate must lie in that direction AND overlap the current element
- * along the perpendicular axis (small tolerance). We pick the nearest such
- * candidate (smallest gap), so D-pad moves row-by-row through a wrapped grid
- * and never diagonally jumps into a neighbouring column (e.g. the letter rail).
+ * Spatial navigation tuned for a mixed dashboard:
+ * a candidate is eligible when its CENTER lies in the movement direction, and we
+ * pick the nearest one weighted by an ALIGNMENT PENALTY (perpendicular distance).
+ * Forgiving — works for wrapped grids, the letter rail, rows and dialogs.
  */
 export function moveFocus(dir: FocusDirection): void {
   const current = focusedElement();
@@ -63,47 +62,36 @@ export function moveFocus(dir: FocusDirection): void {
     focusFirst(scope ?? document);
     return;
   }
-  const cur = current.getBoundingClientRect();
+  const CR = current.getBoundingClientRect();
+  const cx = CR.left + CR.width / 2;
+  const cy = CR.top + CR.height / 2;
   let best: HTMLElement | null = null;
   let bestScore = Infinity;
   for (const el of registry.values()) {
     if (scope && !scope.contains(el)) continue;
     if (el === current || !isVisible(el)) continue;
     const r = el.getBoundingClientRect();
-    let ok = false;
+    const ex = r.left + r.width / 2;
+    const ey = r.top + r.height / 2;
     let gap = Infinity;
-    let misalign = 0;
-    if (dir === "down") {
-      const overlap = Math.min(r.right, cur.right) - Math.max(r.left, cur.left);
-      if (r.bottom > cur.bottom && overlap > -12) {
-        ok = true;
-        gap = r.top - cur.bottom;
-        misalign = Math.max(0, Math.max(cur.left - r.left, r.right - cur.right));
-      }
-    } else if (dir === "up") {
-      const overlap = Math.min(r.right, cur.right) - Math.max(r.left, cur.left);
-      if (r.top < cur.top && overlap > -12) {
-        ok = true;
-        gap = cur.top - r.bottom;
-        misalign = Math.max(0, Math.max(cur.left - r.left, r.right - cur.right));
-      }
-    } else if (dir === "right") {
-      const overlap = Math.min(r.bottom, cur.bottom) - Math.max(r.top, cur.top);
-      if (r.left > cur.left && overlap > -12) {
-        ok = true;
-        gap = r.left - cur.right;
-        misalign = Math.max(0, Math.max(cur.top - r.top, r.bottom - cur.bottom));
-      }
-    } else {
-      const overlap = Math.min(r.bottom, cur.bottom) - Math.max(r.top, cur.top);
-      if (r.right < cur.right && overlap > -12) {
-        ok = true;
-        gap = cur.left - r.right;
-        misalign = Math.max(0, Math.max(cur.top - r.top, r.bottom - cur.bottom));
-      }
+    let perp = Infinity;
+    if (dir === "down" && ey > cy + 4) {
+      gap = ey - cy;
+      perp = Math.abs(ex - cx);
+    } else if (dir === "up" && ey < cy - 4) {
+      gap = cy - ey;
+      perp = Math.abs(ex - cx);
+    } else if (dir === "right" && ex > cx + 4) {
+      gap = ex - cx;
+      perp = Math.abs(ey - cy);
+    } else if (dir === "left" && ex < cx - 4) {
+      gap = cx - ex;
+      perp = Math.abs(ey - cy);
     }
-    if (ok) {
-      const score = gap + misalign * 1.2; // prefer near + aligned
+    if (Number.isFinite(gap)) {
+      // Near first, aligned second; alignment matters so we don't diagonal-jump
+      // into a neighbouring column (e.g. the letter rail) when a straight move exists.
+      const score = gap + perp * 1.5;
       if (score < bestScore) {
         bestScore = score;
         best = el;

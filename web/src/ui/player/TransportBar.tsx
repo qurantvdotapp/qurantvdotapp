@@ -4,7 +4,7 @@
 // The cluster DOM order is emitted reversed in RTL so the physical order stays
 // identical in both UI languages (same trick as the Android composable).
 
-import { createUniqueId } from "solid-js";
+import { createMemo, createUniqueId } from "solid-js";
 import type { TFunction } from "../../i18n/strings";
 import { formatTime, focusable } from "../components";
 
@@ -45,16 +45,36 @@ export function TransportBar(props: TransportBarProps) {
     ? ["prevSurah", "prevAyah", "play", "nextAyah", "nextSurah"]
     : ["nextSurah", "nextAyah", "play", "prevAyah", "prevSurah"];
 
-  const cluster: Record<string, { label: string; onClick: () => void; big?: boolean; active?: boolean }> = {
-    play: {
-      label: props.playing ? "⏸" : "▶",
-      onClick: props.onTogglePlay,
-      big: true,
-    },
-    nextAyah: { label: "⏭", onClick: props.onNextAyah },
-    prevAyah: { label: "⏮", onClick: props.onPrevAyah },
-    nextSurah: { label: "⏩", onClick: props.onNextSurah },
-    prevSurah: { label: "⏪", onClick: props.onPrevSurah },
+  // Reactive play label (updates when playing toggles — SolidJS runs once).
+  const playLabel = createMemo(() => (props.playing ? "⏸" : "▶"));
+
+  // Directional icons flipped for RTL (reading right→left): PREVIOUS points
+  // right, NEXT points left — the icon direction flips, not the action.
+  const label = (key: string): string => {
+    switch (key) {
+      case "play":
+        return playLabel();
+      case "nextAyah":
+        return props.rtl ? "⏮" : "⏭";
+      case "prevAyah":
+        return props.rtl ? "⏭" : "⏮";
+      case "nextSurah":
+        return props.rtl ? "⏪" : "⏩";
+      case "prevSurah":
+        return props.rtl ? "⏩" : "⏪";
+    }
+    return "";
+  };
+
+  const onClick = (key: string): (() => void) => {
+    switch (key) {
+      case "play": return props.onTogglePlay;
+      case "nextAyah": return props.onNextAyah;
+      case "prevAyah": return props.onPrevAyah;
+      case "nextSurah": return props.onNextSurah;
+      case "prevSurah": return props.onPrevSurah;
+    }
+    return () => {};
   };
 
   return (
@@ -64,8 +84,10 @@ export function TransportBar(props: TransportBarProps) {
         "align-items": "center",
         gap: "16px",
         padding: "16px 32px",
-        background: "var(--surface)",
-        "border-top": "1px solid #26375c",
+        background: "rgba(13, 26, 51, 0.72)", // semi-transparent over the mushaf
+        "backdrop-filter": "blur(6px)",
+        "-webkit-backdrop-filter": "blur(6px)",
+        "border-top": "1px solid rgba(51, 72, 122, 0.5)",
         "min-height": "110px",
       }}
     >
@@ -81,18 +103,14 @@ export function TransportBar(props: TransportBarProps) {
 
       {/* CENTER zone */}
       <div style="display:flex;align-items:center;gap:12px;justify-content:center;flex:1.2">
-        {clusterOrder.map((key) => {
-          const c = cluster[key];
-          return (
-            <IconBtn
-              id={btn(key)}
-              label={c.label}
-              onClick={c.onClick}
-              big={c.big}
-              active={c.active}
-            />
-          );
-        })}
+        {clusterOrder.map((key) => (
+          <IconBtn
+            id={btn(key)}
+            label={label(key)}
+            onClick={onClick(key)}
+            big={key === "play"}
+          />
+        ))}
       </div>
 
       {/* RIGHT zone */}

@@ -46,10 +46,17 @@ export function focusedElement(): HTMLElement | null {
 /** Move focus in a direction using a rect-distance heuristic. */
 export function moveFocus(dir: FocusDirection): void {
   const current = focusedElement();
+  // When a dialog is open, keep D-pad focus INSIDE it (never escape to the
+  // transport behind the scrim — otherwise the picker is unusable on a remote).
+  let scope: ParentNode | null = null;
+  if (typeof document !== "undefined") {
+    scope = document.querySelector(".dialog-scrim");
+  }
   const curRect = current?.getBoundingClientRect();
   let best: HTMLElement | null = null;
   let bestScore = Infinity;
   for (const el of registry.values()) {
+    if (scope && !scope.contains(el)) continue;
     if (el === current || !isVisible(el)) continue;
     const r = el.getBoundingClientRect();
     const dx = (r.left + r.width / 2) - (curRect ? curRect.left + curRect.width / 2 : window.innerWidth / 2);

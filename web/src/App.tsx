@@ -52,7 +52,12 @@ export function App() {
           activateFocused();
           break;
         case "back":
-          nav.back();
+          // If a dialog is open, close it instead of navigating (TV Back).
+          if (document.querySelector(".dialog-scrim")) {
+            window.dispatchEvent(new CustomEvent("qurantv-close-dialog"));
+          } else {
+            nav.back();
+          }
           break;
         case "playPause":
           dispatchMediaKey("playPause");

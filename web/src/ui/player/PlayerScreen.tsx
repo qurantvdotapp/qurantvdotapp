@@ -96,6 +96,7 @@ export function PlayerScreen(props: PlayerProps) {
     window.addEventListener("keydown", onKey, true);
     const hideTimer = window.setInterval(() => {
       if (
+        dialog() === null && // never auto-hide while a dialog is open
         displayMode() === 1 &&
         playing() &&
         settings.autoHideControls &&
@@ -238,13 +239,13 @@ export function PlayerScreen(props: PlayerProps) {
 
   function nextSurahAfterCurrent(): QuranSurah | null {
     const list = props.availableSurahs;
-    const i = list.findIndex((s) => s.id === props.surah.id);
+    const i = list.findIndex((s) => s.id === activeSurah().id); // NOT props.surah (stale after nav)
     return i >= 0 && i < list.length - 1 ? list[i + 1] : null;
   }
 
   function prevSurahBeforeCurrent(): QuranSurah | null {
     const list = props.availableSurahs;
-    const i = list.findIndex((s) => s.id === props.surah.id);
+    const i = list.findIndex((s) => s.id === activeSurah().id);
     return i > 0 ? list[i - 1] : null;
   }
 
@@ -318,7 +319,7 @@ export function PlayerScreen(props: PlayerProps) {
       return;
     }
     // No timing: browse the mushaf page by page (clamped to the surah range).
-    const p = Math.min(props.surah.endPage, noTimingPage() + 1);
+    const p = Math.min(activeSurah().endPage, noTimingPage() + 1);
     setNoTimingPage(p);
   }
 
@@ -330,7 +331,7 @@ export function PlayerScreen(props: PlayerProps) {
       if (prev) engine.seekTo(prev.startMs);
       return;
     }
-    const p = Math.max(props.surah.startPage, noTimingPage() - 1);
+    const p = Math.max(activeSurah().startPage, noTimingPage() - 1);
     setNoTimingPage(p);
   }
 

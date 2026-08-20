@@ -101,6 +101,12 @@ export function Dialog(props: {
   onClose: () => void;
   children: JSX.Element;
 }) {
+  // Close on the global close request (the TV Back key routes here).
+  onMount(() => {
+    const onCloseReq = () => props.onClose();
+    window.addEventListener("qurantv-close-dialog", onCloseReq as EventListener);
+    onCleanup(() => window.removeEventListener("qurantv-close-dialog", onCloseReq as EventListener));
+  });
   return (
     <div class="dialog-scrim" onClick={() => props.onClose()}>
       <div class="dialog" onClick={(e) => e.stopPropagation()}>

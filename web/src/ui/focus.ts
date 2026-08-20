@@ -58,6 +58,12 @@ export function focusElement(id: string): void {
   }
 }
 
+/** Drop app focus entirely (e.g. when the player chrome auto-hides, so the
+ *  next OK reveals the toolbar instead of activating a now-invisible button). */
+export function clearFocus(): void {
+  setFocusedId(null);
+}
+
 export function focusedElement(): HTMLElement | null {
   const id = focusedId();
   return id ? registry.get(id) ?? null : null;

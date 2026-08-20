@@ -105,7 +105,7 @@ export function TransportBar(props: TransportBarProps) {
       <div style="display:flex;align-items:center;gap:12px;justify-content:center;flex:1.2">
         {clusterOrder.map((key) => (
           <IconBtn
-            id={btn(key)}
+            id={key === "play" ? "transport-play" : btn(key)}
             label={label(key)}
             onClick={onClick(key)}
             big={key === "play"}

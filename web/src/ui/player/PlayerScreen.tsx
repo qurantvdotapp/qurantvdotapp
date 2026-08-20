@@ -16,7 +16,7 @@ import { requestWakeLock, releaseWakeLock } from "../../player/wakeLock";
 import { nextRepeat, type RepeatMode } from "../../player/RepeatMode";
 import { setMediaKeyHandler } from "../mediaKeys";
 import { Chip, Dialog, DialogRow, LoadingState, ErrorState, StarButton, focusable } from "../components";
-import { focusFirst } from "../focus";
+import { focusFirst, focusElement, clearFocus } from "../focus";
 import { TextModeList, type TextItem } from "./TextModeList";
 import { TransportBar } from "./TransportBar";
 import { MushafPageView } from "./MushafPageView";
@@ -104,6 +104,14 @@ export function PlayerScreen(props: PlayerProps) {
       const wasHidden = displayMode() === 1 && !chromeVisible();
       lastKey = Date.now();
       setChromeVisible(true);
+      // Any key while hidden reveals the toolbar with PLAY/PAUSE selected —
+      // the next OK/Enter then toggles playback (TV convention: first press
+      // shows the controls, second press acts on them). Delay past SolidJS's
+      // effect flush so the chrome-hidden class is off before the focus
+      // engine's visibility check.
+      if (wasHidden) {
+        window.setTimeout(() => focusElement("transport-play"), 60);
+      }
       // Hidden fullscreen page: DPAD_LEFT/RIGHT scrub ±5 s (Kotlin parity) —
       // the page holds the screen, so arrows give audible/visual feedback
       // instead of moving focus among invisible chrome buttons.
@@ -125,6 +133,7 @@ export function PlayerScreen(props: PlayerProps) {
         Date.now() - lastKey > 5000
       ) {
         setChromeVisible(false);
+        clearFocus(); // next key reveals the toolbar, it must not re-activate the hidden button
       }
     }, 500);
     onCleanup(() => {

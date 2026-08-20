@@ -61,6 +61,11 @@ export class AudioEngine {
     return this.current.src || this.url || "";
   }
 
+  /** The URL currently loaded/should be playing (for a Retry). */
+  get currentUrl(): string | null {
+    return this.url;
+  }
+
   positionMs(): number {
     const c = this.current;
     return Number.isFinite(c.currentTime) ? Math.round(c.currentTime * 1000) : 0;

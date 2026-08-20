@@ -37,3 +37,10 @@ app/src/main/assets/quran/*.tmp
 # web app (Tizen/Vidaa port)
 web/node_modules/
 web/dist/
+
+# dataset mirror is regenerable (scripts/download-dataset.mjs) — keep the manifest only
+web/data-mirror/catalog/
+web/data-mirror/timing/
+web/data-mirror/hilites/
+web/data-mirror/*.tar.gz
+web/data-mirror/reads.json

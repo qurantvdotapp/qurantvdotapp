@@ -5,7 +5,8 @@ import { createSignal, Show } from "solid-js";
 import type { Lang, TFunction } from "../i18n/strings";
 import { appContainer } from "../data/AppContainer";
 import type { AppSettings } from "../data/repo/SessionRepository";
-import { Chip, Dialog, DialogRow , focusable } from "./components";
+import { Chip, Dialog, DialogRow, focusable } from "./components";
+import { APP_VERSION } from "../i18n/version";
 import { focusFirst } from "./focus";
 
 interface SettingsProps {
@@ -18,7 +19,7 @@ interface SettingsProps {
 export function SettingsScreen(props: SettingsProps) {
   const c = appContainer();
   const [settings, setSettings] = createSignal<AppSettings>(c.session.settings());
-  const [dialog, setDialog] = createSignal<null | "language" | "speed" | "font" | "color" | "display" | "mushaf" | "misc">(null);
+  const [dialog, setDialog] = createSignal<null | "language" | "speed" | "font" | "color" | "display" | "mushaf" | "about">(null);
 
   function update(patch: Partial<AppSettings>) {
     const next = { ...settings(), ...patch };
@@ -62,6 +63,7 @@ export function SettingsScreen(props: SettingsProps) {
         <Row id="set-mushaf" label={props.t("mushaf_style")} value={mushafLabel(settings().mushafStyle, props.t)} onClick={() => openDialog("mushaf")} />
         <Row id="set-autohide" label={props.t("auto_hide")} value={settings().autoHideControls ? props.t("option_on") : props.t("option_off")} onClick={() => update({ autoHideControls: !settings().autoHideControls })} />
         <Row id="set-timed" label={props.t("only_timed_reciters")} value={settings().onlyTimedReciters ? props.t("option_on") : props.t("option_off")} onClick={() => update({ onlyTimedReciters: !settings().onlyTimedReciters })} />
+        <Row id="set-about" label={props.t("about_title")} value={props.lang === "ar" ? "· v" + APP_VERSION : "· v" + APP_VERSION} onClick={() => openDialog("about")} />
       </div>
 
       <Show when={dialog() === "language"}>
@@ -127,6 +129,17 @@ export function SettingsScreen(props: SettingsProps) {
                 onClick={() => { setDialog(null); update({ mushafStyle: style }); }}
               />
             ))}
+          </div>
+        </Dialog>
+      </Show>
+
+      <Show when={dialog() === "about"}>
+        <Dialog title={`${props.t("app_name")} · v${APP_VERSION}`} onClose={() => setDialog(null)}>
+          <div style="padding:16px 28px 26px;font-size:20px;line-height:1.9;color:var(--text-dim)">
+            <div>{props.t("about_text")}</div>
+            <div style="margin-top:10px;color:var(--text-faint);font-size:17px">
+              Web port (Tizen/Vidaa) · shared TypeScript/SolidJS · mirrors the Kotlin app
+            </div>
           </div>
         </Dialog>
       </Show>

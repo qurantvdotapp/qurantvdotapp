@@ -88,5 +88,8 @@ items (gapless audio, exact ayah-position resume).
 
 ---
 
-**To approve**: tell me which phases to start (P1, P2, and/or P3 items), or pick
-specific items. Everything lands behind these checkboxes only after your go-ahead.
+## Approval status
+
+- [x] **P1 APPROVED & DONE** (2026-08-20): G1 gapless (current+carrier crossfade, verified surah 1→2 seamless), G2 wake-lock (keep-screen-on while playing), G3 exact ayah-position resume on reciter switch/continue (resumeOffsetMs), G4 focused audio Retry, G5 About screen + version (vite-injected).
+- [x] **Data mirrored** (2026-08-20): full dataset → `web/data-mirror/` (15,046 files / 202 MB / 31 MB tar) — catalog, reads/soar/13,109 timings, 1,812 hilites. archive.org upload kit: `scripts/upload-archiveorg.sh` (needs your `ia configure` credentials — not uploaded yet).
+- [ ] P2 (polish) / P3 (beyond-parity) — awaiting approval.

@@ -12,6 +12,7 @@ import { reciterMatchesQuery } from "../../domain/search";
 import { arabicCollator, type Lang, type TFunction } from "../../i18n/strings";
 import { appContainer } from "../../data/AppContainer";
 import { AudioEngine } from "../../player/AudioEngine";
+import { requestWakeLock, releaseWakeLock } from "../../player/wakeLock";
 import { nextRepeat, type RepeatMode } from "../../player/RepeatMode";
 import { setMediaKeyHandler } from "../mediaKeys";
 import { Chip, Dialog, DialogRow, LoadingState, ErrorState, StarButton, focusable } from "../components";
@@ -34,6 +35,8 @@ interface PlayerProps {
   surah: QuranSurah;
   availableSurahs: QuranSurah[];
   startAyahIndex?: number;
+  /** Seek to ayahStart + offset (position within the ayah) — G3. */
+  resumeOffsetMs?: number;
 }
 
 const SPEED_CYCLE = [0.5, 0.75, 1, 1.25, 1.5, 2];
@@ -72,6 +75,7 @@ export function PlayerScreen(props: PlayerProps) {
   const [favourites, setFavourites] = createSignal<Set<number>>(c.session.favouriteReciterIds());
   const [errorMsg, setErrorMsg] = createSignal("");
   const [audioError, setAudioError] = createSignal(false);
+  let lastPlayUrl: string | null = null;
 
 
   /* ---------- media keys (global) ---------- */
@@ -86,6 +90,7 @@ export function PlayerScreen(props: PlayerProps) {
   onCleanup(() => {
     setMediaKeyHandler(null);
     engine.destroy();
+    releaseWakeLock();
   });
 
   /* ---------- chrome auto-hide (page mode) ---------- */
@@ -143,7 +148,8 @@ export function PlayerScreen(props: PlayerProps) {
   };
   engine.onError = (url) => {
     setAudioError(true);
-    setErrorMsg(props.t("error_audio") + (url ? ` (${url})` : ""));
+    setErrorMsg(props.t("error_audio"));
+    lastPlayUrl = url || lastPlayUrl;
   };
   engine.onLoaded = (ms) => {
     setDurationMs(ms);
@@ -157,7 +163,12 @@ export function PlayerScreen(props: PlayerProps) {
     if (!next) return;
     void attachSurahForGapless(next, url);
   };
-  engine.onPlayStateChange = (p) => setPlaying(p);
+  engine.onPlayStateChange = (p) => {
+    setPlaying(p);
+    // Keep the TV screen awake only while audio is playing.
+    if (p) void requestWakeLock();
+    else releaseWakeLock();
+  };
 
   /* ---------- load timing + text + start playback ---------- */
   onMount(() => {
@@ -216,14 +227,18 @@ export function PlayerScreen(props: PlayerProps) {
         focusFirst(scope);
       }, 150);
 
-      // Start playback (resume from the requested ayah's start when given).
+      // Start playback: resume from the requested ayah's start, honouring the
+      // carried position-within-ayah offset when provided (G3).
       let startMs = 0;
       if (props.startAyahIndex) {
-        startMs = t?.entryFor(props.startAyahIndex)?.startMs ?? 0;
+        startMs = (t?.entryFor(props.startAyahIndex)?.startMs ?? 0) + (props.resumeOffsetMs ?? 0);
+      } else if (props.resumeOffsetMs) {
+        startMs = props.resumeOffsetMs;
       }
       engine.setSpeed(speed());
       engine.setRepeat(repeat());
-      engine.play(audioUrlFor(props.moshaf.server, props.surah.id), startMs);
+      lastPlayUrl = audioUrlFor(props.moshaf.server, props.surah.id);
+      engine.play(lastPlayUrl, startMs);
 
       // Session save loop (~5 s).
       window.setInterval(() => {
@@ -368,6 +383,15 @@ export function PlayerScreen(props: PlayerProps) {
   }
 
   /* ---------- transport actions ---------- */
+  function retryAudio() {
+    setAudioError(false);
+    if (!lastPlayUrl) return;
+    engine.setRepeat(repeat());
+    engine.setSpeed(speed());
+    engine.play(lastPlayUrl, positionMs());
+    setErrorMsg("");
+  }
+
   function togglePlay() {
     if (playing()) engine.pause();
     else engine.resume();
@@ -445,13 +469,21 @@ export function PlayerScreen(props: PlayerProps) {
       const surah = kept ?? available[0];
       if (!surah) return;
       const ayah = kept ? currentAyah() : undefined;
-      props.nav.replaceTop({
+      // G3: carry the position-within-ayah offset so the new reciter resumes at
+    // the same spot, not just the ayah start.
+    const cur = currentAyah();
+    const offset =
+      cur >= 1 && timing()
+        ? Math.max(0, positionMs() - (timing()!.entryFor(cur)?.startMs ?? positionMs()))
+        : 0;
+    props.nav.replaceTop({
         kind: "player",
         reciter,
         moshaf,
         surah,
         availableSurahs: available,
         startAyahIndex: ayah,
+        resumeOffsetMs: offset,
       });
     });
   }
@@ -567,6 +599,7 @@ export function PlayerScreen(props: PlayerProps) {
               </div>
               <Show when={audioError()}>
                 <span class="badge" style="font-size:16px;color:var(--danger);border-color:var(--danger)">{props.t("error_audio")}</span>
+                <Chip id="player-retry" label={props.t("retry")} onClick={retryAudio} />
               </Show>
             </div>
 

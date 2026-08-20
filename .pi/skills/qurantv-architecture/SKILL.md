@@ -306,26 +306,26 @@ session save/continue) · settings (language/speed/font/highlight/mode/style/
 auto-hide/only-timed) · ar/en RTL · **English reciter-name search** (merged
 `reciters?language=en` transliterations by id into `Reciter.nameEn`).
 
-### P1 — Kotlin-parity gaps to close (APPROVED 2026-08-11; implement in this order)
-- **G1 gapless surah transitions**: two overlapping `<audio>` elements with a short
-  crossfade when repeat=OFF (WebAudio full-decode is memory-heavy for 111-min
-  surahs); target ≤ ~50 ms perceived gap.
+### P1 — Kotlin-parity gaps (APPROVED + DONE 2026-08-20)
+- **G1 gapless**: AudioEngine now uses CURRENT + CARRIER `<audio>` elements;
+  near-end crossfade (650 ms) + role swap on `ended`; `onGaplessAdvanced` →
+  `attachSurahForGapless` (no audio re-prepare); chains the next carrier.
+  Verified surah 1→2 seamless (surah 2 keeps playing, next pre-buffered).
 - **G2 keep-screen-on**: `navigator.wakeLock.request('screen')` while playing,
-  released on pause/exit; feature-detected no-op fallback for TV webviews.
-- **G3 exact ayah-position resume**: capture offset-within-ayah
-  (`positionMs − ayah.startMs`) on reciter switch / continue; seek to
-  `newAyahStart + offset` (clamped).
-- **G4 audio-error → focused Retry**: focusable Retry that re-attempts the mp3
-  (currently only a banner).
-- **G5 About screen + version**: Settings row → About dialog (version, Tanzil /
-  mp3quran / KSU attribution); surface version.
+  released on pause/exit; feature-detected no-op fallback.
+- **G3 exact ayah-position resume**: `resumeOffsetMs` (position-within-ayah)
+  carried on reciter switch / continue → seek to `newAyahStart + offset`.
+- **G4 audio-error → focused Retry** (re-streams the failing mp3).
+- **G5 About screen + version**: Settings row → About dialog (vite-injected
+  `__APP_VERSION__`, Tanzil/mp3quran/KSU attribution).
 
 ### P2 (polish, unapproved) / P3 (beyond-parity, optional)
 P2: reorder favourites, per-moshaf favs, fav badge in player. P3: offline download
 of surahs, reciter metadata, qirā'āt text stacks, more search aliases.
 
-### Data mirroring (approved 2026-08-11)
-Downloaded the full mp3quran API database + KSU hilites into `web/data-mirror/`
-(catalog JSON, reads/soar/per-(read,surah) timing, hilites per page×mushaf) to host
-on archive.org later as an offline mirror/fallback. Upload kit + script pending
-user archive.org credentials (`ia` tool or S3 keys).
+### Data mirroring (approved + DONE 2026-08-20)
+Full mp3quran API + KSU hilites mirror in `web/data-mirror/`: catalog (8), reads/
+soar/per-(read,surah) timing (13,109), hilites (1,812) — 15,046 files / 202 MB /
+31 MB tar. `scripts/upload-archiveorg.sh` uploads to
+archive.org item `qurantv-dataset` — pending user `ia configure` credentials
+(not uploaded yet). Bulk is gitignored (regenerable); manifest + scripts tracked.

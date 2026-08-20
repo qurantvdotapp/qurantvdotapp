@@ -8,7 +8,7 @@ import type { Moshaf, Reciter, QuranSurah } from "../domain/Models";
 export type Screen =
   | { kind: "home" }
   | { kind: "surahs"; reciter: Reciter; moshaf: Moshaf }
-  | { kind: "player"; reciter: Reciter; moshaf: Moshaf; surah: QuranSurah; availableSurahs: QuranSurah[]; startAyahIndex?: number }
+  | { kind: "player"; reciter: Reciter; moshaf: Moshaf; surah: QuranSurah; availableSurahs: QuranSurah[]; startAyahIndex?: number; resumeOffsetMs?: number }
   | { kind: "settings" };
 
 export function createNavigator() {

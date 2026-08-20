@@ -45,6 +45,7 @@ export function PlayerScreen(props: PlayerProps) {
   const settings = c.session.settings();
 
   const engine = new AudioEngine();
+  let gaplessSurah: QuranSurah | null = null; // next surah whose audio we buffer
   const [phase, setPhase] = createSignal<"loading" | "ready" | "error">("loading");
   const [timing, setTiming] = createSignal<SurahTiming | null>(null);
   const [hasTiming, setHasTiming] = createSignal(true);
@@ -116,6 +117,8 @@ export function PlayerScreen(props: PlayerProps) {
   /* ---------- engine callbacks ---------- */
   engine.onPosition = (ms) => {
     setPositionMs(ms);
+    const d = engine.durationMs();
+    if (d > 0 && d !== durationMs()) setDurationMs(d);
     const t = timing();
     if (t && hasTiming()) {
       const idx = ayahAt(t, ms);
@@ -148,6 +151,11 @@ export function PlayerScreen(props: PlayerProps) {
     if (t && ms > 0) {
       setHasTiming(isReliable(ms, t.lastEndMs));
     }
+  };
+  engine.onGaplessAdvanced = (url) => {
+    const next = gaplessSurah;
+    if (!next) return;
+    void attachSurahForGapless(next, url);
   };
   engine.onPlayStateChange = (p) => setPlaying(p);
 
@@ -219,13 +227,14 @@ export function PlayerScreen(props: PlayerProps) {
 
       // Session save loop (~5 s).
       window.setInterval(() => {
-        c.session.saveLastSession(props.reciter, props.moshaf, props.surah, currentAyah(), positionMs());
+        c.session.saveLastSession(props.reciter, props.moshaf, activeSurah(), currentAyah(), positionMs());
       }, 5000);
 
-      // Preload the next surah (timing + audio) for seamless-ish transitions.
+      // Prepare the next surah for a GAPLESS handoff (audio + timing).
       const next = nextSurahAfterCurrent();
       if (next) {
-        engine.preloadNext(audioUrlFor(props.moshaf.server, next.id));
+        gaplessSurah = next;
+        engine.prepareGapless(audioUrlFor(props.moshaf.server, next.id));
         if (read) c.timing.prefetch(read.id, next.id);
       }
 
@@ -300,9 +309,62 @@ export function PlayerScreen(props: PlayerProps) {
 
     const next = nextSurahAfterCurrent();
     if (next) {
-      engine.preloadNext(audioUrlFor(props.moshaf.server, next.id));
+      gaplessSurah = next;
+      engine.prepareGapless(audioUrlFor(props.moshaf.server, next.id));
       if (read) c.timing.prefetch(read.id, next.id);
     }
+  }
+
+  /** Attach the next surah's state after the engine gapless-handoffs to it
+   *  (audio already playing in element B — do NOT re-prepare audio). */
+  async function attachSurahForGapless(surah: QuranSurah, url: string) {
+    const read = await c.timing.readForMoshaf(props.moshaf.server);
+    const t = read ? await c.timing.timingFor(read.id, surah.id) : null;
+    setTiming(t);
+    setHasTiming(t !== null);
+    setActiveSurah(surah);
+    setCurrentAyah(0);
+    setPositionMs(0);
+    setDurationMs(0);
+    setAudioError(false);
+
+    const versesCount = surah.versesCount;
+    const b = (await c.quranText.verseText(1, 1));
+    setBasmala(surah.id >= 2 && surah.id <= 114 ? b : null);
+
+    if (t) {
+      const effOffset = settings.ayahOffset !== 0 ? settings.ayahOffset : suggestOffset(t.entries.length, versesCount);
+      const list: TextItem[] = [];
+      for (const e of t.entries) {
+        if (e.ayah < 1) continue;
+        const key = verseKeyFor(e.ayah, surah.id, versesCount, effOffset);
+        if (!key) continue;
+        const [s, v] = key.split(":").map(Number);
+        list.push({ ayah: e.ayah, verseKey: key, text: (await c.quranText.verseText(s, v)) ?? "" });
+      }
+      setItems(list);
+    } else {
+      const list: TextItem[] = [];
+      for (let v = 1; v <= versesCount; v++) {
+        list.push({ ayah: v, verseKey: `${surah.id}:${v}`, text: (await c.quranText.verseText(surah.id, v)) ?? "" });
+      }
+      setItems(list);
+    }
+    setNoTimingPage(surah.startPage);
+
+    // Chain the next gapless surah.
+    const next2 = nextSurahAfterCurrent();
+    if (next2) {
+      gaplessSurah = next2;
+      engine.prepareGapless(audioUrlFor(props.moshaf.server, next2.id));
+      if (read) c.timing.prefetch(read.id, next2.id);
+    } else {
+      gaplessSurah = null;
+      engine.prepareGapless(null);
+    }
+    // Validate the gate once the new surah's duration is known.
+    const dur = engine.durationMs();
+    if (t && dur > 0) setHasTiming(isReliable(dur, t.lastEndMs));
   }
 
   /* ---------- transport actions ---------- */
@@ -450,6 +512,7 @@ export function PlayerScreen(props: PlayerProps) {
     getState: () => ({
       phase: phase(),
       currentAyah: currentAyah(),
+      surahId: activeSurah().id,
       hasTiming: hasTiming(),
       positionMs: positionMs(),
       durationMs: durationMs(),

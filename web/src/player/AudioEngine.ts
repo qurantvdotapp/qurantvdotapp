@@ -1,135 +1,241 @@
-// Web audio engine — HTML5 <audio> wrapper with a 100 ms ticker.
-// Mirrors the Android PlaybackController's role: play/pause/seek/speed,
-// position ticker, end-of-media handling, error surfacing.
+// Web audio engine — HTML5 <audio> wrapper with a 100 ms ticker + GAPLESS
+// surah handoff (Phase-1 G1). Mirrors the Android PlaybackController's role.
 //
-// Gapless note: the Android app queues remaining surahs in ExoPlayer for
-// seamless transitions. In a web runtime, true gapless crossfade would need a
-// Web Audio graph; the port swaps <audio>.src on ended (small gap) and
-// PRELOADS the next surah's audio during playback to minimize it.
+// Two elements: CURRENT (plays now) and CARRIER (idle buffer for the next
+// surah). When CURRENT nears its end (repeat=OFF and a next was prepared via
+// prepareGapless), the CARRIER is started muted and crossfaded in while
+// CURRENT fades out (~650 ms); on CURRENT's 'ended' the roles swap and
+// onGaplessAdvanced(url) fires so the player attaches the new surah's state
+// WITHOUT re-preparing audio (like ExoPlayer's attachSurah). prepareGapless
+// always loads the next into the IDLE element, so a playing surah is never
+// clobbered. If no next is prepared, 'ended' fires onEnded() (genuine end).
 
 import type { RepeatMode } from "./RepeatMode";
 
 const TICK_MS = 100;
+const CROSSFADE_MS = 650;
+const NEAR_END_GUARD_S = 0.9;
 
 export class AudioEngine {
-  private readonly audio = new Audio();
+  private readonly a = new Audio();
+  private readonly b = new Audio();
+  private current: HTMLAudioElement;
+  private carrier: HTMLAudioElement;
+  private gaplessUrl: string | null = null;
+  private transitioning = false;
   private ticker: number | null = null;
   private url: string | null = null;
-  private nextPreload: HTMLAudioElement | null = null;
+  private fadeTimer: number | null = null;
   private repeat: RepeatMode = "off";
 
-  /** Position ticker (ms) — called every ~100 ms. */
   onPosition: (ms: number) => void = () => {};
-  /** End of media reached (used by repeat=off → next surah / stop). */
   onEnded: () => void = () => {};
+  onGaplessAdvanced: (url: string) => void = () => {};
   onError: (url: string) => void = () => {};
-  /** Metadata loaded (duration known, ms). */
   onLoaded: (durationMs: number) => void = () => {};
   onPlayStateChange: (playing: boolean) => void = () => {};
 
   constructor() {
-    this.audio.preload = "auto";
-    // Attach to the DOM (hidden) so playback is visible to the platform's
-    // media pipeline and to test tooling (Tizen/Vidaa route audio by element).
-    this.audio.style.display = "none";
-    this.audio.setAttribute("data-qurantv-audio", "true");
-    if (document.body) document.body.appendChild(this.audio);
-    this.audio.addEventListener("ended", () => {
-      if (this.repeat === "surah") {
-        this.audio.currentTime = 0;
-        void this.audio.play();
-      } else {
-        this.onEnded();
-      }
-    });
-    this.audio.addEventListener("error", () => {
-      this.onError(this.url ?? "");
-    });
-    this.audio.addEventListener("loadedmetadata", () => {
-      this.onLoaded(this.durationMs());
-    });
-    this.audio.addEventListener("play", () => this.onPlayStateChange(true));
-    this.audio.addEventListener("pause", () => this.onPlayStateChange(false));
+    this.current = this.a;
+    this.carrier = this.b;
+    for (const el of [this.a, this.b]) {
+      el.preload = "auto";
+      el.style.display = "none";
+      el.setAttribute("data-qurantv-audio", "true");
+      if (document.body) document.body.appendChild(el);
+      // events fire for whichever element is CURRENT
+      el.addEventListener("play", () => this.onPlayStateChange(true));
+      el.addEventListener("pause", () => this.onPlayStateChange(false));
+      el.addEventListener("loadedmetadata", () => this.onLoaded(this.durationMs()));
+      el.addEventListener("ended", () => this.handleEnded(el));
+      el.addEventListener("timeupdate", () => this.maybeCrossfade(el));
+      el.addEventListener("error", () => this.onError(this.playingUrl()));
+    }
   }
 
   get isPlaying(): boolean {
-    return !this.audio.paused && !this.audio.ended;
+    return !this.current.paused && !this.current.ended;
+  }
+
+  private playingUrl(): string {
+    return this.current.src || this.url || "";
   }
 
   positionMs(): number {
-    if (!Number.isFinite(this.audio.currentTime)) return 0;
-    return Math.round(this.audio.currentTime * 1000);
+    const c = this.current;
+    return Number.isFinite(c.currentTime) ? Math.round(c.currentTime * 1000) : 0;
   }
 
   durationMs(): number {
-    if (!Number.isFinite(this.audio.duration)) return 0;
-    return Math.round(this.audio.duration * 1000);
+    if (!Number.isFinite(this.current.duration)) return 0;
+    return Math.round(this.current.duration * 1000);
   }
 
   play(url: string, positionMs = 0): void {
+    this.stopTransition();
+    // Fresh start: A plays now, B is the carrier for the next surah.
+    this.current = this.a;
+    this.carrier = this.b;
+    this.gaplessUrl = null;
+    this.a.src = url;
+    this.a.volume = 1;
+    this.a.playbackRate = this.a.playbackRate || 1;
+    if (positionMs > 0) this.a.currentTime = positionMs / 1000;
+    this.b.pause();
+    this.b.removeAttribute("src");
+    this.b.load();
+    this.b.volume = 1;
     this.url = url;
-    this.audio.src = url;
-    this.audio.playbackRate = this.audio.playbackRate || 1;
-    if (positionMs > 0) {
-      this.audio.currentTime = positionMs / 1000;
-    }
-    void this.audio.play().catch(() => this.onError(url));
+    void this.a.play().catch(() => this.onError(url));
     this.startTicker();
   }
 
-  toggle(): void {
-    if (this.isPlaying) {
-      this.audio.pause();
-    } else {
-      void this.audio.play().catch(() => this.url && this.onError(this.url));
+  /** Preload + buffer the next surah into the IDLE element for a gapless handoff. */
+  prepareGapless(url: string | null): void {
+    if (this.repeat !== "off") {
+      this.carrier.pause();
+      this.carrier.removeAttribute("src");
+      this.carrier.load();
+      this.gaplessUrl = null;
+      return;
     }
+    this.gaplessUrl = url;
+    const c = this.carrier;
+    if (!url) {
+      c.pause();
+      c.removeAttribute("src");
+      c.load();
+      c.volume = 1;
+      return;
+    }
+    c.src = url;
+    c.volume = 0; // buffer silently; ramps at the crossfade
+    c.load();
+  }
+
+  toggle(): void {
+    if (this.isPlaying) this.pause();
+    else this.resume();
   }
 
   pause(): void {
-    this.audio.pause();
+    this.current.pause();
   }
 
   resume(): void {
-    void this.audio.play().catch(() => this.url && this.onError(this.url));
+    void this.current.play().catch(() => this.onError(this.url ?? ""));
   }
 
   seekTo(ms: number): void {
-    if (Number.isFinite(this.audio.duration)) {
-      this.audio.currentTime = ms / 1000;
-    }
+    const c = this.current;
+    if (Number.isFinite(c.duration)) c.currentTime = ms / 1000;
   }
 
   setSpeed(speed: number): void {
-    try {
-      this.audio.playbackRate = speed;
-    } catch {
-      /* unsupported rate — ignore */
+    for (const el of [this.a, this.b]) {
+      try {
+        el.playbackRate = speed;
+      } catch {
+        /* ignore */
+      }
     }
   }
 
   setRepeat(mode: RepeatMode): void {
     this.repeat = mode;
+    if (mode !== "off") {
+      this.gaplessUrl = null;
+      this.carrier.pause();
+      this.carrier.removeAttribute("src");
+      this.carrier.load();
+    }
   }
 
-  /** Preload the next surah's mp3 while the current one plays (gap reduction). */
-  preloadNext(url: string | null): void {
-    if (this.nextPreload) {
-      this.nextPreload.removeAttribute("src");
-      this.nextPreload.load();
+  private handleEnded(el: HTMLAudioElement): void {
+    if (this.repeat === "surah" && el === this.current) {
+      el.currentTime = 0;
+      void el.play();
+      return;
     }
-    if (url) {
-      this.nextPreload = new Audio();
-      this.nextPreload.preload = "auto";
-      this.nextPreload.src = url;
-      this.nextPreload.load();
+    // CURRENT ended during an active crossfade → finalize the handoff.
+    if (this.transitioning) {
+      this.finishHandoff();
+      return;
     }
+    // Genuine end (no gapless next) → notify the player.
+    if (!this.gaplessUrl || this.repeat !== "off") {
+      if (el === this.current) this.onEnded();
+      return;
+    }
+    // Near-end crossfade never started (unknown duration): hand off now.
+    if (el === this.current) this.finishHandoff();
+  }
+
+  private maybeCrossfade(el: HTMLAudioElement): void {
+    if (this.repeat !== "off" || this.transitioning || !this.gaplessUrl || el !== this.current) return;
+    if (el === this.carrier) return;
+    if (!Number.isFinite(el.duration) || el.duration <= 0) return;
+    const remaining = el.duration - el.currentTime;
+    if (remaining > 0 && remaining <= NEAR_END_GUARD_S) {
+      this.startCrossfade();
+    }
+  }
+
+  private startCrossfade(): void {
+    if (this.transitioning) return;
+    const url = this.gaplessUrl;
+    if (!url) return;
+    this.transitioning = true;
+    const from = this.current;
+    const to = this.carrier;
+    void to.play().catch(() => this.onError(url));
+    to.volume = 0;
+    to.playbackRate = from.playbackRate || 1;
+    const start = performance.now();
+    const step = () => {
+      const t = Math.min(1, (performance.now() - start) / CROSSFADE_MS);
+      to.volume = t;
+      if (from === this.current) from.volume = 1 - t;
+      if (t < 1) {
+        this.fadeTimer = window.setTimeout(step, 16);
+      } else {
+        this.fadeTimer = null;
+        // from's 'ended' event finalizes the handoff.
+      }
+    };
+    step();
+  }
+
+  private finishHandoff(): void {
+    this.stopTransition();
+    const url = this.gaplessUrl;
+    // Swap roles: the carrier becomes CURRENT; the old current becomes idle.
+    const newCurrent = this.carrier;
+    const oldCurrent = this.current;
+    newCurrent.volume = 1;
+    this.current = newCurrent;
+    this.carrier = oldCurrent;
+    this.gaplessUrl = null;
+    oldCurrent.pause();
+    oldCurrent.removeAttribute("src");
+    oldCurrent.load();
+    oldCurrent.volume = 1;
+    this.url = url;
+    if (url) this.onGaplessAdvanced(url);
+    else this.onEnded();
+  }
+
+  private stopTransition(): void {
+    if (this.fadeTimer !== null) {
+      window.clearTimeout(this.fadeTimer);
+      this.fadeTimer = null;
+    }
+    this.transitioning = false;
   }
 
   private startTicker(): void {
     if (this.ticker !== null) return;
-    this.ticker = window.setInterval(() => {
-      this.onPosition(this.positionMs());
-    }, TICK_MS);
+    this.ticker = window.setInterval(() => this.onPosition(this.positionMs()), TICK_MS);
   }
 
   destroy(): void {
@@ -137,12 +243,12 @@ export class AudioEngine {
       window.clearInterval(this.ticker);
       this.ticker = null;
     }
-    this.audio.pause();
-    this.audio.removeAttribute("src");
-    this.audio.load();
-    if (this.nextPreload) {
-      this.nextPreload.removeAttribute("src");
-      this.nextPreload = null;
+    this.stopTransition();
+    for (const el of [this.a, this.b]) {
+      el.pause();
+      el.removeAttribute("src");
+      el.load();
+      el.volume = 1;
     }
   }
 }

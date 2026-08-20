@@ -100,9 +100,19 @@ export function PlayerScreen(props: PlayerProps) {
   /* ---------- chrome auto-hide (page mode) ---------- */
   let lastKey = Date.now();
   onMount(() => {
-    const onKey = () => {
+    const onKey = (e: KeyboardEvent) => {
+      const wasHidden = displayMode() === 1 && !chromeVisible();
       lastKey = Date.now();
       setChromeVisible(true);
+      // Hidden fullscreen page: DPAD_LEFT/RIGHT scrub ±5 s (Kotlin parity) —
+      // the page holds the screen, so arrows give audible/visual feedback
+      // instead of moving focus among invisible chrome buttons.
+      if (wasHidden && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+        const d = engine.durationMs();
+        const target = positionMs() + (e.key === "ArrowRight" ? 5000 : -5000);
+        engine.seekTo(d > 0 ? Math.max(0, Math.min(d, target)) : target);
+        e.preventDefault();
+      }
     };
     window.addEventListener("keydown", onKey, true);
     const hideTimer = window.setInterval(() => {

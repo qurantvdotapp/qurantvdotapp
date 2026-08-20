@@ -24,8 +24,16 @@ export function unregisterFocusable(id: string): void {
 
 function isVisible(el: HTMLElement): boolean {
   if (!el.isConnected) return false;
-  const style = window.getComputedStyle(el);
-  if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0) return false;
+  // Opacity/display don't inherit — a button inside an opacity-0 container
+  // (e.g. the auto-hidden page-mode chrome) reports opacity 1 itself. Walk the
+  // ancestor chain so hidden-chrome buttons never become D-pad targets (that
+  // made focus move invisibly while the mushaf was fullscreen).
+  let node: HTMLElement | null = el;
+  while (node) {
+    const style = window.getComputedStyle(node);
+    if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0) return false;
+    node = node.parentElement;
+  }
   const r = el.getBoundingClientRect();
   // Only require a non-zero size — NOT a "within the viewport" check. Elements
   // below the fold of a scroll container are valid focus targets: scrollIntoView

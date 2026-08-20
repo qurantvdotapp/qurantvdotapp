@@ -207,13 +207,13 @@ ar/en RTL. Tafseer side panel (KSU .ayt → JSON conversion) DEFERRED to a later
 | W9 | Verification: Vitest (domain) + Playwright TV-keycode smoke tests in Chromium (Vidaa-runtime stand-in) + REAL Tizen QEMU TV emulator (install .wgt via sdb, walk checklist) |
 | W10 | No real Samsung/Hisense TV assumed; real-device kit (signed .wgt + vidaa-edge PWA installer + instructions) produced for user-side pass |
 
-## Phase B0 — Scaffold + toolchain (in progress)
+## Phase B0 — Scaffold + toolchain (done)
 
 - [x] Create task tracker (this file) + lock W1–W10
 - [x] `web/` scaffold: Vite + TypeScript + SolidJS + Vitest; `npm run build` green; `.gitignore` for node_modules/dist
-- [x] Tizen Studio web-cli downloaded (280 MB) + installed to `~/tizen-studio`; Package Manager: Web CLI (Tizen 6.0–9.0) + Emulator package installed (Arch dep check shimmed: `dpkg -l` answers `ii` for the 5 Ubuntu-only prereq names — glib2/curl equivalents already present on Arch)
-- [~] Boot a Tizen TV emulator instance headless (em-cli); `sdb devices` sees it; permit installs
-- [x] Playwright + Chromium harness for Vidaa-target smoke tests (3 e2e TV-keycode tests green)
+- [x] Tizen Studio web-cli downloaded (280 MB) + installed to `~/tizen-studio`; Package Manager: Web CLI (Tizen 6.0–9.0) + Emulator package + TV-SAMSUNG-Public-Emulator image (Arch dep check shimmed)
+- [x] Tizen TV QEMU emulator boots (tv-samsung-10.0, KVM); `sdb` connects; install is signing-gated (see B7 notes); TV Simulator (nw.js, no signing) is the working verification target
+- [x] Playwright + Chromium harness for Vidaa-target smoke tests
 - [x] Commit: `feat: tizen/vidaa port scaffold + task tracker`
 
 ## Phase B1 — Domain layer port (pure TS, mirrors Kotlin)
@@ -260,7 +260,7 @@ ar/en RTL. Tafseer side panel (KSU .ayt → JSON conversion) DEFERRED to a later
 - [x] Sync integration: timing → current ayah via ported binary search (index change only), accuracy gate disables sync (verified: read 5 s1 mp3 42.7 s vs timing 37.5 s → within silence allowance → sync ENABLED), no-timing static degradation + page browse
 - [x] Repeat OFF / AYAH / SURAH; next-surah preload (audio + timing) for transition gap reduction (true gapless needs WebAudio — noted)
 - [x] Session save loop (~5 s), Continue restore (startAyahIndex)
-- [~] Commit: `feat: UI shell + screens + player engine`
+- [x] Commit: `feat: UI shell + screens + player engine`
 
 ## Phase B7 — Verification (in progress)
 
@@ -275,25 +275,33 @@ ar/en RTL. Tafseer side panel (KSU .ayt → JSON conversion) DEFERRED to a later
 - The wgt XML-signing step failed with "Can't create XML Signature file" (the signer wants a CA cert file path) — the GUI Certificate Manager (Samsung certificate extension) is the supported way to mint a proper TV profile
 - The **TV Simulator** (sec-tv-simulator, nw.js, `--remote-debugging-port`) needs NO signing and validated the app end-to-end; the TV QEMU emulator's sdb shell channel is silent on this image (known TV-emulator quirk), so simulator+CDP is the practical automation path
 
-## Phase B6 — Packaging + docs
+## Phase B6 — Packaging + docs (done; signed distribution is user-side)
 
-- [ ] Tizen: `config.xml` (widget id, `http://tizen.org/privilege/internet`), TV icons, `tizen build-web` + `tizen package -t wgt -s <profile>`; signing profile (author cert)
-- [ ] Vidaa: PWA manifest + hosted-app install kit (Appinfo.json + vidaa-edge instructions) + CORS-ready note
-- [ ] README (build, run, emulator setup, real-device install for both platforms), manual test checklist
-- [ ] Commit: `feat: packaging + docs`
+- [x] Tizen: `config.xml` (TV profile, internet privilege, hwkey-event), icons (gen-icons.sh), `build-tizen.sh` → `dist/QuranTV.wgt` (unsigned ~1.6 MB; installs on the TV Simulator)
+- [x] Vidaa: PWA manifest + hosted-app install kit (vidaa-edge Appinfo.json + instructions in README) + CORS-ready note
+- [x] README (build, run, TV Simulator workflow, real-device install for both platforms), PERFORMANCE.md (web vs native), screenshots
+- [x] Commit: `feat: tizen packaging + docs`
+- [ ] **Signed .wgt for real Samsung TVs** (user-side): Tizen Studio GUI Certificate Manager → Samsung author+distributor profile → `tizen package -t wgt -s <profile>`
 
-## Phase B7 — Verification (emulators)
+## Phase B7 — Verification (mostly done)
 
-- [ ] Vitest domain tests green (ported fixtures)
-- [ ] Playwright Chromium smoke tests: launch, browse reciters, open surah grid, play (real audio), ayah highlight advances, transport keys, back stack, RTL — automated D-pad keycode walk
-- [ ] Tizen TV emulator: install .wgt, launch, `sdb dlog` crash check, drive UI via remote keys, screenshots
-- [ ] Vidaa-target: same bundle served over http(s) in Chromium (stand-in) + record real-device steps (user-side)
+- [x] Vitest domain tests green — **66 fixtures** (domain core + KSU geometry + warsh/tajweed pagination + islamic bands + estimator + basmala)
+- [x] Playwright Chromium TV-keycode smoke tests — **5/5 green**: catalog+D-pad, timed reciter → player (real audio + highlight movement), no-timing degradation, tafseer side panel, all 6 mushaf styles
+- [x] **Tizen TV Simulator**: installed from the built .wgt + full TV-key walk verified (audio, sync 6→7, auto surah advance, spread pages 3+4, exact KSU hilite rects, Amiri content font)
+- [x] Vidaa-target: same bundle served over http(s) in Chromium (stand-in) — real-device pass is user-side (vidaa-edge kit)
+- [x] Performance comparison web vs native: `web/PERFORMANCE.md` (151 KB/3 MB/110 ms vs 27 MB/166 MB/1.1 s — keep both, no decisions)
 - [ ] Samba release: `QuranTV-web-<ver>.wgt` + hosted bundle + install kit
 - [ ] Update this tracker + commit: `docs: port verification complete`
 
 ## Known constraints / deferred (port)
 
-- Vidaa has no emulator — Chromium validation + user real-device pass only (W9/W10)
-- Tafseer side panel: needs `.ayt` SQLite → JSON build-time conversion (deferred phase)
-- KSU raster mushaf styles (آيات حفص/ورش/التجويد + hilite API) + islamic.app HD pages: later phase (mp3quran SVG page mode first — W5)
+- Vidaa has no emulator — Chromium validation + user real-device pass only (W9/W10); real Hisense TV pass via the vidaa-edge kit
+- Tizen QEMU emulator install + real Samsung TV install: **signing gate** (GUI Certificate Manager — user-side; CLI cert plumbing reverse-engineered as far as practical)
+- True gapless surah transitions (WebAudio) — currently preload-based (small gap)
 - Tizen hosted apps / Vidaa store listing: not covered (sideload/community installer)
+
+## Extra work completed after B7 (2026-08-11)
+
+- Arabic UI font **Tajawal** (all chrome) + **Amiri** naskh for tafseer/meanings content + Amiri Quran for ayah text — simulator-verified
+- UI polish pass: gradient surfaces, glow focus, gold play button, upgraded dialogs/chips/rail
+- `web/PERFORMANCE.md` — measured comparison + "keep both" recommendation (no deletion decisions)

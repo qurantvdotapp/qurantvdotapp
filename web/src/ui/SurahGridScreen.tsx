@@ -7,7 +7,7 @@ import { availableSurahIds } from "../domain/Models";
 import type { TFunction } from "../i18n/strings";
 import { appContainer } from "../data/AppContainer";
 import { audioUrlFor } from "../domain/CatalogParsing";
-import { Chip, Dialog, DialogRow, ErrorState, LoadingState , focusable } from "./components";
+import { Chip, Dialog, DialogRow, ErrorState, LoadingState, StarButton, focusable } from "./components";
 import { focusFirst } from "./focus";
 
 interface SurahGridProps {
@@ -27,6 +27,12 @@ export function SurahGridScreen(props: SurahGridProps) {
   const [matchedReadId, setMatchedReadId] = createSignal<number | undefined>(undefined);
   const [jumpOpen, setJumpOpen] = createSignal(false);
   const [pickerOpen, setPickerOpen] = createSignal(false);
+  const [isFav, setIsFav] = createSignal(c.session.isFavourite(props.reciter.id));
+
+  function toggleFav() {
+    const added = c.session.toggleFavourite(props.reciter.id);
+    setIsFav(added);
+  }
   // Real mp3-duration probes (the soar list OVER-CLAIMS): verdict per surah.
   const [usability, setUsability] = createSignal<Map<number, boolean>>(new Map());
   const [probeFrom, setProbeFrom] = createSignal(0);
@@ -113,6 +119,7 @@ export function SurahGridScreen(props: SurahGridProps) {
           <div style="font-size:22px;color:var(--text-dim)">{props.moshaf.name}</div>
         </div>
         <div style="flex:1" />
+        <StarButton id="grid-fav" active={isFav()} onClick={toggleFav} />
         <Chip id="grid-jump" label={props.t("jump_to_surah_short")} onClick={() => {
           setJumpOpen(true);
           setTimeout(() => {

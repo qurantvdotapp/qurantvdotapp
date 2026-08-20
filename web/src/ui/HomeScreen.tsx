@@ -1,5 +1,8 @@
-// Home screen — header, Continue card, reciters A–Z (wrapped FlowRows per
-// letter, mirroring the Android app), letter rail, search overlay.
+// Home screen — header with an inline SEARCH BAR (focused on load), Continue
+// card, Favourites row, reciters A–Z (wrapped chips per letter, Amiri names),
+// letter rail. Typing in the search bar filters the list live (Arabic + English);
+// Enter opens the first match. Favourites are toggled on the reciter's surah
+// page (not per-chip stars here).
 
 import { createMemo, createSignal, onMount, Show } from "solid-js";
 import type { Moshaf, Reciter } from "../domain/Models";
@@ -7,8 +10,8 @@ import { reciterMatchesQuery } from "../domain/search";
 import { arabicCollator, type TFunction } from "../i18n/strings";
 import type { LastSession } from "../data/repo/SessionRepository";
 import { appContainer } from "../data/AppContainer";
-import { Chip, Dialog, DialogRow, ErrorState, LoadingState, TvCard, StarButton, focusable } from "./components";
-import { focusFirst } from "./focus";
+import { Chip, Dialog, DialogRow, ErrorState, LoadingState, TvCard, focusable } from "./components";
+import { focusFirst, focusElement } from "./focus";
 import type { Navigator } from "./navigation";
 
 interface HomeProps {
@@ -24,11 +27,12 @@ export function HomeScreen(props: HomeProps) {
   const [reciters, setReciters] = createSignal<Reciter[] | null>(null);
   const [error, setError] = createSignal(false);
   const [timedUrls, setTimedUrls] = createSignal<Set<string>>(new Set());
-  const [searchOpen, setSearchOpen] = createSignal(false);
   const [query, setQuery] = createSignal("");
   const [session] = createSignal<LastSession | null>(c.session.lastSession());
   const [recent, setRecent] = createSignal<Reciter[] | null>(null);
   const [favourites, setFavourites] = createSignal<Set<number>>(c.session.favouriteReciterIds());
+
+  let searchInput: HTMLInputElement | undefined;
 
   async function load() {
     setError(false);
@@ -46,18 +50,17 @@ export function HomeScreen(props: HomeProps) {
             .filter((r) => r.moshafs.length > 0)
         : all;
       setReciters(filtered);
-      // Recently added reads (soft-fail row — hidden on error)
       try {
         setRecent(await c.catalog.recentReads());
       } catch {
         setRecent(null);
       }
+      // Initial focus on the SEARCH BAR + its focus ring (per user request).
       setTimeout(() => {
-        const rail = document.querySelector(".h-scroll");
-        if (rail) focusFirst(rail);
+        searchInput?.focus();
+        focusElement("home-search");
       }, 150);
-    } catch (e) {
-      console.error("Home load error:", e);
+    } catch {
       setError(true);
     }
   }
@@ -88,12 +91,6 @@ export function HomeScreen(props: HomeProps) {
     return r.moshafs.some((m) => timed.has(normalizeServer(m.server)));
   }
 
-  function toggleFav(id: number) {
-    const next = new Set(c.session.toggleFavourite(id) ? [...favourites(), id] : [...favourites()].filter((x) => x !== id));
-    setFavourites(next);
-    if (!next.has(id)) {} // recompute handled by the signal
-  }
-
   const favouritesList = createMemo(() => {
     const list = reciters();
     if (!list) return [];
@@ -101,32 +98,36 @@ export function HomeScreen(props: HomeProps) {
     return list.filter((r) => favs.has(r.id)).sort((a, b) => collator().compare(a.name, b.name));
   });
 
+  const searching = createMemo(() => query().trim().length > 0);
+
+  /** Live-filtered results (Arabic normalized + English case-insensitive). */
   const filtered = createMemo(() => {
     const list = reciters();
     if (!list) return [];
-    return list.filter((r) => reciterMatchesQuery(r, query()));
+    const q = query().trim();
+    if (q.length === 0) return [];
+    const results = list.filter((r) => reciterMatchesQuery(r, q));
+    return results.sort((a, b) => collator().compare(a.name, b.name));
   });
 
   function openFirstMatch() {
     const list = filtered();
     if (list.length === 0) return;
-    const first = list[0];
-    openReciter(first);
+    openReciter(list[0]);
   }
 
   function openReciter(reciter: Reciter) {
-    const timed = timedUrls();
-    const multi = reciter.moshafs.filter((m) => timed.has(normalizeServer(m.server))).length > 1;
-    const candidates =
-      reciter.moshafs.length > 1
-        ? reciter.moshafs.filter((m) => timed.has(normalizeServer(m.server)))
-        : reciter.moshafs;
-    const moshaf = candidates.length > 0 ? candidates[0] : reciter.moshafs[0];
-    if (!moshaf) return;
-    if (reciter.moshafs.length > 1 && multi) {
+    // (Don't setQuery synchronously here — navigating away unmounts Home, and a
+    // mid-click re-render of the search Show while the chooser/routing runs
+    // triggers a SolidJS stale-read.)
+    // A reciter with MULTIPLE mushafs always shows the moshaf picker first,
+    // then the surah selection page for the chosen moshaf.
+    if (reciter.moshafs.length > 1) {
       openMoshafChooser(reciter);
       return;
     }
+    const moshaf = reciter.moshafs[0];
+    if (!moshaf) return;
     props.onOpenReciter(reciter, moshaf);
   }
 
@@ -143,7 +144,6 @@ export function HomeScreen(props: HomeProps) {
   function continueResume() {
     const s = session();
     if (!s) return;
-    // Resolve reciter/moshaf/surah ids from the catalog (best effort).
     void c.catalog.reciters(props.lang).then((all) => {
       const reciter = all.find((r) => r.id === s.reciterId);
       if (!reciter) return;
@@ -166,31 +166,47 @@ export function HomeScreen(props: HomeProps) {
 
   return (
     <div class="screen">
-      {/* header */}
-      <div style="display:flex;align-items:center;gap:24px;padding-bottom:18px">
-        <h1 style="margin:0;font-size:46px;font-weight:700;color:var(--gold)">{props.t("app_name")}</h1>
-        <div style="flex:1" />
-        <Chip id="home-search" label={props.t("search_reciters")} onClick={() => {
-          setSearchOpen(true);
-          setTimeout(() => {
-            const input = document.getElementById("search-input");
-            input?.focus();
-            const listEl = document.querySelector(".dialog-list");
-            if (listEl) focusFirst(listEl);
-          }, 80);
-        }} />
+      {/* header: app name + SEARCH BAR + settings */}
+      <div style="display:flex;align-items:center;gap:20px;padding-bottom:18px">
+        <h1 style="margin:0;font-size:40px;font-weight:700;color:var(--gold);white-space:nowrap">{props.t("app_name")}</h1>
+        <div
+          use:focusable="home-search"
+          id="home-search-bar"
+          style={`flex:1;display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid #2a3c66;border-radius:16px;padding:10px 18px;box-shadow:var(--shadow);min-width:0`}
+        >
+          <span style="font-size:20px;color:var(--gold)">🔍</span>
+          <input
+            ref={searchInput}
+            id="search-input"
+            value={query()}
+            onInput={(e) => setQuery(e.currentTarget.value)}
+            onFocus={() => focusElement("home-search")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                openFirstMatch();
+              }
+            }}
+            placeholder={props.t("search_hint")}
+            style="flex:1;min-width:0;background:transparent;border:none;outline:none;color:var(--text);font-size:24px"
+          />
+          <Show when={filtered().length > 0}>
+            <span style="font-size:15px;color:var(--text-dim);white-space:nowrap">{filtered().length} · {props.t("reciters_title")}</span>
+          </Show>
+        </div>
         <Chip id="home-settings" label={props.t("settings")} onClick={() => props.onOpenSettings()} />
       </div>
 
       {/* recently added reads */}
-      <Show when={recent() !== null && recent()!.length > 0}>
-        <div style="margin-bottom:22px">
-          <div style="font-size:24px;color:var(--text-dim);padding-bottom:10px">{props.t("recent_reads")}</div>
+      <Show when={!searching() && recent() !== null && recent()!.length > 0}>
+        <div style="margin-bottom:18px">
+          <div style="font-size:22px;color:var(--text-dim);padding-bottom:8px">{props.t("recent_reads")}</div>
           <div style="display:flex;flex-wrap:wrap;gap:12px">
             {recent()!.slice(0, 10).map((r) => (
               <Chip
                 id={`recent-${r.id}`}
                 label={r.name}
+                class="content-text"
                 dim={props.lang === "ar" ? !reciterTimed(r) : false}
                 onClick={() => openReciter(r)}
               />
@@ -200,12 +216,12 @@ export function HomeScreen(props: HomeProps) {
       </Show>
 
       {/* continue card */}
-      <Show when={session()}>
+      <Show when={!searching() && session()}>
         {(s) => (
-          <TvCard id="home-continue" onClick={continueResume} style="margin-bottom:22px">
+          <TvCard id="home-continue" onClick={continueResume} style="margin-bottom:18px">
             <span style="font-size:32px">▶</span>
             <div>
-              <div style="font-size:20px;color:var(--text-dim)">{props.t("continue_listening")}</div>
+              <div style="font-size:18px;color:var(--text-dim)">{props.t("continue_listening")}</div>
               <div>
                 {s().reciterName} · <span class="quran-text">{s().surahNameAr}</span>
               </div>
@@ -214,11 +230,29 @@ export function HomeScreen(props: HomeProps) {
         )}
       </Show>
 
-      {/* body */}
+      {/* body: search results OR the grouped list */}
       {error() ? (
         <ErrorState t={props.t} onRetry={load} />
       ) : reciters() === null ? (
         <LoadingState t={props.t} />
+      ) : searching() ? (
+        <div class="h-scroll" style="flex:1">
+          <div style="font-size:28px;font-weight:700;color:var(--gold);padding-bottom:12px">{props.t("search_reciters")}</div>
+          <Show when={filtered().length > 0} fallback={<div style="padding:20px;color:var(--text-dim)">{props.t("empty_reciters")}</div>}>
+            {filtered().map((r) => (
+              <div
+                use:focusable={`sr-${r.id}`}
+                id={`sr-${r.id}`}
+                class={`dialog-row ${!reciterTimed(r) ? "dim" : ""}`}
+                onClick={() => openReciter(r)}
+              >
+                <span class="content-text" style="font-size:26px">{r.name}</span>
+                <span style="flex:1" />
+                {r.nameEn ? <span class="badge" style="color:var(--text-faint)">{r.nameEn}</span> : null}
+              </div>
+            ))}
+          </Show>
+        </div>
       ) : (
         <div style="display:flex;gap:28px;flex:1;min-height:0">
           {/* letter rail */}
@@ -239,38 +273,34 @@ export function HomeScreen(props: HomeProps) {
           {/* reciter groups */}
           <div class="h-scroll" style="flex:1">
             <Show when={favouritesList().length > 0}>
-              <div id="favourites-row" style="padding-bottom:16px">
-                <div style="font-size:26px;font-weight:700;color:var(--gold);padding-bottom:10px">★ {props.lang === "ar" ? "المفضلة" : "Favourites"}</div>
+              <div id="favourites-row" style="padding-bottom:14px">
+                <div style="font-size:24px;font-weight:700;color:var(--gold);padding-bottom:8px">★ {props.lang === "ar" ? "المفضلة" : "Favourites"}</div>
                 <div style="display:flex;flex-wrap:wrap;gap:12px">
                   {favouritesList().map((r) => (
-                    <div style="display:flex;align-items:center;gap:6px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid #2a3c66;border-radius:14px;box-shadow:var(--shadow)">
-                      <Chip
-                        id={`fav-${r.id}`}
-                        label={r.name}
-                        dim={props.lang === "ar" ? !reciterTimed(r) : false}
-                        onClick={() => openReciter(r)}
-                      />
-                      <StarButton id={`fav-star-${r.id}`} active={true} onClick={() => toggleFav(r.id)} />
-                    </div>
+                    <Chip
+                      id={`fav-${r.id}`}
+                      label={r.name}
+                      class="content-text"
+                      dim={props.lang === "ar" ? !reciterTimed(r) : false}
+                      onClick={() => openReciter(r)}
+                    />
                   ))}
                 </div>
               </div>
             </Show>
-            <div style="font-size:34px;font-weight:700;color:var(--gold);padding-bottom:12px">{props.t("reciters_title")}</div>
+            <div style="font-size:30px;font-weight:700;color:var(--gold);padding-bottom:10px">{props.t("reciters_title")}</div>
             {groups().map((g) => (
-              <div id={`group-${g.letter}`} style="margin-bottom:16px">
-                <div style="font-size:22px;font-weight:700;color:var(--text-dim);padding:6px 0 8px;letter-spacing:0.08em">{g.letter}</div>
+              <div id={`group-${g.letter}`} style="margin-bottom:14px">
+                <div style="font-size:20px;font-weight:700;color:var(--text-dim);padding:6px 0 8px;letter-spacing:0.08em">{g.letter}</div>
                 <div style="display:flex;flex-wrap:wrap;gap:12px">
                   {g.reciters.map((r) => (
-                    <div style="display:flex;align-items:center;gap:4px">
-                      <Chip
-                        id={`rec-${r.id}`}
-                        label={r.name}
-                        dim={props.lang === "ar" ? !reciterTimed(r) : false}
-                        onClick={() => openReciter(r)}
-                      />
-                      <StarButton id={`hstar-${r.id}`} active={favourites().has(r.id)} onClick={() => toggleFav(r.id)} />
-                    </div>
+                    <Chip
+                      id={`rec-${r.id}`}
+                      label={r.name}
+                      class="content-text"
+                      dim={props.lang === "ar" ? !reciterTimed(r) : false}
+                      onClick={() => openReciter(r)}
+                    />
                   ))}
                 </div>
               </div>
@@ -278,48 +308,6 @@ export function HomeScreen(props: HomeProps) {
           </div>
         </div>
       )}
-
-      {/* search overlay */}
-      <Show when={searchOpen()}>
-        <Dialog title={props.t("search_reciters")} hint={props.t("search_enter_hint")} onClose={() => setSearchOpen(false)}>
-          <div style="padding:0 28px 14px">
-            <input
-              id="search-input"
-              value={query()}
-              onInput={(e) => setQuery(e.currentTarget.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  openFirstMatch();
-                }
-              }}
-              placeholder={props.t("search_hint")}
-              style="width:100%;height:64px;font-size:26px;border-radius:12px;border:1px solid #2c3f68;background:var(--bg);color:var(--text);padding:0 18px"
-            />
-          </div>
-          <div style="padding:0 28px 12px;display:flex;gap:14px;align-items:center">
-            <Chip id="search-submit" label={props.t("search_action")} onClick={openFirstMatch} />
-            <span style="font-size:16px;color:var(--text-dim)">{filtered().length} · {props.t("reciters_title")}</span>
-          </div>
-          <div class="dialog-list" style="max-height:50vh">
-            <Show when={filtered().length > 0} fallback={<div style="padding:20px;color:var(--text-dim)">{props.t("empty_reciters")}</div>}>
-              {filtered().map((r) => (
-                <DialogRow
-                  id={`sr-${r.id}`}
-                  label={r.name}
-                  sub={r.nameEn ?? undefined}
-                  dim={!reciterTimed(r)}
-                  action={<StarButton id={`srstar-${r.id}`} active={favourites().has(r.id)} onClick={() => toggleFav(r.id)} />}
-                  onClick={() => {
-                    setSearchOpen(false);
-                    openReciter(r);
-                  }}
-                />
-              ))}
-            </Show>
-          </div>
-        </Dialog>
-      </Show>
 
       {/* moshaf chooser for multi-moshaf reciters */}
       <Show when={chooser()}>
@@ -335,9 +323,11 @@ export function HomeScreen(props: HomeProps) {
                   label={m.name}
                   dim={!timedUrls().has(normalizeServer(m.server))}
                   onClick={() => {
+                    // Capture rc() BEFORE setChooser(null) — reading the keyed
+                    // Show value after disposal throws a SolidJS stale-read.
+                    const rec = rc();
                     setChooser(null);
-                    setSearchOpen(false);
-                    props.onOpenReciter(rc(), m);
+                    props.onOpenReciter(rec, m);
                   }}
                 />
               ))}

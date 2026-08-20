@@ -31,8 +31,6 @@ test("timed reciter (العجمي, read 5) → grid → player plays and syncs",
   await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
 
   // Open the search overlay and find the verified-timed reciter أحمد بن علي العجمي
-  await page.locator("#home-search").click();
-  await page.waitForTimeout(300);
   await page.locator("#search-input").fill("العجمي");
   await page.waitForTimeout(400);
   await page.keyboard.press("Enter"); // input Enter → openFirstMatch
@@ -123,8 +121,6 @@ test("no-timing reciter opens and degrades gracefully (no crash)", async ({ page
   await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
 
   // Search for a known no-timing reciter (أحمد الحذيفي has no timing read).
-  await page.locator("#home-search").click();
-  await page.waitForTimeout(300);
   await page.locator("#search-input").fill("الحذيفي");
   await page.waitForTimeout(400);
   const rows = await page.locator(".dialog-row").count();
@@ -144,8 +140,6 @@ test("tafseer side panel opens beside the mushaf and follows the recitation", as
   await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
 
   // Open a timed reciter: search → العجمي → surah 1
-  await page.locator("#home-search").click();
-  await page.waitForTimeout(300);
   await page.locator("#search-input").fill("العجمي");
   await page.keyboard.press("Enter");
   await page.waitForTimeout(1500);
@@ -217,8 +211,6 @@ test("tafseer side panel opens beside the mushaf and follows the recitation", as
 test("mushaf styles: every page source loads (SVG, HD, KSU Hafs/Warsh/Tajweed)", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
-  await page.locator("#home-search").click();
-  await page.waitForTimeout(300);
   await page.locator("#search-input").fill("العجمي");
   await page.keyboard.press("Enter");
   await page.waitForTimeout(1500);
@@ -270,33 +262,31 @@ test("mushaf styles: every page source loads (SVG, HD, KSU Hafs/Warsh/Tajweed)",
 test("english reciter-search + favourite reciters", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
-  await page.click("#home-search");
-  await page.waitForTimeout(400);
-
   // Search an ENGLISH name — should match by transliteration
   await page.locator("#search-input").fill("maher");
   await page.waitForTimeout(600);
   const maherRows = await page.locator(".dialog-row").filter({ hasText: "المعيقلي" }).count();
   expect(maherRows).toBeGreaterThanOrEqual(1);
-  // clearing back to full list is visible
-  await page.locator("#search-input").fill("");
-  await page.waitForTimeout(500);
-
-  // Favourite a reciter: close search, then star the first non-starred chip
-  await page.keyboard.press("Escape"); // close search
+  // The query is still "maher" — Enter opens the first match's moshaf chooser.
+  await page.keyboard.press("Enter");
+  await page.waitForTimeout(1200);
+  const hasChooser = await page.locator("[id^='mc-']").first().isVisible().catch(() => false);
+  if (hasChooser) await page.locator("[id^='mc-']").first().click();
+  await page.waitForTimeout(1200);
+  await page.waitForSelector("#grid-fav", { timeout: 20_000 });
+  await page.locator("#grid-fav").click();
   await page.waitForTimeout(300);
-  await page.evaluate(() => {
-    const firstStar = document.querySelector(".star-btn:not(.active)");
-    if (firstStar) (firstStar as HTMLElement).click();
-  });
-  const starredCount = await page.evaluate(() => document.querySelectorAll(".star-btn.active").length);
-  expect(starredCount).toBeGreaterThanOrEqual(1);
+  const favActive = await page.evaluate(() => document.querySelector("#grid-fav")?.getAttribute("class") ?? "");
+  expect(favActive).toContain("active");
 
-  // The Favourites row now appears on Home
+  // Back to Home: the Favourites row now appears
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(400);
+  await expect(page.getByText("القراء", { exact: true }).first()).toBeVisible({ timeout: 10_000 });
   await expect(page.locator("#favourites-row")).toBeVisible({ timeout: 10_000 });
 
   // Persistence: reload and re-check the favourite survived
   await page.reload();
-  await page.waitForSelector(".tv-chip", { timeout: 20000 });
+  await page.waitForSelector(".tv-chip", { timeout: 20_000 });
   await expect(page.locator("#favourites-row")).toBeVisible({ timeout: 10_000 });
 });

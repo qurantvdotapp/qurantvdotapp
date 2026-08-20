@@ -28,12 +28,10 @@ export function App() {
   onMount(() =>
     onRemoteKey((key, raw) => {
       const target = raw.target as HTMLElement | null;
-      if (target && target.tagName === "INPUT") {
-        // A text field has DOM focus (search): let it handle typing, caret
-        // moves and its own Enter; still keep media/back keys working.
-        if (key === "up" || key === "down" || key === "left" || key === "right" || key === "ok") {
-          return;
-        }
+      if (target && target.tagName === "INPUT" && key === "ok") {
+        // The search input handles its own Enter (open first match); arrows
+        // still drive D-pad navigation so the user can leave the search bar.
+        return;
       }
       switch (key) {
         case "up":

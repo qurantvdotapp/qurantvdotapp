@@ -56,12 +56,12 @@ export function TvCard(props: {
 
 /* ---------------- Chip ---------------- */
 
-export function Chip(props: { id: string; label: string; onClick?: () => void; dim?: boolean; badge?: boolean }) {
+export function Chip(props: { id: string; label: string; onClick?: () => void; dim?: boolean; badge?: boolean; class?: string }) {
   return (
     <div
       use:focusable={props.id}
       id={props.id}
-      class={`tv-chip ${props.dim ? "dim" : ""}`}
+      class={`tv-chip ${props.dim ? "dim" : ""} ${props.class ?? ""}`}
       onClick={() => props.onClick?.()}
     >
       {props.label}

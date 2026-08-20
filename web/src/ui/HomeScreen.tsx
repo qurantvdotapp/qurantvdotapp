@@ -11,7 +11,8 @@ import { arabicCollator, type TFunction } from "../i18n/strings";
 import type { LastSession } from "../data/repo/SessionRepository";
 import { appContainer } from "../data/AppContainer";
 import { Chip, Dialog, DialogRow, ErrorState, LoadingState, TvCard, focusable } from "./components";
-import { focusFirst, focusElement } from "./focus";
+import { TVKeyboard } from "./components/TVKeyboard";
+import { focusFirst, focusElement, focusedId } from "./focus";
 import type { Navigator } from "./navigation";
 
 interface HomeProps {
@@ -99,6 +100,26 @@ export function HomeScreen(props: HomeProps) {
   });
 
   const searching = createMemo(() => query().trim().length > 0);
+  const keyboardOpen = createMemo(() => {
+    const f = focusedId();
+    return searching() || f === "home-search" || (f !== null && f.startsWith("kb-"));
+  });
+
+  function kbChar(c: string) {
+    setQuery((q) => q + c);
+    searchInput?.focus();
+    focusElement("home-search");
+  }
+  function kbBackspace() {
+    setQuery((q) => q.slice(0, -1));
+    searchInput?.focus();
+    focusElement("home-search");
+  }
+  function kbClear() {
+    setQuery("");
+    searchInput?.focus();
+    focusElement("home-search");
+  }
 
   /** Live-filtered results (Arabic normalized + English case-insensitive). */
   const filtered = createMemo(() => {
@@ -196,6 +217,17 @@ export function HomeScreen(props: HomeProps) {
         </div>
         <Chip id="home-settings" label={props.t("settings")} onClick={() => props.onOpenSettings()} />
       </div>
+
+      {/* on-screen TV keyboard (the emulator/Tizen webview lacks a native IME) */}
+      <Show when={keyboardOpen()}>
+        <TVKeyboard
+          value={query()}
+          onChar={kbChar}
+          onBackspace={kbBackspace}
+          onClear={kbClear}
+          onSubmit={openFirstMatch}
+        />
+      </Show>
 
       {/* recently added reads */}
       <Show when={!searching() && recent() !== null && recent()!.length > 0}>

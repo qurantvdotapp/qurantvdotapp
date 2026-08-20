@@ -68,15 +68,10 @@ test("timed reciter (العجمي, read 5) → grid → player plays and syncs",
   // SYNC CHECK: the highlight rect moves as the recitation advances
   const overlayBoxes = () =>
     page.evaluate(() => {
-      return [...document.querySelectorAll("div[style]")]
-        .filter((d) => {
-          const s = (d as HTMLElement).style;
-          return s.position === "absolute" && (s.border || "").includes("3px");
-        })
-        .map((d) => {
-          const r = (d as HTMLElement).getBoundingClientRect();
-          return `${Math.round(r.top)},${Math.round(r.left)}`;
-        });
+      return [...document.querySelectorAll('[data-highlight="true"]')].map((d) => {
+        const r = (d as HTMLElement).getBoundingClientRect();
+        return `${Math.round(r.top)},${Math.round(r.left)}`;
+      });
     });
   // The overlay appears once the SVG viewBox is parsed (just after the img).
   let boxes1: string[] = [];

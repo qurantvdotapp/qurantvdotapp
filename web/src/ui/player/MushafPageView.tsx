@@ -327,15 +327,17 @@ export function MushafPageView(props: MushafPageViewProps) {
               />
               {pixelRects().map((r, i) => (
                 <div
+                  data-highlight="true"
                   style={{
                     position: "absolute",
                     left: `${r.left}px`,
                     top: `${r.top}px`,
-                    width: `${r.w}px`,
+                    width: `${r.w + 0.5}px`, // tiny overlap so multi-rect bands are seamless
                     height: `${r.h}px`,
-                    background: `${highlight()!.color}59`, // 35% alpha
-                    border: `3px solid ${highlight()!.color}`,
-                    "border-radius": "8px",
+                    // Clean highlight: translucent fill, NO rectangle outline.
+                    background: `linear-gradient(180deg, ${highlight()!.color}66 0%, ${highlight()!.color}55 100%)`,
+                    "border-radius": "6px",
+                    "box-shadow": "none",
                     "pointer-events": "none",
                     transition: "all 0.2s ease",
                   }}

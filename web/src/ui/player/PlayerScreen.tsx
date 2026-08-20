@@ -5,7 +5,7 @@ import { createEffect, createMemo, createSignal, onCleanup, onMount, Show } from
 import type { Moshaf, QuranSurah, Reciter, SurahTiming } from "../../domain/Models";
 import { availableSurahIds } from "../../domain/Models";
 import { audioUrlFor, normalizeServerUrl } from "../../domain/CatalogParsing";
-import { ayahAt } from "../../domain/TimingIndex";
+import { ayahAt, repeatAyahTarget } from "../../domain/TimingIndex";
 import { verseKeyFor, suggestOffset } from "../../domain/BasmalaOffset";
 import { isReliable } from "../../domain/TimingAccuracy";
 import { reciterMatchesQuery } from "../../domain/search";
@@ -77,6 +77,10 @@ export function PlayerScreen(props: PlayerProps) {
   const [audioError, setAudioError] = createSignal(false);
   let lastPlayUrl: string | null = null;
 
+  /** Previous tick's ayah index + timing, for repeat-ayah boundary detection. */
+  let lastTickAyah = -1;
+  let lastTickTiming: SurahTiming | null = null;
+
 
   /* ---------- media keys (global) ---------- */
   onMount(() => {
@@ -126,14 +130,34 @@ export function PlayerScreen(props: PlayerProps) {
     if (d > 0 && d !== durationMs()) setDurationMs(d);
     const t = timing();
     if (t && hasTiming()) {
+      if (t !== lastTickTiming) {
+        lastTickAyah = -1;
+        lastTickTiming = t;
+      }
       const idx = ayahAt(t, ms);
       if (idx !== currentAyah()) setCurrentAyah(idx);
-      if (repeat() === "ayah") {
-        const entry = t.entryFor(idx);
-        if (entry && entry.endMs > entry.startMs && ms >= entry.endMs) {
-          engine.seekTo(entry.startMs);
+      // Repeat ayah: when playback crosses the current ayah's end, jump back to
+      // its start. `ayahAt` advances at the exact boundary (contiguous timing:
+      // next.start == current.end), so the ENDING ayah is the previous tick's —
+      // decide in the domain (see repeatAyahTarget), never on the current idx.
+      if (repeat() === "ayah" && lastTickAyah >= 0) {
+        const prev = lastTickAyah;
+        const entry = t.entryFor(prev);
+        if (entry) {
+          let end = entry.endMs;
+          if (end <= entry.startMs && prev === t.lastAyahIndex) {
+            const dur = engine.durationMs();
+            if (dur > entry.startMs) end = dur; // mp3 duration = last ayah's effective end
+          }
+          const target = repeatAyahTarget(t, prev, idx, ms, end);
+          if (target !== null) {
+            engine.seekTo(target);
+            lastTickAyah = ayahAt(t, target);
+            return;
+          }
         }
       }
+      lastTickAyah = idx;
     }
   };
   engine.onEnded = () => {
@@ -591,7 +615,7 @@ export function PlayerScreen(props: PlayerProps) {
               <Chip id="player-back" label="←" onClick={() => props.nav.back()} />
               <div style="flex:1;min-width:0">
                 <div class="quran-text" style="font-size:32px;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
-                  {props.surah.nameAr}
+                  {activeSurah().nameAr}
                 </div>
                 <div style="font-size:18px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
                   {props.reciter.name} · {props.moshaf.name}

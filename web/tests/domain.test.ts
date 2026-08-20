@@ -9,7 +9,7 @@ import {
   audioUrlFor,
   parsePolygon,
 } from "../src/domain/CatalogParsing";
-import { ayahAt } from "../src/domain/TimingIndex";
+import { ayahAt, repeatAyahTarget } from "../src/domain/TimingIndex";
 import { parseViewBox, toScreen, type ViewBox } from "../src/domain/PageMapping";
 import { suggestOffset, verseKeyFor } from "../src/domain/BasmalaOffset";
 import { isReliable } from "../src/domain/TimingAccuracy";
@@ -179,6 +179,58 @@ describe("TimingIndex", () => {
     expect(ayahAt(t, 6000)).toBe(2);
     expect(ayahAt(t, 37463)).toBe(7);
     expect(ayahAt(t, 999_999)).toBe(7);
+  });
+});
+
+describe("repeatAyahTarget", () => {
+  it("fires at the exact contiguous boundary", () => {
+    // Real mp3quran timing is contiguous: next.start == current.end, so
+    // ayahAt(pos) has ALREADY advanced when pos reaches the end. The repeat
+    // decision must use the previous tick's ayah and fire on that crossing.
+    const t = timing([
+      [1, 4620, 8380],
+      [2, 8380, 12_440],
+      [3, 12_440, 15_440],
+    ]);
+    expect(repeatAyahTarget(t, 1, 2, 8380, 8380)).toBe(4620);
+    // 1ms before the boundary: still inside ayah 1, no fire.
+    expect(repeatAyahTarget(t, 1, 1, 8379, 8380)).toBeNull();
+  });
+
+  it("loops the last ayah when ayahAt clamps", () => {
+    // The last ayah never advances (ayahAt clamps to it), so the loop fires
+    // when pos reaches its end.
+    const t = timing([
+      [1, 4620, 8380],
+      [2, 8380, 12_440],
+      [7, 25_760, 38_520],
+    ]);
+    expect(repeatAyahTarget(t, 7, 7, 38_520, 38_520)).toBe(25_760);
+    expect(repeatAyahTarget(t, 7, 7, 40_000, 38_520)).toBe(25_760);
+  });
+
+  it("does not fight a manual forward seek", () => {
+    // User jumped ahead (idx is more than prev+1): the newly current ayah
+    // becomes the repeat target instead of yanking back to the old one.
+    const t = timing([
+      [1, 4620, 8380],
+      [2, 8380, 12_440],
+      [3, 12_440, 15_440],
+    ]);
+    expect(repeatAyahTarget(t, 1, 3, 12_440, 8380)).toBeNull();
+  });
+
+  it("does not fire before the first entry or without a previous tick", () => {
+    const t = timing([
+      [1, 4620, 8380],
+      [2, 8380, 12_440],
+    ]);
+    // No previous tick yet.
+    expect(repeatAyahTarget(t, -1, 1, 5000, 8380)).toBeNull();
+    // Virtual basmala slot (no entry 0): nothing to loop.
+    expect(repeatAyahTarget(t, 0, 1, 5000, 8380)).toBeNull();
+    // Still inside the ayah, mid-window.
+    expect(repeatAyahTarget(t, 1, 1, 6000, 8380)).toBeNull();
   });
 });
 

@@ -276,3 +276,56 @@ Note: this model cannot view screenshots — verify UI via uiautomator dumps (te
 - **Add an endpoint**: DTO + call in `Mp3QuranApi`/`QuranComApi` (+ `@SerialName`), optional `JsonDiskCache` category, repo method.
 - **Touch timing/page math**: add a unit test in `DomainTests.kt` with the live-verified fixtures already there (surah 1 read 5, page 187 viewBox).
 - **Perf on low-end TV**: avoid blur/heavy shadows; page bitmap cache ≤ 6 (each ~1200px-wide ARGB ≈ 6–9 MB — watch memory on 2 GB Chromecasts); no full-list recomposition per tick.
+
+---
+
+## 14. Web port (Tizen OS + Vidaa OS) — shared codebase & ROADMAP
+
+A shared **TypeScript + SolidJS** web port lives in the repo at `web/` (parent of the
+Android `app/`). It is the only path to Tizen (Samsung `.wgt`) and Vidaa (Hisense
+hosted PWA) — Android code cannot run there. It ports the pure domain layer 1:1
+from the Kotlin (same fixtures, 66 unit tests), so behavior stays identical.
+`web/README.md` (build/test/simulator/install), `web/PERFORMANCE.md` (web 151 KB /
+3 MB / ~110 ms vs native 27 MB / 166 MB / 1.1 s — keep both, no deletion decisions),
+`web/ROADMAP.md` (parity matrix + phased plan).
+
+### Web-port lock-in decisions (W1–W10, see TASKS.md Part B)
+Shared TS web app · SolidJS + Vite (target es2019) · AudioEngine (HTMLAudio + 100 ms
+ticker, hybrid sync via ported TimingIndex) · mushaf: 2-page spread + all 6 styles
+(Madinah SVG, per-ayah tajweed, islamic.app HD, KSU hafs/warsh/tajweed PNG + hilite
+API exact rects, text-length estimator CORS fallback) · remote keys: DOM keycodes +
+app key abstraction · localStorage persistence · reuses `quran-uthmani.txt` + Amiri
+fonts + tafseer (`.ayt` → per-surah JSON) + KSU geometry ports.
+
+### Feature parity with the Kotlin app (~90%, verified)
+Home (Continue/A–Z rail/search/recent reads/**favourites**) · grid (moshaf/jump/
+untimed badges incl. real mp3-duration probe) · player (transport, repeat, speed,
+text mode, spread+page-turn, tafseer/meanings/translation side panel, reciter/
+mushaf/moshaf pickers, no-timing browse) · audio (accuracy gate, next-surah preload,
+session save/continue) · settings (language/speed/font/highlight/mode/style/
+auto-hide/only-timed) · ar/en RTL · **English reciter-name search** (merged
+`reciters?language=en` transliterations by id into `Reciter.nameEn`).
+
+### P1 — Kotlin-parity gaps to close (APPROVED 2026-08-11; implement in this order)
+- **G1 gapless surah transitions**: two overlapping `<audio>` elements with a short
+  crossfade when repeat=OFF (WebAudio full-decode is memory-heavy for 111-min
+  surahs); target ≤ ~50 ms perceived gap.
+- **G2 keep-screen-on**: `navigator.wakeLock.request('screen')` while playing,
+  released on pause/exit; feature-detected no-op fallback for TV webviews.
+- **G3 exact ayah-position resume**: capture offset-within-ayah
+  (`positionMs − ayah.startMs`) on reciter switch / continue; seek to
+  `newAyahStart + offset` (clamped).
+- **G4 audio-error → focused Retry**: focusable Retry that re-attempts the mp3
+  (currently only a banner).
+- **G5 About screen + version**: Settings row → About dialog (version, Tanzil /
+  mp3quran / KSU attribution); surface version.
+
+### P2 (polish, unapproved) / P3 (beyond-parity, optional)
+P2: reorder favourites, per-moshaf favs, fav badge in player. P3: offline download
+of surahs, reciter metadata, qirā'āt text stacks, more search aliases.
+
+### Data mirroring (approved 2026-08-11)
+Downloaded the full mp3quran API database + KSU hilites into `web/data-mirror/`
+(catalog JSON, reads/soar/per-(read,surah) timing, hilites per page×mushaf) to host
+on archive.org later as an offline mirror/fallback. Upload kit + script pending
+user archive.org credentials (`ia` tool or S3 keys).

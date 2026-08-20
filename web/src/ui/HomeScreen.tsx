@@ -146,6 +146,10 @@ export function HomeScreen(props: HomeProps) {
     // (Don't setQuery synchronously here — navigating away unmounts Home, and a
     // mid-click re-render of the search Show while the chooser/routing runs
     // triggers a SolidJS stale-read.)
+    // Close the on-screen keyboard: the moshaf chooser (and surah grid) must
+    // not open behind it, and the keyboard's dialog scrim would trap D-pad
+    // focus inside the chooser (only the first mushaf row was reachable).
+    setKbOpen(false);
     // A reciter with MULTIPLE mushafs always shows the moshaf picker first,
     // then the surah selection page for the chosen moshaf.
     if (reciter.moshafs.length > 1) {

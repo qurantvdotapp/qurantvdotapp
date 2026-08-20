@@ -25,6 +25,11 @@ class MainActivity : Activity() {
         webView.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
+            // Honor the viewport meta pinned to width=1920 (TV webviews are
+            // density 320 / DPR 2; without this the layout is 960x540 CSS and
+            // the 1920x1080-tuned app renders 2x oversized).
+            useWideViewPort = true
+            loadWithOverviewMode = true
             allowFileAccess = true
             allowContentAccess = true
             // file:// pages must be allowed to load their own CSS/JS/fonts

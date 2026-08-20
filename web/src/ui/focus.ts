@@ -46,6 +46,15 @@ export function focusElement(id: string): void {
   if (el && isVisible(el)) {
     setFocusedId(id);
     el.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+    // When app focus leaves the search bar, drop DOM focus from the search
+    // <input>. Otherwise Enter/OK keeps landing on the input (which re-runs
+    // the search via openFirstMatch) instead of activating the newly focused
+    // chip/row/card — the moshaf picker then feels like it "doesn't wait":
+    // every OK re-opens the chooser, and key cascades can land in the player
+    // at surah 1 without a deliberate selection.
+    if (id !== "home-search" && document.activeElement?.tagName === "INPUT") {
+      (document.activeElement as HTMLElement).blur();
+    }
   }
 }
 

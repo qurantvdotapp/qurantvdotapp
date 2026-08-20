@@ -42,6 +42,18 @@ val copyWebAssets = tasks.register<Copy>("copyWebAssets") {
     from(projectDir.resolve("../web/dist"))
     into(projectDir.resolve("src/main/assets/www"))
     include("index.html", "**/*")
+    // Android TV WebViews report density 320 (DPR 2), so device-width gives a
+    // 960x540 CSS viewport and the 1920x1080-tuned app renders 2x oversized.
+    // Pin the layout viewport to the app's design width (1920 CSS px); the
+    // WebView then fits it 1:1 to the surface on any panel/DPI.
+    filter {
+        if (it.contains("<meta name=\"viewport\"")) {
+            it.replaceFirst(
+                Regex("content=\"[^\"]*\""),
+                "content=\"width=1920\""
+            )
+        } else it
+    }
     // dist is regenerable — never commit it into assets
     outputs.upToDateWhen { false }
 }

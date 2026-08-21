@@ -15,6 +15,7 @@ object CatalogParsing {
             .map { it.trim() }
             .filter { it.isNotEmpty() }
             .mapNotNull { it.toIntOrNull() }
+            .filter { it in 1..114 }
     }
 
     /** Always ends with a single trailing slash. */

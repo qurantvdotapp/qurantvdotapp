@@ -12,7 +12,7 @@ export function parseSurahList(raw: string | null | undefined): number[] {
     .map((it) => it.trim())
     .filter((it) => it.length > 0)
     .map((it) => Number.parseInt(it, 10))
-    .filter((n) => Number.isFinite(n));
+    .filter((n) => Number.isInteger(n) && n >= 1 && n <= 114);
 }
 
 /** Always ends with a single trailing slash. */

@@ -57,9 +57,9 @@ describe("Edge Case Probing: CatalogParsing", () => {
     expect(parseSurahList("1, foo, 2, bar, 3")).toEqual([1, 2, 3]);
   });
 
-  it("PROBE: out-of-range surah IDs", () => {
-    const parsed = parseSurahList("-1, 0, 115, 999");
-    expect(parsed).toEqual([-1, 0, 115, 999]); // Finding: parseSurahList does not clamp to 1..114
+  it("filters out-of-range surah IDs to 1..114", () => {
+    const parsed = parseSurahList("-1, 0, 1, 114, 115, 999");
+    expect(parsed).toEqual([1, 114]);
   });
 
   it("handles malformed polygons defensively", () => {

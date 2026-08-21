@@ -5,8 +5,8 @@
 //      activate a hidden control.
 //   2. ANY key while hidden reveals the toolbar with PLAY/PAUSE selected
 //      (the next OK/Enter toggles playback — TV convention: first press shows
-//      the controls, second press acts).
-//   3. DPAD_LEFT/RIGHT while hidden scrub ±5 s instead (visible feedback).
+//      the controls, second press acts) — EXCEPT LEFT/RIGHT, which step
+//      AYAHS (RTL: left = next, right = previous) without revealing.
 // Driven with real keyboard events in Chromium (same DOM keycodes the
 // Android/Tizen/Vidaa bridges dispatch).
 
@@ -60,28 +60,30 @@ test("page mode: hidden chrome clears focus, any key reveals play selected, LEFT
   const resumed = await audio.evaluate((el: HTMLAudioElement) => el.paused);
   expect(resumed).toBe(false);
 
-  // (3) DPAD_LEFT while hidden: scrubs back ~5 s AND focuses play on reveal.
+  // (3) DPAD_LEFT while hidden: steps to the NEXT ayah WITHOUT revealing the
+  // chrome (RTL — next is left; replaces the old ±5 s scrub).
   await page.waitForTimeout(6500);
   await expect(page.locator('[class*="chrome-hidden"]').first()).toBeVisible({ timeout: 5000 });
-  const tBefore = await audio.evaluate((el: HTMLAudioElement) => el.currentTime);
+  const ayahBefore = await page.evaluate(() => (window as unknown as { __quranTv: { getState: () => { currentAyah: number } } }).__quranTv.getState().currentAyah);
   await page.keyboard.press("ArrowLeft");
+  await page.waitForTimeout(600);
+  const ayahNext = await page.evaluate(() => (window as unknown as { __quranTv: { getState: () => { currentAyah: number } } }).__quranTv.getState().currentAyah);
+  expect(ayahNext).toBe(ayahBefore + 1);
+  await expect(page.locator('[class*="chrome-hidden"]').first()).toBeVisible(); // still hidden
+
+  // (3b) DPAD_RIGHT while hidden: steps to the PREVIOUS ayah, still hidden.
+  await page.keyboard.press("ArrowRight");
+  await page.waitForTimeout(600);
+  const ayahPrev = await page.evaluate(() => (window as unknown as { __quranTv: { getState: () => { currentAyah: number } } }).__quranTv.getState().currentAyah);
+  expect(ayahPrev).toBe(ayahBefore);
+  await expect(page.locator('[class*="chrome-hidden"]').first()).toBeVisible(); // still hidden
+
+  // (4) Any other key still reveals with play/pause selected, and D-pad
+  // navigates normally within the transport afterwards.
+  await page.keyboard.press("ArrowDown");
   await page.waitForTimeout(400);
-  const tAfter = await audio.evaluate((el: HTMLAudioElement) => el.currentTime);
-  expect(tBefore - tAfter).toBeGreaterThanOrEqual(3); // 5 s scrub minus playback
   await expect(page.locator('[class*="chrome-hidden"]')).toHaveCount(0);
   expect(await focusedId()).toBe("transport-play");
-
-  // Re-hide, then (3b) DPAD_RIGHT scrubs forward ~5 s.
-  await page.waitForTimeout(6500);
-  await expect(page.locator('[class*="chrome-hidden"]').first()).toBeVisible({ timeout: 5000 });
-  const rBefore = await audio.evaluate((el: HTMLAudioElement) => el.currentTime);
-  await page.keyboard.press("ArrowRight");
-  await page.waitForTimeout(400);
-  const rAfter = await audio.evaluate((el: HTMLAudioElement) => el.currentTime);
-  expect(rAfter - rBefore).toBeGreaterThanOrEqual(3);
-  await expect(page.locator('[class*="chrome-hidden"]')).toHaveCount(0);
-
-  // (4) After reveal, D-pad navigates normally within the transport.
   await page.keyboard.press("ArrowLeft");
   await page.waitForTimeout(250);
   const leftOfPlay = await focusedId();

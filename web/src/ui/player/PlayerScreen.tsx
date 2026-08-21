@@ -124,6 +124,15 @@ export function PlayerScreen(props: PlayerProps) {
       if (props.hidden) return;
       const wasHidden = displayMode() === 1 && !chromeVisible();
       lastKey = Date.now();
+      // Hidden fullscreen page: LEFT/RIGHT step AYAHS (RTL — next is left,
+      // previous is right) WITHOUT revealing the chrome; the page holds the
+      // screen so navigation gives audible feedback instead.
+      if (wasHidden && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+        if (e.key === "ArrowLeft") nextAyah();
+        else prevAyah();
+        e.preventDefault();
+        return;
+      }
       setChromeVisible(true);
       // Any key while hidden reveals the toolbar with PLAY/PAUSE selected —
       // the next OK/Enter then toggles playback (TV convention: first press
@@ -132,15 +141,6 @@ export function PlayerScreen(props: PlayerProps) {
       // engine's visibility check.
       if (wasHidden) {
         window.setTimeout(() => focusElement("transport-play"), 60);
-      }
-      // Hidden fullscreen page: DPAD_LEFT/RIGHT scrub ±5 s (Kotlin parity) —
-      // the page holds the screen, so arrows give audible/visual feedback
-      // instead of moving focus among invisible chrome buttons.
-      if (wasHidden && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
-        const d = engine.durationMs();
-        const target = positionMs() + (e.key === "ArrowRight" ? 5000 : -5000);
-        engine.seekTo(d > 0 ? Math.max(0, Math.min(d, target)) : target);
-        e.preventDefault();
       }
     };
     window.addEventListener("keydown", onKey, true);

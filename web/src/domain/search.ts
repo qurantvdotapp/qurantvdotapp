@@ -18,7 +18,11 @@ export function reciterMatchesQuery(reciter: Reciter, query: string): boolean {
   return reciter.letter !== null && normalizeArabic(reciter.letter) === needle;
 }
 
-/** Folds common Arabic letter variants so search is forgiving. */
+/**
+ * Folds common Arabic letter variants (hamza, ta marbuta, alif maqsura)
+ * and strips diacritics/tashkeel (harakat, tanween, shadda, sukun) + tatweel
+ * so search is forgiving.
+ */
 export function normalizeArabic(s: string): string {
   let out = "";
   for (const c of s) {
@@ -35,8 +39,24 @@ export function normalizeArabic(s: string): string {
       case "ى":
         out += "ي";
         break;
-      default:
+      case "ـ": // tatweel / kashida
+      case "\u064B": // tanween fatha
+      case "\u064C": // tanween damma
+      case "\u064D": // tanween kasra
+      case "\u064E": // fatha
+      case "\u064F": // damma
+      case "\u0650": // kasra
+      case "\u0651": // shadda
+      case "\u0652": // sukun
+      case "\u0670": // superscript alef / dagger alif
+        break;
+      default: {
+        const code = c.charCodeAt(0);
+        if (code >= 0x064B && code <= 0x065F) {
+          break;
+        }
         out += c;
+      }
     }
   }
   return out;

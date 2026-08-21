@@ -202,14 +202,20 @@ fun reciterMatchesQuery(reciter: Reciter, query: String): Boolean {
     return reciter.letter?.let { normalizeArabic(it) == needle } == true
 }
 
-/** Folds common Arabic letter variants so search is forgiving. */
+/** Folds common Arabic letter variants and strips diacritics/tatweel so search is forgiving. */
 fun normalizeArabic(s: String): String = buildString(s.length) {
     for (c in s) {
         when (c) {
             'أ', 'إ', 'آ', 'ٱ' -> append('ا')
             'ة' -> append('ه')
             'ى' -> append('ي')
-            else -> append(c)
+            'ـ', '\u064B', '\u064C', '\u064D', '\u064E', '\u064F', '\u0650', '\u0651', '\u0652', '\u0670' -> {}
+            else -> {
+                val code = c.code
+                if (code !in 0x064B..0x065F) {
+                    append(c)
+                }
+            }
         }
     }
 }

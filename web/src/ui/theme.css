@@ -311,6 +311,29 @@ body,
   border-color: var(--gold);
 }
 
+.letter-chip {
+  min-width: 56px;
+  height: 56px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold);
+  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+  border: 1px solid #2a3c66;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  font-family: var(--font-ui);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.letter-chip.focused {
+  color: var(--gold-bright);
+  border-color: var(--gold);
+}
+
 .chrome-hidden {
   opacity: 0 !important;
   pointer-events: none !important;

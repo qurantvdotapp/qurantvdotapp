@@ -56,10 +56,15 @@ export function HomeScreen(props: HomeProps) {
       } catch {
         setRecent(null);
       }
-      // Initial focus on the SEARCH BAR + its focus ring (per user request).
+      // Initial focus: the CONTINUE LISTENING card when a session exists
+      // (per user request), otherwise the search bar.
       setTimeout(() => {
-        searchInput?.focus();
-        focusElement("home-search");
+        if (c.session.lastSession()) {
+          focusElement("home-continue");
+        } else {
+          searchInput?.focus();
+          focusElement("home-search");
+        }
       }, 150);
     } catch {
       setError(true);
@@ -111,19 +116,15 @@ export function HomeScreen(props: HomeProps) {
   }
 
   function kbChar(c: string) {
+    // Stay on the keyboard — bouncing focus to the search bar after every
+    // letter stranded the user (the next D-pad press left the keyboard).
     setQuery((q) => q + c);
-    searchInput?.focus();
-    focusElement("home-search");
   }
   function kbBackspace() {
     setQuery((q) => q.slice(0, -1));
-    searchInput?.focus();
-    focusElement("home-search");
   }
   function kbClear() {
     setQuery("");
-    searchInput?.focus();
-    focusElement("home-search");
   }
 
   /** Live-filtered results (Arabic normalized + English case-insensitive). */
@@ -162,6 +163,16 @@ export function HomeScreen(props: HomeProps) {
   }
 
   const [chooser, setChooser] = createSignal<Reciter | null>(null);
+
+  /** Letter rail: scroll to the group and land focus on its first reciter. */
+  function jumpToLetter(letter: string) {
+    document.getElementById(`group-${letter}`)?.scrollIntoView({ block: "start", behavior: "smooth" });
+    window.setTimeout(() => {
+      const group = document.getElementById(`group-${letter}`);
+      const first = group?.querySelector<HTMLElement>("[data-focus-id]");
+      if (first) focusElement(first.getAttribute("data-focus-id") ?? "");
+    }, 300);
+  }
 
   function openMoshafChooser(reciter: Reciter) {
     setChooser(reciter);
@@ -250,12 +261,12 @@ export function HomeScreen(props: HomeProps) {
         </Dialog>
       </Show>
 
-      {/* recently added reads */}
+      {/* recently added reads — ONE row */}
       <Show when={!searching() && recent() !== null && recent()!.length > 0}>
         <div style="margin-bottom:18px">
           <div style="font-size:22px;color:var(--text-dim);padding-bottom:8px">{props.t("recent_reads")}</div>
           <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
-            {recent()!.slice(0, 10).map((r) => (
+            {recent()!.slice(0, 5).map((r) => (
               <div
                 use:focusable={`recent-${r.id}`}
                 id={`recent-${r.id}`}
@@ -286,6 +297,26 @@ export function HomeScreen(props: HomeProps) {
         )}
       </Show>
 
+      {/* favourites */}
+      <Show when={!searching() && favouritesList().length > 0}>
+        <div id="favourites-row" style="padding-bottom:18px">
+          <div style="font-size:24px;font-weight:700;color:var(--gold);padding-bottom:8px">★ {props.lang === "ar" ? "المفضلة" : "Favourites"}</div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
+            {favouritesList().map((r) => (
+              <div
+                use:focusable={`fav-${r.id}`}
+                id={`fav-${r.id}`}
+                class="tv-card qurantv-rec-cell content-text"
+                style="padding:14px;justify-content:center;text-align:center;font-size:24px;min-height:74px"
+                onClick={() => openReciter(r)}
+              >
+                {r.name}
+              </div>
+            ))}
+          </div>
+        </div>
+      </Show>
+
       {/* body: search results OR the grouped list */}
       {error() ? (
         <ErrorState t={props.t} onRetry={load} />
@@ -313,24 +344,22 @@ export function HomeScreen(props: HomeProps) {
         <div style="display:flex;flex-direction:column;flex:1;min-height:0">
           {/* reciter groups */}
           <div class="h-scroll" style="flex:1;min-height:0">
-            <Show when={favouritesList().length > 0}>
-              <div id="favourites-row" style="padding-bottom:14px">
-                <div style="font-size:24px;font-weight:700;color:var(--gold);padding-bottom:8px">★ {props.lang === "ar" ? "المفضلة" : "Favourites"}</div>
-                <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
-                  {favouritesList().map((r) => (
-                    <div
-                      use:focusable={`fav-${r.id}`}
-                      id={`fav-${r.id}`}
-                      class="tv-card qurantv-rec-cell content-text"
-                      style="padding:14px;justify-content:center;text-align:center;font-size:24px;min-height:74px"
-                      onClick={() => openReciter(r)}
-                    >
-                      {r.name}
-                    </div>
-                  ))}
+            {/* letter rail: jump straight to a reciter group's first letter */}
+            <div
+              style="display:flex;gap:8px;overflow-x:auto;padding-bottom:14px;margin-bottom:6px"
+              class="letter-rail"
+            >
+              {groups().map((g) => (
+                <div
+                  use:focusable={`letter-${g.letter}`}
+                  id={`letter-${g.letter}`}
+                  class="letter-chip"
+                  onClick={() => jumpToLetter(g.letter)}
+                >
+                  {g.letter}
                 </div>
-              </div>
-            </Show>
+              ))}
+            </div>
             <div style="font-size:30px;font-weight:700;color:var(--gold);padding-bottom:10px">{props.t("reciters_title")}</div>
             {groups().map((g) => (
               <div id={`group-${g.letter}`} style="margin-bottom:14px">

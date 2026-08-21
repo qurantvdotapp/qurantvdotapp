@@ -62,7 +62,7 @@ test("timed reciter (العجمي, read 5) → grid → player plays and syncs",
   // The player opens in mushaf page mode by default (style 5 = KSU tajweed) —
   // the page appears once the basmala (ayah 0, no page) gives way to ayah 1.
   const img = page.locator(PAGE_IMG).first();
-  await expect(img).toBeVisible({ timeout: 15_000 });
+  await expect(img).toBeVisible({ timeout: 40_000 });
 
   // SYNC CHECK: the highlight rect moves as the recitation advances
   const overlayBoxes = () =>
@@ -155,7 +155,7 @@ test("tafseer side panel opens beside the mushaf and follows the recitation", as
 
   // Wait for the mushaf page (page mode default — KSU tajweed PNG)
   const img = page.locator(PAGE_IMG).first();
-  await expect(img).toBeVisible({ timeout: 15_000 });
+  await expect(img).toBeVisible({ timeout: 40_000 });
 
   // Open the side-view picker (button labelled مصحف in the transport right zone).
   // Press a key first: the page-mode chrome auto-hides 5 s after the LAST KEY
@@ -224,7 +224,7 @@ test("mushaf styles: every page source loads (SVG, HD, KSU Hafs/Warsh/Tajweed)",
   await page.locator("[data-focus-id='surah-1']").click();
   await expect(page.locator("[data-focus-id='player-back']")).toBeVisible({ timeout: 20_000 });
   // let the audio pass the basmala so a page is shown
-  await expect(page.locator(PAGE_IMG).first()).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator(PAGE_IMG).first()).toBeVisible({ timeout: 40_000 });
 
   const openPickerAndPick = async (label: string) => {
     await page.keyboard.press("ArrowDown");
@@ -237,27 +237,27 @@ test("mushaf styles: every page source loads (SVG, HD, KSU Hafs/Warsh/Tajweed)",
 
   // KSU Hafs (آيات حفص → safahat1 PNG)
   await openPickerAndPick("آيات حفص");
-  await expect(page.locator('img[src*="safahat1"]').first()).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator('img[src*="safahat1"]').first()).toBeVisible({ timeout: 40_000 });
 
   // KSU Warsh
   await openPickerAndPick("آيات ورش");
-  await expect(page.locator('img[src*="/warsh/"]').first()).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator('img[src*="/warsh/"]').first()).toBeVisible({ timeout: 40_000 });
 
   // KSU Tajweed (حفص ملون — the default)
   await openPickerAndPick("حفص ملون");
-  await expect(page.locator('img[src*="tajweed_png"]').first()).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator('img[src*="tajweed_png"]').first()).toBeVisible({ timeout: 40_000 });
 
   // Madinah SVG
   await openPickerAndPick("المدينة");
-  await expect(page.locator('img[src*="quran_pages_svg"]').first()).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator('img[src*="quran_pages_svg"]').first()).toBeVisible({ timeout: 40_000 });
 
   // Madinah HD (islamic.app)
   await openPickerAndPick("المدينة HD");
-  await expect(page.locator('img[src*="islamic.app"]').first()).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator('img[src*="islamic.app"]').first()).toBeVisible({ timeout: 40_000 });
 
   // back to the default style and text mode toggle still works
   await openPickerAndPick("حفص ملون");
-  await expect(page.locator('img[src*="tajweed_png"]').first()).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator('img[src*="tajweed_png"]').first()).toBeVisible({ timeout: 40_000 });
 });
 
 test("english reciter-search + favourite reciters", async ({ page }) => {

@@ -5,6 +5,7 @@
 // identical in both UI languages (same trick as the Android composable).
 
 import { createMemo, createUniqueId } from "solid-js";
+import type { JSX } from "solid-js";
 import type { TFunction } from "../../i18n/strings";
 import { formatTime, focusable } from "../components";
 
@@ -45,25 +46,21 @@ export function TransportBar(props: TransportBarProps) {
     ? ["prevSurah", "prevAyah", "play", "nextAyah", "nextSurah"]
     : ["nextSurah", "nextAyah", "play", "prevAyah", "prevSurah"];
 
-  // Reactive play label (updates when playing toggles — SolidJS runs once).
-  const playLabel = createMemo(() => (props.playing ? "⏸" : "▶"));
-
-  // Directional icons flipped for RTL (reading right→left): PREVIOUS points
-  // right, NEXT points left — the icon direction flips, not the action.
-  const label = (key: string): string => {
+  // Reactive play/pause icon (updates when playing toggles).
+  const icon = (key: string): string | null => {
     switch (key) {
       case "play":
-        return playLabel();
+        return props.playing ? "pause" : "play";
       case "nextAyah":
-        return props.rtl ? "⏮" : "⏭";
+        return "skipNext";
       case "prevAyah":
-        return props.rtl ? "⏭" : "⏮";
+        return "skipPrev";
       case "nextSurah":
-        return props.rtl ? "⏪" : "⏩";
+        return "fastNext";
       case "prevSurah":
-        return props.rtl ? "⏩" : "⏪";
+        return "fastPrev";
     }
-    return "";
+    return null;
   };
 
   const onClick = (key: string): (() => void) => {
@@ -106,7 +103,7 @@ export function TransportBar(props: TransportBarProps) {
         {clusterOrder.map((key) => (
           <IconBtn
             id={key === "play" ? "transport-play" : btn(key)}
-            label={label(key)}
+            icon={icon(key)}
             onClick={onClick(key)}
             big={key === "play"}
           />
@@ -138,24 +135,80 @@ export function TransportBar(props: TransportBarProps) {
 
 function IconBtn(props: {
   id: string;
-  label: string;
+  label?: string;
+  icon?: string | null;
   onClick: () => void;
   big?: boolean;
   active?: boolean;
 }) {
-  const playStyle =
-    props.label === "▶" || props.label === "⏸"
-      ? "width:100px;height:100px;font-size:42px;border-radius:50%;background:linear-gradient(180deg,#f4d488,#c9a253);border:1px solid #f4d488;color:#221a08;box-shadow:0 6px 20px rgba(232,200,119,0.35)"
-      : undefined;
   return (
     <div
       use:focusable={props.id}
       class={`icon-btn ${props.active ? "active" : ""}`}
-      style={props.big ? (playStyle ?? "width:96px;height:96px;font-size:40px;border-radius:18px") : playStyle}
+      classList={{ big: props.big }}
       onClick={() => props.onClick()}
     >
-      {props.label}
+      {props.icon ? <TbIcon name={props.icon} /> : props.label}
     </div>
+  );
+}
+
+/** Crisp SVG transport icons (replace the old emoji glyphs). Directional
+ *  icons are wrapped in .tb-dir — flipped by CSS in RTL so "next" always
+ *  points the direction of travel. */
+function TbIcon(props: { name: string }) {
+  const directional = props.name === "skipNext" || props.name === "skipPrev" || props.name === "fastNext" || props.name === "fastPrev";
+  let inner: JSX.Element;
+  switch (props.name) {
+    case "pause":
+      inner = (
+        <>
+          <rect x="6" y="5" width="4.6" height="14" rx="1.3" />
+          <rect x="13.4" y="5" width="4.6" height="14" rx="1.3" />
+        </>
+      );
+      break;
+    case "skipNext":
+      inner = (
+        <>
+          <path d="M5.5 5.5v13L15 12z" />
+          <rect x="17.2" y="5.5" width="2.2" height="13" rx="1" />
+        </>
+      );
+      break;
+    case "skipPrev":
+      inner = (
+        <>
+          <path d="M18.5 5.5v13L9 12z" />
+          <rect x="4.6" y="5.5" width="2.2" height="13" rx="1" />
+        </>
+      );
+      break;
+    case "fastNext":
+      inner = (
+        <>
+          <path d="M3.8 5.5v13L12 12z" />
+          <path d="M12 5.5v13l8.2-6.5z" />
+        </>
+      );
+      break;
+    case "fastPrev":
+      inner = (
+        <>
+          <path d="M20.2 5.5v13L12 12z" />
+          <path d="M12 5.5v13L3.8 12z" />
+        </>
+      );
+      break;
+    default: // play
+      inner = <path d="M8 5.5v13l11-6.5z" />;
+  }
+  return (
+    <span class={directional ? "tb-dir" : undefined} style="display:inline-flex">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:block;width:100%;height:100%">
+        {inner}
+      </svg>
+    </span>
   );
 }
 

@@ -84,6 +84,7 @@ export function SideContextPanel(props: SideContextPanelProps) {
           return (
             <div
               id={`ctx-row-${r.ayah}`}
+              dir={props.mode === "translation" ? "ltr" : "rtl"}
               class={props.mode === "translation" ? undefined : "content-text"}
               style={{
                 "font-size": `${props.fontSizePx}px`,
@@ -93,6 +94,7 @@ export function SideContextPanel(props: SideContextPanelProps) {
                 background: isCurrent ? `${props.highlightColor}4d` : "transparent",
                 border: isCurrent ? `2px solid ${props.highlightColor}` : "2px solid transparent",
                 "white-space": "pre-line",
+                "text-align": props.mode === "translation" ? "left" : "start",
               }}
             >
               <span style="color:var(--gold);font-size:0.6em;margin-inline-end:10px">{r.ayah}</span>

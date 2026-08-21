@@ -257,17 +257,47 @@ body,
 .icon-btn {
   background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
   border: 1px solid #2a3c66;
-  border-radius: 14px;
-  min-width: 78px;
-  height: 78px;
+  border-radius: 16px;
+  min-width: 82px;
+  height: 82px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 28px;
   color: var(--text);
   padding: 0 16px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   font-family: var(--font-ui);
+}
+.icon-btn svg {
+  display: block;
+  width: 34px;
+  height: 34px;
+}
+.icon-btn.big {
+  width: 112px;
+  height: 112px;
+  min-width: 112px;
+  border-radius: 50%;
+  padding: 0;
+  border: 1px solid #ffe6a8;
+  background: radial-gradient(circle at 32% 28%, #fff1c4 0%, #f4d488 40%, #c9a253 100%);
+  color: #2b1f05;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 217, 131, 0.3),
+    inset 0 2px 8px rgba(255, 255, 255, 0.5), inset 0 -8px 16px rgba(150, 103, 30, 0.35);
+}
+.icon-btn.big svg {
+  width: 46px;
+  height: 46px;
+}
+.icon-btn.big.focused {
+  box-shadow: var(--shadow-glow), inset 0 2px 8px rgba(255, 255, 255, 0.5),
+    inset 0 -8px 16px rgba(150, 103, 30, 0.35);
+}
+/* Directional transport icons flip with the reading direction: "next" always
+   points the direction of travel (right in LTR, left in RTL). */
+[dir="rtl"] .tb-dir svg {
+  transform: scaleX(-1);
 }
 .icon-btn.active {
   color: var(--gold);

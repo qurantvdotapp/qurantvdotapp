@@ -5,7 +5,7 @@
 // the spread animates in as a page turn (next: slides in from the LEFT; back:
 // from the RIGHT).
 
-import { createEffect, createMemo, createSignal } from "solid-js";
+import { createEffect, createMemo, createSignal, Show } from "solid-js";
 import type { AyahTiming, QuranSurah } from "../../domain/Models";
 import { MushafPageView, PageLoading } from "./MushafPageView";
 import { madinahSvgUrl, ksuPageUrl, islamicPageUrl, mushafStyle } from "./mushafStyles";
@@ -98,56 +98,56 @@ export function MushafSpreadView(props: MushafSpreadViewProps) {
 
   return (
     <div dir="rtl" style="width:100%;height:100%;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:0;background:#f5efe2;overflow:hidden">
-      {spread() ? (
-        <>
-          {/* RIGHT page (odd) — aligns toward the spine (its left edge) */}
-          <div
-            style={`flex:1;height:100%;min-width:0;display:flex;animation:${animation()}`}
-          >
-            <MushafPageView
-              style={props.style}
-              entry={props.entry}
-              timingEntries={props.timingEntries}
-              currentAyah={props.currentAyah}
-              verseKey={props.verseKey}
-              surah={props.surah}
-              noTimingPage={props.noTimingPage}
-              hasTiming={props.hasTiming}
-              color={props.color}
-              align="end"
-              forcedPage={spread()!.right}
-              showHighlight={currentPage() === spread()!.right}
-              loadingLabel={props.loadingLabel}
-              onError={props.onError}
-            />
-          </div>
-          {/* folded spine ribbon */}
-          <div style="width:16px;align-self:stretch;background:linear-gradient(to right,#3a2f1f 0%,#7a5c2e 45%,#a8874a 55%,#3a2f1f 100%);flex-shrink:0" />
-          {/* LEFT page (even) — aligns toward the spine (its right edge) */}
-          <div
-            style={`flex:1;height:100%;min-width:0;display:flex;animation:${animation()}`}
-          >
-            <MushafPageView
-              style={props.style}
-              entry={props.entry}
-              timingEntries={props.timingEntries}
-              currentAyah={props.currentAyah}
-              verseKey={props.verseKey}
-              surah={props.surah}
-              noTimingPage={props.noTimingPage}
-              hasTiming={props.hasTiming}
-              color={props.color}
-              align="start"
-              forcedPage={spread()!.left}
-              showHighlight={currentPage() === spread()!.left}
-              loadingLabel={props.loadingLabel}
-              onError={props.onError}
-            />
-          </div>
-        </>
-      ) : (
-        <PageLoading label={props.loadingLabel} />
-      )}
+      <Show when={spread()} fallback={<PageLoading label={props.loadingLabel} />}>
+        {(sp) => (
+          <>
+            {/* RIGHT page (odd) — aligns toward the spine (its left edge) */}
+            <div
+              style={`flex:1;height:100%;min-width:0;display:flex;animation:${animation()}`}
+            >
+              <MushafPageView
+                style={props.style}
+                entry={props.entry}
+                timingEntries={props.timingEntries}
+                currentAyah={props.currentAyah}
+                verseKey={props.verseKey}
+                surah={props.surah}
+                noTimingPage={props.noTimingPage}
+                hasTiming={props.hasTiming}
+                color={props.color}
+                align="end"
+                forcedPage={sp().right}
+                showHighlight={currentPage() === sp().right}
+                loadingLabel={props.loadingLabel}
+                onError={props.onError}
+              />
+            </div>
+            {/* folded spine ribbon */}
+            <div style="width:16px;align-self:stretch;background:linear-gradient(to right,#3a2f1f 0%,#7a5c2e 45%,#a8874a 55%,#3a2f1f 100%);flex-shrink:0" />
+            {/* LEFT page (even) — aligns toward the spine (its right edge) */}
+            <div
+              style={`flex:1;height:100%;min-width:0;display:flex;animation:${animation()}`}
+            >
+              <MushafPageView
+                style={props.style}
+                entry={props.entry}
+                timingEntries={props.timingEntries}
+                currentAyah={props.currentAyah}
+                verseKey={props.verseKey}
+                surah={props.surah}
+                noTimingPage={props.noTimingPage}
+                hasTiming={props.hasTiming}
+                color={props.color}
+                align="start"
+                forcedPage={sp().left}
+                showHighlight={currentPage() === sp().left}
+                loadingLabel={props.loadingLabel}
+                onError={props.onError}
+              />
+            </div>
+          </>
+        )}
+      </Show>
     </div>
   );
 }

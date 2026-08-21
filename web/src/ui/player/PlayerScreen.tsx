@@ -463,6 +463,13 @@ export function PlayerScreen(props: PlayerProps) {
   }
 
   async function attachSurahForGapless(surah: QuranSurah, url: string) {
+    // Mirror playSurah's monotonic guard: a superseded gapless attach must not
+    // clobber a newer navigation/handoff that landed while its (slow) timing
+    // fetch was in flight — that left the header/timing stuck on the PREVIOUS
+    // surah while the audio had already advanced (highlight frozen on its last
+    // ayah). The early state switch below stays so the UI flips to the new
+    // surah's loading state immediately (audio is ALREADY playing).
+    const seq = ++playSeq;
     // Switch the UI immediately (audio is ALREADY the new surah). Clear the
     // TIMING FIRST — setting activeSurah while the old timing is still live
     // made the page view mix them (stale entry tagged with the new surah's
@@ -472,6 +479,7 @@ export function PlayerScreen(props: PlayerProps) {
     setActiveSurah(surah);
     setCurrentAyah(0);
     const { read, timing: t } = await loadTiming(surah);
+    if (seq !== playSeq) return; // superseded — discard the stale state below
     setTiming(t);
     setHasTiming(t !== null);
     setActiveSurah(surah);
@@ -483,6 +491,7 @@ export function PlayerScreen(props: PlayerProps) {
 
     const versesCount = surah.versesCount;
     const b = (await c.quranText.verseText(1, 1));
+    if (seq !== playSeq) return; // superseded
     setBasmala(surah.id >= 2 && surah.id <= 114 ? b : null);
 
     if (t) {
@@ -503,6 +512,7 @@ export function PlayerScreen(props: PlayerProps) {
       }
       setItems(list);
     }
+    if (seq !== playSeq) return; // superseded — discard the stale state below
     setNoTimingPage(surah.startPage);
 
     // Chain the next gapless surah.

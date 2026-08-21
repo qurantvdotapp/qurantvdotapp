@@ -42,6 +42,8 @@ interface MushafPageViewProps {
   showHighlight?: boolean;
   /** Override the computed page (spread sides render specific pages). */
   forcedPage?: number | null;
+  /** Localized "loading" label for the page-loading indicator. */
+  loadingLabel?: string;
   onError?: (msg: string) => void;
 }
 
@@ -65,6 +67,17 @@ function measureText(text: string, fontSize: number): number {
     /* fall through */
   }
   return text.length * fontSize * 0.45;
+}
+
+/** Clear loading indicator for a mushaf page while it resolves (a stale or
+ *  partially-loaded page must not flash in its place). */
+export function PageLoading(props: { label?: string }) {
+  return (
+    <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#f5efe2;color:#8a93ad">
+      <div class="spin" style="font-size:42px">⟳</div>
+      {props.label ? <div style="font-size:22px">{props.label}</div> : null}
+    </div>
+  );
 }
 
 export function MushafPageView(props: MushafPageViewProps) {
@@ -91,17 +104,29 @@ export function MushafPageView(props: MushafPageViewProps) {
   // The timing pageUrl is sparse (only some entries carry it) — keep the LAST
   // known page so the mushaf stays put until a new page-bearing entry arrives
   // (mirrors the Android's page-turn-on-pageUrl-change behavior).
-  const [lastKnownPage, setLastKnownPage] = createSignal<number | null>(null);
-  createEffect(() => {
-    const p = computedPage();
-    if (p !== null && p >= 1) setLastKnownPage(p);
-  });
+  const [lastKnownPage, setLastKnownPage] = createSignal<{ page: number; surahId: number } | null>(null);
 
   const page = createMemo(() => {
+    // Read FIRST so the memo re-runs on surah changes (a sparse entry would
+    // otherwise keep the previous surah's last-known page on screen).
+    const surahId = props.surah.id;
     if (props.forcedPage !== undefined) {
       return props.forcedPage !== null && props.forcedPage >= 1 ? props.forcedPage : null;
     }
-    return computedPage() ?? lastKnownPage();
+    const cp = computedPage();
+    if (cp !== null && cp >= 1) return cp;
+    // Only fall back to a KNOWN page of the CURRENT surah — a stale page from
+    // the previous surah must not flash during the gapless handoff (it showed
+    // the old mushaf pages until the new timing arrived).
+    const lk = lastKnownPage();
+    return lk && lk.surahId === surahId ? lk.page : null;
+  });
+  // Track the known page in an EFFECT, never inside the memo — writing state
+  // from the memo let a stale entry (old timing + new surah mid-handoff) tag
+  // the wrong page with the new surah's id, freezing the old mushaf page.
+  createEffect(() => {
+    const p = computedPage();
+    if (p !== null && p >= 1) setLastKnownPage({ page: p, surahId: props.surah.id });
   });
 
   /* ---------- source URL ---------- */
@@ -315,7 +340,7 @@ export function MushafPageView(props: MushafPageViewProps) {
 
   return (
     <div ref={containerRef} style={`width:100%;height:100%;display:flex;align-items:center;${alignStyle};overflow:hidden;background:#f5efe2`}>
-      <Show when={sourceUrl()} fallback={<div style="color:#555;font-size:22px">…</div>}>
+      <Show when={sourceUrl()} fallback={<PageLoading label={props.loadingLabel} />}>
         <Show when={fitted()} fallback={null}>
           {(b) => (
             <div style={`position:relative;width:${b().w}px;height:${b().h}px;flex-shrink:0`}>

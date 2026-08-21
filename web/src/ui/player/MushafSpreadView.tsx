@@ -7,7 +7,7 @@
 
 import { createEffect, createMemo, createSignal } from "solid-js";
 import type { AyahTiming, QuranSurah } from "../../domain/Models";
-import { MushafPageView } from "./MushafPageView";
+import { MushafPageView, PageLoading } from "./MushafPageView";
 import { madinahSvgUrl, ksuPageUrl, islamicPageUrl, mushafStyle } from "./mushafStyles";
 
 interface MushafSpreadViewProps {
@@ -20,26 +20,37 @@ interface MushafSpreadViewProps {
   noTimingPage: number;
   hasTiming: boolean;
   color: string;
+  /** Localized "loading" label for the page-loading indicator. */
+  loadingLabel?: string;
   onError?: (msg: string) => void;
 }
 
 export function MushafSpreadView(props: MushafSpreadViewProps) {
-  // Last known page (timing pageUrl is sparse — keep the mushaf put).
-  const [lastKnownPage, setLastKnownPage] = createSignal<number | null>(null);
+  // Last known page (timing pageUrl is sparse — keep the mushaf put). Only
+  // valid for the CURRENT surah: a stale page from the previous surah must
+  // not flash during the gapless handoff.
+  const [lastKnownPage, setLastKnownPage] = createSignal<{ page: number; surahId: number } | null>(null);
   const currentPage = createMemo(() => {
+    // Read FIRST so the memo re-runs on surah changes (a sparse entry would
+    // otherwise keep the previous surah's last-known page on screen).
+    const surahId = props.surah.id;
     if (props.hasTiming) {
       const e = props.entry;
       if (e?.pageUrl) {
         const m = /([0-9]+)\.svg$/.exec(e.pageUrl);
-        if (m) {
-          const p = Number.parseInt(m[1], 10);
-          setLastKnownPage(p);
-          return p;
-        }
+        if (m) return Number.parseInt(m[1], 10);
       }
-      return lastKnownPage();
+      const lk = lastKnownPage();
+      return lk && lk.surahId === surahId ? lk.page : null;
     }
     return props.noTimingPage >= 1 ? props.noTimingPage : null;
+  });
+  // Track the known page in an EFFECT, never inside the memo — writing state
+  // from the memo let a stale entry (old timing + new surah mid-handoff) tag
+  // the wrong page with the new surah's id, freezing the old mushaf spread.
+  createEffect(() => {
+    const p = currentPage();
+    if (p !== null && p >= 1) setLastKnownPage({ page: p, surahId: props.surah.id });
   });
 
   /** Spread = [rightPage(odd), leftPage(even)]. */
@@ -106,6 +117,7 @@ export function MushafSpreadView(props: MushafSpreadViewProps) {
               align="end"
               forcedPage={spread()!.right}
               showHighlight={currentPage() === spread()!.right}
+              loadingLabel={props.loadingLabel}
               onError={props.onError}
             />
           </div>
@@ -128,12 +140,13 @@ export function MushafSpreadView(props: MushafSpreadViewProps) {
               align="start"
               forcedPage={spread()!.left}
               showHighlight={currentPage() === spread()!.left}
+              loadingLabel={props.loadingLabel}
               onError={props.onError}
             />
           </div>
         </>
       ) : (
-        <div style="color:#555;font-size:22px">…</div>
+        <PageLoading label={props.loadingLabel} />
       )}
     </div>
   );

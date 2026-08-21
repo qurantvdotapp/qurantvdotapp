@@ -345,13 +345,16 @@ export function PlayerScreen(props: PlayerProps) {
 
   /** (Re)start playback for a surah (used by next/prev/jump). */
   async function playSurah(surah: QuranSurah, startAyahIndex?: number, resumeFrom = 0) {
-    setActiveSurah(surah);
+    // Keep the CURRENT state until the new surah's data is ready — switching
+    // activeSurah/timing mid-fetch mixes them and flashes wrong mushaf pages.
+    // The end-of-load sets land together (one render).
     const read = await c.timing.readForMoshaf(props.moshaf.server);
     const t = read ? await c.timing.timingFor(read.id, surah.id) : null;
+    setActiveSurah(surah);
     setTiming(t);
     setHasTiming(t !== null);
     setCurrentAyah(startAyahIndex ?? 0);
-    setPositionMs(0);
+    setPositionMs(resumeFrom);
     setDurationMs(0);
     setAudioError(false);
 
@@ -402,6 +405,14 @@ export function PlayerScreen(props: PlayerProps) {
   /** Attach the next surah's state after the engine gapless-handoffs to it
    *  (audio already playing in element B — do NOT re-prepare audio). */
   async function attachSurahForGapless(surah: QuranSurah, url: string) {
+    // Switch the UI immediately (audio is ALREADY the new surah). Clear the
+    // TIMING FIRST — setting activeSurah while the old timing is still live
+    // made the page view mix them (stale entry tagged with the new surah's
+    // id → the old mushaf spread froze). Timing first → the page shows its
+    // loading state until the fresh timing arrives.
+    setTiming(null);
+    setActiveSurah(surah);
+    setCurrentAyah(0);
     const read = await c.timing.readForMoshaf(props.moshaf.server);
     const t = read ? await c.timing.timingFor(read.id, surah.id) : null;
     setTiming(t);
@@ -481,12 +492,19 @@ export function PlayerScreen(props: PlayerProps) {
 
   function prevAyah() {
     const t = timing();
+    const cur = currentAyah();
     if (t && hasTiming()) {
-      const cur = currentAyah();
-      const prev = [...t.entries].reverse().find((e) => e.ayah < cur);
-      if (prev) engine.seekTo(prev.startMs);
+      if (cur > 1) {
+        const prev = [...t.entries].reverse().find((e) => e.ayah < cur);
+        if (prev) engine.seekTo(prev.startMs);
+      } else {
+        // At the FIRST ayah → the previous surah's LAST ayah.
+        const prevSurah = prevSurahBeforeCurrent();
+        if (prevSurah) void playSurah(prevSurah, prevSurah.versesCount);
+      }
       return;
     }
+    // No timing: browse the mushaf page by page (clamped to the surah range).
     const p = Math.max(activeSurah().startPage, noTimingPage() - 1);
     setNoTimingPage(p);
   }
@@ -690,6 +708,7 @@ export function PlayerScreen(props: PlayerProps) {
                         hasTiming={hasTiming()}
                         color={color}
                         align="end"
+                        loadingLabel={props.t("loading")}
                         onError={() => setAudioError(true)}
                       />
                     </div>
@@ -724,6 +743,7 @@ export function PlayerScreen(props: PlayerProps) {
                   noTimingPage={noTimingPage()}
                   hasTiming={hasTiming()}
                   color={color}
+                  loadingLabel={props.t("loading")}
                   onError={() => setAudioError(true)}
                 />
                 )

@@ -7,10 +7,12 @@
 
 export class ApiException extends Error {
   readonly status: number;
-  constructor(message: string, status: number) {
+  readonly isTimeout: boolean;
+  constructor(message: string, status: number, isTimeout = false) {
     super(message);
     this.name = "ApiException";
     this.status = status;
+    this.isTimeout = isTimeout;
   }
 }
 
@@ -35,7 +37,9 @@ export class ApiClient {
         clearTimeout(timer);
       }
     } catch (e) {
-      throw new ApiException(`Network error for ${url}: ${(e as Error).message}`, 0);
+      const isAbort = (e as Error).name === "AbortError" || (e as Error).message?.includes("aborted");
+      const msg = isAbort ? `Request timed out for ${url}` : `Network error for ${url}: ${(e as Error).message}`;
+      throw new ApiException(msg, isAbort ? 408 : 0, isAbort);
     }
     if (!res.ok) {
       throw new ApiException(`HTTP ${res.status} for ${url}`, res.status);

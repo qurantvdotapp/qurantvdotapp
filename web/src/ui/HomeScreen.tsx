@@ -10,6 +10,7 @@ import { reciterMatchesQuery } from "../domain/search";
 import { arabicCollator, type TFunction } from "../i18n/strings";
 import type { LastSession } from "../data/repo/SessionRepository";
 import { appContainer } from "../data/AppContainer";
+import { ApiException } from "../data/api/ApiClient";
 import { Chip, Dialog, DialogRow, ErrorState, LoadingState, TvCard, focusable } from "./components";
 import { TVKeyboard } from "./components/TVKeyboard";
 import { focusFirst, focusElement, focusedId } from "./focus";
@@ -27,6 +28,7 @@ export function HomeScreen(props: HomeProps) {
   const c = appContainer();
   const [reciters, setReciters] = createSignal<Reciter[] | null>(null);
   const [error, setError] = createSignal(false);
+  const [errorMsg, setErrorMsg] = createSignal<string | undefined>(undefined);
   const [timedUrls, setTimedUrls] = createSignal<Set<string>>(new Set());
   const [query, setQuery] = createSignal("");
   const [session] = createSignal<LastSession | null>(c.session.lastSession());
@@ -37,6 +39,7 @@ export function HomeScreen(props: HomeProps) {
 
   async function load() {
     setError(false);
+    setErrorMsg(undefined);
     setReciters(null);
     try {
       const settings = c.session.settings();
@@ -66,11 +69,15 @@ export function HomeScreen(props: HomeProps) {
           focusElement("home-search");
         }
       }, 150);
-    } catch {
+    } catch (e) {
       setError(true);
+      if (e instanceof ApiException && e.isTimeout) {
+        setErrorMsg(props.t("error_timeout"));
+      } else {
+        setErrorMsg(props.t("error_network"));
+      }
     }
   }
-
   onMount(load);
 
   const collator = createMemo(() => arabicCollator());
@@ -317,7 +324,7 @@ export function HomeScreen(props: HomeProps) {
 
       {/* body: search results OR the grouped list */}
       {error() ? (
-        <ErrorState t={props.t} onRetry={load} />
+        <ErrorState t={props.t} message={errorMsg()} onRetry={load} />
       ) : reciters() === null ? (
         <LoadingState t={props.t} />
       ) : searching() ? (

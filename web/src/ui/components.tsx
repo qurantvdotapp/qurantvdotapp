@@ -4,7 +4,7 @@
 
 import { createEffect, createUniqueId, onCleanup, onMount } from "solid-js";
 import type { JSX } from "solid-js";
-import { focusedId, registerFocusable, unregisterFocusable } from "./focus";
+import { focusElement, focusedId, registerFocusable, unregisterFocusable } from "./focus";
 import type { TFunction } from "../i18n/strings";
 
 declare module "solid-js" {
@@ -83,10 +83,13 @@ export function LoadingState(props: { t: TFunction }) {
 
 export function ErrorState(props: { t: TFunction; message?: string; onRetry: () => void }) {
   const retryId = `retry-${createUniqueId()}`;
+  onMount(() => {
+    setTimeout(() => focusElement(retryId), 60);
+  });
   return (
     <div class="state-box">
       <div>{props.message ?? props.t("error_network")}</div>
-      <div use:focusable={retryId} class="tv-chip" onClick={() => props.onRetry()}>
+      <div use:focusable={retryId} id={retryId} class="tv-chip" onClick={() => props.onRetry()}>
         {props.t("retry_action")}
       </div>
     </div>

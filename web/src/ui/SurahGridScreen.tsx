@@ -6,6 +6,7 @@ import type { Moshaf, Reciter, QuranSurah } from "../domain/Models";
 import { availableSurahIds } from "../domain/Models";
 import type { TFunction } from "../i18n/strings";
 import { appContainer } from "../data/AppContainer";
+import { ApiException } from "../data/api/ApiClient";
 import { audioUrlFor } from "../domain/CatalogParsing";
 import { Chip, Dialog, DialogRow, ErrorState, LoadingState, StarButton, focusable } from "./components";
 import { focusFirst } from "./focus";
@@ -23,6 +24,7 @@ export function SurahGridScreen(props: SurahGridProps) {
   const c = appContainer();
   const [surahs, setSurahs] = createSignal<QuranSurah[] | null>(null);
   const [error, setError] = createSignal(false);
+  const [errorMsg, setErrorMsg] = createSignal<string | undefined>(undefined);
   const [untimed, setUntimed] = createSignal<Set<number>>(new Set());
   const [matchedReadId, setMatchedReadId] = createSignal<number | undefined>(undefined);
   const [jumpOpen, setJumpOpen] = createSignal(false);
@@ -66,6 +68,7 @@ export function SurahGridScreen(props: SurahGridProps) {
 
   async function load() {
     setError(false);
+    setErrorMsg(undefined);
     setSurahs(null);
     try {
       const lang = c.session.settings().language;
@@ -91,8 +94,13 @@ export function SurahGridScreen(props: SurahGridProps) {
         // No read at all → every surah is untimed.
         setUntimed(new Set(list.map((s) => s.id)));
       }
-    } catch {
+    } catch (e) {
       setError(true);
+      if (e instanceof ApiException && e.isTimeout) {
+        setErrorMsg(props.t("error_timeout"));
+      } else {
+        setErrorMsg(props.t("error_network"));
+      }
     }
   }
 
@@ -134,7 +142,7 @@ export function SurahGridScreen(props: SurahGridProps) {
       </div>
 
       {error() ? (
-        <ErrorState t={props.t} onRetry={load} />
+        <ErrorState t={props.t} message={errorMsg()} onRetry={load} />
       ) : surahs() === null ? (
         <LoadingState t={props.t} />
       ) : (

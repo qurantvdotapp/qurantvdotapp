@@ -3,6 +3,8 @@
 // Mirrors the Android TafseerRepository (6236 rows per mode; 2576 word-meaning
 // rows are empty and hidden by the UI).
 
+import { loadAssetText } from "../assetLoader";
+
 export type TafseerMode = "tafseer" | "meanings" | "translation";
 
 export interface AyahContext {
@@ -22,9 +24,9 @@ export class TafseerRepository {
     const inflight = this.pending.get(surahId);
     if (inflight) return inflight;
     const p = (async () => {
-      const res = await fetch(`tafseer/surah_${surahId}.json`);
-      if (!res.ok) throw new Error(`tafseer HTTP ${res.status}`);
-      const raw = (await res.json()) as Record<string, { tafseer?: string; meanings?: string; translation?: string }>;
+      // XHR not fetch: file:// in the Android TV webview blocks fetch().
+      const text = await loadAssetText(`tafseer/surah_${surahId}.json`);
+      const raw = JSON.parse(text) as Record<string, { tafseer?: string; meanings?: string; translation?: string }>;
       const map = new Map<number, AyahContext>();
       for (const [ayah, v] of Object.entries(raw)) {
         map.set(Number.parseInt(ayah, 10), {

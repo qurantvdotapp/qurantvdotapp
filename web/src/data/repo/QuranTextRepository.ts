@@ -7,6 +7,7 @@
 import { QuranComApi } from "../api/QuranComApi";
 import type { VerseDto } from "../api/Dtos";
 import { CACHE, JsonDiskCache } from "../cache/JsonDiskCache";
+import { loadAssetText } from "../assetLoader";
 
 const TANZIL_ASSET = "quran/quran-uthmani.txt";
 
@@ -22,14 +23,12 @@ export class QuranTextRepository {
     if (this.tanzilMap !== null) return this.tanzilMap;
     const map = new Map<string, string>();
     try {
-      const res = await fetch(TANZIL_ASSET, { cache: "force-cache" });
-      if (res.ok) {
-        const text = await res.text();
-        for (const line of text.split("\n")) {
-          const parts = line.split("|", 3);
-          if (parts.length === 3 && parts[0] !== "" && parts[1] !== "") {
-            map.set(`${parts[0]}:${parts[1]}`, parts[2]);
-          }
+      // XHR not fetch: file:// in the Android TV webview blocks fetch().
+      const text = await loadAssetText(TANZIL_ASSET);
+      for (const line of text.split("\n")) {
+        const parts = line.split("|", 3);
+        if (parts.length === 3 && parts[0] !== "" && parts[1] !== "") {
+          map.set(`${parts[0]}:${parts[1]}`, parts[2]);
         }
       }
     } catch {

@@ -53,11 +53,36 @@ export function normalizeKey(e: KeyEventLike): AppKey {
   return "unknown";
 }
 
+const ACTION_THROTTLE_MS = 160;
+const NAV_THROTTLE_MS = 40;
+
 /** Attach a normalized-key handler to the window; returns a cleanup fn. */
 export function onRemoteKey(handler: (key: AppKey, raw: KeyEventLike) => void): () => void {
+  let lastActionTime = 0;
+  let lastNavTime = 0;
+  let lastKey: AppKey | null = null;
+
   const listener = (e: KeyboardEvent) => {
     const key = normalizeKey(e);
     if (key !== "unknown") {
+      const now = Date.now();
+      const isNav = key === "up" || key === "down" || key === "left" || key === "right";
+      const isAction = key === "ok" || key === "back" || key === "playPause" || key === "info";
+
+      // Suppress duplicate hardware key bounce for the same key within throttle threshold
+      if (isAction && lastKey === key && now - lastActionTime < ACTION_THROTTLE_MS) {
+        e.preventDefault();
+        return;
+      }
+      if (isNav && lastKey === key && now - lastNavTime < NAV_THROTTLE_MS) {
+        e.preventDefault();
+        return;
+      }
+
+      if (isAction) lastActionTime = now;
+      if (isNav) lastNavTime = now;
+      lastKey = key;
+
       e.preventDefault();
       handler(key, e);
     }

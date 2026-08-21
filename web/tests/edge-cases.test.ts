@@ -202,3 +202,21 @@ describe("Edge Case Probing: SessionRepository & LocalStorage Fault Tolerance", 
     }
   });
 });
+
+import { normalizeKey } from "../src/ui/keys";
+
+describe("Edge Case Probing: TV Remote Key Normalization", () => {
+  it("normalizes Tizen TV keycodes", () => {
+    expect(normalizeKey({ key: "", keyCode: 10009, preventDefault: () => {}, target: null })).toBe("back");
+    expect(normalizeKey({ key: "", keyCode: 10252, preventDefault: () => {}, target: null })).toBe("info");
+    expect(normalizeKey({ key: "", keyCode: 415, preventDefault: () => {}, target: null })).toBe("playPause");
+  });
+
+  it("normalizes webOS / Vidaa / standard browser keys", () => {
+    expect(normalizeKey({ key: "Escape", keyCode: 27, preventDefault: () => {}, target: null })).toBe("back");
+    expect(normalizeKey({ key: "", keyCode: 461, preventDefault: () => {}, target: null })).toBe("back");
+    expect(normalizeKey({ key: "ArrowLeft", keyCode: 37, preventDefault: () => {}, target: null })).toBe("left");
+    expect(normalizeKey({ key: "Enter", keyCode: 13, preventDefault: () => {}, target: null })).toBe("ok");
+    expect(normalizeKey({ key: " ", keyCode: 32, preventDefault: () => {}, target: null })).toBe("playPause");
+  });
+});

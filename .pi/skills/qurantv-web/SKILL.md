@@ -70,6 +70,8 @@ table.
 | Icon frozen on play after SVG rewrite | body `switch` runs once | move the switch into createMemo (see §5) |
 | Mushaf pages flash wrong / freeze the old spread on transition | stale timing + new surah mix; memo writing lastKnownPage; tracked read not first | timing cleared before activeSurah; lastKnownPage surah-tagged + effect-updated; read props.surah.id at memo top (see §5/6) |
 | Highlight frozen (audio runs on) | timing fetch failed/hung; no re-attempt | ApiClient 15 s timeout; loadTiming retries; scheduleTimingSync background loop (see §5) |
+| Audio advances to next surah but highlight stuck on previous surah's last ayah | MushafSpreadView's `spread()!.right/left` threw (`spread()` null mid-transition) and aborted `attachSurahForGapless` before `loadTiming` | render the spread via `<Show when={spread()}>`; seq-guard the attach (see §5) |
+| Mushaf shows a long spinner on surah open | `pageForVerse` returned null for ayah 0 (basmala) until ayah 1 began — a logic gap, not network | resolve the surah's first page during the basmala (see §5) |
 | prev/next-surah "dead", mixed header/audio | playSurah applied state early, superseded mid-load | apply ALL state + engine.play atomically at the end; seq guard (see §5) |
 | Arrows flip mushaf pages instead of stepping ayahs | no-timing page-browse fired while timing merely loading | page-browse only when hasTiming() === false (see §5) |
 | Retained-player chrome visible on other screens | display:none computed inside a For callback (not reactive) | move it to an App-level memo outside the For (see §6) |
@@ -95,6 +97,10 @@ table.
 5. **Tracked reads must come FIRST in a memo** — a signal read only inside a
    conditional branch isn't tracked (the surah-change guard silently compared
    a stale surah id).
+6. **`{cond ? … : …}` + `foo()!.prop` non-null assertions THROW mid-render**
+   when the memo transiently returns null (e.g. `spread()` → null while
+   timing is cleared during a surah transition). Use `<Show when={foo()}>`
+   with the cached value instead — the cached accessor never re-reads a null.
 
 ## 5. Audio engine + gapless transitions (player/AudioEngine.ts)
 
@@ -116,6 +122,24 @@ table.
     call changes nothing. Applying state early left activeSurah switched with
     the old audio/timing — previous-surah "dead" and highlight frozen.
   - Keep a monotonic `playSeq`; rapid nav presses make the last call win.
+    `attachSurahForGapless` (the auto gapless advance) must use the SAME
+    guard — a stale attach whose slow `loadTiming` was still in flight could
+    clobber a newer `playSurah`/handoff and freeze the header/timing on the
+    previous surah.
+  - **The gapless render path throws on `spread()!.right/left`**: clearing
+    timing makes `MushafSpreadView`'s `spread()` memo return null, and its
+    `spread()!` non-null assertions threw `TypeError: Cannot read properties
+    of null (reading 'right'/'left')` mid-render — which unwound
+    `attachSurahForGapless` BEFORE `loadTiming` ran (audio advanced, state
+    stuck on the previous surah's last ayah). Fix: render the spread via
+    `<Show when={spread()}>` with the cached value, never `spread()!`.
+  - **Mushaf "loading screen" on surah open is a logic gap, not network**:
+    `pageForVerse` returned null for ayah 0 (basmala), so the page number
+    stayed unresolved ~4 s until ayah 1 began. Resolve the surah's FIRST page
+    during the basmala — `pageForVerse` treats `ayah < 1` as `ayah = 1`,
+    and `MushafSpreadView.currentPage` / `MushafPageView.timingPage` fall back
+    to `surah.startPage`. (Measured: spinner ~4.2 s basmala vs ~1.5 s actual
+    PNG streaming.)
   - Timing fetches fail/hang on the flaky server: `ApiClient.getText` has a
     15 s AbortController timeout, `loadTiming` retries 3×, and a failed load
     starts a 10 s background re-sync (`scheduleTimingSync`) that re-applies
@@ -169,6 +193,11 @@ recitation (keyed by reciter/moshaf/surah/resume-point). Gotchas:
 - Gold-on-gold: the focused big icon keeps a dark icon fill (`.icon-btn.big.focused`).
 - After a surah change both elements must be paused before the new one plays
   (a stale "playing" event skipped the pause → icon mismatch).
+- **Repeat glyphs (TransportBar)**: `⇄` = off, `⟲ 1` = repeat-ayah,
+  `⟲ ∞` = repeat-surah. If the audio "infinite-loops the first ayah", check
+  the transport repeat button first — repeat-ayah loops the current ayah by
+  design (repeat is NOT persisted in the session; it defaults to off each
+  mount).
 
 ## 9. Build / deploy / verify loop
 
@@ -194,6 +223,17 @@ adb exec-out screencap -p > shot.png # screen evidence
   `am start` (the watchdog script keeps the window, not the app).
 - Verify transitions by the STATE, not the UI: all of surahId/timing
   entries/audio src/header must flip together (the mixed-state tell).
+- **WebView console + uncaught errors → `adb logcat`**: `adb logcat -d |
+  grep chromium` shows `console.log`, `console.error`, and `Uncaught (in
+  promise) TypeError: …` with the bundle filename. Uncaught errors in a
+  SolidJS render (`setX` → memo/effect) surface here and are the fastest way
+  to catch a throw that unwinds an async state transition.
+- **Reproduce a gapless advance fast**: don't wait for a surah to finish —
+  via CDP set the playing `<audio>`'s `currentTime = duration - 0.6` and the
+  `ended` event fires ~0.6 s later (surah 1 ≈ 40 s, so this saves the wait).
+- To inspect the deployed bundle, XHR its URL from the page (fetch is blocked
+  on file://, but XHR works — see §2); minified names are mangled, so search
+  for string literals, not identifiers.
 
 ## 10. Platform constraints (web target)
 
@@ -212,3 +252,10 @@ The repo stores LF; Windows checkouts leave CRLF in working files. Before
 commit is whole-file churn. Set identity: `git config user.name/email`
 (Mohamed Elbeshbeshy <drelsaka1993@gmail.com>). Don't commit screenshots or
 compiled X11 helpers (commit the .c sources); `local.properties` is ignored.
+
+**GitHub push has NO credentials on this machine**: remote is
+`https://github.com/drelsaka1993/mp3qurantv.git`; `git push` fails with
+"could not read Username for 'https://github.com'" (no `credential.helper`,
+no `~/.git-credentials`, no `gh` CLI, no SSH keys). To push, provide a PAT
+(push `https://<token>@github.com/…` or set `credential.helper`) or switch to
+an SSH remote + key. Commits still land locally without it.

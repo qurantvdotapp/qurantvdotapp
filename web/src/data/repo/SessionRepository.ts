@@ -45,12 +45,104 @@ const SETTINGS_KEY = "qurantv_settings";
 const SESSION_KEY = "qurantv_last_session";
 const FAVOURITES_KEY = "qurantv_favourites";
 
+function sanitizeSettings(raw: unknown): AppSettings {
+  if (typeof raw !== "object" || raw === null) return { ...DEFAULT_SETTINGS };
+  const obj = raw as Record<string, unknown>;
+
+  const language = obj.language === "en" ? "en" : "ar";
+  const speedNum = Number(obj.defaultSpeed);
+  const defaultSpeed =
+    Number.isFinite(speedNum) && speedNum >= 0.25 && speedNum <= 4.0 ? speedNum : DEFAULT_SETTINGS.defaultSpeed;
+
+  const fontNum = Number(obj.fontSizeIndex);
+  const fontSizeIndex =
+    Number.isInteger(fontNum) && fontNum >= 0 && fontNum <= 2 ? fontNum : DEFAULT_SETTINGS.fontSizeIndex;
+
+  const colorNum = Number(obj.highlightColorIndex);
+  const highlightColorIndex =
+    Number.isInteger(colorNum) && colorNum >= 0 && colorNum <= 2 ? colorNum : DEFAULT_SETTINGS.highlightColorIndex;
+
+  const modeNum = Number(obj.displayMode);
+  const displayMode =
+    Number.isInteger(modeNum) && modeNum >= 0 && modeNum <= 1 ? modeNum : DEFAULT_SETTINGS.displayMode;
+
+  const styleNum = Number(obj.mushafStyle);
+  const mushafStyle =
+    Number.isInteger(styleNum) && styleNum >= 0 && styleNum <= 5 ? styleNum : DEFAULT_SETTINGS.mushafStyle;
+
+  const offsetNum = Number(obj.ayahOffset);
+  const ayahOffset =
+    Number.isInteger(offsetNum) && offsetNum >= -10 && offsetNum <= 10 ? offsetNum : DEFAULT_SETTINGS.ayahOffset;
+
+  const autoHideControls =
+    typeof obj.autoHideControls === "boolean" ? obj.autoHideControls : DEFAULT_SETTINGS.autoHideControls;
+  const onlyTimedReciters =
+    typeof obj.onlyTimedReciters === "boolean" ? obj.onlyTimedReciters : DEFAULT_SETTINGS.onlyTimedReciters;
+
+  return {
+    language,
+    defaultSpeed,
+    fontSizeIndex,
+    highlightColorIndex,
+    displayMode,
+    mushafStyle,
+    ayahOffset,
+    autoHideControls,
+    onlyTimedReciters,
+  };
+}
+
+function sanitizeSession(raw: unknown): LastSession | null {
+  if (typeof raw !== "object" || raw === null) return null;
+  const obj = raw as Record<string, unknown>;
+  const reciterId = Number(obj.reciterId);
+  const moshafId = Number(obj.moshafId);
+  const surahId = Number(obj.surahId);
+  const ayahIndex = Number(obj.ayahIndex);
+  const positionMs = Number(obj.positionMs);
+  const updatedAt = Number(obj.updatedAt);
+
+  if (
+    !Number.isInteger(reciterId) ||
+    reciterId <= 0 ||
+    typeof obj.reciterName !== "string" ||
+    obj.reciterName.trim().length === 0 ||
+    !Number.isInteger(moshafId) ||
+    moshafId <= 0 ||
+    typeof obj.moshafName !== "string" ||
+    !Number.isInteger(surahId) ||
+    surahId < 1 ||
+    surahId > 114 ||
+    typeof obj.surahNameAr !== "string" ||
+    !Number.isInteger(ayahIndex) ||
+    ayahIndex < 0 ||
+    !Number.isFinite(positionMs) ||
+    positionMs < 0 ||
+    !Number.isFinite(updatedAt) ||
+    updatedAt <= 0
+  ) {
+    return null;
+  }
+
+  return {
+    reciterId,
+    reciterName: obj.reciterName,
+    moshafId,
+    moshafName: obj.moshafName,
+    surahId,
+    surahNameAr: obj.surahNameAr,
+    ayahIndex,
+    positionMs: Math.round(positionMs),
+    updatedAt: Math.round(updatedAt),
+  };
+}
+
 export class SessionRepository {
   settings(): AppSettings {
     try {
       const raw = localStorage.getItem(SETTINGS_KEY);
       if (raw === null) return { ...DEFAULT_SETTINGS };
-      return { ...DEFAULT_SETTINGS, ...(JSON.parse(raw) as Partial<AppSettings>) };
+      return sanitizeSettings(JSON.parse(raw));
     } catch {
       return { ...DEFAULT_SETTINGS };
     }
@@ -60,7 +152,7 @@ export class SessionRepository {
     try {
       const raw = localStorage.getItem(SESSION_KEY);
       if (raw === null) return null;
-      return JSON.parse(raw) as LastSession;
+      return sanitizeSession(JSON.parse(raw));
     } catch {
       return null;
     }

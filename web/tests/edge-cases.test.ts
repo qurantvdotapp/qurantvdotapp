@@ -177,13 +177,19 @@ describe("Edge Case Probing: SessionRepository & LocalStorage Fault Tolerance", 
       mockStorage.set("qurantv_settings", "{ malformed json ... ");
       expect(repo.settings()).toEqual(DEFAULT_SETTINGS);
 
-      // Partial / weird settings object
-      mockStorage.set("qurantv_settings", JSON.stringify({ defaultSpeed: -5, language: "fr" }));
+      // Partial / out-of-bounds settings object gets sanitized and clamped to defaults
+      mockStorage.set("qurantv_settings", JSON.stringify({ defaultSpeed: -5, language: "fr", mushafStyle: 99 }));
       const s = repo.settings();
-      // Notice: language is typed as 'ar' | 'en' in TS, but runtime parsed "fr"
-      expect(s.defaultSpeed).toBe(-5);
-      expect((s as unknown as { language: string }).language).toBe("fr");
+      expect(s.defaultSpeed).toBe(DEFAULT_SETTINGS.defaultSpeed);
+      expect(s.language).toBe("ar");
+      expect(s.mushafStyle).toBe(DEFAULT_SETTINGS.mushafStyle);
 
+      // Valid custom settings persist cleanly
+      mockStorage.set("qurantv_settings", JSON.stringify({ defaultSpeed: 1.5, language: "en", mushafStyle: 2 }));
+      const s2 = repo.settings();
+      expect(s2.defaultSpeed).toBe(1.5);
+      expect(s2.language).toBe("en");
+      expect(s2.mushafStyle).toBe(2);
       // Corrupted session
       mockStorage.set("qurantv_last_session", "INVALID");
       expect(repo.lastSession()).toBeNull();

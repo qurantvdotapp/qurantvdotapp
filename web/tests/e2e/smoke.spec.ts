@@ -12,7 +12,7 @@ test("catalog loads and reciters are reachable by D-pad", async ({ page }) => {
   // Home renders (Arabic primary, RTL)
   await expect(page.getByText("القراء", { exact: true }).first()).toBeVisible({ timeout: 20_000 });
   // At least one reciter chip appears (live API)
-  await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
+  await expect(page.locator(".qurantv-rec-cell").first()).toBeVisible({ timeout: 20_000 });
   // Focus engine picked an initial target
   await expect(page.locator(".focused").first()).toHaveCount(1);
   // D-pad moves focus between chips
@@ -28,7 +28,7 @@ test("catalog loads and reciters are reachable by D-pad", async ({ page }) => {
 
 test("timed reciter (العجمي, read 5) → grid → player plays and syncs", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
+  await expect(page.locator(".qurantv-rec-cell").first()).toBeVisible({ timeout: 20_000 });
 
   // Open the search overlay and find the verified-timed reciter أحمد بن علي العجمي
   await page.locator("#search-input").fill("العجمي");
@@ -50,13 +50,14 @@ test("timed reciter (العجمي, read 5) → grid → player plays and syncs",
   // Player
   await expect(page.locator("[data-focus-id='player-back']")).toBeVisible({ timeout: 20_000 });
 
-  // Audio is actually playing (position advances)
-  await page.waitForTimeout(2500);
-  const pos = await page.evaluate(() => {
-    const a = document.querySelector("audio");
-    return a ? a.currentTime : -1;
-  });
-  expect(pos).toBeGreaterThan(0);
+  // Audio is actually playing (position advances) — live-network tolerant.
+  await expect(async () => {
+    const pos = await page.evaluate(() => {
+      const a = [...document.querySelectorAll("audio")].find((x) => x.volume > 0);
+      return a && !a.paused && Number.isFinite(a.currentTime) ? a.currentTime : -1;
+    });
+    expect(pos).toBeGreaterThan(0);
+  }).toPass({ timeout: 25_000 });
 
   // The player opens in mushaf page mode by default (style 5 = KSU tajweed) —
   // the page appears once the basmala (ayah 0, no page) gives way to ayah 1.
@@ -118,7 +119,7 @@ test("timed reciter (العجمي, read 5) → grid → player plays and syncs",
 
 test("no-timing reciter opens and degrades gracefully (no crash)", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
+  await expect(page.locator(".qurantv-rec-cell").first()).toBeVisible({ timeout: 20_000 });
 
   // Search for a known no-timing reciter (أحمد الحذيفي has no timing read).
   await page.locator("#search-input").fill("الحذيفي");
@@ -137,7 +138,7 @@ test("no-timing reciter opens and degrades gracefully (no crash)", async ({ page
 
 test("tafseer side panel opens beside the mushaf and follows the recitation", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
+  await expect(page.locator(".qurantv-rec-cell").first()).toBeVisible({ timeout: 20_000 });
 
   // Open a timed reciter: search → العجمي → surah 1
   await page.locator("#search-input").fill("العجمي");
@@ -210,7 +211,7 @@ test("tafseer side panel opens beside the mushaf and follows the recitation", as
 
 test("mushaf styles: every page source loads (SVG, HD, KSU Hafs/Warsh/Tajweed)", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
+  await expect(page.locator(".qurantv-rec-cell").first()).toBeVisible({ timeout: 20_000 });
   await page.locator("#search-input").fill("العجمي");
   await page.keyboard.press("Enter");
   await page.waitForTimeout(1500);
@@ -261,7 +262,7 @@ test("mushaf styles: every page source loads (SVG, HD, KSU Hafs/Warsh/Tajweed)",
 
 test("english reciter-search + favourite reciters", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
+  await expect(page.locator(".qurantv-rec-cell").first()).toBeVisible({ timeout: 20_000 });
   // Search an ENGLISH name — should match by transliteration
   await page.locator("#search-input").fill("maher");
   await page.waitForTimeout(600);
@@ -287,6 +288,6 @@ test("english reciter-search + favourite reciters", async ({ page }) => {
 
   // Persistence: reload and re-check the favourite survived
   await page.reload();
-  await page.waitForSelector(".tv-chip", { timeout: 20_000 });
+  await page.waitForSelector(".qurantv-rec-cell", { timeout: 20_000 });
   await expect(page.locator("#favourites-row")).toBeVisible({ timeout: 10_000 });
 });

@@ -14,7 +14,7 @@ import { expect, test } from "@playwright/test";
 
 test("page mode: hidden chrome clears focus, any key reveals play selected, LEFT/RIGHT scrub ±5s", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator(".tv-chip").first()).toBeVisible({ timeout: 20_000 });
+  await expect(page.locator(".qurantv-rec-cell").first()).toBeVisible({ timeout: 20_000 });
 
   // Open a verified-timed reciter (read 5) → surah 1 player.
   await page.locator("#search-input").fill("العجمي");

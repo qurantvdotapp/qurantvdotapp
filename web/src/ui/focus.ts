@@ -89,7 +89,7 @@ export function moveFocus(dir: FocusDirection): void {
   const cx = CR.left + CR.width / 2;
   const cy = CR.top + CR.height / 2;
   let best: HTMLElement | null = null;
-  let bestScore = Infinity;
+  const candidates: Array<{ el: HTMLElement; gap: number; perp: number }> = [];
   for (const el of registry.values()) {
     if (scope && !scope.contains(el)) continue;
     if (el === current || !isVisible(el)) continue;
@@ -111,15 +111,25 @@ export function moveFocus(dir: FocusDirection): void {
       gap = cx - ex;
       perp = Math.abs(ey - cy);
     }
-    if (Number.isFinite(gap)) {
-      // Near first, aligned second; alignment matters so we don't diagonal-jump
-      // into a neighbouring column (e.g. the letter rail) when a straight move exists.
-      const score = gap + perp * 1.5;
-      if (score < bestScore) {
-        bestScore = score;
-        best = el;
-      }
-    }
+    if (Number.isFinite(gap)) candidates.push({ el, gap, perp });
+  }
+  if (candidates.length === 0) return;
+  // ROW-PRIMARY navigation: move to the NEAREST perpendicular row first, then
+  // the closest cell within it. (The old gap+1.5*perp score let a column-
+  // aligned cell two rows down beat a partial row's edge cell — e.g. on the
+  // dashboard a letter group with 2 reciters was skipped entirely.)
+  const TOL = 12; // px — same-row cells share an identical perpendicular offset
+  let row: Array<{ el: HTMLElement; gap: number; perp: number }>;
+  if (dir === "up" || dir === "down") {
+    const minGap = Math.min(...candidates.map((c) => c.gap));
+    row = candidates.filter((c) => c.gap <= minGap + TOL);
+    best = row.reduce((a, b) => (b.perp < a.perp ? b : a), row[0]).el;
+  } else {
+    const minPerp = Math.min(...candidates.map((c) => c.perp));
+    row = candidates.filter((c) => c.perp <= minPerp + TOL);
+    // Row's edge: fall back to the next band so LEFT/RIGHT still advances.
+    const pick = row.length > 0 ? row : candidates;
+    best = pick.reduce((a, b) => (b.gap < a.gap ? b : a), pick[0]).el;
   }
   if (best) {
     const id = best.getAttribute("data-focus-id");

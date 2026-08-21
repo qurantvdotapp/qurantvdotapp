@@ -27,6 +27,8 @@ export class AudioEngine {
   private url: string | null = null;
   private fadeTimer: number | null = null;
   private repeat: RepeatMode = "off";
+  /** True when pause() interrupted an active gapless crossfade. */
+  private pausedDuringTransition = false;
 
   onPosition: (ms: number) => void = () => {};
   onEnded: () => void = () => {};
@@ -78,6 +80,7 @@ export class AudioEngine {
 
   play(url: string, positionMs = 0): void {
     this.stopTransition();
+    this.pausedDuringTransition = false;
     // Fresh start: A plays now, B is the carrier for the next surah.
     this.current = this.a;
     this.carrier = this.b;
@@ -124,10 +127,22 @@ export class AudioEngine {
   }
 
   pause(): void {
-    this.current.pause();
+    // Both elements can be audible during a gapless crossfade — pausing only
+    // the current left the carrier playing (voice continued while the UI
+    // showed the play icon). Stop both and cancel the ramp.
+    this.pausedDuringTransition = this.transitioning;
+    this.stopTransition();
+    this.a.pause();
+    this.b.pause();
   }
 
   resume(): void {
+    if (this.pausedDuringTransition) {
+      // Paused mid-crossfade: the outgoing element is within ~1 s of its end —
+      // finalize the handoff so the carrier (the surah fading in) resumes.
+      this.pausedDuringTransition = false;
+      this.finishHandoff();
+    }
     void this.current.play().catch(() => this.onError(this.url ?? ""));
   }
 

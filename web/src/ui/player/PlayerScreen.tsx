@@ -266,8 +266,12 @@ export function PlayerScreen(props: PlayerProps) {
       setPhase("ready");
       setTimeout(() => {
         const list = document.querySelector(".dialog-list");
-        const scope = list ?? document;
-        focusFirst(scope);
+        if (list) {
+          focusFirst(list);
+        } else {
+          // Land on play/pause (not the back chip) so OK/Enter toggles playback.
+          focusElement("transport-play");
+        }
       }, 150);
 
       // Start playback: resume from the requested ayah's start, honouring the
@@ -631,7 +635,7 @@ export function PlayerScreen(props: PlayerProps) {
                 "z-index": 20,
               }}
             >
-              <Chip id="player-back" label="←" onClick={() => props.nav.back()} />
+              <Chip id="player-back" label={rtl ? "→" : "←"} onClick={() => props.nav.back()} />
               <div style="flex:1;min-width:0">
                 <div class="quran-text" style="font-size:32px;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
                   {activeSurah().nameAr}

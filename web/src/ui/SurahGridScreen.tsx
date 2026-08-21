@@ -28,6 +28,7 @@ export function SurahGridScreen(props: SurahGridProps) {
   const [jumpOpen, setJumpOpen] = createSignal(false);
   const [pickerOpen, setPickerOpen] = createSignal(false);
   const [isFav, setIsFav] = createSignal(c.session.isFavourite(props.reciter.id));
+  const rtl = c.session.settings().language === "ar";
 
   function toggleFav() {
     const added = c.session.toggleFavourite(props.reciter.id);
@@ -113,7 +114,7 @@ export function SurahGridScreen(props: SurahGridProps) {
     <div class="screen">
       {/* header */}
       <div style="display:flex;align-items:center;gap:20px;padding-bottom:18px;flex-wrap:wrap">
-        <Chip id="grid-back" label="←" onClick={() => props.onBack()} />
+        <Chip id="grid-back" label={rtl ? "→" : "←"} onClick={() => props.onBack()} />
         <div>
           <div style="font-size:34px;color:var(--gold)">{props.reciter.name}</div>
           <div style="font-size:22px;color:var(--text-dim)">{props.moshaf.name}</div>

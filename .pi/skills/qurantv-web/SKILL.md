@@ -58,7 +58,29 @@ copied `index.html` + `MainActivity` sets `useWideViewPort` /
 `loadWithOverviewMode`. Result: CSS viewport is exactly 1920×1080 on any
 panel/DPI; 1 CSS px = 1 surface px. Keep this if you touch the build step.
 
-## 4. SolidJS reactivity traps (each cost a debugging session)
+## 4. Repeated fixes — symptom → root → fix (check these first)
+
+These bugs recurred across the session; each row is a "when X looks broken,
+check Y" pattern. The root causes are in section 5/6/7 — this is the triage
+table.
+
+| Symptom | Root | Fix |
+|---|---|---|
+| Play/pause icon shows ▶ while audio plays | ended element's spurious "pause" event, OR pause() left the crossfade carrier playing, OR the icon switch ran once in the body, OR a memo over the prop didn't re-evaluate | both-paused guard on the engine event; pause() stops both elements; icon via createMemo; read props in the render |
+| Icon frozen on play after SVG rewrite | body `switch` runs once | move the switch into createMemo (see §5) |
+| Mushaf pages flash wrong / freeze the old spread on transition | stale timing + new surah mix; memo writing lastKnownPage; tracked read not first | timing cleared before activeSurah; lastKnownPage surah-tagged + effect-updated; read props.surah.id at memo top (see §5/6) |
+| Highlight frozen (audio runs on) | timing fetch failed/hung; no re-attempt | ApiClient 15 s timeout; loadTiming retries; scheduleTimingSync background loop (see §5) |
+| prev/next-surah "dead", mixed header/audio | playSurah applied state early, superseded mid-load | apply ALL state + engine.play atomically at the end; seq guard (see §5) |
+| Arrows flip mushaf pages instead of stepping ayahs | no-timing page-browse fired while timing merely loading | page-browse only when hasTiming() === false (see §5) |
+| Retained-player chrome visible on other screens | display:none computed inside a For callback (not reactive) | move it to an App-level memo outside the For (see §6) |
+| Mushaf panes 0-height / blank bottom | retained wrapper had no height; player root height:100% collapsed | wrapper carries width/height:100% when visible (see §6) |
+| D-pad skips partial rows / jumps by column | gap+perp score let a column-aligned cell two rows down win | row-primary: nearest perpendicular row (12 px band) then closest cell (see §7) |
+| OK/Enter re-runs the search instead of activating a chip | the search input kept DOM focus; its Enter handler fired | focusElement blurs the input when focus leaves it (see §7) |
+| On-screen keyboard "dead" after one letter | kbChar bounced focus back to the input | keep focus on the keys (see §7) |
+| Tafseer/meanings/translation empty in the APK | fetch() blocked on file:// | loadAssetText (XHR) for bundled assets (see §2) |
+| e2e fails intermittently | live mp3quran latency | generous waits; re-run before suspecting a regression (see §1) |
+
+## 4b. SolidJS reactivity traps (each cost a debugging session)
 
 1. **Reads inside a `<For>` callback are NOT reactive to external signals** —
    compute visibility/derived state in a memo at the component root and read
@@ -130,7 +152,60 @@ recitation (keyed by reciter/moshaf/surah/resume-point). Gotchas:
   `kbChar` must not bounce focus back to the input (it stranded the user
   after one letter).
 
-## 8. Committing hygiene
+## 8. UX behaviors the user asked for (do not regress)
+
+- **Hidden-chrome LEFT/RIGHT step ayahs** (RTL: LEFT = next, RIGHT =
+  previous) without revealing the toolbar — replaces the ±5 s scrub. Keep the
+  default 10 s scrub only when the toolbar is visible. prevAyah at a surah's
+  first ayah plays the previous surah's last ayah (see §5).
+- **Persistent audio across screens**: backing out of the player keeps the
+  audio playing via the retained layer (§6).
+- **Dashboard order**: search → one-row recents (scrollable `.h-scroll`) →
+  continue → favourites → fixed letter rail (OUTSIDE the scroll container) →
+  groups. Initial focus: the continue card.
+- Transport icons are SVG paths with a stable `transport-play` id for e2e
+  (RTL page flips the cluster, not the icon). Cluster order (filter `.icon-btn`
+  with an SVG): 0 prevSurah, 1 prevAyah, 2 play/pause, 3 nextAyah, 4 nextSurah.
+- Gold-on-gold: the focused big icon keeps a dark icon fill (`.icon-btn.big.focused`).
+- After a surah change both elements must be paused before the new one plays
+  (a stale "playing" event skipped the pause → icon mismatch).
+
+## 9. Build / deploy / verify loop
+
+```
+cd web && npm run check && npm run build && npm test
+# unit tests: vitest; e2e: npx playwright test (live mp3quran — flaky, re-run)
+export JAVA_HOME=$HOME/Android/jdk-17.0.20+8 PATH=$JAVA_HOME/bin:$PATH
+./gradlew :tvweb:assembleDebug --no-daemon
+export PATH=$HOME/Android/sdk/platform-tools:$PATH
+adb install -r tvweb/build/outputs/apk/debug/tvweb-debug.apk
+adb shell am force-stop com.qurantv.tvweb && adb shell am start -n com.qurantv.tvweb/.MainActivity
+adb forward tcp:9222 localabstract:webview_devtools_remote_$(adb shell pidof com.qurantv.tvweb | tr -d '\r')
+curl -s http://127.0.0.1:9222/json   # CDP page list → websocket → Runtime.evaluate
+adb exec-out screencap -p > shot.png # screen evidence
+```
+
+- CDP assertions: `Runtime.evaluate` with `returnByValue:true` +
+  `awaitPromise:true`; the player exposes `window.__quranTv.getState()`
+  (`{phase, surahId, currentAyah, hasTiming, positionMs, entries, …}` — absent
+  on home; press the focused continue card to resume). `[data-highlight]` = the
+  current-ayah highlight element (its rect top moves with the ayah).
+- If the emulator drops to the launcher or the CDP socket dies, re-forward +
+  `am start` (the watchdog script keeps the window, not the app).
+- Verify transitions by the STATE, not the UI: all of surahId/timing
+  entries/audio src/header must flip together (the mixed-state tell).
+
+## 10. Platform constraints (web target)
+
+- The app targets es2019 / Tizen Chromium ~79-92: **no
+  `Promise.withResolvers`** (ES2024/Chrome 119+) — use `new Promise`.
+  `AbortController` is fine (Chrome 66+).
+- No external fonts over http at runtime; the Android build bundles everything
+  into the APK assets.
+- The WebView blocks `fetch()` on file:// (see §2) and has no localStorage
+  persistence guarantees beyond what tvweb enables.
+
+## 11. Committing hygiene
 
 The repo stores LF; Windows checkouts leave CRLF in working files. Before
 `git add`, normalize edited files: `sed -i 's/\r$//' <file>` — otherwise the

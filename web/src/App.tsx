@@ -163,33 +163,34 @@ export function App() {
     return item ? [item] : [];
   });
 
+  // Read at App level (NOT inside the For callback — For callbacks aren't
+  // reactive to external signals, which left the retained chrome visible on
+  // other screens).
+  const playerVisible = createMemo(() => screen().kind === "player");
+
   return (
     <>
       {content()}
-      <For each={retainedList()}>
-        {(item) => {
-          const p = item.route;
-          const topIsPlayer = screen().kind === "player";
-          return (
-            <div
-              style={topIsPlayer ? undefined : "display:none"}
-              aria-hidden={!topIsPlayer}
-            >
-              <PlayerScreen
-                t={t()}
-                lang={lang()}
-                nav={nav}
-                reciter={p.reciter}
-                moshaf={p.moshaf}
-                surah={p.surah}
-                availableSurahs={p.availableSurahs}
-                startAyahIndex={p.startAyahIndex}
-                hidden={!topIsPlayer}
-              />
-            </div>
-          );
-        }}
-      </For>
+      <div
+        style={playerVisible() ? "width:100%;height:100%" : "display:none"}
+        aria-hidden={!playerVisible()}
+      >
+        <For each={retainedList()}>
+          {(item) => (
+            <PlayerScreen
+              t={t()}
+              lang={lang()}
+              nav={nav}
+              reciter={item.route.reciter}
+              moshaf={item.route.moshaf}
+              surah={item.route.surah}
+              availableSurahs={item.route.availableSurahs}
+              startAyahIndex={item.route.startAyahIndex}
+              hidden={!playerVisible()}
+            />
+          )}
+        </For>
+      </div>
     </>
   );
 }

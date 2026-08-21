@@ -47,7 +47,14 @@ export class AudioEngine {
       if (document.body) document.body.appendChild(el);
       // events fire for whichever element is CURRENT
       el.addEventListener("play", () => this.onPlayStateChange(true));
-      el.addEventListener("pause", () => this.onPlayStateChange(false));
+      // A "pause" event can fire spuriously (e.g. finishHandoff pausing the
+      // ENDED outgoing element — an ended element still has paused=false, so
+      // pause() emits the event). Only report paused when BOTH are silent:
+      // during a gapless handoff the carrier keeps playing and the UI must
+      // not flip to the play icon.
+      el.addEventListener("pause", () => {
+        if (this.a.paused && this.b.paused) this.onPlayStateChange(false);
+      });
       el.addEventListener("loadedmetadata", () => this.onLoaded(this.durationMs()));
       el.addEventListener("ended", () => this.handleEnded(el));
       el.addEventListener("timeupdate", () => this.maybeCrossfade(el));

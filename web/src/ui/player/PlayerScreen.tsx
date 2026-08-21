@@ -113,6 +113,7 @@ export function PlayerScreen(props: PlayerProps) {
   });
   onCleanup(() => {
     setMediaKeyHandler(null);
+    if (timingSyncTimer !== null) window.clearInterval(timingSyncTimer);
     engine.destroy();
     releaseWakeLock();
   });
@@ -354,6 +355,7 @@ export function PlayerScreen(props: PlayerProps) {
     const seq = ++playSeq;
     const { read, timing: t } = await loadTiming(surah);
     if (seq !== playSeq) return; // superseded
+    if (!t) scheduleTimingSync(surah.id); // recover the sync when the network does
     // Keep the CURRENT state until the new surah's data is ready — switching
     // activeSurah/timing mid-fetch mixes them and flashes wrong mushaf pages.
     // The end-of-load sets land together (one render).
@@ -433,6 +435,30 @@ export function PlayerScreen(props: PlayerProps) {
     return { read: null, timing: null };
   }
 
+  let timingSyncTimer: number | null = null;
+  /** Background re-sync: when a timing load failed, keep retrying every 10 s
+   *  so the ayah tracker re-engages once the network recovers — a transient
+   *  failure must not freeze the highlight for the whole surah. */
+  function scheduleTimingSync(surahId: number) {
+    if (timingSyncTimer !== null) return; // one loop at a time
+    timingSyncTimer = window.setInterval(async () => {
+      if (activeSurah().id !== surahId || timing() !== null) {
+        // surah changed or already synced — stop the loop
+        if (timingSyncTimer !== null) { window.clearInterval(timingSyncTimer); timingSyncTimer = null; }
+        return;
+      }
+      const { timing: t } = await loadTiming(activeSurah());
+      if (t) {
+        setTiming(t);
+        setHasTiming(true);
+        // re-derive the current ayah from the live audio position
+        const ms = engine.positionMs();
+        setCurrentAyah(ms >= 0 ? ayahAt(t, ms) : 0);
+        if (timingSyncTimer !== null) { window.clearInterval(timingSyncTimer); timingSyncTimer = null; }
+      }
+    }, 10_000);
+  }
+
   async function attachSurahForGapless(surah: QuranSurah, url: string) {
     // Switch the UI immediately (audio is ALREADY the new surah). Clear the
     // TIMING FIRST — setting activeSurah while the old timing is still live
@@ -450,6 +476,7 @@ export function PlayerScreen(props: PlayerProps) {
     setPositionMs(0);
     setDurationMs(0);
     setAudioError(false);
+    if (!t) scheduleTimingSync(surah.id); // recover the sync when the network does
 
     const versesCount = surah.versesCount;
     const b = (await c.quranText.verseText(1, 1));

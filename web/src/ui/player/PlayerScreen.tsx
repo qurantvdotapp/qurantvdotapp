@@ -507,9 +507,12 @@ export function PlayerScreen(props: PlayerProps) {
       if (next) engine.seekTo(next.startMs);
       return;
     }
-    // No timing: browse the mushaf page by page (clamped to the surah range).
-    const p = Math.min(activeSurah().endPage, noTimingPage() + 1);
-    setNoTimingPage(p);
+    // Page-browse ONLY for a genuinely untimed surah — never while the timing
+    // is still loading (arrows would flip mushaf pages then snap back).
+    if (!hasTiming()) {
+      const p = Math.min(activeSurah().endPage, noTimingPage() + 1);
+      setNoTimingPage(p);
+    }
   }
 
   function prevAyah() {
@@ -526,9 +529,12 @@ export function PlayerScreen(props: PlayerProps) {
       }
       return;
     }
-    // No timing: browse the mushaf page by page (clamped to the surah range).
-    const p = Math.max(activeSurah().startPage, noTimingPage() - 1);
-    setNoTimingPage(p);
+    // Page-browse ONLY for a genuinely untimed surah — never while the timing
+    // is still loading (see nextAyah).
+    if (!hasTiming()) {
+      const p = Math.max(activeSurah().startPage, noTimingPage() - 1);
+      setNoTimingPage(p);
+    }
   }
 
   function nextSurah() {

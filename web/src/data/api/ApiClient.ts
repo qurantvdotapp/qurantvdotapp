@@ -15,14 +15,25 @@ export class ApiException extends Error {
 }
 
 export class ApiClient {
+  /** Abort a fetch that the server accepted but never answered — a stalled
+   *  connection must not wedge the player (singleFlight shares the promise). */
+  private static readonly FETCH_TIMEOUT_MS = 15_000;
+
   async getText(url: string): Promise<string> {
     let res: Response;
     try {
-      res = await fetch(url, {
-        headers: {
-          Accept: "application/json, text/plain, */*",
-        },
-      });
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), ApiClient.FETCH_TIMEOUT_MS);
+      try {
+        res = await fetch(url, {
+          headers: {
+            Accept: "application/json, text/plain, */*",
+          },
+          signal: controller.signal,
+        });
+      } finally {
+        clearTimeout(timer);
+      }
     } catch (e) {
       throw new ApiException(`Network error for ${url}: ${(e as Error).message}`, 0);
     }

@@ -261,27 +261,6 @@ export function HomeScreen(props: HomeProps) {
         </Dialog>
       </Show>
 
-      {/* recently added reads — ONE row */}
-      <Show when={!searching() && recent() !== null && recent()!.length > 0}>
-        <div style="margin-bottom:18px">
-          <div style="font-size:22px;color:var(--text-dim);padding-bottom:8px">{props.t("recent_reads")}</div>
-          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
-            {recent()!.slice(0, 5).map((r) => (
-              <div
-                use:focusable={`recent-${r.id}`}
-                id={`recent-${r.id}`}
-                class="tv-card qurantv-rec-cell content-text"
-                classList={{ dim: props.lang === "ar" ? !reciterTimed(r) : false }}
-                style="padding:14px;justify-content:center;text-align:center;font-size:24px;min-height:74px"
-                onClick={() => openReciter(r)}
-              >
-                {r.name}
-              </div>
-            ))}
-          </div>
-        </div>
-      </Show>
-
       {/* continue card */}
       <Show when={!searching() && session()}>
         {(s) => (
@@ -317,6 +296,25 @@ export function HomeScreen(props: HomeProps) {
         </div>
       </Show>
 
+      {/* letter rail — FIXED (does not scroll with the reciter groups) */}
+      <Show when={!searching()}>
+        <div
+          style="display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:8px;flex-shrink:0"
+          class="letter-rail"
+        >
+          {groups().map((g) => (
+            <div
+              use:focusable={`letter-${g.letter}`}
+              id={`letter-${g.letter}`}
+              class="letter-chip"
+              onClick={() => jumpToLetter(g.letter)}
+            >
+              {g.letter}
+            </div>
+          ))}
+        </div>
+      </Show>
+
       {/* body: search results OR the grouped list */}
       {error() ? (
         <ErrorState t={props.t} onRetry={load} />
@@ -342,24 +340,28 @@ export function HomeScreen(props: HomeProps) {
         </div>
       ) : (
         <div style="display:flex;flex-direction:column;flex:1;min-height:0">
-          {/* reciter groups */}
+          {/* reciter groups — scrolls (recent reads + groups) */}
           <div class="h-scroll" style="flex:1;min-height:0">
-            {/* letter rail: jump straight to a reciter group's first letter */}
-            <div
-              style="display:flex;gap:8px;overflow-x:auto;padding-bottom:14px;margin-bottom:6px"
-              class="letter-rail"
-            >
-              {groups().map((g) => (
-                <div
-                  use:focusable={`letter-${g.letter}`}
-                  id={`letter-${g.letter}`}
-                  class="letter-chip"
-                  onClick={() => jumpToLetter(g.letter)}
-                >
-                  {g.letter}
+            {/* recently added reads — ONE row, scrolls with the list */}
+            <Show when={recent() !== null && recent()!.length > 0}>
+              <div style="padding-bottom:14px">
+                <div style="font-size:22px;color:var(--text-dim);padding-bottom:8px">{props.t("recent_reads")}</div>
+                <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
+                  {recent()!.slice(0, 5).map((r) => (
+                    <div
+                      use:focusable={`recent-${r.id}`}
+                      id={`recent-${r.id}`}
+                      class="tv-card qurantv-rec-cell content-text"
+                      classList={{ dim: props.lang === "ar" ? !reciterTimed(r) : false }}
+                      style="padding:14px;justify-content:center;text-align:center;font-size:24px;min-height:74px"
+                      onClick={() => openReciter(r)}
+                    >
+                      {r.name}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            </Show>
             <div style="font-size:30px;font-weight:700;color:var(--gold);padding-bottom:10px">{props.t("reciters_title")}</div>
             {groups().map((g) => (
               <div id={`group-${g.letter}`} style="margin-bottom:14px">

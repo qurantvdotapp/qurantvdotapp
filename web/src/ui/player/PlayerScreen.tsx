@@ -2,7 +2,7 @@
 // accuracy gate), text mode, mushaf page mode, transport, dialogs, session.
 
 import { createEffect, createMemo, createSignal, onCleanup, onMount, Show } from "solid-js";
-import type { Moshaf, QuranSurah, Reciter, SurahTiming } from "../../domain/Models";
+import type { Moshaf, QuranSurah, Reciter, SurahTiming, TimingRead } from "../../domain/Models";
 import { availableSurahIds } from "../../domain/Models";
 import { audioUrlFor, normalizeServerUrl } from "../../domain/CatalogParsing";
 import { ayahAt, repeatAyahTarget } from "../../domain/TimingIndex";
@@ -78,6 +78,8 @@ export function PlayerScreen(props: PlayerProps) {
   const [errorMsg, setErrorMsg] = createSignal("");
   const [audioError, setAudioError] = createSignal(false);
   let lastPlayUrl: string | null = null;
+  /** Monotonic playSurah sequence — rapid navigation discards superseded loads. */
+  let playSeq = 0;
 
   /** Previous tick's ayah index + timing, for repeat-ayah boundary detection. */
   let lastTickAyah = -1;
@@ -345,11 +347,23 @@ export function PlayerScreen(props: PlayerProps) {
 
   /** (Re)start playback for a surah (used by next/prev/jump). */
   async function playSurah(surah: QuranSurah, startAyahIndex?: number, resumeFrom = 0) {
+    // Rapid navigation (e.g. hammering previous-ayah at a surah's first ayah)
+    // fires concurrent playSurah calls — each fetches timing/text then plays.
+    // A monotonic sequence makes the LAST request win; superseded ones
+    // discard their (slow) results so state/audio never interleave.
+    const seq = ++playSeq;
+    let read: TimingRead | null = null;
+    let t: SurahTiming | null = null;
+    try {
+      read = await c.timing.readForMoshaf(props.moshaf.server);
+      t = read ? await c.timing.timingFor(read.id, surah.id) : null;
+    } catch {
+      t = null; // server hiccup — play without ayah sync, never hang
+    }
+    if (seq !== playSeq) return; // superseded
     // Keep the CURRENT state until the new surah's data is ready — switching
     // activeSurah/timing mid-fetch mixes them and flashes wrong mushaf pages.
     // The end-of-load sets land together (one render).
-    const read = await c.timing.readForMoshaf(props.moshaf.server);
-    const t = read ? await c.timing.timingFor(read.id, surah.id) : null;
     setActiveSurah(surah);
     setTiming(t);
     setHasTiming(t !== null);
@@ -364,6 +378,7 @@ export function PlayerScreen(props: PlayerProps) {
     } else {
       setBasmala(null);
     }
+    if (seq !== playSeq) return;
 
     if (t) {
       const suggested = suggestOffset(t.entries.length, versesCount);
@@ -386,6 +401,7 @@ export function PlayerScreen(props: PlayerProps) {
       }
       setItems(list);
     }
+    if (seq !== playSeq) return;
     setNoTimingPage(surah.startPage);
 
     let startMs = resumeFrom;
@@ -413,8 +429,14 @@ export function PlayerScreen(props: PlayerProps) {
     setTiming(null);
     setActiveSurah(surah);
     setCurrentAyah(0);
-    const read = await c.timing.readForMoshaf(props.moshaf.server);
-    const t = read ? await c.timing.timingFor(read.id, surah.id) : null;
+    let read: TimingRead | null = null;
+    let t: SurahTiming | null = null;
+    try {
+      read = await c.timing.readForMoshaf(props.moshaf.server);
+      t = read ? await c.timing.timingFor(read.id, surah.id) : null;
+    } catch {
+      t = null; // server hiccup — keep playing without ayah sync, never hang
+    }
     setTiming(t);
     setHasTiming(t !== null);
     setActiveSurah(surah);

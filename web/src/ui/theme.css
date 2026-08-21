@@ -290,7 +290,10 @@ body,
   width: 46px;
   height: 46px;
 }
+/* .icon-btn.focused would paint the gold icon gold-on-gold — the big button
+   keeps its dark icon on the gold disc even when focused. */
 .icon-btn.big.focused {
+  color: #2b1f05;
   box-shadow: var(--shadow-glow), inset 0 2px 8px rgba(255, 255, 255, 0.5),
     inset 0 -8px 16px rgba(150, 103, 30, 0.35);
 }

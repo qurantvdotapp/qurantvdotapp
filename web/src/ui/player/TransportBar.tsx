@@ -46,7 +46,9 @@ export function TransportBar(props: TransportBarProps) {
     ? ["prevSurah", "prevAyah", "play", "nextAyah", "nextSurah"]
     : ["nextSurah", "nextAyah", "play", "prevAyah", "prevSurah"];
 
-  // Reactive play/pause icon (updates when playing toggles).
+  // Play/pause icon. Read props.playing DIRECTLY in the render (same pattern
+  // as the position text): a top-level createMemo over the prop didn't
+  // re-evaluate in this Solid build, leaving the icon stuck on play.
   const icon = (key: string): string | null => {
     switch (key) {
       case "play":
@@ -158,55 +160,53 @@ function IconBtn(props: {
  *  points the direction of travel. */
 function TbIcon(props: { name: string }) {
   const directional = props.name === "skipNext" || props.name === "skipPrev" || props.name === "fastNext" || props.name === "fastPrev";
-  let inner: JSX.Element;
-  switch (props.name) {
-    case "pause":
-      inner = (
-        <>
-          <rect x="6" y="5" width="4.6" height="14" rx="1.3" />
-          <rect x="13.4" y="5" width="4.6" height="14" rx="1.3" />
-        </>
-      );
-      break;
-    case "skipNext":
-      inner = (
-        <>
-          <path d="M5.5 5.5v13L15 12z" />
-          <rect x="17.2" y="5.5" width="2.2" height="13" rx="1" />
-        </>
-      );
-      break;
-    case "skipPrev":
-      inner = (
-        <>
-          <path d="M18.5 5.5v13L9 12z" />
-          <rect x="4.6" y="5.5" width="2.2" height="13" rx="1" />
-        </>
-      );
-      break;
-    case "fastNext":
-      inner = (
-        <>
-          <path d="M3.8 5.5v13L12 12z" />
-          <path d="M12 5.5v13l8.2-6.5z" />
-        </>
-      );
-      break;
-    case "fastPrev":
-      inner = (
-        <>
-          <path d="M20.2 5.5v13L12 12z" />
-          <path d="M12 5.5v13L3.8 12z" />
-        </>
-      );
-      break;
-    default: // play
-      inner = <path d="M8 5.5v13l11-6.5z" />;
-  }
+  // Memo, not a body switch: the icon must swap live (play ↔ pause) when the
+  // name prop changes — a plain switch in the body runs only once.
+  const inner = createMemo<JSX.Element>(() => {
+    switch (props.name) {
+      case "pause":
+        return (
+          <>
+            <rect x="6" y="5" width="4.6" height="14" rx="1.3" />
+            <rect x="13.4" y="5" width="4.6" height="14" rx="1.3" />
+          </>
+        );
+      case "skipNext":
+        return (
+          <>
+            <path d="M5.5 5.5v13L15 12z" />
+            <rect x="17.2" y="5.5" width="2.2" height="13" rx="1" />
+          </>
+        );
+      case "skipPrev":
+        return (
+          <>
+            <path d="M18.5 5.5v13L9 12z" />
+            <rect x="4.6" y="5.5" width="2.2" height="13" rx="1" />
+          </>
+        );
+      case "fastNext":
+        return (
+          <>
+            <path d="M3.8 5.5v13L12 12z" />
+            <path d="M12 5.5v13l8.2-6.5z" />
+          </>
+        );
+      case "fastPrev":
+        return (
+          <>
+            <path d="M20.2 5.5v13L12 12z" />
+            <path d="M12 5.5v13L3.8 12z" />
+          </>
+        );
+      default: // play
+        return <path d="M8 5.5v13l11-6.5z" />;
+    }
+  });
   return (
     <span class={directional ? "tb-dir" : undefined} style="display:inline-flex">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:block;width:100%;height:100%">
-        {inner}
+        {inner()}
       </svg>
     </span>
   );

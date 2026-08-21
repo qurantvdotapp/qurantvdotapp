@@ -80,12 +80,14 @@ export function SurahGridScreen(props: SurahGridProps) {
       // Timing status for badges
       const read = await c.timing.readForMoshaf(props.moshaf.server);
       if (read) {
+        setMatchedReadId(read.id);
         const soar = await c.timing.surahsWithTiming(read.id);
         if (soar) {
           const allIds = new Set(list.map((s) => s.id));
           setUntimed(new Set([...allIds].filter((id) => !soar.has(id))));
         }
       } else {
+        setMatchedReadId(undefined);
         // No read at all → every surah is untimed.
         setUntimed(new Set(list.map((s) => s.id)));
       }

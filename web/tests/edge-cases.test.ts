@@ -90,9 +90,9 @@ describe("Edge Case Probing: CatalogParsing", () => {
 
 describe("Edge Case Probing: TimingIndex & Binary Search", () => {
   const timing = new SurahTiming(5, 1, [
-    { ayah: 0, startMs: 0, endMs: 4000, page: 1, polygon: null },
-    { ayah: 1, startMs: 4000, endMs: 9000, page: 1, polygon: null },
-    { ayah: 2, startMs: 9000, endMs: 15000, page: 1, polygon: null },
+    { ayah: 0, startMs: 0, endMs: 4000, polygon: null, x: null, y: null, pageUrl: null },
+    { ayah: 1, startMs: 4000, endMs: 9000, polygon: null, x: null, y: null, pageUrl: null },
+    { ayah: 2, startMs: 9000, endMs: 15000, polygon: null, x: null, y: null, pageUrl: null },
   ]);
 
   it("locates ayahs accurately at exact boundaries", () => {

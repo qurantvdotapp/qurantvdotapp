@@ -276,6 +276,7 @@ export class AudioEngine {
       el.removeAttribute("src");
       el.load();
       el.volume = 1;
+      el.remove(); // retained players can be destroyed on a new recitation
     }
   }
 }

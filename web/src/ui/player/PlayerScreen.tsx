@@ -37,6 +37,8 @@ interface PlayerProps {
   startAyahIndex?: number;
   /** Seek to ayahStart + offset (position within the ayah) — G3. */
   resumeOffsetMs?: number;
+  /** Retained behind another screen: audio keeps playing, view handlers idle. */
+  hidden?: boolean;
 }
 
 const SPEED_CYCLE = [0.5, 0.75, 1, 1.25, 1.5, 2];
@@ -82,6 +84,22 @@ export function PlayerScreen(props: PlayerProps) {
   let lastTickTiming: SurahTiming | null = null;
 
 
+  /* ---------- retained player: re-show / hide ---------- */
+  createEffect(() => {
+    if (props.hidden) {
+      // Retained behind another screen: drop app focus so the stale play
+      // button can't trap D-pad navigation on the visible screen.
+      clearFocus();
+      return;
+    }
+    // Returning to the retained player (audio never stopped): reveal the
+    // toolbar and land focus on play/pause, same UX as opening a surah.
+    setChromeVisible(true);
+    window.setTimeout(() => {
+      if (!document.querySelector(".dialog-list")) focusElement("transport-play");
+    }, 60);
+  });
+
   /* ---------- media keys (global) ---------- */
   onMount(() => {
     setMediaKeyHandler((key) => {
@@ -101,6 +119,9 @@ export function PlayerScreen(props: PlayerProps) {
   let lastKey = Date.now();
   onMount(() => {
     const onKey = (e: KeyboardEvent) => {
+      // Retained-but-hidden: the player must not react to keys (no chrome
+      // reveal, no focus steal) while another screen is on top.
+      if (props.hidden) return;
       const wasHidden = displayMode() === 1 && !chromeVisible();
       lastKey = Date.now();
       setChromeVisible(true);
@@ -124,6 +145,7 @@ export function PlayerScreen(props: PlayerProps) {
     };
     window.addEventListener("keydown", onKey, true);
     const hideTimer = window.setInterval(() => {
+      if (props.hidden) return; // retained behind another screen
       if (
         dialog() === null && // never auto-hide while a dialog is open
         displayMode() === 1 &&

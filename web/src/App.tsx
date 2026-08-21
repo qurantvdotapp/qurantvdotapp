@@ -1,6 +1,6 @@
-import { createMemo, createSignal, onMount } from "solid-js";
+import { createEffect, createMemo, createSignal, onMount, For } from "solid-js";
 import "./ui/theme.css";
-import { createNavigator } from "./ui/navigation";
+import { createNavigator, type Screen } from "./ui/navigation";
 import { activateFocused, moveFocus } from "./ui/focus";
 import { onRemoteKey } from "./ui/keys";
 import { dispatchMediaKey } from "./ui/mediaKeys";
@@ -110,18 +110,9 @@ export function App() {
         );
       }
       case "player":
-        return (
-          <PlayerScreen
-            t={t()}
-            lang={lang()}
-            nav={nav}
-            reciter={s.reciter}
-            moshaf={s.moshaf}
-            surah={s.surah}
-            availableSurahs={s.availableSurahs}
-            startAyahIndex={s.startAyahIndex}
-          />
-        );
+        // The player renders persistently below (retained layer) so audio
+        // keeps running when the user backs out of the view.
+        return null;
       case "settings":
         return (
           <SettingsScreen
@@ -136,7 +127,71 @@ export function App() {
     }
   });
 
-  return <>{content()}</>;
+  // Retained player: the LAST player route stays mounted (hidden) when the
+  // user backs out of the player view, so audio keeps running until the app
+  // exits or a NEW recitation is opened (a different recitation remounts the
+  // keyed layer, which stops the old audio).
+  const [retainedPlayer, setRetainedPlayer] = createSignal<Extract<Screen, { kind: "player" }> | null>(null);
+  createEffect(() => {
+    const st = nav.stack();
+    for (let i = st.length - 1; i >= 0; i--) {
+      const s = st[i];
+      if (s.kind === "player") {
+        setRetainedPlayer(s);
+        return;
+      }
+    }
+    // Backed out of the player: keep whatever was retained (signal unchanged).
+  });
+
+  // Keyed by RECITATION identity, not route-object identity: re-opening the
+  // same surah keeps the layer mounted (audio continues); a different surah /
+  // reciter / moshaf / resume point remounts it (fresh recitation).
+  const [playerItem, setPlayerItem] = createSignal<{ key: string; route: Extract<Screen, { kind: "player" }> } | null>(null);
+  createEffect(() => {
+    const p = retainedPlayer();
+    if (!p) return;
+    const key = playerKey(p);
+    setPlayerItem((prev) => (prev && prev.key === key ? prev : { key, route: p }));
+  });
+  // Recitation identity for the retained-player key (remount boundary).
+  const playerKey = (p: Extract<Screen, { kind: "player" }>): string =>
+    `${p.reciter.id}-${p.moshaf.id}-${p.surah.id}-${p.startAyahIndex ?? ""}-${p.resumeOffsetMs ?? ""}`;
+
+  const retainedList = createMemo(() => {
+    const item = playerItem();
+    return item ? [item] : [];
+  });
+
+  return (
+    <>
+      {content()}
+      <For each={retainedList()}>
+        {(item) => {
+          const p = item.route;
+          const topIsPlayer = screen().kind === "player";
+          return (
+            <div
+              style={topIsPlayer ? undefined : "display:none"}
+              aria-hidden={!topIsPlayer}
+            >
+              <PlayerScreen
+                t={t()}
+                lang={lang()}
+                nav={nav}
+                reciter={p.reciter}
+                moshaf={p.moshaf}
+                surah={p.surah}
+                availableSurahs={p.availableSurahs}
+                startAyahIndex={p.startAyahIndex}
+                hidden={!topIsPlayer}
+              />
+            </div>
+          );
+        }}
+      </For>
+    </>
+  );
 }
 
 export type { QuranSurah };

@@ -53,7 +53,7 @@ export function pageForVerse(
   surahId: number,
   ayah: number,
 ): number | null {
-  if (ayah < 1) return null; // basmala slot: no page highlight
+  if (ayah < 1) ayah = 1; // basmala slot: reuse the first ayah's page so the mushaf shows immediately (no loading screen)
   switch (style.pagination) {
     case "timing":
       return timingPage ?? null;

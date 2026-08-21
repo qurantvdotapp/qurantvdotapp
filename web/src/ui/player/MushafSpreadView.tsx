@@ -40,6 +40,10 @@ export function MushafSpreadView(props: MushafSpreadViewProps) {
         const m = /([0-9]+)\.svg$/.exec(e.pageUrl);
         if (m) return Number.parseInt(m[1], 10);
       }
+      // Basmala (ayah 0) has no page of its own — show the surah's first page
+      // immediately instead of a loading screen (same Madinah pagination the
+      // timing page field uses).
+      if (props.currentAyah < 1 && props.surah.startPage >= 1) return props.surah.startPage;
       const lk = lastKnownPage();
       return lk && lk.surahId === surahId ? lk.page : null;
     }

@@ -88,9 +88,15 @@ export function MushafPageView(props: MushafPageViewProps) {
   const timingPage = createMemo(() => {
     if (!props.hasTiming) return null;
     const e = props.entry;
-    if (!e?.pageUrl) return null;
-    const m = /([0-9]+)\.svg$/.exec(e.pageUrl);
-    return m ? Number.parseInt(m[1], 10) : null;
+    if (e?.pageUrl) {
+      const m = /([0-9]+)\.svg$/.exec(e.pageUrl);
+      if (m) return Number.parseInt(m[1], 10);
+    }
+    // Basmala (ayah 0) has no page of its own — show the surah's first page
+    // immediately (same Madinah pagination as the timing page field) instead
+    // of a loading screen.
+    if (props.currentAyah < 1 && props.surah.startPage >= 1) return props.surah.startPage;
+    return null;
   });
 
   const computedPage = createMemo(() => {

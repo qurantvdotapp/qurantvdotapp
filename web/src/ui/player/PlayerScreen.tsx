@@ -352,14 +352,7 @@ export function PlayerScreen(props: PlayerProps) {
     // A monotonic sequence makes the LAST request win; superseded ones
     // discard their (slow) results so state/audio never interleave.
     const seq = ++playSeq;
-    let read: TimingRead | null = null;
-    let t: SurahTiming | null = null;
-    try {
-      read = await c.timing.readForMoshaf(props.moshaf.server);
-      t = read ? await c.timing.timingFor(read.id, surah.id) : null;
-    } catch {
-      t = null; // server hiccup — play without ayah sync, never hang
-    }
+    const { read, timing: t } = await loadTiming(surah);
     if (seq !== playSeq) return; // superseded
     // Keep the CURRENT state until the new surah's data is ready — switching
     // activeSurah/timing mid-fetch mixes them and flashes wrong mushaf pages.
@@ -420,6 +413,26 @@ export function PlayerScreen(props: PlayerProps) {
 
   /** Attach the next surah's state after the engine gapless-handoffs to it
    *  (audio already playing in element B — do NOT re-prepare audio). */
+  /** Load a surah's timing with retries — a flaky mp3quran fetch must not
+   *  leave the highlight desynced (audio running with a frozen/stale ayah).
+   *  timingFor doesn't cache failures, so each retry is a fresh fetch. */
+  async function loadTiming(surah: QuranSurah): Promise<{ read: TimingRead | null; timing: SurahTiming | null }> {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const read = await c.timing.readForMoshaf(props.moshaf.server);
+        const t = read ? await c.timing.timingFor(read.id, surah.id) : null;
+        if (t) return { read, timing: t };
+        if (!read) return { read: null, timing: null }; // no read at all — stop
+      } catch {
+        // network hiccup — retry below
+      }
+      // (plain Promise — Promise.withResolvers needs ES2024/Chrome 119+; the
+      // app targets es2019 / Tizen Chromium ~79-92)
+      if (attempt < 2) await new Promise((r) => setTimeout(r, 4000));
+    }
+    return { read: null, timing: null };
+  }
+
   async function attachSurahForGapless(surah: QuranSurah, url: string) {
     // Switch the UI immediately (audio is ALREADY the new surah). Clear the
     // TIMING FIRST — setting activeSurah while the old timing is still live
@@ -429,14 +442,7 @@ export function PlayerScreen(props: PlayerProps) {
     setTiming(null);
     setActiveSurah(surah);
     setCurrentAyah(0);
-    let read: TimingRead | null = null;
-    let t: SurahTiming | null = null;
-    try {
-      read = await c.timing.readForMoshaf(props.moshaf.server);
-      t = read ? await c.timing.timingFor(read.id, surah.id) : null;
-    } catch {
-      t = null; // server hiccup — keep playing without ayah sync, never hang
-    }
+    const { read, timing: t } = await loadTiming(surah);
     setTiming(t);
     setHasTiming(t !== null);
     setActiveSurah(surah);

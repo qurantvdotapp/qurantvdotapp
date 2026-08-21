@@ -355,26 +355,17 @@ export function PlayerScreen(props: PlayerProps) {
     const seq = ++playSeq;
     const { read, timing: t } = await loadTiming(surah);
     if (seq !== playSeq) return; // superseded
-    if (!t) scheduleTimingSync(surah.id); // recover the sync when the network does
-    // Keep the CURRENT state until the new surah's data is ready — switching
-    // activeSurah/timing mid-fetch mixes them and flashes wrong mushaf pages.
-    // The end-of-load sets land together (one render).
-    setActiveSurah(surah);
-    setTiming(t);
-    setHasTiming(t !== null);
-    setCurrentAyah(startAyahIndex ?? 0);
-    setPositionMs(resumeFrom);
-    setDurationMs(0);
-    setAudioError(false);
 
+    // Load EVERYTHING first, then apply all state + the audio in ONE step:
+    // applying state early and getting superseded mid-load left activeSurah
+    // switched while the audio kept the old surah (the mixed, desynced state
+    // where previous-surah appeared dead and the highlight froze).
     const versesCount = surah.versesCount;
-    if (surah.id >= 2 && surah.id <= 114) {
-      setBasmala(await c.quranText.verseText(1, 1));
-    } else {
-      setBasmala(null);
-    }
+    const basmala =
+      surah.id >= 2 && surah.id <= 114 ? await c.quranText.verseText(1, 1) : null;
     if (seq !== playSeq) return;
 
+    let items: TextItem[];
     if (t) {
       const suggested = suggestOffset(t.entries.length, versesCount);
       const effOffset = settings.ayahOffset !== 0 ? settings.ayahOffset : suggested;
@@ -387,20 +378,32 @@ export function PlayerScreen(props: PlayerProps) {
         const text = (await c.quranText.verseText(s, v)) ?? "";
         list.push({ ayah: e.ayah, verseKey: key, text });
       }
-      setItems(list);
+      items = list;
     } else {
       const list: TextItem[] = [];
       for (let v = 1; v <= versesCount; v++) {
         const text = (await c.quranText.verseText(surah.id, v)) ?? "";
         list.push({ ayah: v, verseKey: `${surah.id}:${v}`, text });
       }
-      setItems(list);
+      items = list;
     }
     if (seq !== playSeq) return;
-    setNoTimingPage(surah.startPage);
 
     let startMs = resumeFrom;
     if (startAyahIndex && t) startMs = t.entryFor(startAyahIndex)?.startMs ?? resumeFrom;
+
+    // Apply everything together (one render) + start the audio.
+    setActiveSurah(surah);
+    setTiming(t);
+    setHasTiming(t !== null);
+    setCurrentAyah(startAyahIndex ?? 0);
+    setPositionMs(resumeFrom);
+    setDurationMs(0);
+    setAudioError(false);
+    setBasmala(basmala);
+    setItems(items);
+    setNoTimingPage(surah.startPage);
+    if (!t) scheduleTimingSync(surah.id); // recover the sync when the network does
     engine.setRepeat(repeat());
     engine.setSpeed(speed());
     engine.play(audioUrlFor(props.moshaf.server, surah.id), startMs);

@@ -15090,5 +15090,49 @@
     "reviewed_at": "2026-08-23T22:08:40.200563+00:00",
     "ayah_count": 6,
     "total_duration_sec": 30.16
+  },
+  "100_100_1": {
+    "key": "100_100_1",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 1,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 7,
+    "total_duration_sec": 61.34
+  },
+  "100_1": {
+    "key": "100_100_1",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 1,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 7,
+    "total_duration_sec": 61.34
+  },
+  "100_100_65": {
+    "key": "100_100_65",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 65,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-23T23:33:56.864337+00:00",
+    "ayah_count": 13,
+    "total_duration_sec": 360.51
+  },
+  "100_65": {
+    "key": "100_100_65",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 65,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-23T23:33:56.864337+00:00",
+    "ayah_count": 13,
+    "total_duration_sec": 360.51
   }
 }

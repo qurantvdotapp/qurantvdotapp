@@ -447,7 +447,7 @@
     "folder_url": "https://server9.mp3quran.net/hthfi/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=74",
-    "slug": "qurantvapp-ali-alhuthaifi-hafs-murattal"
+    "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal"
   },
   {
     "id": 75,
@@ -1042,5 +1042,14 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10906",
     "slug": "qurantvapp-maher-hafs"
+  },
+  {
+    "id": 64,
+    "name": "عبدالرشيد صوفي",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-abdulrasheed-soufi-hafs-murattal/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=64",
+    "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal"
   }
 ]

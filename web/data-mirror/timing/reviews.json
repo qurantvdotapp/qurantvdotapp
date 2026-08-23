@@ -5044,9 +5044,9 @@
     "surah_id": 1,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:53.776848+00:00",
-    "ayah_count": 6,
-    "total_duration_sec": 45.73
+    "reviewed_at": "2026-08-23T21:15:47.212558+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 58.94
   },
   "74_1": {
     "key": "74_305_1",
@@ -5055,9 +5055,9 @@
     "surah_id": 1,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:53.776848+00:00",
-    "ayah_count": 6,
-    "total_duration_sec": 45.73
+    "reviewed_at": "2026-08-23T21:15:47.212558+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 58.94
   },
   "74_305_2": {
     "key": "74_305_2",
@@ -5066,9 +5066,9 @@
     "surah_id": 2,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:54.383505+00:00",
+    "reviewed_at": "2026-08-23T21:15:47.875858+00:00",
     "ayah_count": 286,
-    "total_duration_sec": 8296.53
+    "total_duration_sec": 8343.56
   },
   "74_2": {
     "key": "74_305_2",
@@ -5077,9 +5077,9 @@
     "surah_id": 2,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:54.383505+00:00",
+    "reviewed_at": "2026-08-23T21:15:47.875858+00:00",
     "ayah_count": 286,
-    "total_duration_sec": 8296.53
+    "total_duration_sec": 8343.56
   },
   "74_305_3": {
     "key": "74_305_3",
@@ -5088,9 +5088,9 @@
     "surah_id": 3,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:55.124897+00:00",
+    "reviewed_at": "2026-08-23T21:15:48.495290+00:00",
     "ayah_count": 200,
-    "total_duration_sec": 4677.6
+    "total_duration_sec": 4679.74
   },
   "74_3": {
     "key": "74_305_3",
@@ -5099,9 +5099,9 @@
     "surah_id": 3,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:55.124897+00:00",
+    "reviewed_at": "2026-08-23T21:15:48.495290+00:00",
     "ayah_count": 200,
-    "total_duration_sec": 4677.6
+    "total_duration_sec": 4679.74
   },
   "74_305_4": {
     "key": "74_305_4",
@@ -5110,9 +5110,9 @@
     "surah_id": 4,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:55.747795+00:00",
+    "reviewed_at": "2026-08-23T21:15:49.122120+00:00",
     "ayah_count": 176,
-    "total_duration_sec": 4727.49
+    "total_duration_sec": 4804.82
   },
   "74_4": {
     "key": "74_305_4",
@@ -5121,9 +5121,9 @@
     "surah_id": 4,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:55.747795+00:00",
+    "reviewed_at": "2026-08-23T21:15:49.122120+00:00",
     "ayah_count": 176,
-    "total_duration_sec": 4727.49
+    "total_duration_sec": 4804.82
   },
   "74_305_5": {
     "key": "74_305_5",
@@ -5132,9 +5132,9 @@
     "surah_id": 5,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:56.416881+00:00",
+    "reviewed_at": "2026-08-23T21:15:49.760129+00:00",
     "ayah_count": 120,
-    "total_duration_sec": 3916.37
+    "total_duration_sec": 3952.0
   },
   "74_5": {
     "key": "74_305_5",
@@ -5143,9 +5143,9 @@
     "surah_id": 5,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:56.416881+00:00",
+    "reviewed_at": "2026-08-23T21:15:49.760129+00:00",
     "ayah_count": 120,
-    "total_duration_sec": 3916.37
+    "total_duration_sec": 3952.0
   },
   "74_305_6": {
     "key": "74_305_6",
@@ -5154,9 +5154,9 @@
     "surah_id": 6,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:57.056173+00:00",
+    "reviewed_at": "2026-08-23T21:15:50.338668+00:00",
     "ayah_count": 165,
-    "total_duration_sec": 4180.13
+    "total_duration_sec": 4229.94
   },
   "74_6": {
     "key": "74_305_6",
@@ -5165,9 +5165,9 @@
     "surah_id": 6,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:57.056173+00:00",
+    "reviewed_at": "2026-08-23T21:15:50.338668+00:00",
     "ayah_count": 165,
-    "total_duration_sec": 4180.13
+    "total_duration_sec": 4229.94
   },
   "74_305_7": {
     "key": "74_305_7",
@@ -5176,9 +5176,9 @@
     "surah_id": 7,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:57.681707+00:00",
+    "reviewed_at": "2026-08-23T21:15:50.920572+00:00",
     "ayah_count": 206,
-    "total_duration_sec": 4589.66
+    "total_duration_sec": 4618.3
   },
   "74_7": {
     "key": "74_305_7",
@@ -5187,9 +5187,9 @@
     "surah_id": 7,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:57.681707+00:00",
+    "reviewed_at": "2026-08-23T21:15:50.920572+00:00",
     "ayah_count": 206,
-    "total_duration_sec": 4589.66
+    "total_duration_sec": 4618.3
   },
   "74_305_8": {
     "key": "74_305_8",
@@ -5198,9 +5198,9 @@
     "surah_id": 8,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:58.346171+00:00",
+    "reviewed_at": "2026-08-23T21:15:51.502745+00:00",
     "ayah_count": 75,
-    "total_duration_sec": 1662.68
+    "total_duration_sec": 1705.48
   },
   "74_8": {
     "key": "74_305_8",
@@ -5209,9 +5209,9 @@
     "surah_id": 8,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:58.346171+00:00",
+    "reviewed_at": "2026-08-23T21:15:51.502745+00:00",
     "ayah_count": 75,
-    "total_duration_sec": 1662.68
+    "total_duration_sec": 1705.48
   },
   "74_305_9": {
     "key": "74_305_9",
@@ -5220,9 +5220,9 @@
     "surah_id": 9,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:58.949170+00:00",
+    "reviewed_at": "2026-08-23T21:15:52.115526+00:00",
     "ayah_count": 129,
-    "total_duration_sec": 3322.24
+    "total_duration_sec": 3333.06
   },
   "74_9": {
     "key": "74_305_9",
@@ -5231,9 +5231,9 @@
     "surah_id": 9,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:58.949170+00:00",
+    "reviewed_at": "2026-08-23T21:15:52.115526+00:00",
     "ayah_count": 129,
-    "total_duration_sec": 3322.24
+    "total_duration_sec": 3333.06
   },
   "74_305_10": {
     "key": "74_305_10",
@@ -5242,9 +5242,9 @@
     "surah_id": 10,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:59.558648+00:00",
+    "reviewed_at": "2026-08-23T21:15:52.704273+00:00",
     "ayah_count": 109,
-    "total_duration_sec": 2442.04
+    "total_duration_sec": 2447.4
   },
   "74_10": {
     "key": "74_305_10",
@@ -5253,9 +5253,9 @@
     "surah_id": 10,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:42:59.558648+00:00",
+    "reviewed_at": "2026-08-23T21:15:52.704273+00:00",
     "ayah_count": 109,
-    "total_duration_sec": 2442.04
+    "total_duration_sec": 2447.4
   },
   "74_305_11": {
     "key": "74_305_11",
@@ -5264,9 +5264,9 @@
     "surah_id": 11,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:00.153639+00:00",
+    "reviewed_at": "2026-08-23T21:15:53.274500+00:00",
     "ayah_count": 123,
-    "total_duration_sec": 2611.43
+    "total_duration_sec": 2642.12
   },
   "74_11": {
     "key": "74_305_11",
@@ -5275,9 +5275,9 @@
     "surah_id": 11,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:00.153639+00:00",
+    "reviewed_at": "2026-08-23T21:15:53.274500+00:00",
     "ayah_count": 123,
-    "total_duration_sec": 2611.43
+    "total_duration_sec": 2642.12
   },
   "74_305_12": {
     "key": "74_305_12",
@@ -5286,9 +5286,9 @@
     "surah_id": 12,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:00.749692+00:00",
+    "reviewed_at": "2026-08-23T21:15:53.851316+00:00",
     "ayah_count": 111,
-    "total_duration_sec": 2340.54
+    "total_duration_sec": 2378.8
   },
   "74_12": {
     "key": "74_305_12",
@@ -5297,9 +5297,9 @@
     "surah_id": 12,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:00.749692+00:00",
+    "reviewed_at": "2026-08-23T21:15:53.851316+00:00",
     "ayah_count": 111,
-    "total_duration_sec": 2340.54
+    "total_duration_sec": 2378.8
   },
   "74_305_13": {
     "key": "74_305_13",
@@ -5308,9 +5308,9 @@
     "surah_id": 13,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:01.385504+00:00",
+    "reviewed_at": "2026-08-23T21:15:54.436146+00:00",
     "ayah_count": 43,
-    "total_duration_sec": 1116.22
+    "total_duration_sec": 1136.52
   },
   "74_13": {
     "key": "74_305_13",
@@ -5319,9 +5319,9 @@
     "surah_id": 13,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:01.385504+00:00",
+    "reviewed_at": "2026-08-23T21:15:54.436146+00:00",
     "ayah_count": 43,
-    "total_duration_sec": 1116.22
+    "total_duration_sec": 1136.52
   },
   "74_305_14": {
     "key": "74_305_14",
@@ -5330,9 +5330,9 @@
     "surah_id": 14,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:02.137718+00:00",
+    "reviewed_at": "2026-08-23T21:15:55.050836+00:00",
     "ayah_count": 52,
-    "total_duration_sec": 1098.24
+    "total_duration_sec": 1135.18
   },
   "74_14": {
     "key": "74_305_14",
@@ -5341,9 +5341,9 @@
     "surah_id": 14,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:02.137718+00:00",
+    "reviewed_at": "2026-08-23T21:15:55.050836+00:00",
     "ayah_count": 52,
-    "total_duration_sec": 1098.24
+    "total_duration_sec": 1135.18
   },
   "74_305_15": {
     "key": "74_305_15",
@@ -5352,9 +5352,9 @@
     "surah_id": 15,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:02.820013+00:00",
+    "reviewed_at": "2026-08-23T21:15:55.649602+00:00",
     "ayah_count": 99,
-    "total_duration_sec": 928.59
+    "total_duration_sec": 949.88
   },
   "74_15": {
     "key": "74_305_15",
@@ -5363,9 +5363,9 @@
     "surah_id": 15,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:02.820013+00:00",
+    "reviewed_at": "2026-08-23T21:15:55.649602+00:00",
     "ayah_count": 99,
-    "total_duration_sec": 928.59
+    "total_duration_sec": 949.88
   },
   "74_305_16": {
     "key": "74_305_16",
@@ -5374,9 +5374,9 @@
     "surah_id": 16,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:03.491182+00:00",
+    "reviewed_at": "2026-08-23T21:15:56.256650+00:00",
     "ayah_count": 128,
-    "total_duration_sec": 2367.36
+    "total_duration_sec": 2404.74
   },
   "74_16": {
     "key": "74_305_16",
@@ -5385,9 +5385,9 @@
     "surah_id": 16,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:03.491182+00:00",
+    "reviewed_at": "2026-08-23T21:15:56.256650+00:00",
     "ayah_count": 128,
-    "total_duration_sec": 2367.36
+    "total_duration_sec": 2404.74
   },
   "74_305_17": {
     "key": "74_305_17",
@@ -5396,9 +5396,9 @@
     "surah_id": 17,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:04.083396+00:00",
+    "reviewed_at": "2026-08-23T21:15:56.836349+00:00",
     "ayah_count": 111,
-    "total_duration_sec": 1781.84
+    "total_duration_sec": 1792.14
   },
   "74_17": {
     "key": "74_305_17",
@@ -5407,9 +5407,9 @@
     "surah_id": 17,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:04.083396+00:00",
+    "reviewed_at": "2026-08-23T21:15:56.836349+00:00",
     "ayah_count": 111,
-    "total_duration_sec": 1781.84
+    "total_duration_sec": 1792.14
   },
   "74_305_18": {
     "key": "74_305_18",
@@ -5418,9 +5418,9 @@
     "surah_id": 18,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:04.821002+00:00",
+    "reviewed_at": "2026-08-23T21:15:58.502515+00:00",
     "ayah_count": 110,
-    "total_duration_sec": 1852.6
+    "total_duration_sec": 1891.32
   },
   "74_18": {
     "key": "74_305_18",
@@ -5429,9 +5429,9 @@
     "surah_id": 18,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:04.821002+00:00",
+    "reviewed_at": "2026-08-23T21:15:58.502515+00:00",
     "ayah_count": 110,
-    "total_duration_sec": 1852.6
+    "total_duration_sec": 1891.32
   },
   "74_305_19": {
     "key": "74_305_19",
@@ -5440,9 +5440,9 @@
     "surah_id": 19,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:06.464767+00:00",
+    "reviewed_at": "2026-08-23T21:15:59.059530+00:00",
     "ayah_count": 98,
-    "total_duration_sec": 1076.74
+    "total_duration_sec": 1104.34
   },
   "74_19": {
     "key": "74_305_19",
@@ -5451,9 +5451,9 @@
     "surah_id": 19,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:06.464767+00:00",
+    "reviewed_at": "2026-08-23T21:15:59.059530+00:00",
     "ayah_count": 98,
-    "total_duration_sec": 1076.74
+    "total_duration_sec": 1104.34
   },
   "74_305_20": {
     "key": "74_305_20",
@@ -5462,9 +5462,9 @@
     "surah_id": 20,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:08.208529+00:00",
+    "reviewed_at": "2026-08-23T21:15:59.652218+00:00",
     "ayah_count": 135,
-    "total_duration_sec": 1692.65
+    "total_duration_sec": 1700.32
   },
   "74_20": {
     "key": "74_305_20",
@@ -5473,9 +5473,9 @@
     "surah_id": 20,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:08.208529+00:00",
+    "reviewed_at": "2026-08-23T21:15:59.652218+00:00",
     "ayah_count": 135,
-    "total_duration_sec": 1692.65
+    "total_duration_sec": 1700.32
   },
   "74_305_21": {
     "key": "74_305_21",
@@ -5484,9 +5484,9 @@
     "surah_id": 21,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:10.194511+00:00",
+    "reviewed_at": "2026-08-23T21:16:00.223071+00:00",
     "ayah_count": 112,
-    "total_duration_sec": 1561.26
+    "total_duration_sec": 1593.36
   },
   "74_21": {
     "key": "74_305_21",
@@ -5495,9 +5495,9 @@
     "surah_id": 21,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:10.194511+00:00",
+    "reviewed_at": "2026-08-23T21:16:00.223071+00:00",
     "ayah_count": 112,
-    "total_duration_sec": 1561.26
+    "total_duration_sec": 1593.36
   },
   "74_305_22": {
     "key": "74_305_22",
@@ -5506,9 +5506,9 @@
     "surah_id": 22,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:10.790097+00:00",
+    "reviewed_at": "2026-08-23T21:16:00.907728+00:00",
     "ayah_count": 78,
-    "total_duration_sec": 1609.62
+    "total_duration_sec": 1663.38
   },
   "74_22": {
     "key": "74_305_22",
@@ -5517,9 +5517,9 @@
     "surah_id": 22,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:10.790097+00:00",
+    "reviewed_at": "2026-08-23T21:16:00.907728+00:00",
     "ayah_count": 78,
-    "total_duration_sec": 1609.62
+    "total_duration_sec": 1663.38
   },
   "74_305_23": {
     "key": "74_305_23",
@@ -5528,9 +5528,9 @@
     "surah_id": 23,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:11.413625+00:00",
+    "reviewed_at": "2026-08-23T21:16:01.639229+00:00",
     "ayah_count": 118,
-    "total_duration_sec": 1416.57
+    "total_duration_sec": 1418.62
   },
   "74_23": {
     "key": "74_305_23",
@@ -5539,9 +5539,9 @@
     "surah_id": 23,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:11.413625+00:00",
+    "reviewed_at": "2026-08-23T21:16:01.639229+00:00",
     "ayah_count": 118,
-    "total_duration_sec": 1416.57
+    "total_duration_sec": 1418.62
   },
   "74_305_24": {
     "key": "74_305_24",
@@ -5550,9 +5550,9 @@
     "surah_id": 24,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:12.009501+00:00",
+    "reviewed_at": "2026-08-23T21:16:02.206337+00:00",
     "ayah_count": 64,
-    "total_duration_sec": 1745.17
+    "total_duration_sec": 1774.16
   },
   "74_24": {
     "key": "74_305_24",
@@ -5561,9 +5561,9 @@
     "surah_id": 24,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:12.009501+00:00",
+    "reviewed_at": "2026-08-23T21:16:02.206337+00:00",
     "ayah_count": 64,
-    "total_duration_sec": 1745.17
+    "total_duration_sec": 1774.16
   },
   "74_305_25": {
     "key": "74_305_25",
@@ -5572,9 +5572,9 @@
     "surah_id": 25,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:12.612979+00:00",
+    "reviewed_at": "2026-08-23T21:16:02.764944+00:00",
     "ayah_count": 77,
-    "total_duration_sec": 1072.02
+    "total_duration_sec": 1086.06
   },
   "74_25": {
     "key": "74_305_25",
@@ -5583,9 +5583,9 @@
     "surah_id": 25,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:12.612979+00:00",
+    "reviewed_at": "2026-08-23T21:16:02.764944+00:00",
     "ayah_count": 77,
-    "total_duration_sec": 1072.02
+    "total_duration_sec": 1086.06
   },
   "74_305_26": {
     "key": "74_305_26",
@@ -5594,9 +5594,9 @@
     "surah_id": 26,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:13.229398+00:00",
+    "reviewed_at": "2026-08-23T21:16:03.536245+00:00",
     "ayah_count": 227,
-    "total_duration_sec": 1930.93
+    "total_duration_sec": 1972.16
   },
   "74_26": {
     "key": "74_305_26",
@@ -5605,9 +5605,9 @@
     "surah_id": 26,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:13.229398+00:00",
+    "reviewed_at": "2026-08-23T21:16:03.536245+00:00",
     "ayah_count": 227,
-    "total_duration_sec": 1930.93
+    "total_duration_sec": 1972.16
   },
   "74_305_27": {
     "key": "74_305_27",
@@ -5616,9 +5616,9 @@
     "surah_id": 27,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:13.822344+00:00",
+    "reviewed_at": "2026-08-23T21:16:04.105644+00:00",
     "ayah_count": 93,
-    "total_duration_sec": 1641.82
+    "total_duration_sec": 1650.88
   },
   "74_27": {
     "key": "74_305_27",
@@ -5627,9 +5627,9 @@
     "surah_id": 27,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:13.822344+00:00",
+    "reviewed_at": "2026-08-23T21:16:04.105644+00:00",
     "ayah_count": 93,
-    "total_duration_sec": 1641.82
+    "total_duration_sec": 1650.88
   },
   "74_305_28": {
     "key": "74_305_28",
@@ -5638,9 +5638,9 @@
     "surah_id": 28,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:14.418962+00:00",
+    "reviewed_at": "2026-08-23T21:16:04.695332+00:00",
     "ayah_count": 88,
-    "total_duration_sec": 1996.07
+    "total_duration_sec": 2014.5
   },
   "74_28": {
     "key": "74_305_28",
@@ -5649,9 +5649,9 @@
     "surah_id": 28,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:14.418962+00:00",
+    "reviewed_at": "2026-08-23T21:16:04.695332+00:00",
     "ayah_count": 88,
-    "total_duration_sec": 1996.07
+    "total_duration_sec": 2014.5
   },
   "74_305_29": {
     "key": "74_305_29",
@@ -5660,9 +5660,9 @@
     "surah_id": 29,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:15.033226+00:00",
+    "reviewed_at": "2026-08-23T21:16:05.262694+00:00",
     "ayah_count": 69,
-    "total_duration_sec": 1367.56
+    "total_duration_sec": 1386.58
   },
   "74_29": {
     "key": "74_305_29",
@@ -5671,9 +5671,9 @@
     "surah_id": 29,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:15.033226+00:00",
+    "reviewed_at": "2026-08-23T21:16:05.262694+00:00",
     "ayah_count": 69,
-    "total_duration_sec": 1367.56
+    "total_duration_sec": 1386.58
   },
   "74_305_30": {
     "key": "74_305_30",
@@ -5682,9 +5682,9 @@
     "surah_id": 30,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:15.599509+00:00",
+    "reviewed_at": "2026-08-23T21:16:05.811550+00:00",
     "ayah_count": 60,
-    "total_duration_sec": 1172.27
+    "total_duration_sec": 1188.72
   },
   "74_30": {
     "key": "74_305_30",
@@ -5693,9 +5693,9 @@
     "surah_id": 30,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:15.599509+00:00",
+    "reviewed_at": "2026-08-23T21:16:05.811550+00:00",
     "ayah_count": 60,
-    "total_duration_sec": 1172.27
+    "total_duration_sec": 1188.72
   },
   "74_305_31": {
     "key": "74_305_31",
@@ -5704,9 +5704,9 @@
     "surah_id": 31,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:16.211909+00:00",
+    "reviewed_at": "2026-08-23T21:16:06.375994+00:00",
     "ayah_count": 34,
-    "total_duration_sec": 673.56
+    "total_duration_sec": 711.38
   },
   "74_31": {
     "key": "74_305_31",
@@ -5715,9 +5715,9 @@
     "surah_id": 31,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:16.211909+00:00",
+    "reviewed_at": "2026-08-23T21:16:06.375994+00:00",
     "ayah_count": 34,
-    "total_duration_sec": 673.56
+    "total_duration_sec": 711.38
   },
   "74_305_32": {
     "key": "74_305_32",
@@ -5726,9 +5726,9 @@
     "surah_id": 32,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:16.811759+00:00",
+    "reviewed_at": "2026-08-23T21:16:06.979340+00:00",
     "ayah_count": 30,
-    "total_duration_sec": 529.99
+    "total_duration_sec": 541.8
   },
   "74_32": {
     "key": "74_305_32",
@@ -5737,9 +5737,9 @@
     "surah_id": 32,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:16.811759+00:00",
+    "reviewed_at": "2026-08-23T21:16:06.979340+00:00",
     "ayah_count": 30,
-    "total_duration_sec": 529.99
+    "total_duration_sec": 541.8
   },
   "74_305_33": {
     "key": "74_305_33",
@@ -5748,9 +5748,9 @@
     "surah_id": 33,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:17.444626+00:00",
+    "reviewed_at": "2026-08-23T21:16:07.560652+00:00",
     "ayah_count": 73,
-    "total_duration_sec": 1737.06
+    "total_duration_sec": 1752.14
   },
   "74_33": {
     "key": "74_305_33",
@@ -5759,9 +5759,9 @@
     "surah_id": 33,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:17.444626+00:00",
+    "reviewed_at": "2026-08-23T21:16:07.560652+00:00",
     "ayah_count": 73,
-    "total_duration_sec": 1737.06
+    "total_duration_sec": 1752.14
   },
   "74_305_34": {
     "key": "74_305_34",
@@ -5770,9 +5770,9 @@
     "surah_id": 34,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:18.052084+00:00",
+    "reviewed_at": "2026-08-23T21:16:08.181892+00:00",
     "ayah_count": 54,
-    "total_duration_sec": 1116.31
+    "total_duration_sec": 1138.82
   },
   "74_34": {
     "key": "74_305_34",
@@ -5781,9 +5781,9 @@
     "surah_id": 34,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:18.052084+00:00",
+    "reviewed_at": "2026-08-23T21:16:08.181892+00:00",
     "ayah_count": 54,
-    "total_duration_sec": 1116.31
+    "total_duration_sec": 1138.82
   },
   "74_305_35": {
     "key": "74_305_35",
@@ -5792,9 +5792,9 @@
     "surah_id": 35,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:18.706710+00:00",
+    "reviewed_at": "2026-08-23T21:16:08.790553+00:00",
     "ayah_count": 45,
-    "total_duration_sec": 993.48
+    "total_duration_sec": 1014.32
   },
   "74_35": {
     "key": "74_305_35",
@@ -5803,9 +5803,9 @@
     "surah_id": 35,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:18.706710+00:00",
+    "reviewed_at": "2026-08-23T21:16:08.790553+00:00",
     "ayah_count": 45,
-    "total_duration_sec": 993.48
+    "total_duration_sec": 1014.32
   },
   "74_305_36": {
     "key": "74_305_36",
@@ -5814,9 +5814,9 @@
     "surah_id": 36,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:19.348809+00:00",
+    "reviewed_at": "2026-08-23T21:16:09.366056+00:00",
     "ayah_count": 83,
-    "total_duration_sec": 1037.64
+    "total_duration_sec": 1050.84
   },
   "74_36": {
     "key": "74_305_36",
@@ -5825,9 +5825,9 @@
     "surah_id": 36,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:19.348809+00:00",
+    "reviewed_at": "2026-08-23T21:16:09.366056+00:00",
     "ayah_count": 83,
-    "total_duration_sec": 1037.64
+    "total_duration_sec": 1050.84
   },
   "74_305_37": {
     "key": "74_305_37",
@@ -5836,9 +5836,9 @@
     "surah_id": 37,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:19.990203+00:00",
+    "reviewed_at": "2026-08-23T21:16:09.916114+00:00",
     "ayah_count": 182,
-    "total_duration_sec": 1432.97
+    "total_duration_sec": 1440.0
   },
   "74_37": {
     "key": "74_305_37",
@@ -5847,9 +5847,9 @@
     "surah_id": 37,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:19.990203+00:00",
+    "reviewed_at": "2026-08-23T21:16:09.916114+00:00",
     "ayah_count": 182,
-    "total_duration_sec": 1432.97
+    "total_duration_sec": 1440.0
   },
   "74_305_38": {
     "key": "74_305_38",
@@ -5858,9 +5858,9 @@
     "surah_id": 38,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:20.640347+00:00",
+    "reviewed_at": "2026-08-23T21:16:10.548336+00:00",
     "ayah_count": 88,
-    "total_duration_sec": 1055.84
+    "total_duration_sec": 1069.06
   },
   "74_38": {
     "key": "74_305_38",
@@ -5869,9 +5869,9 @@
     "surah_id": 38,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:20.640347+00:00",
+    "reviewed_at": "2026-08-23T21:16:10.548336+00:00",
     "ayah_count": 88,
-    "total_duration_sec": 1055.84
+    "total_duration_sec": 1069.06
   },
   "74_305_39": {
     "key": "74_305_39",
@@ -5880,9 +5880,9 @@
     "surah_id": 39,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:21.261120+00:00",
+    "reviewed_at": "2026-08-23T21:16:12.170090+00:00",
     "ayah_count": 75,
-    "total_duration_sec": 1589.39
+    "total_duration_sec": 1628.08
   },
   "74_39": {
     "key": "74_305_39",
@@ -5891,9 +5891,9 @@
     "surah_id": 39,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:21.261120+00:00",
+    "reviewed_at": "2026-08-23T21:16:12.170090+00:00",
     "ayah_count": 75,
-    "total_duration_sec": 1589.39
+    "total_duration_sec": 1628.08
   },
   "74_305_40": {
     "key": "74_305_40",
@@ -5902,9 +5902,9 @@
     "surah_id": 40,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:21.868798+00:00",
+    "reviewed_at": "2026-08-23T21:16:12.763559+00:00",
     "ayah_count": 85,
-    "total_duration_sec": 1606.84
+    "total_duration_sec": 1639.54
   },
   "74_40": {
     "key": "74_305_40",
@@ -5913,9 +5913,9 @@
     "surah_id": 40,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:21.868798+00:00",
+    "reviewed_at": "2026-08-23T21:16:12.763559+00:00",
     "ayah_count": 85,
-    "total_duration_sec": 1606.84
+    "total_duration_sec": 1639.54
   },
   "74_305_41": {
     "key": "74_305_41",
@@ -5924,9 +5924,9 @@
     "surah_id": 41,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:22.485480+00:00",
+    "reviewed_at": "2026-08-23T21:16:13.374584+00:00",
     "ayah_count": 54,
-    "total_duration_sec": 1135.15
+    "total_duration_sec": 1163.42
   },
   "74_41": {
     "key": "74_305_41",
@@ -5935,9 +5935,9 @@
     "surah_id": 41,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:22.485480+00:00",
+    "reviewed_at": "2026-08-23T21:16:13.374584+00:00",
     "ayah_count": 54,
-    "total_duration_sec": 1135.15
+    "total_duration_sec": 1163.42
   },
   "74_305_42": {
     "key": "74_305_42",
@@ -5946,9 +5946,9 @@
     "surah_id": 42,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:23.076280+00:00",
+    "reviewed_at": "2026-08-23T21:16:13.974878+00:00",
     "ayah_count": 53,
-    "total_duration_sec": 1233.4
+    "total_duration_sec": 1261.64
   },
   "74_42": {
     "key": "74_305_42",
@@ -5957,9 +5957,9 @@
     "surah_id": 42,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:23.076280+00:00",
+    "reviewed_at": "2026-08-23T21:16:13.974878+00:00",
     "ayah_count": 53,
-    "total_duration_sec": 1233.4
+    "total_duration_sec": 1261.64
   },
   "74_305_43": {
     "key": "74_305_43",
@@ -5968,9 +5968,9 @@
     "surah_id": 43,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:23.688433+00:00",
+    "reviewed_at": "2026-08-23T21:16:14.549926+00:00",
     "ayah_count": 89,
-    "total_duration_sec": 1268.28
+    "total_duration_sec": 1288.36
   },
   "74_43": {
     "key": "74_305_43",
@@ -5979,9 +5979,9 @@
     "surah_id": 43,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:23.688433+00:00",
+    "reviewed_at": "2026-08-23T21:16:14.549926+00:00",
     "ayah_count": 89,
-    "total_duration_sec": 1268.28
+    "total_duration_sec": 1288.36
   },
   "74_305_44": {
     "key": "74_305_44",
@@ -5990,9 +5990,9 @@
     "surah_id": 44,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:24.278058+00:00",
+    "reviewed_at": "2026-08-23T21:16:15.106301+00:00",
     "ayah_count": 59,
-    "total_duration_sec": 565.3
+    "total_duration_sec": 582.86
   },
   "74_44": {
     "key": "74_305_44",
@@ -6001,9 +6001,9 @@
     "surah_id": 44,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:24.278058+00:00",
+    "reviewed_at": "2026-08-23T21:16:15.106301+00:00",
     "ayah_count": 59,
-    "total_duration_sec": 565.3
+    "total_duration_sec": 582.86
   },
   "74_305_45": {
     "key": "74_305_45",
@@ -6012,9 +6012,9 @@
     "surah_id": 45,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:25.960432+00:00",
+    "reviewed_at": "2026-08-23T21:16:15.669468+00:00",
     "ayah_count": 37,
-    "total_duration_sec": 671.64
+    "total_duration_sec": 695.64
   },
   "74_45": {
     "key": "74_305_45",
@@ -6023,9 +6023,9 @@
     "surah_id": 45,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:25.960432+00:00",
+    "reviewed_at": "2026-08-23T21:16:15.669468+00:00",
     "ayah_count": 37,
-    "total_duration_sec": 671.64
+    "total_duration_sec": 695.64
   },
   "74_305_46": {
     "key": "74_305_46",
@@ -6034,9 +6034,9 @@
     "surah_id": 46,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:26.561443+00:00",
+    "reviewed_at": "2026-08-23T21:16:16.228592+00:00",
     "ayah_count": 35,
-    "total_duration_sec": 906.26
+    "total_duration_sec": 944.74
   },
   "74_46": {
     "key": "74_305_46",
@@ -6045,9 +6045,9 @@
     "surah_id": 46,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:26.561443+00:00",
+    "reviewed_at": "2026-08-23T21:16:16.228592+00:00",
     "ayah_count": 35,
-    "total_duration_sec": 906.26
+    "total_duration_sec": 944.74
   },
   "74_305_47": {
     "key": "74_305_47",
@@ -6056,9 +6056,9 @@
     "surah_id": 47,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:27.147329+00:00",
+    "reviewed_at": "2026-08-23T21:16:16.840324+00:00",
     "ayah_count": 38,
-    "total_duration_sec": 713.91
+    "total_duration_sec": 768.48
   },
   "74_47": {
     "key": "74_305_47",
@@ -6067,9 +6067,9 @@
     "surah_id": 47,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:27.147329+00:00",
+    "reviewed_at": "2026-08-23T21:16:16.840324+00:00",
     "ayah_count": 38,
-    "total_duration_sec": 713.91
+    "total_duration_sec": 768.48
   },
   "74_305_48": {
     "key": "74_305_48",
@@ -6078,9 +6078,9 @@
     "surah_id": 48,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:27.737356+00:00",
+    "reviewed_at": "2026-08-23T21:16:17.442024+00:00",
     "ayah_count": 29,
-    "total_duration_sec": 651.16
+    "total_duration_sec": 723.36
   },
   "74_48": {
     "key": "74_305_48",
@@ -6089,9 +6089,9 @@
     "surah_id": 48,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:27.737356+00:00",
+    "reviewed_at": "2026-08-23T21:16:17.442024+00:00",
     "ayah_count": 29,
-    "total_duration_sec": 651.16
+    "total_duration_sec": 723.36
   },
   "74_305_49": {
     "key": "74_305_49",
@@ -6100,9 +6100,9 @@
     "surah_id": 49,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:28.335660+00:00",
+    "reviewed_at": "2026-08-23T21:16:18.060224+00:00",
     "ayah_count": 18,
-    "total_duration_sec": 509.13
+    "total_duration_sec": 524.68
   },
   "74_49": {
     "key": "74_305_49",
@@ -6111,9 +6111,9 @@
     "surah_id": 49,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:28.335660+00:00",
+    "reviewed_at": "2026-08-23T21:16:18.060224+00:00",
     "ayah_count": 18,
-    "total_duration_sec": 509.13
+    "total_duration_sec": 524.68
   },
   "74_305_50": {
     "key": "74_305_50",
@@ -6122,9 +6122,9 @@
     "surah_id": 50,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:28.938599+00:00",
+    "reviewed_at": "2026-08-23T21:16:18.669634+00:00",
     "ayah_count": 45,
-    "total_duration_sec": 481.86
+    "total_duration_sec": 500.42
   },
   "74_50": {
     "key": "74_305_50",
@@ -6133,9 +6133,9 @@
     "surah_id": 50,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:28.938599+00:00",
+    "reviewed_at": "2026-08-23T21:16:18.669634+00:00",
     "ayah_count": 45,
-    "total_duration_sec": 481.86
+    "total_duration_sec": 500.42
   },
   "74_305_51": {
     "key": "74_305_51",
@@ -6144,9 +6144,9 @@
     "surah_id": 51,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:29.561198+00:00",
+    "reviewed_at": "2026-08-23T21:16:19.523638+00:00",
     "ayah_count": 60,
-    "total_duration_sec": 521.46
+    "total_duration_sec": 531.52
   },
   "74_51": {
     "key": "74_305_51",
@@ -6155,9 +6155,9 @@
     "surah_id": 51,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:29.561198+00:00",
+    "reviewed_at": "2026-08-23T21:16:19.523638+00:00",
     "ayah_count": 60,
-    "total_duration_sec": 521.46
+    "total_duration_sec": 531.52
   },
   "74_305_52": {
     "key": "74_305_52",
@@ -6166,9 +6166,9 @@
     "surah_id": 52,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:30.158778+00:00",
+    "reviewed_at": "2026-08-23T21:16:20.120242+00:00",
     "ayah_count": 49,
-    "total_duration_sec": 464.52
+    "total_duration_sec": 472.34
   },
   "74_52": {
     "key": "74_305_52",
@@ -6177,9 +6177,9 @@
     "surah_id": 52,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:30.158778+00:00",
+    "reviewed_at": "2026-08-23T21:16:20.120242+00:00",
     "ayah_count": 49,
-    "total_duration_sec": 464.52
+    "total_duration_sec": 472.34
   },
   "74_305_53": {
     "key": "74_305_53",
@@ -6188,9 +6188,9 @@
     "surah_id": 53,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:30.777006+00:00",
+    "reviewed_at": "2026-08-23T21:16:20.695462+00:00",
     "ayah_count": 62,
-    "total_duration_sec": 510.21
+    "total_duration_sec": 515.32
   },
   "74_53": {
     "key": "74_305_53",
@@ -6199,9 +6199,9 @@
     "surah_id": 53,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:30.777006+00:00",
+    "reviewed_at": "2026-08-23T21:16:20.695462+00:00",
     "ayah_count": 62,
-    "total_duration_sec": 510.21
+    "total_duration_sec": 515.32
   },
   "74_305_54": {
     "key": "74_305_54",
@@ -6210,9 +6210,9 @@
     "surah_id": 54,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:31.426497+00:00",
+    "reviewed_at": "2026-08-23T21:16:21.298060+00:00",
     "ayah_count": 55,
-    "total_duration_sec": 502.51
+    "total_duration_sec": 509.98
   },
   "74_54": {
     "key": "74_305_54",
@@ -6221,9 +6221,9 @@
     "surah_id": 54,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:31.426497+00:00",
+    "reviewed_at": "2026-08-23T21:16:21.298060+00:00",
     "ayah_count": 55,
-    "total_duration_sec": 502.51
+    "total_duration_sec": 509.98
   },
   "74_305_55": {
     "key": "74_305_55",
@@ -6232,9 +6232,9 @@
     "surah_id": 55,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:32.046870+00:00",
+    "reviewed_at": "2026-08-23T21:16:21.905956+00:00",
     "ayah_count": 78,
-    "total_duration_sec": 715.17
+    "total_duration_sec": 723.9
   },
   "74_55": {
     "key": "74_305_55",
@@ -6243,9 +6243,9 @@
     "surah_id": 55,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:32.046870+00:00",
+    "reviewed_at": "2026-08-23T21:16:21.905956+00:00",
     "ayah_count": 78,
-    "total_duration_sec": 715.17
+    "total_duration_sec": 723.9
   },
   "74_305_56": {
     "key": "74_305_56",
@@ -6254,9 +6254,9 @@
     "surah_id": 56,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:32.640016+00:00",
+    "reviewed_at": "2026-08-23T21:16:22.500891+00:00",
     "ayah_count": 96,
-    "total_duration_sec": 713.95
+    "total_duration_sec": 722.34
   },
   "74_56": {
     "key": "74_305_56",
@@ -6265,9 +6265,9 @@
     "surah_id": 56,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:32.640016+00:00",
+    "reviewed_at": "2026-08-23T21:16:22.500891+00:00",
     "ayah_count": 96,
-    "total_duration_sec": 713.95
+    "total_duration_sec": 722.34
   },
   "74_305_57": {
     "key": "74_305_57",
@@ -6276,9 +6276,9 @@
     "surah_id": 57,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:33.299512+00:00",
+    "reviewed_at": "2026-08-23T21:16:23.104233+00:00",
     "ayah_count": 29,
-    "total_duration_sec": 782.93
+    "total_duration_sec": 805.84
   },
   "74_57": {
     "key": "74_305_57",
@@ -6287,9 +6287,9 @@
     "surah_id": 57,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:33.299512+00:00",
+    "reviewed_at": "2026-08-23T21:16:23.104233+00:00",
     "ayah_count": 29,
-    "total_duration_sec": 782.93
+    "total_duration_sec": 805.84
   },
   "74_305_58": {
     "key": "74_305_58",
@@ -6298,9 +6298,9 @@
     "surah_id": 58,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:33.880384+00:00",
+    "reviewed_at": "2026-08-23T21:16:23.684623+00:00",
     "ayah_count": 22,
-    "total_duration_sec": 586.98
+    "total_duration_sec": 669.78
   },
   "74_58": {
     "key": "74_305_58",
@@ -6309,9 +6309,9 @@
     "surah_id": 58,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:33.880384+00:00",
+    "reviewed_at": "2026-08-23T21:16:23.684623+00:00",
     "ayah_count": 22,
-    "total_duration_sec": 586.98
+    "total_duration_sec": 669.78
   },
   "74_305_59": {
     "key": "74_305_59",
@@ -6320,9 +6320,9 @@
     "surah_id": 59,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:34.534483+00:00",
+    "reviewed_at": "2026-08-23T21:16:24.233971+00:00",
     "ayah_count": 24,
-    "total_duration_sec": 629.71
+    "total_duration_sec": 645.12
   },
   "74_59": {
     "key": "74_305_59",
@@ -6331,9 +6331,9 @@
     "surah_id": 59,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:34.534483+00:00",
+    "reviewed_at": "2026-08-23T21:16:24.233971+00:00",
     "ayah_count": 24,
-    "total_duration_sec": 629.71
+    "total_duration_sec": 645.12
   },
   "74_305_60": {
     "key": "74_305_60",
@@ -6342,9 +6342,9 @@
     "surah_id": 60,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:35.127378+00:00",
+    "reviewed_at": "2026-08-23T21:16:24.794067+00:00",
     "ayah_count": 13,
-    "total_duration_sec": 504.09
+    "total_duration_sec": 529.46
   },
   "74_60": {
     "key": "74_305_60",
@@ -6353,9 +6353,9 @@
     "surah_id": 60,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:35.127378+00:00",
+    "reviewed_at": "2026-08-23T21:16:24.794067+00:00",
     "ayah_count": 13,
-    "total_duration_sec": 504.09
+    "total_duration_sec": 529.46
   },
   "74_305_61": {
     "key": "74_305_61",
@@ -6364,9 +6364,9 @@
     "surah_id": 61,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:35.766991+00:00",
+    "reviewed_at": "2026-08-23T21:16:25.359184+00:00",
     "ayah_count": 14,
-    "total_duration_sec": 250.16
+    "total_duration_sec": 315.4
   },
   "74_61": {
     "key": "74_305_61",
@@ -6375,9 +6375,9 @@
     "surah_id": 61,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:35.766991+00:00",
+    "reviewed_at": "2026-08-23T21:16:25.359184+00:00",
     "ayah_count": 14,
-    "total_duration_sec": 250.16
+    "total_duration_sec": 315.4
   },
   "74_305_62": {
     "key": "74_305_62",
@@ -6386,9 +6386,9 @@
     "surah_id": 62,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:36.406361+00:00",
+    "reviewed_at": "2026-08-23T21:16:25.918989+00:00",
     "ayah_count": 11,
-    "total_duration_sec": 233.53
+    "total_duration_sec": 265.14
   },
   "74_62": {
     "key": "74_305_62",
@@ -6397,9 +6397,9 @@
     "surah_id": 62,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:36.406361+00:00",
+    "reviewed_at": "2026-08-23T21:16:25.918989+00:00",
     "ayah_count": 11,
-    "total_duration_sec": 233.53
+    "total_duration_sec": 265.14
   },
   "74_305_63": {
     "key": "74_305_63",
@@ -6408,9 +6408,9 @@
     "surah_id": 63,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:37.027643+00:00",
+    "reviewed_at": "2026-08-23T21:16:26.485205+00:00",
     "ayah_count": 11,
-    "total_duration_sec": 266.27
+    "total_duration_sec": 285.82
   },
   "74_63": {
     "key": "74_305_63",
@@ -6419,9 +6419,9 @@
     "surah_id": 63,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:37.027643+00:00",
+    "reviewed_at": "2026-08-23T21:16:26.485205+00:00",
     "ayah_count": 11,
-    "total_duration_sec": 266.27
+    "total_duration_sec": 285.82
   },
   "74_305_64": {
     "key": "74_305_64",
@@ -6430,9 +6430,9 @@
     "surah_id": 64,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:37.650079+00:00",
+    "reviewed_at": "2026-08-23T21:16:27.036036+00:00",
     "ayah_count": 18,
-    "total_duration_sec": 356.62
+    "total_duration_sec": 365.84
   },
   "74_64": {
     "key": "74_305_64",
@@ -6441,9 +6441,9 @@
     "surah_id": 64,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:37.650079+00:00",
+    "reviewed_at": "2026-08-23T21:16:27.036036+00:00",
     "ayah_count": 18,
-    "total_duration_sec": 356.62
+    "total_duration_sec": 365.84
   },
   "74_305_65": {
     "key": "74_305_65",
@@ -6452,9 +6452,9 @@
     "surah_id": 65,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:38.216313+00:00",
+    "reviewed_at": "2026-08-23T21:16:27.581361+00:00",
     "ayah_count": 12,
-    "total_duration_sec": 405.71
+    "total_duration_sec": 440.72
   },
   "74_65": {
     "key": "74_305_65",
@@ -6463,9 +6463,9 @@
     "surah_id": 65,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:38.216313+00:00",
+    "reviewed_at": "2026-08-23T21:16:27.581361+00:00",
     "ayah_count": 12,
-    "total_duration_sec": 405.71
+    "total_duration_sec": 440.72
   },
   "74_305_66": {
     "key": "74_305_66",
@@ -6474,9 +6474,9 @@
     "surah_id": 66,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:38.809994+00:00",
+    "reviewed_at": "2026-08-23T21:16:29.189653+00:00",
     "ayah_count": 12,
-    "total_duration_sec": 379.75
+    "total_duration_sec": 401.3
   },
   "74_66": {
     "key": "74_305_66",
@@ -6485,9 +6485,9 @@
     "surah_id": 66,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:38.809994+00:00",
+    "reviewed_at": "2026-08-23T21:16:29.189653+00:00",
     "ayah_count": 12,
-    "total_duration_sec": 379.75
+    "total_duration_sec": 401.3
   },
   "74_305_67": {
     "key": "74_305_67",
@@ -6496,9 +6496,9 @@
     "surah_id": 67,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:39.373981+00:00",
+    "reviewed_at": "2026-08-23T21:16:29.774534+00:00",
     "ayah_count": 30,
-    "total_duration_sec": 477.68
+    "total_duration_sec": 500.78
   },
   "74_67": {
     "key": "74_305_67",
@@ -6507,9 +6507,9 @@
     "surah_id": 67,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:39.373981+00:00",
+    "reviewed_at": "2026-08-23T21:16:29.774534+00:00",
     "ayah_count": 30,
-    "total_duration_sec": 477.68
+    "total_duration_sec": 500.78
   },
   "74_305_68": {
     "key": "74_305_68",
@@ -6518,9 +6518,9 @@
     "surah_id": 68,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:39.974989+00:00",
+    "reviewed_at": "2026-08-23T21:16:30.348052+00:00",
     "ayah_count": 52,
-    "total_duration_sec": 488.88
+    "total_duration_sec": 496.24
   },
   "74_68": {
     "key": "74_305_68",
@@ -6529,9 +6529,9 @@
     "surah_id": 68,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:39.974989+00:00",
+    "reviewed_at": "2026-08-23T21:16:30.348052+00:00",
     "ayah_count": 52,
-    "total_duration_sec": 488.88
+    "total_duration_sec": 496.24
   },
   "74_305_69": {
     "key": "74_305_69",
@@ -6540,9 +6540,9 @@
     "surah_id": 69,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:40.592716+00:00",
+    "reviewed_at": "2026-08-23T21:16:30.928972+00:00",
     "ayah_count": 52,
-    "total_duration_sec": 385.03
+    "total_duration_sec": 407.4
   },
   "74_69": {
     "key": "74_305_69",
@@ -6551,9 +6551,9 @@
     "surah_id": 69,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:40.592716+00:00",
+    "reviewed_at": "2026-08-23T21:16:30.928972+00:00",
     "ayah_count": 52,
-    "total_duration_sec": 385.03
+    "total_duration_sec": 407.4
   },
   "74_305_70": {
     "key": "74_305_70",
@@ -6562,9 +6562,9 @@
     "surah_id": 70,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:42.244920+00:00",
+    "reviewed_at": "2026-08-23T21:16:31.519135+00:00",
     "ayah_count": 44,
-    "total_duration_sec": 313.79
+    "total_duration_sec": 337.56
   },
   "74_70": {
     "key": "74_305_70",
@@ -6573,9 +6573,9 @@
     "surah_id": 70,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:42.244920+00:00",
+    "reviewed_at": "2026-08-23T21:16:31.519135+00:00",
     "ayah_count": 44,
-    "total_duration_sec": 313.79
+    "total_duration_sec": 337.56
   },
   "74_305_71": {
     "key": "74_305_71",
@@ -6584,9 +6584,9 @@
     "surah_id": 71,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:42.831016+00:00",
+    "reviewed_at": "2026-08-23T21:16:32.109764+00:00",
     "ayah_count": 28,
-    "total_duration_sec": 285.86
+    "total_duration_sec": 313.54
   },
   "74_71": {
     "key": "74_305_71",
@@ -6595,9 +6595,9 @@
     "surah_id": 71,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:42.831016+00:00",
+    "reviewed_at": "2026-08-23T21:16:32.109764+00:00",
     "ayah_count": 28,
-    "total_duration_sec": 285.86
+    "total_duration_sec": 313.54
   },
   "74_305_72": {
     "key": "74_305_72",
@@ -6606,9 +6606,9 @@
     "surah_id": 72,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:43.390974+00:00",
+    "reviewed_at": "2026-08-23T21:16:32.662838+00:00",
     "ayah_count": 28,
-    "total_duration_sec": 335.51
+    "total_duration_sec": 358.64
   },
   "74_72": {
     "key": "74_305_72",
@@ -6617,9 +6617,9 @@
     "surah_id": 72,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:43.390974+00:00",
+    "reviewed_at": "2026-08-23T21:16:32.662838+00:00",
     "ayah_count": 28,
-    "total_duration_sec": 335.51
+    "total_duration_sec": 358.64
   },
   "74_305_73": {
     "key": "74_305_73",
@@ -6628,9 +6628,9 @@
     "surah_id": 73,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:43.983300+00:00",
+    "reviewed_at": "2026-08-23T21:16:33.239531+00:00",
     "ayah_count": 20,
-    "total_duration_sec": 171.34
+    "total_duration_sec": 275.32
   },
   "74_73": {
     "key": "74_305_73",
@@ -6639,9 +6639,9 @@
     "surah_id": 73,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:43.983300+00:00",
+    "reviewed_at": "2026-08-23T21:16:33.239531+00:00",
     "ayah_count": 20,
-    "total_duration_sec": 171.34
+    "total_duration_sec": 275.32
   },
   "74_305_74": {
     "key": "74_305_74",
@@ -6650,9 +6650,9 @@
     "surah_id": 74,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:44.579457+00:00",
+    "reviewed_at": "2026-08-23T21:16:33.968216+00:00",
     "ayah_count": 56,
-    "total_duration_sec": 370.3
+    "total_duration_sec": 398.06
   },
   "74_74": {
     "key": "74_305_74",
@@ -6661,9 +6661,9 @@
     "surah_id": 74,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:44.579457+00:00",
+    "reviewed_at": "2026-08-23T21:16:33.968216+00:00",
     "ayah_count": 56,
-    "total_duration_sec": 370.3
+    "total_duration_sec": 398.06
   },
   "74_305_75": {
     "key": "74_305_75",
@@ -6672,9 +6672,9 @@
     "surah_id": 75,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:45.141923+00:00",
+    "reviewed_at": "2026-08-23T21:16:34.837629+00:00",
     "ayah_count": 40,
-    "total_duration_sec": 217.08
+    "total_duration_sec": 231.54
   },
   "74_75": {
     "key": "74_305_75",
@@ -6683,9 +6683,9 @@
     "surah_id": 75,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:45.141923+00:00",
+    "reviewed_at": "2026-08-23T21:16:34.837629+00:00",
     "ayah_count": 40,
-    "total_duration_sec": 217.08
+    "total_duration_sec": 231.54
   },
   "74_305_76": {
     "key": "74_305_76",
@@ -6694,9 +6694,9 @@
     "surah_id": 76,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:45.741158+00:00",
+    "reviewed_at": "2026-08-23T21:16:35.443192+00:00",
     "ayah_count": 31,
-    "total_duration_sec": 324.9
+    "total_duration_sec": 348.58
   },
   "74_76": {
     "key": "74_305_76",
@@ -6705,9 +6705,9 @@
     "surah_id": 76,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:45.741158+00:00",
+    "reviewed_at": "2026-08-23T21:16:35.443192+00:00",
     "ayah_count": 31,
-    "total_duration_sec": 324.9
+    "total_duration_sec": 348.58
   },
   "74_305_77": {
     "key": "74_305_77",
@@ -6716,9 +6716,9 @@
     "surah_id": 77,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:46.320218+00:00",
+    "reviewed_at": "2026-08-23T21:16:36.988685+00:00",
     "ayah_count": 50,
-    "total_duration_sec": 300.53
+    "total_duration_sec": 315.66
   },
   "74_77": {
     "key": "74_305_77",
@@ -6727,9 +6727,9 @@
     "surah_id": 77,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:46.320218+00:00",
+    "reviewed_at": "2026-08-23T21:16:36.988685+00:00",
     "ayah_count": 50,
-    "total_duration_sec": 300.53
+    "total_duration_sec": 315.66
   },
   "74_305_78": {
     "key": "74_305_78",
@@ -6738,9 +6738,9 @@
     "surah_id": 78,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:46.949320+00:00",
+    "reviewed_at": "2026-08-23T21:16:37.582373+00:00",
     "ayah_count": 40,
-    "total_duration_sec": 240.74
+    "total_duration_sec": 261.64
   },
   "74_78": {
     "key": "74_305_78",
@@ -6749,9 +6749,9 @@
     "surah_id": 78,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:46.949320+00:00",
+    "reviewed_at": "2026-08-23T21:16:37.582373+00:00",
     "ayah_count": 40,
-    "total_duration_sec": 240.74
+    "total_duration_sec": 261.64
   },
   "74_305_79": {
     "key": "74_305_79",
@@ -6760,9 +6760,9 @@
     "surah_id": 79,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:47.550512+00:00",
+    "reviewed_at": "2026-08-23T21:16:38.204600+00:00",
     "ayah_count": 46,
-    "total_duration_sec": 244.82
+    "total_duration_sec": 256.9
   },
   "74_79": {
     "key": "74_305_79",
@@ -6771,9 +6771,9 @@
     "surah_id": 79,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:47.550512+00:00",
+    "reviewed_at": "2026-08-23T21:16:38.204600+00:00",
     "ayah_count": 46,
-    "total_duration_sec": 244.82
+    "total_duration_sec": 256.9
   },
   "74_305_80": {
     "key": "74_305_80",
@@ -6782,9 +6782,9 @@
     "surah_id": 80,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:48.138545+00:00",
+    "reviewed_at": "2026-08-23T21:16:38.778378+00:00",
     "ayah_count": 42,
-    "total_duration_sec": 216.04
+    "total_duration_sec": 222.7
   },
   "74_80": {
     "key": "74_305_80",
@@ -6793,9 +6793,9 @@
     "surah_id": 80,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:48.138545+00:00",
+    "reviewed_at": "2026-08-23T21:16:38.778378+00:00",
     "ayah_count": 42,
-    "total_duration_sec": 216.04
+    "total_duration_sec": 222.7
   },
   "74_305_81": {
     "key": "74_305_81",
@@ -6804,9 +6804,9 @@
     "surah_id": 81,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:48.754775+00:00",
+    "reviewed_at": "2026-08-23T21:16:39.401562+00:00",
     "ayah_count": 29,
-    "total_duration_sec": 150.27
+    "total_duration_sec": 164.66
   },
   "74_81": {
     "key": "74_305_81",
@@ -6815,9 +6815,9 @@
     "surah_id": 81,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:48.754775+00:00",
+    "reviewed_at": "2026-08-23T21:16:39.401562+00:00",
     "ayah_count": 29,
-    "total_duration_sec": 150.27
+    "total_duration_sec": 164.66
   },
   "74_305_82": {
     "key": "74_305_82",
@@ -6826,9 +6826,9 @@
     "surah_id": 82,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:49.339301+00:00",
+    "reviewed_at": "2026-08-23T21:16:39.960190+00:00",
     "ayah_count": 19,
-    "total_duration_sec": 120.72
+    "total_duration_sec": 132.1
   },
   "74_82": {
     "key": "74_305_82",
@@ -6837,9 +6837,9 @@
     "surah_id": 82,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:49.339301+00:00",
+    "reviewed_at": "2026-08-23T21:16:39.960190+00:00",
     "ayah_count": 19,
-    "total_duration_sec": 120.72
+    "total_duration_sec": 132.1
   },
   "74_305_83": {
     "key": "74_305_83",
@@ -6848,9 +6848,9 @@
     "surah_id": 83,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:49.930751+00:00",
+    "reviewed_at": "2026-08-23T21:16:40.523409+00:00",
     "ayah_count": 36,
-    "total_duration_sec": 291.39
+    "total_duration_sec": 297.5
   },
   "74_83": {
     "key": "74_305_83",
@@ -6859,9 +6859,9 @@
     "surah_id": 83,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:49.930751+00:00",
+    "reviewed_at": "2026-08-23T21:16:40.523409+00:00",
     "ayah_count": 36,
-    "total_duration_sec": 291.39
+    "total_duration_sec": 297.5
   },
   "74_305_84": {
     "key": "74_305_84",
@@ -6870,9 +6870,9 @@
     "surah_id": 84,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:50.559133+00:00",
+    "reviewed_at": "2026-08-23T21:16:42.180297+00:00",
     "ayah_count": 25,
-    "total_duration_sec": 152.6
+    "total_duration_sec": 161.98
   },
   "74_84": {
     "key": "74_305_84",
@@ -6881,9 +6881,9 @@
     "surah_id": 84,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:50.559133+00:00",
+    "reviewed_at": "2026-08-23T21:16:42.180297+00:00",
     "ayah_count": 25,
-    "total_duration_sec": 152.6
+    "total_duration_sec": 161.98
   },
   "74_305_85": {
     "key": "74_305_85",
@@ -6892,9 +6892,9 @@
     "surah_id": 85,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:51.129564+00:00",
+    "reviewed_at": "2026-08-23T21:16:42.733007+00:00",
     "ayah_count": 22,
-    "total_duration_sec": 158.86
+    "total_duration_sec": 164.48
   },
   "74_85": {
     "key": "74_305_85",
@@ -6903,9 +6903,9 @@
     "surah_id": 85,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:51.129564+00:00",
+    "reviewed_at": "2026-08-23T21:16:42.733007+00:00",
     "ayah_count": 22,
-    "total_duration_sec": 158.86
+    "total_duration_sec": 164.48
   },
   "74_305_86": {
     "key": "74_305_86",
@@ -6914,9 +6914,9 @@
     "surah_id": 86,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:51.759098+00:00",
+    "reviewed_at": "2026-08-23T21:16:43.291811+00:00",
     "ayah_count": 17,
-    "total_duration_sec": 90.56
+    "total_duration_sec": 95.98
   },
   "74_86": {
     "key": "74_305_86",
@@ -6925,9 +6925,9 @@
     "surah_id": 86,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:51.759098+00:00",
+    "reviewed_at": "2026-08-23T21:16:43.291811+00:00",
     "ayah_count": 17,
-    "total_duration_sec": 90.56
+    "total_duration_sec": 95.98
   },
   "74_305_87": {
     "key": "74_305_87",
@@ -6936,9 +6936,9 @@
     "surah_id": 87,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:53.412752+00:00",
+    "reviewed_at": "2026-08-23T21:16:43.922066+00:00",
     "ayah_count": 19,
-    "total_duration_sec": 101.37
+    "total_duration_sec": 105.66
   },
   "74_87": {
     "key": "74_305_87",
@@ -6947,9 +6947,9 @@
     "surah_id": 87,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:53.412752+00:00",
+    "reviewed_at": "2026-08-23T21:16:43.922066+00:00",
     "ayah_count": 19,
-    "total_duration_sec": 101.37
+    "total_duration_sec": 105.66
   },
   "74_305_88": {
     "key": "74_305_88",
@@ -6958,9 +6958,9 @@
     "surah_id": 88,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:54.057159+00:00",
+    "reviewed_at": "2026-08-23T21:16:44.540277+00:00",
     "ayah_count": 26,
-    "total_duration_sec": 126.97
+    "total_duration_sec": 131.88
   },
   "74_88": {
     "key": "74_305_88",
@@ -6969,9 +6969,9 @@
     "surah_id": 88,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:54.057159+00:00",
+    "reviewed_at": "2026-08-23T21:16:44.540277+00:00",
     "ayah_count": 26,
-    "total_duration_sec": 126.97
+    "total_duration_sec": 131.88
   },
   "74_305_89": {
     "key": "74_305_89",
@@ -6980,9 +6980,9 @@
     "surah_id": 89,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:54.660505+00:00",
+    "reviewed_at": "2026-08-23T21:16:45.072382+00:00",
     "ayah_count": 30,
-    "total_duration_sec": 195.52
+    "total_duration_sec": 199.74
   },
   "74_89": {
     "key": "74_305_89",
@@ -6991,9 +6991,9 @@
     "surah_id": 89,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:54.660505+00:00",
+    "reviewed_at": "2026-08-23T21:16:45.072382+00:00",
     "ayah_count": 30,
-    "total_duration_sec": 195.52
+    "total_duration_sec": 199.74
   },
   "74_305_90": {
     "key": "74_305_90",
@@ -7002,9 +7002,9 @@
     "surah_id": 90,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:55.253272+00:00",
+    "reviewed_at": "2026-08-23T21:16:45.652252+00:00",
     "ayah_count": 20,
-    "total_duration_sec": 109.12
+    "total_duration_sec": 114.08
   },
   "74_90": {
     "key": "74_305_90",
@@ -7013,9 +7013,9 @@
     "surah_id": 90,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:55.253272+00:00",
+    "reviewed_at": "2026-08-23T21:16:45.652252+00:00",
     "ayah_count": 20,
-    "total_duration_sec": 109.12
+    "total_duration_sec": 114.08
   },
   "74_305_91": {
     "key": "74_305_91",
@@ -7024,9 +7024,9 @@
     "surah_id": 91,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:56.932967+00:00",
+    "reviewed_at": "2026-08-23T21:16:46.238690+00:00",
     "ayah_count": 15,
-    "total_duration_sec": 79.58
+    "total_duration_sec": 82.94
   },
   "74_91": {
     "key": "74_305_91",
@@ -7035,9 +7035,9 @@
     "surah_id": 91,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:56.932967+00:00",
+    "reviewed_at": "2026-08-23T21:16:46.238690+00:00",
     "ayah_count": 15,
-    "total_duration_sec": 79.58
+    "total_duration_sec": 82.94
   },
   "74_305_92": {
     "key": "74_305_92",
@@ -7046,9 +7046,9 @@
     "surah_id": 92,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:57.537091+00:00",
+    "reviewed_at": "2026-08-23T21:16:46.814029+00:00",
     "ayah_count": 21,
-    "total_duration_sec": 105.51
+    "total_duration_sec": 107.78
   },
   "74_92": {
     "key": "74_305_92",
@@ -7057,9 +7057,9 @@
     "surah_id": 92,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:57.537091+00:00",
+    "reviewed_at": "2026-08-23T21:16:46.814029+00:00",
     "ayah_count": 21,
-    "total_duration_sec": 105.51
+    "total_duration_sec": 107.78
   },
   "74_305_93": {
     "key": "74_305_93",
@@ -7068,9 +7068,9 @@
     "surah_id": 93,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:58.171006+00:00",
+    "reviewed_at": "2026-08-23T21:16:47.400297+00:00",
     "ayah_count": 11,
-    "total_duration_sec": 57.21
+    "total_duration_sec": 63.16
   },
   "74_93": {
     "key": "74_305_93",
@@ -7079,9 +7079,9 @@
     "surah_id": 93,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:58.171006+00:00",
+    "reviewed_at": "2026-08-23T21:16:47.400297+00:00",
     "ayah_count": 11,
-    "total_duration_sec": 57.21
+    "total_duration_sec": 63.16
   },
   "74_305_94": {
     "key": "74_305_94",
@@ -7090,9 +7090,9 @@
     "surah_id": 94,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:58.792957+00:00",
+    "reviewed_at": "2026-08-23T21:16:47.961483+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 35.59
+    "total_duration_sec": 40.5
   },
   "74_94": {
     "key": "74_305_94",
@@ -7101,9 +7101,9 @@
     "surah_id": 94,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:58.792957+00:00",
+    "reviewed_at": "2026-08-23T21:16:47.961483+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 35.59
+    "total_duration_sec": 40.5
   },
   "74_305_95": {
     "key": "74_305_95",
@@ -7112,9 +7112,9 @@
     "surah_id": 95,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:59.419605+00:00",
+    "reviewed_at": "2026-08-23T21:16:48.538174+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 49.86
+    "total_duration_sec": 55.48
   },
   "74_95": {
     "key": "74_305_95",
@@ -7123,9 +7123,9 @@
     "surah_id": 95,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:43:59.419605+00:00",
+    "reviewed_at": "2026-08-23T21:16:48.538174+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 49.86
+    "total_duration_sec": 55.48
   },
   "74_305_96": {
     "key": "74_305_96",
@@ -7134,9 +7134,9 @@
     "surah_id": 96,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:00.006812+00:00",
+    "reviewed_at": "2026-08-23T21:16:49.172193+00:00",
     "ayah_count": 19,
-    "total_duration_sec": 93.09
+    "total_duration_sec": 98.04
   },
   "74_96": {
     "key": "74_305_96",
@@ -7145,9 +7145,9 @@
     "surah_id": 96,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:00.006812+00:00",
+    "reviewed_at": "2026-08-23T21:16:49.172193+00:00",
     "ayah_count": 19,
-    "total_duration_sec": 93.09
+    "total_duration_sec": 98.04
   },
   "74_305_97": {
     "key": "74_305_97",
@@ -7156,9 +7156,9 @@
     "surah_id": 97,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:00.641914+00:00",
+    "reviewed_at": "2026-08-23T21:16:49.714422+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 37.1
+    "total_duration_sec": 41.6
   },
   "74_97": {
     "key": "74_305_97",
@@ -7167,9 +7167,9 @@
     "surah_id": 97,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:00.641914+00:00",
+    "reviewed_at": "2026-08-23T21:16:49.714422+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 37.1
+    "total_duration_sec": 41.6
   },
   "74_305_98": {
     "key": "74_305_98",
@@ -7178,9 +7178,9 @@
     "surah_id": 98,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:01.246129+00:00",
+    "reviewed_at": "2026-08-23T21:16:50.266797+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 92.68
+    "total_duration_sec": 124.58
   },
   "74_98": {
     "key": "74_305_98",
@@ -7189,9 +7189,9 @@
     "surah_id": 98,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:01.246129+00:00",
+    "reviewed_at": "2026-08-23T21:16:50.266797+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 92.68
+    "total_duration_sec": 124.58
   },
   "74_305_99": {
     "key": "74_305_99",
@@ -7200,9 +7200,9 @@
     "surah_id": 99,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:01.840319+00:00",
+    "reviewed_at": "2026-08-23T21:16:50.824154+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 45.81
+    "total_duration_sec": 53.24
   },
   "74_99": {
     "key": "74_305_99",
@@ -7211,9 +7211,9 @@
     "surah_id": 99,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:01.840319+00:00",
+    "reviewed_at": "2026-08-23T21:16:50.824154+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 45.81
+    "total_duration_sec": 53.24
   },
   "74_305_100": {
     "key": "74_305_100",
@@ -7222,9 +7222,9 @@
     "surah_id": 100,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:02.450900+00:00",
+    "reviewed_at": "2026-08-23T21:16:51.390812+00:00",
     "ayah_count": 11,
-    "total_duration_sec": 54.1
+    "total_duration_sec": 62.1
   },
   "74_100": {
     "key": "74_305_100",
@@ -7233,9 +7233,9 @@
     "surah_id": 100,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:02.450900+00:00",
+    "reviewed_at": "2026-08-23T21:16:51.390812+00:00",
     "ayah_count": 11,
-    "total_duration_sec": 54.1
+    "total_duration_sec": 62.1
   },
   "74_305_101": {
     "key": "74_305_101",
@@ -7244,9 +7244,9 @@
     "surah_id": 101,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:03.086510+00:00",
+    "reviewed_at": "2026-08-23T21:16:52.217536+00:00",
     "ayah_count": 11,
-    "total_duration_sec": 53.62
+    "total_duration_sec": 55.5
   },
   "74_101": {
     "key": "74_305_101",
@@ -7255,9 +7255,9 @@
     "surah_id": 101,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:03.086510+00:00",
+    "reviewed_at": "2026-08-23T21:16:52.217536+00:00",
     "ayah_count": 11,
-    "total_duration_sec": 53.62
+    "total_duration_sec": 55.5
   },
   "74_305_102": {
     "key": "74_305_102",
@@ -7266,9 +7266,9 @@
     "surah_id": 102,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:03.652619+00:00",
+    "reviewed_at": "2026-08-23T21:16:52.818037+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 42.31
+    "total_duration_sec": 51.16
   },
   "74_102": {
     "key": "74_305_102",
@@ -7277,9 +7277,9 @@
     "surah_id": 102,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:03.652619+00:00",
+    "reviewed_at": "2026-08-23T21:16:52.818037+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 42.31
+    "total_duration_sec": 51.16
   },
   "74_305_103": {
     "key": "74_305_103",
@@ -7288,9 +7288,9 @@
     "surah_id": 103,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:04.255618+00:00",
+    "reviewed_at": "2026-08-23T21:16:53.590239+00:00",
     "ayah_count": 3,
-    "total_duration_sec": 13.59
+    "total_duration_sec": 24.11
   },
   "74_103": {
     "key": "74_305_103",
@@ -7299,9 +7299,9 @@
     "surah_id": 103,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:04.255618+00:00",
+    "reviewed_at": "2026-08-23T21:16:53.590239+00:00",
     "ayah_count": 3,
-    "total_duration_sec": 13.59
+    "total_duration_sec": 24.11
   },
   "74_305_104": {
     "key": "74_305_104",
@@ -7310,9 +7310,9 @@
     "surah_id": 104,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:04.853106+00:00",
+    "reviewed_at": "2026-08-23T21:16:54.182279+00:00",
     "ayah_count": 9,
-    "total_duration_sec": 46.9
+    "total_duration_sec": 50.26
   },
   "74_104": {
     "key": "74_305_104",
@@ -7321,9 +7321,9 @@
     "surah_id": 104,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:04.853106+00:00",
+    "reviewed_at": "2026-08-23T21:16:54.182279+00:00",
     "ayah_count": 9,
-    "total_duration_sec": 46.9
+    "total_duration_sec": 50.26
   },
   "74_305_105": {
     "key": "74_305_105",
@@ -7332,9 +7332,9 @@
     "surah_id": 105,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:05.446485+00:00",
+    "reviewed_at": "2026-08-23T21:16:54.770230+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 32.07
+    "total_duration_sec": 37.5
   },
   "74_105": {
     "key": "74_305_105",
@@ -7343,9 +7343,9 @@
     "surah_id": 105,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:05.446485+00:00",
+    "reviewed_at": "2026-08-23T21:16:54.770230+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 32.07
+    "total_duration_sec": 37.5
   },
   "74_305_106": {
     "key": "74_305_106",
@@ -7354,9 +7354,9 @@
     "surah_id": 106,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:06.036426+00:00",
+    "reviewed_at": "2026-08-23T21:16:55.392908+00:00",
     "ayah_count": 4,
-    "total_duration_sec": 22.76
+    "total_duration_sec": 35.18
   },
   "74_106": {
     "key": "74_305_106",
@@ -7365,9 +7365,9 @@
     "surah_id": 106,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:06.036426+00:00",
+    "reviewed_at": "2026-08-23T21:16:55.392908+00:00",
     "ayah_count": 4,
-    "total_duration_sec": 22.76
+    "total_duration_sec": 35.18
   },
   "74_305_107": {
     "key": "74_305_107",
@@ -7376,9 +7376,9 @@
     "surah_id": 107,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:06.798388+00:00",
+    "reviewed_at": "2026-08-23T21:16:56.013107+00:00",
     "ayah_count": 7,
-    "total_duration_sec": 40.7
+    "total_duration_sec": 44.72
   },
   "74_107": {
     "key": "74_305_107",
@@ -7387,9 +7387,9 @@
     "surah_id": 107,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:06.798388+00:00",
+    "reviewed_at": "2026-08-23T21:16:56.013107+00:00",
     "ayah_count": 7,
-    "total_duration_sec": 40.7
+    "total_duration_sec": 44.72
   },
   "74_305_108": {
     "key": "74_305_108",
@@ -7398,9 +7398,9 @@
     "surah_id": 108,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:07.437378+00:00",
+    "reviewed_at": "2026-08-23T21:16:56.638030+00:00",
     "ayah_count": 3,
-    "total_duration_sec": 16.22
+    "total_duration_sec": 21.71
   },
   "74_108": {
     "key": "74_305_108",
@@ -7409,9 +7409,9 @@
     "surah_id": 108,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:07.437378+00:00",
+    "reviewed_at": "2026-08-23T21:16:56.638030+00:00",
     "ayah_count": 3,
-    "total_duration_sec": 16.22
+    "total_duration_sec": 21.71
   },
   "74_305_109": {
     "key": "74_305_109",
@@ -7420,9 +7420,9 @@
     "surah_id": 109,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:09.059556+00:00",
-    "ayah_count": 7,
-    "total_duration_sec": 50.0
+    "reviewed_at": "2026-08-23T21:16:57.223322+00:00",
+    "ayah_count": 6,
+    "total_duration_sec": 49.16
   },
   "74_109": {
     "key": "74_305_109",
@@ -7431,9 +7431,9 @@
     "surah_id": 109,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:09.059556+00:00",
-    "ayah_count": 7,
-    "total_duration_sec": 50.0
+    "reviewed_at": "2026-08-23T21:16:57.223322+00:00",
+    "ayah_count": 6,
+    "total_duration_sec": 49.16
   },
   "74_305_110": {
     "key": "74_305_110",
@@ -7442,9 +7442,9 @@
     "surah_id": 110,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:09.674751+00:00",
-    "ayah_count": 4,
-    "total_duration_sec": 31.0
+    "reviewed_at": "2026-08-23T21:16:57.782818+00:00",
+    "ayah_count": 3,
+    "total_duration_sec": 28.98
   },
   "74_110": {
     "key": "74_305_110",
@@ -7453,9 +7453,9 @@
     "surah_id": 110,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:09.674751+00:00",
-    "ayah_count": 4,
-    "total_duration_sec": 31.0
+    "reviewed_at": "2026-08-23T21:16:57.782818+00:00",
+    "ayah_count": 3,
+    "total_duration_sec": 28.98
   },
   "74_305_111": {
     "key": "74_305_111",
@@ -7464,9 +7464,9 @@
     "surah_id": 111,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:10.253476+00:00",
+    "reviewed_at": "2026-08-23T21:16:58.339119+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 29.39
+    "total_duration_sec": 34.72
   },
   "74_111": {
     "key": "74_305_111",
@@ -7475,9 +7475,9 @@
     "surah_id": 111,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:10.253476+00:00",
+    "reviewed_at": "2026-08-23T21:16:58.339119+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 29.39
+    "total_duration_sec": 34.72
   },
   "74_305_112": {
     "key": "74_305_112",
@@ -7486,9 +7486,9 @@
     "surah_id": 112,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:10.883758+00:00",
+    "reviewed_at": "2026-08-23T21:17:00.001248+00:00",
     "ayah_count": 4,
-    "total_duration_sec": 16.2
+    "total_duration_sec": 20.75
   },
   "74_112": {
     "key": "74_305_112",
@@ -7497,9 +7497,9 @@
     "surah_id": 112,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:10.883758+00:00",
+    "reviewed_at": "2026-08-23T21:17:00.001248+00:00",
     "ayah_count": 4,
-    "total_duration_sec": 16.2
+    "total_duration_sec": 20.75
   },
   "74_305_113": {
     "key": "74_305_113",
@@ -7508,9 +7508,9 @@
     "surah_id": 113,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:11.492112+00:00",
+    "reviewed_at": "2026-08-23T21:17:00.687735+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 25.29
+    "total_duration_sec": 30.32
   },
   "74_113": {
     "key": "74_305_113",
@@ -7519,9 +7519,9 @@
     "surah_id": 113,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:11.492112+00:00",
+    "reviewed_at": "2026-08-23T21:17:00.687735+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 25.29
+    "total_duration_sec": 30.32
   },
   "74_305_114": {
     "key": "74_305_114",
@@ -7530,9 +7530,9 @@
     "surah_id": 114,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:12.057281+00:00",
+    "reviewed_at": "2026-08-23T21:17:01.520635+00:00",
     "ayah_count": 6,
-    "total_duration_sec": 33.32
+    "total_duration_sec": 39.38
   },
   "74_114": {
     "key": "74_305_114",
@@ -7541,8 +7541,8 @@
     "surah_id": 114,
     "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T20:44:12.057281+00:00",
+    "reviewed_at": "2026-08-23T21:17:01.520635+00:00",
     "ayah_count": 6,
-    "total_duration_sec": 33.32
+    "total_duration_sec": 39.38
   }
 }

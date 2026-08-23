@@ -40,31 +40,8 @@ export function SurahGridScreen(props: SurahGridProps) {
   const [usability, setUsability] = createSignal<Map<number, boolean>>(new Map());
   const [probeFrom, setProbeFrom] = createSignal(0);
 
-  // Probe lazily as cards scroll into view (≤10 MB files only; cached forever).
-  createEffect(() => {
-    const readId = matchedReadId();
-    const start = probeFrom();
-    if (readId === undefined || start < 0) return;
-    const all = grid();
-    const batch = all.slice(start, start + 12);
-    if (batch.length === 0) return;
-    let cancelled = false;
-    void (async () => {
-      const next = new Map(usability());
-      for (const surah of batch) {
-        if (cancelled) return;
-        const verdict = await c.timing.timingUsability(
-          readId,
-          surah.id,
-          audioUrlFor(props.moshaf.server, surah.id),
-        );
-        if (verdict !== null) next.set(surah.id, verdict);
-      }
-      if (!cancelled) setUsability(next);
-      setProbeFrom(start + 12); // schedule the next batch
-    })();
-    return () => { cancelled = true; };
-  });
+  // With sovereign index and clean timings, MP3 probing is no longer needed.
+  // Instant O(1) status comes from timing_index.json & soar lists.
 
   async function load() {
     setError(false);
@@ -75,25 +52,30 @@ export function SurahGridScreen(props: SurahGridProps) {
       const all = await c.catalog.surahs(lang);
       const ids = new Set(availableSurahIds(props.moshaf));
       const list = all.filter((s) => ids.has(s.id));
-      setSurahs(list);
+
+      // Strictly filter to surahs that have timing in GitHub catalogue
+      const read = await c.timing.readForMoshaf(props.moshaf.server);
+      if (read) {
+        setMatchedReadId(read.id);
+        const soar = await c.timing.surahsWithTiming(read.id, props.moshaf.server);
+        if (soar && soar.size > 0) {
+          const timedList = list.filter((s) => soar.has(s.id));
+          setSurahs(timedList);
+          setUntimed(new Set());
+        } else {
+          setSurahs([]);
+          setUntimed(new Set(list.map((s) => s.id)));
+        }
+      } else {
+        setMatchedReadId(undefined);
+        setSurahs([]);
+        setUntimed(new Set(list.map((s) => s.id)));
+      }
+
       setTimeout(() => {
         const scroll = document.querySelector(".h-scroll");
         if (scroll) focusFirst(scroll);
       }, 150);
-      // Timing status for badges
-      const read = await c.timing.readForMoshaf(props.moshaf.server);
-      if (read) {
-        setMatchedReadId(read.id);
-        const soar = await c.timing.surahsWithTiming(read.id);
-        if (soar) {
-          const allIds = new Set(list.map((s) => s.id));
-          setUntimed(new Set([...allIds].filter((id) => !soar.has(id))));
-        }
-      } else {
-        setMatchedReadId(undefined);
-        // No read at all → every surah is untimed.
-        setUntimed(new Set(list.map((s) => s.id)));
-      }
     } catch (e) {
       setError(true);
       if (e instanceof ApiException && e.isTimeout) {
@@ -108,17 +90,11 @@ export function SurahGridScreen(props: SurahGridProps) {
 
   const grid = createMemo(() => surahs() ?? []);
 
-  /** Untimed = outside the soar list, OR the real mp3 probe says unusable. */
   function effectiveUntimed(surahId: number): boolean {
-    const u = usability().get(surahId);
-    if (u === false) return true; // probe verdict: timing unusable
-    return untimed().has(surahId); // soar-list gap
+    return untimed().has(surahId);
   }
 
-  // Re-probe the first batch after the initial load.
-  createEffect(() => {
-    if (surahs() !== null && probeFrom() === 0) setProbeFrom(1);
-  });
+
 
   return (
     <div class="screen">

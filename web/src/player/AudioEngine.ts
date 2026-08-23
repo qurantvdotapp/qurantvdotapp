@@ -85,9 +85,12 @@ export class AudioEngine {
     return Math.round(this.current.duration * 1000);
   }
 
-  play(url: string, positionMs = 0): void {
+  private fallbackUrl: string | null = null;
+
+  play(url: string, positionMs = 0, fallbackUrl?: string): void {
     this.stopTransition();
     this.pausedDuringTransition = false;
+    this.fallbackUrl = fallbackUrl ?? null;
     // Fresh start: A plays now, B is the carrier for the next surah.
     this.current = this.a;
     this.carrier = this.b;
@@ -101,16 +104,27 @@ export class AudioEngine {
     this.b.load();
     this.b.volume = 1;
     this.url = url;
-    void this.a.play().catch(() => this.onError(url));
+    void this.a.play().catch(() => this.handlePlayError(url));
     this.startTicker();
   }
 
-  /** Preload + buffer the next surah into the IDLE element for a gapless handoff. */
+  private handlePlayError(failedUrl: string): void {
+    if (this.fallbackUrl && this.fallbackUrl !== failedUrl) {
+      const fb = this.fallbackUrl;
+      this.fallbackUrl = null;
+      this.current.src = fb;
+      this.url = fb;
+      void this.current.play().catch(() => this.onError(fb));
+    } else {
+      this.onError(failedUrl);
+    }
+  }
+
+  /** Prepare the next surah URL for handoff when the current track nears its end. */
   prepareGapless(url: string | null): void {
     if (this.repeat !== "off") {
       this.carrier.pause();
       this.carrier.removeAttribute("src");
-      this.carrier.load();
       this.gaplessUrl = null;
       return;
     }
@@ -119,13 +133,13 @@ export class AudioEngine {
     if (!url) {
       c.pause();
       c.removeAttribute("src");
-      c.load();
       c.volume = 1;
       return;
     }
+    c.removeAttribute("src");
+    c.preload = "none";
     c.src = url;
-    c.volume = 0; // buffer silently; ramps at the crossfade
-    c.load();
+    c.volume = 0;
   }
 
   toggle(): void {

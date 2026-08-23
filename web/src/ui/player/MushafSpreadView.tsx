@@ -8,7 +8,7 @@
 import { createEffect, createMemo, createSignal, Show } from "solid-js";
 import type { AyahTiming, QuranSurah } from "../../domain/Models";
 import { MushafPageView, PageLoading } from "./MushafPageView";
-import { madinahSvgUrl, ksuPageUrl, islamicPageUrl, mushafStyle } from "./mushafStyles";
+import { madinahSvgUrl, ksuPageUrl, islamicPageUrl, mushafStyle, pageForVerse } from "./mushafStyles";
 
 interface MushafSpreadViewProps {
   style: number;
@@ -26,34 +26,45 @@ interface MushafSpreadViewProps {
 }
 
 export function MushafSpreadView(props: MushafSpreadViewProps) {
+  const style = createMemo(() => mushafStyle(props.style));
+
   // Last known page (timing pageUrl is sparse — keep the mushaf put). Only
   // valid for the CURRENT surah: a stale page from the previous surah must
   // not flash during the gapless handoff.
   const [lastKnownPage, setLastKnownPage] = createSignal<{ page: number; surahId: number } | null>(null);
-  const currentPage = createMemo(() => {
-    // Read FIRST so the memo re-runs on surah changes (a sparse entry would
-    // otherwise keep the previous surah's last-known page on screen).
-    const surahId = props.surah.id;
-    if (props.hasTiming) {
-      const e = props.entry;
-      if (e?.pageUrl) {
-        const m = /([0-9]+)\.svg$/.exec(e.pageUrl);
-        if (m) return Number.parseInt(m[1], 10);
-      }
-      // Basmala (ayah 0) has no page of its own — show the surah's first page
-      // immediately instead of a loading screen (same Madinah pagination the
-      // timing page field uses).
-      if (props.currentAyah < 1 && props.surah.startPage >= 1) return props.surah.startPage;
-      const lk = lastKnownPage();
-      return lk && lk.surahId === surahId ? lk.page : null;
+
+  const timingPage = createMemo(() => {
+    if (!props.hasTiming) return null;
+    const e = props.entry;
+    if (e?.pageUrl) {
+      const m = /([0-9]+)\.svg$/.exec(e.pageUrl);
+      if (m) return Number.parseInt(m[1], 10);
     }
-    return props.noTimingPage >= 1 ? props.noTimingPage : null;
+    if (props.currentAyah < 1 && props.surah.startPage >= 1) return props.surah.startPage;
+    return null;
   });
+
+  const computedPage = createMemo(() => {
+    const s = style();
+    const p =
+      pageForVerse(s, timingPage(), props.surah.id, props.currentAyah) ??
+      (props.hasTiming ? null : props.noTimingPage);
+    return p && p >= 1 ? p : null;
+  });
+
+  const currentPage = createMemo(() => {
+    const surahId = props.surah.id;
+    const cp = computedPage();
+    if (cp !== null && cp >= 1) return cp;
+    const lk = lastKnownPage();
+    return lk && lk.surahId === surahId ? lk.page : null;
+  });
+
   // Track the known page in an EFFECT, never inside the memo — writing state
   // from the memo let a stale entry (old timing + new surah mid-handoff) tag
   // the wrong page with the new surah's id, freezing the old mushaf spread.
   createEffect(() => {
-    const p = currentPage();
+    const p = computedPage();
     if (p !== null && p >= 1) setLastKnownPage({ page: p, surahId: props.surah.id });
   });
 

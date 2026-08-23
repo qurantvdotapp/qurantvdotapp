@@ -7,12 +7,15 @@ import { QuranComApi } from "../api/QuranComApi";
 import type { ChapterDto, ReciterDto, SurahDto } from "../api/Dtos";
 import { CACHE, CACHE_TTL_24H, JsonDiskCache } from "../cache/JsonDiskCache";
 import type { QuranSurah, Reciter } from "../../domain/Models";
+import type { TimingRepository } from "./TimingRepository";
+import { normalizeServerUrl } from "../../domain/CatalogParsing";
 
 export class CatalogRepository {
   constructor(
     private readonly api: Mp3QuranApi,
     private readonly quranApi: QuranComApi,
     private readonly cache: JsonDiskCache,
+    private readonly timingRepo?: TimingRepository,
   ) {}
 
   /** All surahs with Arabic (mp3quran) and English (Quran.com) names, merged by id. */
@@ -59,8 +62,26 @@ export class CatalogRepository {
     }
   }
 
-  /** Reciters (Arabic names), enriched with English names for search. */
+  /** Reciters (Arabic names), enriched with English names, strictly filtered to timed recitations. */
   async reciters(language: string): Promise<Reciter[]> {
+    const [all, timedUrls] = await Promise.all([
+      this.allReciters(language),
+      this.timingRepo ? this.timingRepo.timedServerUrls() : Promise.resolve(null),
+    ]);
+
+    if (!timedUrls || timedUrls.size === 0) {
+      return all;
+    }
+
+    return all
+      .map((r) => ({
+        ...r,
+        moshafs: r.moshafs.filter((m) => timedUrls.has(normalizeServerUrl(m.server))),
+      }))
+      .filter((r) => r.moshafs.length > 0);
+  }
+
+  private async allReciters(language: string): Promise<Reciter[]> {
     const key = `reciters_aug_${language}`;
     return this.cache.singleFlight(key, async () => {
       const cached = await this.cache.read(CACHE.CATALOG, key, CACHE_TTL_24H);

@@ -7,6 +7,8 @@ build/
 # Local / machine-specific
 local.properties
 *.local
+.env
+*.env
 
 # IDE
 .idea/
@@ -38,12 +40,19 @@ app/src/main/assets/quran/*.tmp
 web/node_modules/
 web/dist/
 
-# dataset mirror is regenerable (scripts/download-dataset.mjs) — keep the manifest only
-web/data-mirror/catalog/
-web/data-mirror/timing/
-web/data-mirror/hilites/
+# dataset mirror is regenerable (scripts/download-dataset.mjs) — keep the manifest and necessary mirrors
 web/data-mirror/*.tar.gz
 web/data-mirror/reads.json
 
 # Android TV webview wrapper
 tvweb/src/main/assets/www/
+
+# Python Virtual Environments & Scratch
+.venv/
+venv/
+scratch/
+*.mp3
+*.wav
+*.dll
+*.so
+*.dylib

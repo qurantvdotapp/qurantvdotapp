@@ -44,6 +44,7 @@ export interface TimingRead {
   name: string;
   rewaya: string | null;
   folderUrl: string;
+  slug?: string | null;
 }
 
 /** A point in the SVG mushaf page coordinate space. */

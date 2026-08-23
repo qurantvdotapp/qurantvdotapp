@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quran TV — Studio & Cloud Control Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="studio-container">
+    <!-- Header -->
+    <header class="studio-header">
+      <div class="brand">
+        <div class="logo-badge">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">Quran TV Studio</h1>
+          <span class="brand-subtitle">نظام إعداد التلاوات · الاستيراد الذكي (APIs) · التخزين السحابي (Archive.org) · التوقيت (STT) · النشر المعتمد (GitHub)</span>
+        </div>
+      </div>
+
+      <!-- Live Cloud Badges & Quick Action Toolbar -->
+      <div class="header-badges">
+        <button class="btn-api-import-action" onclick="openApiImportModal()" title="استيراد التوقيت أو القراء والمصاحف من APIs بنقرة واحدة">
+          <span class="pulse-sparkle">✨</span>
+          <span>📥 استيراد من الـ APIs</span>
+        </button>
+
+        <div class="cloud-badge-card" id="iaStatusBadge">
+          <span class="status-dot warning"></span>
+          <span class="badge-label">Archive.org:</span>
+          <span class="badge-val">فحص...</span>
+        </div>
+        <div class="cloud-badge-card" id="ghStatusBadge">
+          <span class="status-dot warning"></span>
+          <span class="badge-label">GitHub:</span>
+          <span class="badge-val">فحص...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Global Alert Banner -->
+    <div id="globalNotification" class="alert-banner" style="display: none;"></div>
+
+    <!-- Streamlined Navigation Bar -->
+    <div class="wizard-stepper">
+      <div class="step-item active" id="stepIndicator3" onclick="jumpToStep(3)">
+        <div class="step-circle">🎙️</div>
+        <div class="step-label">
+          <strong>استوديو التوقيت الذكي</strong>
+          <span>اختيار القارئ والسورة والمحاذاة الفورية أو الذكاء الاصطناعي</span>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" id="stepIndicator2" onclick="jumpToStep(2)">
+        <div class="step-circle">📦</div>
+        <div class="step-label">
+          <strong>رفع التلاوات (Archive.org)</strong>
+          <span>تخزين ملفات الصوت السحابية لمصحف كامل أو سورة</span>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" id="stepIndicator4" onclick="jumpToStep(4)">
+        <div class="step-circle">🌐</div>
+        <div class="step-label">
+          <strong>المزامنة الشاملة (GitHub Sync)</strong>
+          <span>مراجعة الحزم الكاملة والكتالوجات ونشرها</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN STEP CONTAINER -->
+    <main class="wizard-content">
+
+      <!-- ==================== STEP 3: STREAMLINED TIMING STUDIO (PRIMARY HUB) ==================== -->
+      <section class="wizard-panel active" id="stepPanel3">
+        
+        <!-- Admin Filter Bar for Moshafs & Surahs -->
+        <div class="admin-filter-bar mb-3">
+          <div class="flex-between">
+            <div class="filter-group">
+              <span class="filter-label">🔍 تصفية القراء:</span>
+              <div class="filter-chips">
+                <button type="button" class="filter-chip active" id="chipReciterAll" onclick="setRecitersFilter('all', this)">الكل</button>
+                <button type="button" class="filter-chip" id="chipReciterComplete" onclick="setRecitersFilter('complete', this)">⚡ مكتمل (114)</button>
+                <button type="button" class="filter-chip" id="chipReciterPartial" onclick="setRecitersFilter('partial', this)">✨ جزئي التوقيت</button>
+                <button type="button" class="filter-chip" id="chipReciterUntimed" onclick="setRecitersFilter('untimed', this)">⚠️ غير موقت</button>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-label">📜 تصفية السور:</span>
+              <div class="filter-chips">
+                <button type="button" class="filter-chip active" id="chipSurahAll" onclick="setSurahsFilter('all', this)">كل السور (114)</button>
+                <button type="button" class="filter-chip" id="chipSurahTimed" onclick="setSurahsFilter('timed', this)">✅ الموقتة</button>
+                <button type="button" class="filter-chip" id="chipSurahUntimed" onclick="setSurahsFilter('untimed', this)">⚠️ غير الموقتة</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Studio Quick Bar (Step 1 + Step 3 Controls) -->
+        <div class="studio-quick-bar mb-4">
+          <div class="quick-bar-grid">
+            <div class="form-group mb-0">
+              <div class="flex-between">
+                <label>🎙️ القارئ (Reciter):</label>
+                <button type="button" class="btn-link-xs" onclick="openApiImportModal('reciters')">بحث واستيراد قارئ +</button>
+              </div>
+              <select id="step1ReciterSelect" onchange="onStep1ReciterChange()" class="font-bold">
+                <option value="">جاري تحميل القراء...</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-0">
+              <label>📖 الرواية / المصحف (Moshaf):</label>
+              <select id="step1MoshafSelect" onchange="onStep1MoshafChange()">
+                <option value="">اختر القارئ أولاً...</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-0">
+              <div class="flex-between">
+                <label>🏷️ المعرّف (Slug):</label>
+                <button type="button" class="btn-link-xs" onclick="resetCurrentSlugToDefault()" title="إعادة تعيين الـ Slug التلقائي">تلقائي 🔄</button>
+              </div>
+              <input type="text" id="studioSlugInput" onchange="onStudioSlugChange()" oninput="onStudioSlugInput()" class="font-mono text-cyan" style="font-size: 0.82rem; height: 38px;" title="المعرف الفريد للمصحف/الرواية ومجلد الحفظ" />
+            </div>
+
+            <div class="form-group mb-0">
+              <label>📜 السورة (Surah):</label>
+              <div class="surah-nav-wrapper">
+                <button type="button" class="btn-nav-surah" onclick="navigateSurah(-1)" title="السورة السابقة (PageUp)">◀</button>
+                <select id="step3SurahSelect" onchange="onStep3SurahChange()" class="font-bold" style="flex: 1;">
+                  <!-- 1 to 114 -->
+                </select>
+                <button type="button" class="btn-nav-surah" onclick="navigateSurah(1)" title="السورة التالية (PageDown)">▶</button>
+              </div>
+            </div>
+
+            <div class="form-group mb-0">
+              <label>⚡ نموذج الذكاء الاصطناعي (STT):</label>
+              <select id="step3ModelSelect">
+                <option value="turbo" selected>⚡ Large-v3 Turbo (موصى به)</option>
+                <option value="large-v3">🎯 Large-v3 (أعلى دقة مطلقة)</option>
+                <option value="distil-large-v3">🚀 Distil-Large-v3 (سريع)</option>
+                <option value="medium">Medium (769M)</option>
+                <option value="base">Base (74M)</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-0">
+              <label>&nbsp;</label>
+              <button class="btn btn-primary btn-block" id="step3AnalyzeBtn" onclick="runStep3Analyze()" style="height: 42px; white-space: nowrap;">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+                </svg>
+                <span>بدء استخراج ومحاذاة الآيات</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="studio-main">
+          <!-- Left Control Panel -->
+          <div class="panel">
+            <div class="panel-heading">
+              <span>بيانات التوقيت والاعتماد</span>
+              <span class="step-num" id="currentAyahCountBadge">0 آية</span>
+            </div>
+
+            <div class="form-group">
+              <div class="flex-between mb-1">
+                <label class="mb-0">حالة التوقيت الحالي:</label>
+                <span id="step3TimingStatusBadge" class="badge">فحص...</span>
+              </div>
+            </div>
+
+            <!-- Auto-Detect External API / GitHub Timing Banner -->
+            <div class="api-auto-detect-card mt-2" id="apiAutoDetectBox" style="display: none;">
+              <div class="flex-between">
+                <div class="api-detect-info">
+                  <span class="api-pulse-icon" id="apiPulseIcon">⚡</span>
+                  <div>
+                    <strong id="apiDetectTitle">توقيت متوفر على mp3quran API</strong>
+                    <span class="text-xs text-dim" id="apiDetectDesc">يمكنك استيراد التوقيت فوراً بنقرة واحدة</span>
+                  </div>
+                </div>
+                <div id="apiDetectActionContainer">
+                  <button class="btn btn-sm btn-success" id="btnQuickImportTiming" onclick="quickImportApiTiming()">
+                    📥 استيراد التوقيت الآن
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group mt-3">
+              <div class="flex-between mb-1">
+                <label class="mb-0">مصدر الصوت المستخدم:</label>
+                <span id="step3AudioSourceBadge" class="badge">فحص...</span>
+              </div>
+              <input type="url" id="step3AudioUrlInput" value="" class="font-mono text-cyan text-xs" />
+            </div>
+
+            <!-- Live Faster-Whisper STT Progress Box -->
+            <div class="stt-progress-box mt-2" id="step3SttProgressBox" style="display: none;">
+              <div class="progress-header">
+                <span id="sttPhaseMsg" class="text-xs text-dim">جاري التحليل...</span>
+                <span id="sttPercentText" class="font-mono text-cyan" dir="ltr">0%</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="sttProgressBarFill" style="width: 0%;"></div>
+              </div>
+
+              <div class="stt-metrics-mini">
+                <div><span>⏱️ المعالج:</span> <strong id="sttTimeProcessed" class="font-mono" dir="ltr">0.0s / 0.0s</strong></div>
+                <div><span>⚡ السرعة:</span> <strong id="sttSpeed" class="font-mono text-success" dir="ltr">1.0x</strong></div>
+                <div><span>📝 الكلمات:</span> <strong id="sttWordCount" class="font-mono" dir="ltr">0</strong></div>
+              </div>
+              
+              <div class="stt-live-transcript" id="sttLiveTranscript">
+                <span>جاري بدء التعرف على الصوت...</span>
+              </div>
+            </div>
+
+            <!-- Review & Approval Status Switch -->
+            <div class="review-status-card mt-3">
+              <div class="flex-between">
+                <label class="review-status-label" for="step3ReviewedCheckbox">
+                  <span class="shield-icon">🛡️</span>
+                  <div>
+                    <strong>حالة الاعتماد والمراجعة:</strong>
+                    <span class="text-xs text-dim" style="display: block;">تحديد هذا التوقيت كـ "مُراجع ومُعتمد" لتطبيق التلفاز</span>
+                  </div>
+                </label>
+                <input type="checkbox" id="step3ReviewedCheckbox" checked class="status-toggle-checkbox" />
+              </div>
+            </div>
+
+            <!-- Outcome Status -->
+            <div id="step3StatusBox" class="status-callout mt-3" style="display: none;"></div>
+
+            <div class="action-row mt-3" style="flex-direction: column; gap: 8px;">
+              <button class="btn btn-github btn-block" id="step3DirectPushBtn" onclick="pushCurrentSurahTimingToGithub()" disabled>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                <span>🚀 نشر واعتماد توقيت هذه السورة لـ GitHub</span>
+              </button>
+
+              <button class="btn btn-secondary btn-block" id="step3SaveLocalBtn" onclick="saveTimingLocally()" disabled>
+                💾 حفظ التوقيت محلياً فقط
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Timeline & Interactive Player Panel -->
+          <div class="panel timeline-panel">
+            <div class="timeline-header">
+              <div class="flex-between" style="width: 100%;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <h3 style="margin-bottom: 0;">المعاينة التفاعلية والاستماع المتزامن</h3>
+                  <span id="activeAyahIndicator" class="badge info">الآية: --</span>
+                </div>
+                <div class="playback-controls">
+                  <button type="button" class="btn btn-icon btn-nav-mini" onclick="navigateAyah(-1)" title="الآية السابقة (السهم الأيمن / Up)">
+                    <span style="font-size: 1.1rem; line-height: 1;">⏮️</span>
+                  </button>
+                  <button id="step3PlayBtn" class="btn btn-icon" title="تشغيل / إيقاف (Space)" onclick="toggleAudio()">
+                    <svg id="step3PlayIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    <svg id="step3PauseIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-nav-mini" onclick="navigateAyah(1)" title="الآية التالية (السهم الأيسر / Down)">
+                    <span style="font-size: 1.1rem; line-height: 1;">⏭️</span>
+                  </button>
+                  <button class="btn btn-sm btn-secondary" onclick="replayFocusedAyah()" title="إعادة تشغيل الآية المحددة (Enter / R)">🔁 إعادة</button>
+                  <span id="step3TimeDisplay" class="time-display">00:00.000 / 00:00.000</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Ayah Live Text Display Banner -->
+            <div class="current-ayah-live-card" id="currentAyahLiveCard">
+              <div class="current-ayah-meta">
+                <span class="badge info font-mono" id="currentAyahNumberBadge">الآية --</span>
+                <span class="current-ayah-timing-badge font-mono" id="currentAyahTimingBadge">00:00.00 - 00:00.00</span>
+                <div class="current-ayah-nav-shortcuts">
+                  <span class="text-xs text-dim">التنقل بين الآيات: <kbd>◀</kbd> <kbd>▶</kbd> أو <kbd>▲</kbd> <kbd>▼</kbd></span>
+                </div>
+              </div>
+              <div class="current-ayah-text arabic-uthmani" id="currentAyahLiveText">
+                اختر سورة واستمع لمتابعة نص الآيات المتزامنة كلمة بكلمة...
+              </div>
+            </div>
+
+            <!-- Waveform status bar -->
+            <div class="waveform-wrapper">
+              <div class="waveform-placeholder" id="step3WaveStatus">
+                <span>اضغط "بدء استخراج ومحاذاة الآيات" أو "استيراد من الـ API" لمعاينة التلاوة متزامنة</span>
+              </div>
+            </div>
+
+            <!-- Interactive Ayahs Table -->
+            <div class="verses-table-container">
+              <table class="verses-table">
+                <thead>
+                  <tr>
+                    <th width="60">الآية</th>
+                    <th>نص الآية الكريمة (مصحف تنزيل)</th>
+                    <th width="130">البداية (ثانية)</th>
+                    <th width="130">النهاية (ثانية)</th>
+                    <th width="80">المدة</th>
+                    <th width="70">تشغيل</th>
+                  </tr>
+                </thead>
+                <tbody id="step3VersesTbody">
+                  <tr>
+                    <td colspan="6" class="text-center py-4 text-dim">لا توجد بيانات حالياً. اضغط "بدء الاستخراج" أو استورد التوقيت من الـ API.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== STEP 2: ARCHIVE.ORG AUDIO CLOUD HUB ==================== -->
+      <section class="wizard-panel" id="stepPanel2">
+        <div class="card">
+          <div class="card-header">
+            <div class="icon-title">
+              <span class="platform-icon">📦</span>
+              <div>
+                <h3>الخطوة الثانية: رفع التلاوات وتخزينها سحابياً على Archive.org</h3>
+                <span class="text-muted">نقل واستضافة ملفات الـ MP3 على خوادم سحابية دائمة ومجانية ومباشرة مع دعم البث عالي السرعة</span>
+              </div>
+            </div>
+            <div class="mode-pills">
+              <button class="mode-pill active" id="pillSingleSurah" onclick="setUploadMode('single')">سورة فردية</button>
+              <button class="mode-pill" id="pillFullMushaf" onclick="setUploadMode('batch')">⚡ مصحف كامل (114 سورة)</button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- Single Surah Upload Mode -->
+            <div id="singleUploadForm">
+              <div class="grid-2">
+                <div class="form-group">
+                  <label>اسم عنصر الأرشيف (Bucket / Identifier):</label>
+                  <input type="text" id="step1SlugInput" value="qurantvapp-husry-hafs" class="font-mono text-cyan" />
+                  <span class="input-hint">معرّف السلسلة الدائم على Archive.org</span>
+                </div>
+
+                <div class="form-group">
+                  <label>السورة المراد رفعها:</label>
+                  <select id="step2SurahSelect" onchange="onStep2SurahChange()">
+                    <!-- Options populated via JS -->
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group mt-3">
+                <label>رابط الملف المصدر (Source Audio URL):</label>
+                <input type="url" id="step2SourceUrlInput" class="font-mono" value="https://server13.mp3quran.net/husr/001.mp3" />
+                <span class="input-hint">سيقوم النظام بتنزيل الملف ورفعه تلقائياً لعنصر الأرشيف</span>
+              </div>
+
+              <input type="hidden" id="step2FilenameInput" value="001.mp3" />
+
+              <div class="action-row mt-4">
+                <button class="btn btn-primary btn-lg" id="step2UploadBtn" onclick="runStep2Upload()">
+                  🚀 رفع السورة إلى Archive.org
+                </button>
+              </div>
+
+              <div class="outcome-alert-box mt-3" id="step2OutcomeBox" style="display: none;"></div>
+            </div>
+
+            <!-- Batch Upload Mode -->
+            <div id="batchUploadForm" style="display: none;">
+              <div class="batch-config-box">
+                <div class="grid-2">
+                  <div class="form-group">
+                    <label>معرّف عنصر الأرشيف (Bucket ID):</label>
+                    <div class="font-mono text-cyan font-bold" id="batchBucketDisplay">qurantvapp-husry-hafs</div>
+                  </div>
+                  <div class="form-group">
+                    <label>خادم الصوت المصدر (Source Server Base):</label>
+                    <input type="url" id="batchSourceServerInput" class="font-mono text-xs" value="https://server13.mp3quran.net/husr/" />
+                  </div>
+                </div>
+
+                <div class="form-group mt-3">
+                  <label>نطاق السور (Surahs Range):</label>
+                  <div class="flex-between">
+                    <span class="text-xs text-dim">مصحف كامل (من سورة 1 إلى 114)</span>
+                    <button class="btn-link-xs" onclick="resetBatchRange()">تحديد الكل (1-114)</button>
+                  </div>
+                  <input type="text" id="batchSurahsRangeInput" class="font-mono" value="1-114" placeholder="مثال: 1-114 أو 1,2,3,4" />
+                </div>
+
+                <div class="action-row mt-4">
+                  <button class="btn btn-success btn-lg" id="btnStartBatchUpload" onclick="startMushafBatchUpload()">
+                    ⚡ بدء رفع المصحف كاملاً إلى Archive.org
+                  </button>
+                  <button class="btn btn-danger btn-lg" id="btnCancelBatchUpload" onclick="cancelMushafBatchUpload()" style="display: none;">
+                    ✕ إلغاء الرفع الدفعي
+                  </button>
+                </div>
+              </div>
+
+              <!-- Live Batch Metrics & Progress -->
+              <div class="batch-progress-card mt-4" id="batchProgressCard" style="display: none;">
+                <div class="flex-between mb-2">
+                  <strong id="batchStatusHeading">جاري رفع المصحف...</strong>
+                  <span id="batchPercentBadge" class="badge font-mono font-bold">0%</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill" id="batchProgressBarFill" style="width: 0%;"></div>
+                </div>
+
+                <div class="grid-4 mt-3 batch-metrics-grid">
+                  <div class="metric-card">
+                    <span class="label">السور المكتملة:</span>
+                    <strong id="batchSurahsCount">0 / 114</strong>
+                  </div>
+                  <div class="metric-card">
+                    <span class="label">البيانات المرفوعة:</span>
+                    <strong id="batchMbUploaded" class="text-cyan">0 MB</strong>
+                  </div>
+                  <div class="metric-card">
+                    <span class="label">سرعة النقل:</span>
+                    <strong id="batchSpeed" class="text-success">0 KB/s</strong>
+                  </div>
+                  <div class="metric-card">
+                    <span class="label">الوقت المتبقي (ETA):</span>
+                    <strong id="batchEta" class="font-mono">--:--</strong>
+                  </div>
+                </div>
+
+                <!-- Batch Terminal Logs -->
+                <div class="batch-log-window mt-3" id="batchLogWindow">
+                  <div class="log-line">جاهز للبدء...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== STEP 4: APPROVAL & PUBLISH TO GITHUB ==================== -->
+      <section class="wizard-panel" id="stepPanel4">
+        <div class="card">
+          <div class="card-header">
+            <div class="icon-title">
+              <span class="platform-icon">🛡️</span>
+              <div>
+                <h3>الخطوة الرابعة: اعتماد المشرف ونشر الحزم إلى GitHub</h3>
+                <span class="text-muted">مراجعة التغييرات والتوقيتات ونشرها كالمصدر الحي لتطبيق Quran TV</span>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="goToStep(3)">→ العودة للاستوديو</button>
+          </div>
+
+          <div class="card-body">
+            <!-- Mode Switch: Single Surah vs Full Mushaf -->
+            <div class="mode-pills mb-4">
+              <button class="mode-pill active" id="pillPublishSingle" onclick="switchPublishMode('single')">
+                📄 نشر سورة مفردة (Single Surah)
+              </button>
+              <button class="mode-pill" id="pillPublishMushaf" onclick="switchPublishMode('mushaf')">
+                🚀 نشر المصحف كاملاً إلى GitHub (Full Mushaf)
+              </button>
+            </div>
+
+            <!-- Review Summary (Single Surah) -->
+            <div id="step4SingleSummaryPane">
+              <div class="publish-summary-card">
+                <h4>ملخص التلاوة والتوقيت المعتمد:</h4>
+                <div class="grid-3 mt-3">
+                  <div class="summary-item">
+                    <span class="label">القارئ:</span>
+                    <strong id="step4ReciterName">محمود خليل الحصري</strong>
+                  </div>
+                  <div class="summary-item">
+                    <span class="label">المصحف / الرواية:</span>
+                    <strong id="step4MoshafName">حفص عن عاصم</strong>
+                  </div>
+                  <div class="summary-item">
+                    <span class="label">السورة:</span>
+                    <strong id="step4SurahName">سورة الفاتحة (1)</strong>
+                  </div>
+                  <div class="summary-item">
+                    <span class="label">رابط الصوت السحابي:</span>
+                    <span class="font-mono text-cyan" id="step4AudioUrl">https://archive.org/download/...</span>
+                  </div>
+                  <div class="summary-item">
+                    <span class="label">حالة التوقيت:</span>
+                    <span class="font-mono text-success" id="step4TimingCount">جاهز ومعتمد</span>
+                  </div>
+                  <div class="summary-item">
+                    <span class="label">مستودع الوجهة:</span>
+                    <span class="font-mono text-success">qurantvdotapp/qurantvdotapp (main)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Full Mushaf Matrix Pane -->
+            <div id="step4MushafSummaryPane" style="display: none;">
+              <div class="publish-summary-card">
+                <div class="flex-between">
+                  <div>
+                    <h4>📊 حالة توقيت المصحف كاملاً:</h4>
+                    <span class="text-xs text-dim" id="step4MushafSubtitle">محمود خليل الحصري - حفص عن عاصم</span>
+                  </div>
+                  <div class="mushaf-progress-badge">
+                    <strong id="step4MushafPercentBadge" class="text-cyan font-mono font-bold" style="font-size: 1.2rem;">0%</strong>
+                  </div>
+                </div>
+
+                <div class="grid-4 mt-3">
+                  <div class="summary-item text-center">
+                    <span class="label">إجمالي السور:</span>
+                    <strong class="font-mono">114</strong>
+                  </div>
+                  <div class="summary-item text-center">
+                    <span class="label">السور الموقتة:</span>
+                    <strong id="step4MushafTimedCount" class="font-mono text-success">0</strong>
+                  </div>
+                  <div class="summary-item text-center">
+                    <span class="label">السور المعتمدة:</span>
+                    <strong id="step4MushafReviewedCount" class="font-mono text-cyan">0</strong>
+                  </div>
+                  <div class="summary-item text-center">
+                    <span class="label">السور غير الموقتة:</span>
+                    <strong id="step4MushafUntimedCount" class="font-mono text-warning">114</strong>
+                  </div>
+                </div>
+
+                <!-- 114 Surahs Matrix Grid -->
+                <div class="surahs-matrix-container mt-3">
+                  <div class="matrix-header flex-between">
+                    <span class="text-xs font-bold">خريطة السور (114 سورة):</span>
+                    <span class="text-xs text-dim">الأخضر: موقت | الرمادي: غير موقت</span>
+                  </div>
+                  <div class="surahs-matrix-grid mt-2" id="step4SurahsMatrixGrid">
+                    <!-- Populated dynamically 1..114 -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Admin Approval Gate -->
+            <div class="admin-approval-box mt-4">
+              <div class="form-group">
+                <label>رسالة التوثيق (Commit Message):</label>
+                <input type="text" id="step4CommitMsg" value="feat(timing): publish reviewed timings (Admin Approved)" />
+              </div>
+
+              <div class="approval-checkbox-wrapper">
+                <input type="checkbox" id="step4ApprovalCheck" onchange="onApprovalCheckChange(this)" />
+                <label for="step4ApprovalCheck" class="approval-label">
+                  <strong>أوافق كمشرف على اعتماد هذه البيانات ونشرها مباشرة إلى مستودع GitHub</strong>
+                  <span>(تصبح البيانات فوراً هي المصدر الوحيد والحي لتطبيق Quran TV)</span>
+                </label>
+              </div>
+
+              <div class="action-row mt-3">
+                <button class="btn btn-git btn-lg" id="step4PublishBtn" onclick="runPublishToGitHub()" disabled>
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                  <span id="step4PublishBtnText">نشر واعتماد البيانات على GitHub الآن</span>
+                </button>
+              </div>
+
+              <!-- Step 4 Outcome Box -->
+              <div class="outcome-alert-box mt-3" id="step4OutcomeBox" style="display: none;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Audio Player Engine -->
+  <audio id="audioElement" preload="auto"></audio>
+
+  <!-- ==================== RICH API IMPORT MODAL (3 TABS) ==================== -->
+  <div class="modal-overlay" id="apiImportModal" style="display: none;">
+    <div class="modal-card modal-card-lg">
+      <div class="modal-header">
+        <div class="modal-title-with-icon">
+          <span class="modal-icon">📥</span>
+          <div>
+            <h3>استيراد البيانات والتوقيتات من الـ APIs</h3>
+            <span class="modal-subtitle">استيراد بنقرة واحدة من mp3quran.net أو Quran.com أو روابط مخصصة</span>
+          </div>
+        </div>
+        <button class="btn-close" onclick="closeApiImportModal()">✕</button>
+      </div>
+
+      <!-- Modal Tabs -->
+      <div class="modal-tabs">
+        <button class="modal-tab-btn active" id="tabBtnImportSurah" onclick="switchImportTab('surah')">
+          ⏱️ توقيت سورة (Surah Timing)
+        </button>
+        <button class="modal-tab-btn" id="tabBtnImportReciters" onclick="switchImportTab('reciters')">
+          🎙️ استيراد قراء ومصاحف (Reciters & Moshafs)
+        </button>
+        <button class="modal-tab-btn" id="tabBtnImportBatch" onclick="switchImportTab('batch')">
+          ⚡ استيراد مصحف كامل (Full Mushaf)
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- TAB 1: Import Surah Timing -->
+        <div class="import-tab-pane active" id="importPaneSurah">
+          <div class="form-group">
+            <label>مصدر الاستيراد (Source):</label>
+            <select id="importSurahSourceSelect" onchange="onImportSurahSourceChange()">
+              <option value="mp3quran" selected>🌐 mp3quran.net API v3 (تلقائي للقارئ المحدد)</option>
+              <option value="quran_com">📖 Quran.com API v4</option>
+              <option value="custom_url">🔗 رابط API أو ملف JSON مخصص</option>
+              <option value="raw_json">📋 لصق نص JSON مباشر</option>
+            </select>
+          </div>
+
+          <div class="grid-3">
+            <div class="form-group">
+              <label>🎙️ القارئ المستهدف:</label>
+              <select id="modalSurahReciterSelect" onchange="onModalSurahReciterChange()">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label>📖 الرواية / المصحف:</label>
+              <select id="modalSurahMoshafSelect" onchange="checkModalSurahStatus()">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label>📜 السورة المراد استيراد توقيتها:</label>
+              <select id="modalSurahSelect" onchange="checkModalSurahStatus()">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Custom URL Input (Conditional) -->
+          <div class="form-group mt-2" id="importCustomUrlGroup" style="display: none;">
+            <label>رابط الـ API أو ملف JSON:</label>
+            <input type="url" id="importCustomUrlInput" placeholder="https://example.com/api/timings/001.json" class="font-mono text-xs" />
+          </div>
+
+          <!-- Raw JSON Textarea (Conditional) -->
+          <div class="form-group mt-2" id="importRawJsonGroup" style="display: none;">
+            <label>الصق مصفوفة JSON للتوقيتات:</label>
+            <textarea id="importRawJsonTextarea" rows="5" class="font-mono text-xs" placeholder='[{"ayah": 1, "start_time": 0, "end_time": 12500}, ...]'></textarea>
+          </div>
+
+          <!-- Modal Surah Timing Status Indicator -->
+          <div id="modalSurahCheckIndicator" class="api-auto-detect-card mt-3" style="display: none;"></div>
+
+          <div class="action-row mt-4">
+            <button class="btn btn-primary btn-block" id="btnRunImportSurahTiming" onclick="runImportSurahTiming()">
+              ⚡ استيراد التوقيت الآن وفتحه في الاستوديو
+            </button>
+          </div>
+
+          <div class="outcome-alert-box mt-3" id="importSurahOutcomeBox" style="display: none;"></div>
+        </div>
+
+        <!-- TAB 2: Search & Import Reciters & Moshafs -->
+        <div class="import-tab-pane" id="importPaneReciters" style="display: none;">
+          <div class="remote-search-bar">
+            <input type="text" id="remoteReciterSearchInput" oninput="onRemoteReciterSearchInput()" placeholder="🔍 اكتب اسم القارئ للبحث الفوري في أكثر من 240 قارئ على mp3quran.net..." />
+            <button class="btn btn-secondary" onclick="fetchRemoteReciters(true)">🔄 تحديث</button>
+          </div>
+
+          <div class="remote-reciters-container mt-3" id="remoteRecitersGrid">
+            <div class="text-center py-4 text-dim">جاري البحث في قاعدة بيانات mp3quran.net...</div>
+          </div>
+        </div>
+
+        <!-- TAB 3: Batch Import Full Mushaf Timings -->
+        <div class="import-tab-pane" id="importPaneBatch" style="display: none;">
+          <div class="batch-import-box">
+            <div class="grid-2">
+              <div class="form-group">
+                <label>🎙️ القارئ (Reciter):</label>
+                <select id="modalBatchReciterSelect" onchange="onModalBatchReciterChange()">
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label>📖 الرواية / المصحف (Recitation / Moshaf):</label>
+                <select id="modalBatchMoshafSelect" onchange="onModalBatchMoshafChange()">
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Recitation Preview Card -->
+            <div class="moshaf-preview-box mt-3" id="modalBatchMoshafPreview">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div class="form-group mt-3">
+              <label>نطاق السور (Surahs Range):</label>
+              <input type="text" id="modalBatchSurahsRange" value="1-114" class="font-mono" />
+              <span class="input-hint">سيتم استيراد ومعايرة وتخزين توقيت كافة سور النطاق المحددة للرواية المختارة</span>
+            </div>
+
+            <div class="action-row mt-4">
+              <button class="btn btn-success btn-lg btn-block" id="btnRunBatchApiImport" onclick="runBatchApiImport()">
+                ⚡ بدء الاستيراد الدفعي للمصحف كاملاً
+              </button>
+            </div>
+
+            <div class="outcome-alert-box mt-3" id="modalBatchOutcomeBox" style="display: none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeApiImportModal()">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Manual Reciter Modal -->
+  <div class="modal-overlay" id="reciterModal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>إضافة قارئ جديد إلى الكتالوج</h3>
+        <button class="btn-close" onclick="closeReciterModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>اسم القارئ بالعربية:</label>
+          <input type="text" id="modalNameAr" placeholder="مثال: محمود خليل الحصري" />
+        </div>
+        <div class="form-group">
+          <label>اسم القارئ بالإنجليزية:</label>
+          <input type="text" id="modalNameEn" placeholder="e.g. Mahmoud Khalil Al-Hussary" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeReciterModal()">إلغاء</button>
+        <button class="btn btn-primary" onclick="submitReciterModal()">حفظ القارئ</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

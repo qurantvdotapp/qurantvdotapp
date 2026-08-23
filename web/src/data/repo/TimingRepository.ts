@@ -1,22 +1,43 @@
-// Ported 1:1 from app/src/main/java/com/qurantv/app/data/repo/TimingRepository.kt
-// Per-ayah timing data: reads list cached forever, per-(read, surah) timing
-// cached forever, reads matched to reciter moshafs by folder_url ↔ server
-// (normalized trailing slashes) — timing read ids are NOT reciter ids.
-
 import { normalizeServerUrl } from "../../domain/CatalogParsing";
 import { isReliable } from "../../domain/TimingAccuracy";
 import type { SurahTiming, TimingRead } from "../../domain/Models";
-import { Mp3QuranApi, ayahTimingToDomain, timingReadDtoToDomain } from "../api/Mp3QuranApi";
+import {
+  Mp3QuranApi,
+  ayahTimingToDomain,
+  timingReadDtoToDomain,
+  type TimingIndex,
+} from "../api/Mp3QuranApi";
 import type { AyahTimingDto, SoarDto, TimingReadDto } from "../api/Dtos";
 import { CACHE, JsonDiskCache } from "../cache/JsonDiskCache";
 
 const MAX_PROBE_BYTES = 10 * 1024 * 1024;
 
 export class TimingRepository {
+  private timingIndexCache: TimingIndex | null = null;
+
   constructor(
     private readonly api: Mp3QuranApi,
     private readonly cache: JsonDiskCache,
   ) {}
+
+  /** Load fast O(1) timing index from CDN/mirror if available. */
+  async getTimingIndex(): Promise<TimingIndex | null> {
+    if (this.timingIndexCache !== null) return this.timingIndexCache;
+    const key = "timing_index_fast";
+    return this.cache.singleFlight(key, async () => {
+      const cached = await this.cache.read(CACHE.TIMING, key);
+      if (cached !== null) {
+        this.timingIndexCache = JSON.parse(cached) as TimingIndex;
+        return this.timingIndexCache;
+      }
+      const idx = await this.api.timingIndex();
+      if (idx) {
+        await this.cache.write(CACHE.TIMING, key, JSON.stringify(idx));
+        this.timingIndexCache = idx;
+      }
+      return idx;
+    });
+  }
 
   async reads(): Promise<TimingRead[]> {
     const key = "reads";
@@ -25,8 +46,6 @@ export class TimingRepository {
       if (cached !== null) {
         return (JSON.parse(cached) as TimingReadDto[]).map(timingReadDtoToDomain);
       }
-      // Store the DTOs (snake_case), exactly like the Kotlin disk cache —
-      // reading back must see folder_url, not the domain folderUrl.
       const dtos = await this.api.timingReads();
       await this.cache.write(CACHE.TIMING, key, JSON.stringify(dtos));
       return dtos.map(timingReadDtoToDomain);
@@ -37,22 +56,48 @@ export class TimingRepository {
   async readForMoshaf(server: string): Promise<TimingRead | null> {
     const target = normalizeServerUrl(server);
     const all = await this.reads();
-    return all.find((r) => normalizeServerUrl(r.folderUrl) === target) ?? null;
+    const match = all.find((r) => normalizeServerUrl(r.folderUrl) === target);
+    if (match) return match;
+
+    // Fast path fallback: O(1) check index
+    const idx = await this.getTimingIndex();
+    if (idx && idx.servers[target]) {
+      const record = idx.servers[target];
+      return {
+        id: record.read_id,
+        name: "",
+        rewaya: null,
+        folderUrl: target,
+        slug: null,
+      };
+    }
+    return null;
   }
 
   /** Normalized folder URLs of every read that has ayah timing. */
   async timedServerUrls(): Promise<Set<string>> {
+    const idx = await this.getTimingIndex();
+    if (idx) {
+      return new Set(Object.keys(idx.servers).map(normalizeServerUrl));
+    }
     const all = await this.reads();
     return new Set(all.map((r) => normalizeServerUrl(r.folderUrl)));
   }
 
   /**
    * The surah ids that have per-ayah timing files for this read (the
-   * ayat_timing/soar list — some reads cover fewer than all 114 surahs).
-   * Cached forever. Returns null on failure so callers can fall back to the
-   * full list (graceful degradation).
+   * ayat_timing/soar list). Cached forever.
    */
-  async surahsWithTiming(readId: number): Promise<Set<number> | null> {
+  async surahsWithTiming(readId: number, serverUrl?: string): Promise<Set<number> | null> {
+    // Fast path via index
+    if (serverUrl) {
+      const idx = await this.getTimingIndex();
+      const target = normalizeServerUrl(serverUrl);
+      if (idx && idx.servers[target] && idx.servers[target].surahs) {
+        return new Set(idx.servers[target].surahs);
+      }
+    }
+
     const key = `soar_r${readId}`;
     return this.cache.singleFlight(key, async () => {
       const cached = await this.cache.read(CACHE.TIMING, key);
@@ -64,16 +109,13 @@ export class TimingRepository {
         await this.cache.write(CACHE.TIMING, key, JSON.stringify(list));
         return new Set(list.map((s) => s.id));
       } catch {
-        return null; // unknown — callers keep the full surah list
+        return null;
       }
     });
   }
 
   /**
-   * Whether the (read, surah) timing is ACTUALLY usable — the soar list can
-   * over-claim. Verdict: the timing exists AND (when the mp3 is small enough to
-   * probe) the mp3 duration matches the timing total within the accuracy gate.
-   * Cached forever. Returns null when unknown (mp3 too large / probe failed).
+   * Whether the (read, surah) timing is ACTUALLY usable.
    */
   async timingUsability(readId: number, surahId: number, mp3Url: string): Promise<boolean | null> {
     const timing = await this.timingFor(readId, surahId);
@@ -90,11 +132,6 @@ export class TimingRepository {
     return usable;
   }
 
-  /**
-   * Probes an mp3's duration via a metadata-only <audio> load. Files larger than
-   * MAX_PROBE_BYTES are skipped (VBR mp3s without a Xing header require a full
-   * scan — too costly to check eagerly).
-   */
   private async probeMp3DurationMs(url: string): Promise<number | null> {
     try {
       const size = await this.headContentLength(url);
@@ -139,25 +176,37 @@ export class TimingRepository {
   }
 
   /** Timing for (read, surah); null on any failure → graceful degradation. */
-  async timingFor(readId: number, surahId: number): Promise<SurahTiming | null> {
-    const key = `s${surahId}_r${readId}`;
+  async timingFor(
+    readId: number,
+    surahId: number,
+    slug?: string,
+    reciterId?: number,
+    moshafId?: number,
+  ): Promise<SurahTiming | null> {
+    const key = `s${surahId}_r${readId}${slug ? `_${slug}` : ""}`;
     return this.cache.singleFlight(key, async () => {
       const cached = await this.cache.read(CACHE.TIMING, key);
       if (cached !== null) {
-        return ayahTimingToDomain(JSON.parse(cached) as AyahTimingDto[], readId, surahId);
+        return ayahTimingToDomain(JSON.parse(cached) as (AyahTimingDto | number)[], readId, surahId);
       }
       try {
-        const list = await this.api.ayahTiming(surahId, readId);
+        const list = await this.api.ayahTiming(surahId, readId, slug, reciterId, moshafId);
         await this.cache.write(CACHE.TIMING, key, JSON.stringify(list));
         return ayahTimingToDomain(list, readId, surahId);
       } catch {
-        return null; // no timing for this pair — play without ayah sync
+        return null;
       }
     });
   }
 
   /** Warm the cache for the next surah while the current one plays. */
-  prefetch(readId: number, surahId: number): void {
-    void this.timingFor(readId, surahId);
+  prefetch(
+    readId: number,
+    surahId: number,
+    slug?: string,
+    reciterId?: number,
+    moshafId?: number,
+  ): void {
+    void this.timingFor(readId, surahId, slug, reciterId, moshafId);
   }
 }

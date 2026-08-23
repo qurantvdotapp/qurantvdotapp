@@ -47,6 +47,7 @@ export interface TimingReadDto {
   folder_url?: string;
   soar_count?: number | null;
   soar_link?: string | null;
+  slug?: string | null;
 }
 
 export interface SoarDto {

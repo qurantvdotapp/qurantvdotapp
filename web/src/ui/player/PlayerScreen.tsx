@@ -4,7 +4,7 @@
 import { createEffect, createMemo, createSignal, onCleanup, onMount, Show } from "solid-js";
 import type { Moshaf, QuranSurah, Reciter, SurahTiming, TimingRead } from "../../domain/Models";
 import { availableSurahIds } from "../../domain/Models";
-import { audioUrlFor, normalizeServerUrl } from "../../domain/CatalogParsing";
+import { audioUrlFor, normalizeServerUrl, generateCleanSlug } from "../../domain/CatalogParsing";
 import { ayahAt, repeatAyahTarget } from "../../domain/TimingIndex";
 import { verseKeyFor, suggestOffset } from "../../domain/BasmalaOffset";
 import { isReliable } from "../../domain/TimingAccuracy";
@@ -255,7 +255,16 @@ export function PlayerScreen(props: PlayerProps) {
       setTimedUrls(timed);
 
       const versesCount = props.surah.versesCount || surahs.find((s) => s.id === props.surah.id)?.versesCount || 0;
-      const t = read ? await c.timing.timingFor(read.id, props.surah.id) : null;
+      const slug = read?.slug || generateCleanSlug(props.reciter.nameEn || props.reciter.name, props.moshaf.name, props.moshaf.id, props.reciter.id);
+      const t = read
+        ? await c.timing.timingFor(
+            read.id,
+            props.surah.id,
+            slug,
+            props.reciter.id,
+            props.moshaf.id,
+          )
+        : null;
       setTiming(t);
 
       // Basmala header for surahs 2..114 (surah 1's verse 1 IS the basmala; surah 9 has none).
@@ -322,7 +331,15 @@ export function PlayerScreen(props: PlayerProps) {
       if (next) {
         gaplessSurah = next;
         engine.prepareGapless(audioUrlFor(props.moshaf.server, next.id));
-        if (read) c.timing.prefetch(read.id, next.id);
+        if (read) {
+          c.timing.prefetch(
+            read.id,
+            next.id,
+            slug,
+            props.reciter.id,
+            props.moshaf.id,
+          );
+        }
       }
 
       // Reciter list for the picker (sorted, Arabic collator).
@@ -337,7 +354,7 @@ export function PlayerScreen(props: PlayerProps) {
   function nextSurahAfterCurrent(): QuranSurah | null {
     const list = props.availableSurahs;
     const i = list.findIndex((s) => s.id === activeSurah().id); // NOT props.surah (stale after nav)
-    return i >= 0 && i < list.length - 1 ? list[i + 1] : null;
+    return i >= 0 && i + 1 < list.length ? list[i + 1] : null;
   }
 
   function prevSurahBeforeCurrent(): QuranSurah | null {
@@ -408,24 +425,42 @@ export function PlayerScreen(props: PlayerProps) {
     engine.setSpeed(speed());
     engine.play(audioUrlFor(props.moshaf.server, surah.id), startMs);
 
-    const next = nextSurahAfterCurrent();
-    if (next) {
-      gaplessSurah = next;
-      engine.prepareGapless(audioUrlFor(props.moshaf.server, next.id));
-      if (read) c.timing.prefetch(read.id, next.id);
-    }
+      const next = nextSurahAfterCurrent();
+      if (next) {
+        gaplessSurah = next;
+        engine.prepareGapless(audioUrlFor(props.moshaf.server, next.id));
+        if (read) {
+          const slug = generateCleanSlug(props.reciter.nameEn || props.reciter.name, props.moshaf.name, props.moshaf.id, props.reciter.id);
+          c.timing.prefetch(
+            read.id,
+            next.id,
+            slug,
+            props.reciter.id,
+            props.moshaf.id,
+          );
+        }
+      }
   }
 
   /** Attach the next surah's state after the engine gapless-handoffs to it
    *  (audio already playing in element B — do NOT re-prepare audio). */
-  /** Load a surah's timing with retries — a flaky mp3quran fetch must not
+  /** Load a surah's timing with retries — a flaky fetch must not
    *  leave the highlight desynced (audio running with a frozen/stale ayah).
    *  timingFor doesn't cache failures, so each retry is a fresh fetch. */
   async function loadTiming(surah: QuranSurah): Promise<{ read: TimingRead | null; timing: SurahTiming | null }> {
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
         const read = await c.timing.readForMoshaf(props.moshaf.server);
-        const t = read ? await c.timing.timingFor(read.id, surah.id) : null;
+        const slug = read?.slug || generateCleanSlug(props.reciter.nameEn || props.reciter.name, props.moshaf.name, props.moshaf.id, props.reciter.id);
+        const t = read
+          ? await c.timing.timingFor(
+              read.id,
+              surah.id,
+              slug,
+              props.reciter.id,
+              props.moshaf.id,
+            )
+          : null;
         if (t) return { read, timing: t };
         if (!read) return { read: null, timing: null }; // no read at all — stop
       } catch {
@@ -520,7 +555,15 @@ export function PlayerScreen(props: PlayerProps) {
     if (next2) {
       gaplessSurah = next2;
       engine.prepareGapless(audioUrlFor(props.moshaf.server, next2.id));
-      if (read) c.timing.prefetch(read.id, next2.id);
+      if (read) {
+        c.timing.prefetch(
+          read.id,
+          next2.id,
+          undefined,
+          props.reciter.id,
+          props.moshaf.id,
+        );
+      }
     } else {
       gaplessSurah = null;
       engine.prepareGapless(null);
@@ -620,24 +663,32 @@ export function PlayerScreen(props: PlayerProps) {
     setFavourites(added ? new Set([...cur, id]) : new Set([...cur].filter((x) => x !== id)));
   }
 
-  function switchReciter(reciter: Reciter, moshaf: Moshaf) {
-    // Keep the current surah when the new moshaf covers it; else its first.
-    const ids = new Set(availableSurahIds(moshaf));
-    const kept = ids.has(props.surah.id) ? props.surah : null;
+  async function switchReciter(reciter: Reciter, moshaf: Moshaf) {
     setDialog(null);
-    void c.catalog.surahs(props.lang).then((all) => {
-      const available = all.filter((s) => ids.has(s.id));
+    try {
+      const all = await c.catalog.surahs(props.lang);
+      const ids = new Set(availableSurahIds(moshaf));
+      let available = all.filter((s) => ids.has(s.id));
+
+      const read = await c.timing.readForMoshaf(moshaf.server);
+      if (read) {
+        const soar = await c.timing.surahsWithTiming(read.id, moshaf.server);
+        if (soar && soar.size > 0) {
+          available = available.filter((s) => soar.has(s.id));
+        }
+      }
+
+      if (available.length === 0) return;
+
+      const kept = available.find((s) => s.id === props.surah.id) ?? null;
       const surah = kept ?? available[0];
-      if (!surah) return;
       const ayah = kept ? currentAyah() : undefined;
-      // G3: carry the position-within-ayah offset so the new reciter resumes at
-    // the same spot, not just the ayah start.
-    const cur = currentAyah();
-    const offset =
-      cur >= 1 && timing()
-        ? Math.max(0, positionMs() - (timing()!.entryFor(cur)?.startMs ?? positionMs()))
-        : 0;
-    props.nav.replaceTop({
+      const cur = currentAyah();
+      const offset =
+        cur >= 1 && timing()
+          ? Math.max(0, positionMs() - (timing()!.entryFor(cur)?.startMs ?? positionMs()))
+          : 0;
+      props.nav.replaceTop({
         kind: "player",
         reciter,
         moshaf,
@@ -646,7 +697,9 @@ export function PlayerScreen(props: PlayerProps) {
         startAyahIndex: ayah,
         resumeOffsetMs: offset,
       });
-    });
+    } catch (e) {
+      console.warn("switchReciter error:", e);
+    }
   }
 
   /* ---------- derived ---------- */

@@ -42,20 +42,18 @@ export function HomeScreen(props: HomeProps) {
     setErrorMsg(undefined);
     setReciters(null);
     try {
-      const settings = c.session.settings();
       const [all, timed] = await Promise.all([c.catalog.reciters(props.lang), c.timing.timedServerUrls()]);
       setTimedUrls(timed);
-      const filtered = settings.onlyTimedReciters
-        ? all
-            .map((r) => ({
-              ...r,
-              moshafs: r.moshafs.filter((m) => timed.has(normalizeServer(m.server))),
-            }))
-            .filter((r) => r.moshafs.length > 0)
-        : all;
-      setReciters(filtered);
+      setReciters(all);
       try {
-        setRecent(await c.catalog.recentReads());
+        const rawRecent = await c.catalog.recentReads();
+        const timedRecent = rawRecent
+          .map((r) => ({
+            ...r,
+            moshafs: r.moshafs.filter((m) => timed.has(normalizeServer(m.server))),
+          }))
+          .filter((r) => r.moshafs.length > 0);
+        setRecent(timedRecent);
       } catch {
         setRecent(null);
       }

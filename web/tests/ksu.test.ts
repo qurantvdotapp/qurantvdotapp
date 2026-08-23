@@ -164,3 +164,32 @@ describe("KsuTajweedPageData", () => {
     expect(tajweedPageFor(0, 0)).toBeNull();
   });
 });
+
+describe("KsuHilitesRepository", () => {
+  it("parses hilites json correctly from mock api and caches result", async () => {
+    const { KsuHilitesRepository, parseHilites } = await import("../src/data/repo/KsuHilitesRepository");
+    const { JsonDiskCache } = await import("../src/data/cache/JsonDiskCache");
+
+    const sample = '{"1": {"1_1": [181, 301], "1_2": [159, 325]}}';
+    const parsed = parseHilites(sample);
+    expect(parsed).toEqual([
+      { surah: 1, ayah: 1, x: 181, y: 301 },
+      { surah: 1, ayah: 2, x: 159, y: 325 },
+    ]);
+
+    const mockApi: any = {
+      hilites: async (mushaf: string, page: number) => {
+        if (mushaf === "hafs" && page === 1) return sample;
+        throw new Error("not found");
+      },
+    };
+    const cache = new JsonDiskCache();
+    const repo = new KsuHilitesRepository(mockApi, cache);
+    const result = await repo.positionsFor("hafs", 1);
+    expect(result).toEqual([
+      { surah: 1, ayah: 1, x: 181, y: 301 },
+      { surah: 1, ayah: 2, x: 159, y: 325 },
+    ]);
+  });
+});
+

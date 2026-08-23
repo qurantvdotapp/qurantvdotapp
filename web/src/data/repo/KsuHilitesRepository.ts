@@ -1,10 +1,6 @@
-// Ported 1:1 from app/src/main/java/com/qurantv/app/data/repo/KsuHilitesRepository.kt
-// Exact per-ayah page positions from quran.ksu.edu.sa (the Ayat reference app).
-// `interface.php?ui=pc&do=hilites&mosshaf=<m>&t=28&page=<p>` →
-// `{"<p>": {"<sura>_<aya>": [x, y], ...}}` — immutable, cached forever.
-
 import type { KsuAyahEnd } from "../../domain/KsuHiliteGeometry";
 import { CACHE, JsonDiskCache } from "../cache/JsonDiskCache";
+import type { Mp3QuranApi } from "../api/Mp3QuranApi";
 
 const MAX_PAGES = 12;
 
@@ -12,8 +8,8 @@ export class KsuHilitesRepository {
   private readonly memory = new Map<string, KsuAyahEnd[]>();
 
   constructor(
+    private readonly api: Mp3QuranApi,
     private readonly cache: JsonDiskCache,
-    private readonly fetchText: (url: string) => Promise<string>,
   ) {}
 
   /** Page ayah end-positions in document order; null on failure. */
@@ -29,8 +25,7 @@ export class KsuHilitesRepository {
         return parsed;
       }
       try {
-        const url = `https://quran.ksu.edu.sa/interface.php?ui=pc&do=hilites&mosshaf=${mushaf}&t=28&page=${page}`;
-        const raw = await this.fetchText(url);
+        const raw = await this.api.hilites(mushaf, page);
         const parsed = parseHilites(raw);
         if (parsed) {
           await this.cache.write(CACHE.KSU_HILITES, key, raw);

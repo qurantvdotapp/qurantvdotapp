@@ -31,16 +31,18 @@ export function appContainer(): AppContainer {
     const api = new Mp3QuranApi(client);
     const quranApi = new QuranComApi(client);
     const cache = new JsonDiskCache();
+    const timing = new TimingRepository(api, cache);
+    const catalog = new CatalogRepository(api, quranApi, cache, timing);
     container = {
       api,
       quranApi,
       cache,
-      catalog: new CatalogRepository(api, quranApi, cache),
-      timing: new TimingRepository(api, cache),
+      catalog,
+      timing,
       quranText: new QuranTextRepository(quranApi, cache),
       session: new SessionRepository(),
       tafseer: new TafseerRepository(),
-      ksuHilites: new KsuHilitesRepository(cache, (url) => client.getText(url)),
+      ksuHilites: new KsuHilitesRepository(api, cache),
     };
   }
   return container;

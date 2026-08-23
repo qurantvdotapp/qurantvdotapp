@@ -53,8 +53,8 @@ export function normalizeKey(e: KeyEventLike): AppKey {
   return "unknown";
 }
 
-const ACTION_THROTTLE_MS = 160;
-const NAV_THROTTLE_MS = 40;
+const ACTION_THROTTLE_MS = 40;
+const NAV_THROTTLE_MS = 30;
 
 /** Attach a normalized-key handler to the window; returns a cleanup fn. */
 export function onRemoteKey(handler: (key: AppKey, raw: KeyEventLike) => void): () => void {

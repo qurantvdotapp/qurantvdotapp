@@ -194,8 +194,10 @@ export function MushafPageView(props: MushafPageViewProps) {
       return;
     }
     const mushaf = s.ksuMushaf!;
+    let cancelled = false;
     void (async () => {
       const pos = await c.ksuHilites.positionsFor(mushaf, p);
+      if (cancelled) return;
       setPositions(pos);
       if (pos && pos.length > 0) {
         const meta = s.ksuMeta === "WARSH" ? WARSH : s.ksuMeta === "TAJWEED" ? TAJWEED : HAFS;
@@ -205,7 +207,14 @@ export function MushafPageView(props: MushafPageViewProps) {
       } else {
         setKsuRectsMap(new Map());
       }
+      // Prefetch next page hilites so next page turn is instant
+      if (p < 604) {
+        void c.ksuHilites.positionsFor(mushaf, p + 1);
+      }
     })();
+    return () => {
+      cancelled = true;
+    };
   });
 
   /* estimator fallback band for KSU pages */

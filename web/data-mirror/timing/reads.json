@@ -1069,5 +1069,14 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=100",
     "slug": "qurantvapp-majed-al-enezi-hafs-murattal"
+  },
+  {
+    "id": 278,
+    "name": "أحمد عيسى المعصراوي",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-ahmad-issa-al-maas-hafs-murattal/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=278",
+    "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal"
   }
 ]

@@ -1051,5 +1051,14 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=64",
     "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal"
+  },
+  {
+    "id": 79,
+    "name": "عبدالعزيز التركي",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-abdulaziz-alturki-hafs-murattal/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=79",
+    "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal"
   }
 ]

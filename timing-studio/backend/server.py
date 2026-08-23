@@ -212,6 +212,43 @@ def get_reciters_with_moshafs():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/timing/catalog-filter-summary")
+def get_catalog_filter_summary():
+    """Get high-level summary of all reciters with their timing completeness status."""
+    try:
+        reciters = get_reciters_with_moshafs()
+        reads_file = os.path.join(DATA_MIRROR, "timing", "reads.json")
+        reads_map = {}
+        if os.path.exists(reads_file):
+            with open(reads_file, "r", encoding="utf-8") as f:
+                for r in json.load(f):
+                    if "folder_url" in r:
+                        norm = r["folder_url"].rstrip("/") + "/"
+                        reads_map[norm] = r
+
+        clean_dir = os.path.join(DATA_MIRROR, "timing_clean")
+        summary_list = []
+        for r in reciters:
+            has_timing = False
+            is_complete = False
+            for m in r["moshafs"]:
+                srv = m.get("server", "").rstrip("/") + "/"
+                slug = reads_map.get(srv, {}).get("slug")
+                if slug and os.path.exists(os.path.join(clean_dir, slug)):
+                    count = len([f for f in os.listdir(os.path.join(clean_dir, slug)) if f.endswith(".json")])
+                    if count > 0:
+                        has_timing = True
+                    if count >= 114:
+                        is_complete = True
+            summary_list.append({
+                "id": r["id"],
+                "has_timing": has_timing,
+                "is_complete": is_complete
+            })
+        return {"reciters": summary_list}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/catalog/untimed-reciters")
 def get_untimed_reciters():
     """Flat list of all untimed moshaf recitations."""
@@ -1088,13 +1125,37 @@ def get_existing_timing(reciter_id: int, surah_id: int, moshaf_id: Optional[int]
     """
     try:
         candidates = []
+
+        # 0. If slug not provided, try to find slug for reciter_id / moshaf_id
+        resolved_slug = slug
+        if not resolved_slug:
+            reads_file = os.path.join(DATA_MIRROR, "timing", "reads.json")
+            if os.path.exists(reads_file):
+                try:
+                    with open(reads_file, "r", encoding="utf-8") as rf:
+                        for r in json.load(rf):
+                            if r.get("id") == reciter_id or r.get("id") == moshaf_id:
+                                resolved_slug = r.get("slug")
+                                break
+                except Exception:
+                    pass
+
+        if resolved_slug:
+            # Dedicated slug folder for this reading (Primary)
+            candidates.append(os.path.join(DATA_MIRROR, "timing_clean", resolved_slug, f"{surah_id}.json"))
+            candidates.append(os.path.join(DATA_MIRROR, "timing", resolved_slug, f"{surah_id}.json"))
+            candidates.append(os.path.join(DATA_MIRROR, "timing_clean", f"{resolved_slug}_{surah_id}.json"))
+            candidates.append(os.path.join(DATA_MIRROR, "timing", "surah", f"{resolved_slug}_{surah_id}.json"))
+
+        # Also search timing_clean directories for any folder matching the reciter slug prefix
         if slug:
-            # 1. Dedicated slug folder for this reading (Primary)
-            candidates.append(os.path.join(DATA_MIRROR, "timing_clean", slug, f"{surah_id}.json"))
-            candidates.append(os.path.join(DATA_MIRROR, "timing", slug, f"{surah_id}.json"))
-            # 2. Slug prefixed filename
-            candidates.append(os.path.join(DATA_MIRROR, "timing_clean", f"{slug}_{surah_id}.json"))
-            candidates.append(os.path.join(DATA_MIRROR, "timing", "surah", f"{slug}_{surah_id}.json"))
+            clean_dir = os.path.join(DATA_MIRROR, "timing_clean")
+            if os.path.exists(clean_dir):
+                for d in os.listdir(clean_dir):
+                    if os.path.isdir(os.path.join(clean_dir, d)):
+                        # If slug prefix matches or directory ends with similar name
+                        if d.startswith(slug) or slug.startswith(d) or (slug.replace("-akda-", "-akdar-") == d):
+                            candidates.append(os.path.join(clean_dir, d, f"{surah_id}.json"))
 
         if moshaf_id:
             candidates.append(os.path.join(DATA_MIRROR, "timing_clean", f"{reciter_id}_{moshaf_id}_{surah_id}.json"))
@@ -1559,13 +1620,6 @@ def publish_mushaf_timings(req: BatchTimingPublishRequest):
                 files_to_commit.append((rel_reads, json.dumps(reads_list, ensure_ascii=False, indent=2)))
             except Exception as e:
                 print("Reads update warning:", e)
-                        "soar_count": len(published_surahs),
-                        "soar_link": f"https://www.mp3quran.net/api/v3/ayat_timing/soar?read={r_id}"
-                    })
-                    with open(reads_file, "w", encoding="utf-8") as f:
-                        json.dump(reads_list, f, ensure_ascii=False, indent=2)
-            except Exception as e:
-                print("Reads update warning in publish_mushaf:", e)
 
         # Regenerate timing_index.json
         generate_timing_index_data()
@@ -1638,14 +1692,33 @@ def get_mushaf_timing_status(reciter_id: int, moshaf_id: Optional[int] = None, s
         m_id = moshaf_id or reciter_id
         is_default_moshaf = (not moshaf_id or moshaf_id == reciter_id)
 
+        # Resolve slug for this recitation from reads.json or timing_index.json
+        slug = None
+        reads_file = os.path.join(DATA_MIRROR, "timing", "reads.json")
+        if os.path.exists(reads_file):
+            try:
+                with open(reads_file, "r", encoding="utf-8") as rf:
+                    r_list = json.load(rf)
+                    for r in r_list:
+                        if (read_id and r.get("id") == read_id) or (server_url and r.get("folder_url", "").rstrip("/") == server_url.rstrip("/")):
+                            slug = r.get("slug")
+                            break
+            except Exception:
+                pass
+
+        slug_dir = os.path.join(DATA_MIRROR, "timing_clean", slug) if slug else None
+
         for s in range(1, 115):
-            if is_default_moshaf:
+            target_path = None
+            if slug_dir and os.path.exists(os.path.join(slug_dir, f"{s}.json")):
+                target_path = os.path.join(slug_dir, f"{s}.json")
+            elif is_default_moshaf:
                 # Default moshaf: check 2-part filename first, then 3-part
                 fname1 = f"{reciter_id}_{s}.json"
                 fname2 = f"{reciter_id}_{m_id}_{s}.json"
                 target_path = local_files.get(fname1) or local_files.get(fname2)
             else:
-                # Specific non-default moshaf: only use 3-part filename (no cross-moshaf fallback)
+                # Specific non-default moshaf: only use 3-part filename
                 fname1 = f"{reciter_id}_{m_id}_{s}.json"
                 target_path = local_files.get(fname1)
 

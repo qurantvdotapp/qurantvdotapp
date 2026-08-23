@@ -60,6 +60,17 @@ async function checkCloudStatus() {
 // ----------------- Slug Generator Helper -----------------
 
 function generateCleanSlug(reciterName, moshafName, moshafObj = null, reciterObj = null) {
+  const currentRec = reciterObj || selectedReciter;
+  const currentM = moshafObj || selectedMoshaf;
+
+  // Check if reciter/moshaf already has a known slug in reads.json or catalog
+  if (currentRec && window.readsMapByServer && currentM?.server) {
+    const norm = currentM.server.trim().replace(/\/+$/, "") + "/";
+    if (window.readsMapByServer[norm]?.slug) {
+      return window.readsMapByServer[norm].slug;
+    }
+  }
+
   const rLower = (reciterName || "").toLowerCase();
   const mLower = (moshafName || "").toLowerCase();
 
@@ -67,16 +78,20 @@ function generateCleanSlug(reciterName, moshafName, moshafObj = null, reciterObj
   if (rLower.includes("hussary") || rLower.includes("husary") || rLower.includes("حصري")) reciterSlug = "husry";
   else if (rLower.includes("afasy") || rLower.includes("alafasi") || rLower.includes("عفاسي")) reciterSlug = "afasy";
   else if (rLower.includes("minshawi") || rLower.includes("منشاوي")) reciterSlug = "minshawi";
-  else if (rLower.includes("abdulbasit") || rLower.includes("عبد الباسط")) reciterSlug = "abdulbasit";
+  else if (rLower.includes("abdulbasit") || rLower.includes("عبد الباسط") || rLower.includes("عبدالباسط")) reciterSlug = "abdulbasit";
   else if (rLower.includes("shuraym") || rLower.includes("شريم")) reciterSlug = "shuraym";
   else if (rLower.includes("sudais") || rLower.includes("سديس")) reciterSlug = "sudais";
   else if (rLower.includes("ghamadi") || rLower.includes("غامدي")) reciterSlug = "ghamadi";
   else if (rLower.includes("maher") || rLower.includes("معيقلي")) reciterSlug = "maher";
   else if (rLower.includes("ayyoub") || rLower.includes("ayyub") || rLower.includes("أيوب")) reciterSlug = "ayyoub";
-  else if (rLower.includes("tblawi") || rLower.includes("طبلاوي")) reciterSlug = "tblawi";
-  else if (rLower.includes("hudhaify") || rLower.includes("حذيفي")) reciterSlug = "hudhaify";
+  else if (rLower.includes("tblawi") || rLower.includes("tablawi") || rLower.includes("طبلاوي")) reciterSlug = "tblawi";
+  else if (rLower.includes("hudhaify") || rLower.includes("huthifi") || rLower.includes("حذيفي")) reciterSlug = "hudhaify";
+  else if (rLower.includes("akdar") || rLower.includes("akhdar") || rLower.includes("اخضر") || rLower.includes("أخضر")) reciterSlug = "ibrahim-al-akdar";
+  else if (rLower.includes("asiri") || rLower.includes("عسيري")) reciterSlug = "ibrahim-al-asiri";
+  else if (rLower.includes("ajm") || rLower.includes("ajamy") || rLower.includes("عجمي")) reciterSlug = "ajamy";
+  else if (rLower.includes("shatri") || rLower.includes("شاطري")) reciterSlug = "shatri";
   else {
-    reciterSlug = rLower.replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").substring(0, 15) || `reciter-${selectedReciter?.id || 1}`;
+    reciterSlug = rLower.replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").substring(0, 18) || `reciter-${currentRec?.id || 1}`;
   }
 
   // Baseline riwayah detection based on reads.json baseline and moshaf metadata
@@ -90,36 +105,12 @@ function generateCleanSlug(reciterName, moshafName, moshafObj = null, reciterObj
   else if (mLower.includes("mojawwad") || mLower.includes("مجود")) riwayahSlug = "mojawwad";
   else if (mLower.includes("mo-lim") || mLower.includes("معلم")) riwayahSlug = "moallim";
 
-  // Check for conflict/disambiguation if reciter has multiple readings under the same broad riwayah (e.g. 2 Hafs recitations)
-  const currentRec = reciterObj || selectedReciter;
-  const currentM = moshafObj || selectedMoshaf;
-  if (currentRec && currentRec.moshafs && currentRec.moshafs.length > 1 && currentM) {
-    const sameRiwayahMoshafs = currentRec.moshafs.filter(m => {
-      const ml = (m.name || "").toLowerCase();
-      if (riwayahSlug === "hafs") {
-        return !ml.includes("warsh") && !ml.includes("ورش") && !ml.includes("qalon") && !ml.includes("قالون") &&
-               !ml.includes("dori") && !ml.includes("دوري") && !ml.includes("susi") && !ml.includes("سوسي") &&
-               !ml.includes("bazzi") && !ml.includes("بزي") && !ml.includes("shuba") && !ml.includes("شعبة");
-      }
-      return ml.includes(riwayahSlug);
-    });
-
-    if (sameRiwayahMoshafs.length > 1) {
-      // Disambiguate by distinct feature in moshaf name or ID
-      if (mLower.includes("mojawwad") || mLower.includes("مجود")) {
-        riwayahSlug = "mojawwad";
-      } else if (mLower.includes("mo-lim") || mLower.includes("معلم")) {
-        riwayahSlug = "moallim";
-      } else if (mLower.includes("1387") || mLower.includes("1967")) {
-        riwayahSlug = "hafs-1387";
-      } else if (mLower.includes("مميزة") || mLower.includes("special")) {
-        riwayahSlug = "hafs-special";
-      } else if (mLower.includes("مرتل") || mLower.includes("murattal")) {
-        riwayahSlug = "hafs-murattal";
-      } else {
-        riwayahSlug = `${riwayahSlug}-m${currentM.id}`;
-      }
-    }
+  if (mLower.includes("mojawwad") || mLower.includes("مجود")) {
+    riwayahSlug = "mojawwad";
+  } else if (mLower.includes("mo-lim") || mLower.includes("معلم")) {
+    riwayahSlug = "moallim";
+  } else if (mLower.includes("مرتل") || mLower.includes("murattal")) {
+    riwayahSlug = `${riwayahSlug}-murattal`;
   }
 
   // Always prefix with qurantvapp- for global uniqueness on Archive.org
@@ -195,13 +186,29 @@ function navigateSurah(delta) {
 
 async function loadRecitersAndSurahs() {
   try {
-    const [recitersRes, surahsRes] = await Promise.all([
+    const [recitersRes, surahsRes, readsRes] = await Promise.all([
       fetch(`${API_BASE}/api/catalog/reciters-with-moshafs`),
-      fetch(`${API_BASE}/api/surahs`)
+      fetch(`${API_BASE}/api/surahs`),
+      fetch(`/data-mirror/timing/reads.json?t=${Date.now()}`).catch(() => null)
     ]);
 
     allReciters = await recitersRes.json();
     allSurahs = await surahsRes.json();
+
+    if (readsRes && readsRes.ok) {
+      try {
+        const rList = await readsRes.json();
+        window.readsMapByServer = {};
+        for (const r of rList) {
+          if (r.folder_url) {
+            const norm = r.folder_url.trim().replace(/\/+$/, "") + "/";
+            window.readsMapByServer[norm] = r;
+          }
+        }
+      } catch (err) {
+        console.warn("Could not parse reads.json:", err);
+      }
+    }
 
     // Fetch catalog summary in background
     fetchCatalogSummary();

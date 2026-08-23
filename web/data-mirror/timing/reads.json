@@ -378,6 +378,15 @@
     "slug": "qurantvapp-abdullah-al-johany-hafs"
   },
   {
+    "id": 64,
+    "name": "عبدالرشيد صوفي",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-abdulrasheed-soufi-hafs-murattal/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=64",
+    "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal"
+  },
+  {
     "id": 65,
     "name": "عبدالرشيد صوفي",
     "rewaya": "السوسي عن أبي عمرو",
@@ -486,6 +495,15 @@
     "slug": "qurantvapp-emad-hafez-hafs"
   },
   {
+    "id": 79,
+    "name": "عبدالعزيز التركي",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-abdulaziz-alturki-hafs-murattal/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=79",
+    "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal"
+  },
+  {
     "id": 80,
     "name": "عمر القزابري",
     "rewaya": "ورش عن نافع",
@@ -547,6 +565,15 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=92",
     "slug": "qurantvapp-yasser-hafs"
+  },
+  {
+    "id": 100,
+    "name": "ماجد العنزي",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-majed-al-enezi-hafs-murattal/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=100",
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal"
   },
   {
     "id": 106,
@@ -918,6 +945,15 @@
     "slug": "qurantvapp-haitham-aldukhain-hafs"
   },
   {
+    "id": 278,
+    "name": "أحمد عيسى المعصراوي",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-ahmad-issa-al-maas-hafs-murattal/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=278",
+    "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal"
+  },
+  {
     "id": 282,
     "name": "عبدالعزيز التركي",
     "rewaya": "حفص عن عاصم",
@@ -1042,41 +1078,5 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10906",
     "slug": "qurantvapp-maher-hafs"
-  },
-  {
-    "id": 64,
-    "name": "عبدالرشيد صوفي",
-    "rewaya": "حفص عن عاصم - مرتل",
-    "folder_url": "https://archive.org/download/qurantvapp-abdulrasheed-soufi-hafs-murattal/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=64",
-    "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal"
-  },
-  {
-    "id": 79,
-    "name": "عبدالعزيز التركي",
-    "rewaya": "حفص عن عاصم - مرتل",
-    "folder_url": "https://archive.org/download/qurantvapp-abdulaziz-alturki-hafs-murattal/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=79",
-    "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal"
-  },
-  {
-    "id": 100,
-    "name": "ماجد العنزي",
-    "rewaya": "حفص عن عاصم - مرتل",
-    "folder_url": "https://archive.org/download/qurantvapp-majed-al-enezi-hafs-murattal/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=100",
-    "slug": "qurantvapp-majed-al-enezi-hafs-murattal"
-  },
-  {
-    "id": 278,
-    "name": "أحمد عيسى المعصراوي",
-    "rewaya": "حفص عن عاصم - مرتل",
-    "folder_url": "https://archive.org/download/qurantvapp-ahmad-issa-al-maas-hafs-murattal/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=278",
-    "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal"
   }
 ]

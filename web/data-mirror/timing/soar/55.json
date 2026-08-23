@@ -1,1 +1,572 @@
-[{"id":1,"name":"الفاتحة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=1&read=55"},{"id":2,"name":"البقرة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=2&read=55"},{"id":3,"name":"آل عمران","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=3&read=55"},{"id":4,"name":"النساء","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=4&read=55"},{"id":5,"name":"المائدة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=5&read=55"},{"id":6,"name":"الأنعام","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=6&read=55"},{"id":7,"name":"الأعراف","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=7&read=55"},{"id":8,"name":"الأنفال","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=8&read=55"},{"id":9,"name":"التوبة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=9&read=55"},{"id":10,"name":"يونس","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=10&read=55"},{"id":11,"name":"هود","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=11&read=55"},{"id":12,"name":"يوسف","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=12&read=55"},{"id":13,"name":"الرعد","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=13&read=55"},{"id":14,"name":"إبراهيم","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=14&read=55"},{"id":15,"name":"الحجر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=15&read=55"},{"id":16,"name":"النحل","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=16&read=55"},{"id":17,"name":"الإسراء","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=17&read=55"},{"id":18,"name":"الكهف","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=18&read=55"},{"id":19,"name":"مريم","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=19&read=55"},{"id":20,"name":"طه","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=20&read=55"},{"id":21,"name":"الأنبياء","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=21&read=55"},{"id":22,"name":"الحج","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=22&read=55"},{"id":23,"name":"المؤمنون","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=23&read=55"},{"id":24,"name":"النور","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=24&read=55"},{"id":25,"name":"الفرقان","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=25&read=55"},{"id":26,"name":"الشعراء","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=26&read=55"},{"id":27,"name":"النمل","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=27&read=55"},{"id":28,"name":"القصص","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=28&read=55"},{"id":29,"name":"العنكبوت","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=29&read=55"},{"id":30,"name":"الروم","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=30&read=55"},{"id":31,"name":"لقمان","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=31&read=55"},{"id":32,"name":"السجدة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=32&read=55"},{"id":33,"name":"الأحزاب","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=33&read=55"},{"id":34,"name":"سبأ","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=34&read=55"},{"id":35,"name":"فاطر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=35&read=55"},{"id":36,"name":"يس","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=36&read=55"},{"id":37,"name":"الصافات","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=37&read=55"},{"id":38,"name":"ص","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=38&read=55"},{"id":39,"name":"الزمر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=39&read=55"},{"id":40,"name":"غافر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=40&read=55"},{"id":41,"name":"فصلت","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=41&read=55"},{"id":42,"name":"الشورى","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=42&read=55"},{"id":43,"name":"الزخرف","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=43&read=55"},{"id":44,"name":"الدّخان","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=44&read=55"},{"id":45,"name":"الجاثية","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=45&read=55"},{"id":46,"name":"الأحقاف","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=46&read=55"},{"id":47,"name":"محمد","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=47&read=55"},{"id":48,"name":"الفتح","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=48&read=55"},{"id":49,"name":"الحجرات","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=49&read=55"},{"id":50,"name":"ق","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=50&read=55"},{"id":51,"name":"الذاريات","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=51&read=55"},{"id":52,"name":"الطور","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=52&read=55"},{"id":53,"name":"النجم","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=53&read=55"},{"id":54,"name":"القمر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=54&read=55"},{"id":55,"name":"الرحمن","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=55&read=55"},{"id":56,"name":"الواقعة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=56&read=55"},{"id":57,"name":"الحديد","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=57&read=55"},{"id":58,"name":"المجادلة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=58&read=55"},{"id":59,"name":"الحشر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=59&read=55"},{"id":60,"name":"الممتحنة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=60&read=55"},{"id":61,"name":"الصف","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=61&read=55"},{"id":62,"name":"الجمعة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=62&read=55"},{"id":63,"name":"المنافقون","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=63&read=55"},{"id":64,"name":"التغابن","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=64&read=55"},{"id":65,"name":"الطلاق","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=65&read=55"},{"id":66,"name":"التحريم","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=66&read=55"},{"id":67,"name":"الملك","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=67&read=55"},{"id":68,"name":"القلم","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=68&read=55"},{"id":69,"name":"الحاقة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=69&read=55"},{"id":70,"name":"المعارج","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=70&read=55"},{"id":71,"name":"نوح","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=71&read=55"},{"id":72,"name":"الجن","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=72&read=55"},{"id":73,"name":"المزمل","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=73&read=55"},{"id":74,"name":"المدثر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=74&read=55"},{"id":75,"name":"القيامة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=75&read=55"},{"id":76,"name":"الإنسان","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=76&read=55"},{"id":77,"name":"المرسلات","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=77&read=55"},{"id":78,"name":"النبأ","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=78&read=55"},{"id":79,"name":"النازعات","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=79&read=55"},{"id":80,"name":"عبس","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=80&read=55"},{"id":81,"name":"التكوير","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=81&read=55"},{"id":82,"name":"الإنفطار","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=82&read=55"},{"id":83,"name":"المطففين","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=83&read=55"},{"id":84,"name":"الإنشقاق","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=84&read=55"},{"id":85,"name":"البروج","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=85&read=55"},{"id":86,"name":"الطارق","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=86&read=55"},{"id":87,"name":"الأعلى","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=87&read=55"},{"id":88,"name":"الغاشية","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=88&read=55"},{"id":89,"name":"الفجر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=89&read=55"},{"id":90,"name":"البلد","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=90&read=55"},{"id":91,"name":"الشمس","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=91&read=55"},{"id":92,"name":"الليل","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=92&read=55"},{"id":93,"name":"الضحى","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=93&read=55"},{"id":94,"name":"الشرح","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=94&read=55"},{"id":95,"name":"التين","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=95&read=55"},{"id":96,"name":"العلق","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=96&read=55"},{"id":97,"name":"القدر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=97&read=55"},{"id":98,"name":"البينة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=98&read=55"},{"id":99,"name":"الزلزلة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=99&read=55"},{"id":100,"name":"العاديات","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=100&read=55"},{"id":101,"name":"القارعة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=101&read=55"},{"id":102,"name":"التكاثر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=102&read=55"},{"id":103,"name":"العصر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=103&read=55"},{"id":104,"name":"الهمزة","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=104&read=55"},{"id":105,"name":"الفيل","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=105&read=55"},{"id":106,"name":"قريش","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=106&read=55"},{"id":107,"name":"الماعون","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=107&read=55"},{"id":108,"name":"الكوثر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=108&read=55"},{"id":109,"name":"الكافرون","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=109&read=55"},{"id":110,"name":"النصر","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=110&read=55"},{"id":111,"name":"المسد","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=111&read=55"},{"id":112,"name":"الإخلاص","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=112&read=55"},{"id":113,"name":"الفلق","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=113&read=55"},{"id":114,"name":"الناس","timing_link":"https://www.mp3quran.net/api/v3/ayat_timing?surah=114&read=55"}]
+[
+  {
+    "id": 1,
+    "name": "الفاتحة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=1&read=55"
+  },
+  {
+    "id": 2,
+    "name": "البقرة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=2&read=55"
+  },
+  {
+    "id": 3,
+    "name": "آل عمران",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=3&read=55"
+  },
+  {
+    "id": 4,
+    "name": "النساء",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=4&read=55"
+  },
+  {
+    "id": 5,
+    "name": "المائدة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=5&read=55"
+  },
+  {
+    "id": 6,
+    "name": "الأنعام",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=6&read=55"
+  },
+  {
+    "id": 7,
+    "name": "الأعراف",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=7&read=55"
+  },
+  {
+    "id": 8,
+    "name": "الأنفال",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=8&read=55"
+  },
+  {
+    "id": 9,
+    "name": "التوبة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=9&read=55"
+  },
+  {
+    "id": 10,
+    "name": "يونس",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=10&read=55"
+  },
+  {
+    "id": 11,
+    "name": "هود",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=11&read=55"
+  },
+  {
+    "id": 12,
+    "name": "يوسف",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=12&read=55"
+  },
+  {
+    "id": 13,
+    "name": "الرعد",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=13&read=55"
+  },
+  {
+    "id": 14,
+    "name": "إبراهيم",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=14&read=55"
+  },
+  {
+    "id": 15,
+    "name": "الحجر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=15&read=55"
+  },
+  {
+    "id": 16,
+    "name": "النحل",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=16&read=55"
+  },
+  {
+    "id": 17,
+    "name": "الإسراء",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=17&read=55"
+  },
+  {
+    "id": 18,
+    "name": "الكهف",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=18&read=55"
+  },
+  {
+    "id": 19,
+    "name": "مريم",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=19&read=55"
+  },
+  {
+    "id": 20,
+    "name": "طه",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=20&read=55"
+  },
+  {
+    "id": 21,
+    "name": "الأنبياء",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=21&read=55"
+  },
+  {
+    "id": 22,
+    "name": "الحج",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=22&read=55"
+  },
+  {
+    "id": 23,
+    "name": "المؤمنون",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=23&read=55"
+  },
+  {
+    "id": 24,
+    "name": "النور",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=24&read=55"
+  },
+  {
+    "id": 25,
+    "name": "الفرقان",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=25&read=55"
+  },
+  {
+    "id": 26,
+    "name": "الشعراء",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=26&read=55"
+  },
+  {
+    "id": 27,
+    "name": "النمل",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=27&read=55"
+  },
+  {
+    "id": 28,
+    "name": "القصص",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=28&read=55"
+  },
+  {
+    "id": 29,
+    "name": "العنكبوت",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=29&read=55"
+  },
+  {
+    "id": 30,
+    "name": "الروم",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=30&read=55"
+  },
+  {
+    "id": 31,
+    "name": "لقمان",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=31&read=55"
+  },
+  {
+    "id": 32,
+    "name": "السجدة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=32&read=55"
+  },
+  {
+    "id": 33,
+    "name": "الأحزاب",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=33&read=55"
+  },
+  {
+    "id": 34,
+    "name": "سبأ",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=34&read=55"
+  },
+  {
+    "id": 35,
+    "name": "فاطر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=35&read=55"
+  },
+  {
+    "id": 36,
+    "name": "يس",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=36&read=55"
+  },
+  {
+    "id": 37,
+    "name": "الصافات",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=37&read=55"
+  },
+  {
+    "id": 38,
+    "name": "ص",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=38&read=55"
+  },
+  {
+    "id": 39,
+    "name": "الزمر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=39&read=55"
+  },
+  {
+    "id": 40,
+    "name": "غافر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=40&read=55"
+  },
+  {
+    "id": 41,
+    "name": "فصلت",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=41&read=55"
+  },
+  {
+    "id": 42,
+    "name": "الشورى",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=42&read=55"
+  },
+  {
+    "id": 43,
+    "name": "الزخرف",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=43&read=55"
+  },
+  {
+    "id": 44,
+    "name": "الدّخان",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=44&read=55"
+  },
+  {
+    "id": 45,
+    "name": "الجاثية",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=45&read=55"
+  },
+  {
+    "id": 46,
+    "name": "الأحقاف",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=46&read=55"
+  },
+  {
+    "id": 47,
+    "name": "محمد",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=47&read=55"
+  },
+  {
+    "id": 48,
+    "name": "الفتح",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=48&read=55"
+  },
+  {
+    "id": 49,
+    "name": "الحجرات",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=49&read=55"
+  },
+  {
+    "id": 50,
+    "name": "ق",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=50&read=55"
+  },
+  {
+    "id": 51,
+    "name": "الذاريات",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=51&read=55"
+  },
+  {
+    "id": 52,
+    "name": "الطور",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=52&read=55"
+  },
+  {
+    "id": 53,
+    "name": "النجم",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=53&read=55"
+  },
+  {
+    "id": 54,
+    "name": "القمر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=54&read=55"
+  },
+  {
+    "id": 55,
+    "name": "الرحمن",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=55&read=55"
+  },
+  {
+    "id": 56,
+    "name": "الواقعة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=56&read=55"
+  },
+  {
+    "id": 57,
+    "name": "الحديد",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=57&read=55"
+  },
+  {
+    "id": 58,
+    "name": "المجادلة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=58&read=55"
+  },
+  {
+    "id": 59,
+    "name": "الحشر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=59&read=55"
+  },
+  {
+    "id": 60,
+    "name": "الممتحنة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=60&read=55"
+  },
+  {
+    "id": 61,
+    "name": "الصف",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=61&read=55"
+  },
+  {
+    "id": 62,
+    "name": "الجمعة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=62&read=55"
+  },
+  {
+    "id": 63,
+    "name": "المنافقون",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=63&read=55"
+  },
+  {
+    "id": 64,
+    "name": "التغابن",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=64&read=55"
+  },
+  {
+    "id": 65,
+    "name": "الطلاق",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=65&read=55"
+  },
+  {
+    "id": 66,
+    "name": "التحريم",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=66&read=55"
+  },
+  {
+    "id": 67,
+    "name": "الملك",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=67&read=55"
+  },
+  {
+    "id": 68,
+    "name": "القلم",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=68&read=55"
+  },
+  {
+    "id": 69,
+    "name": "الحاقة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=69&read=55"
+  },
+  {
+    "id": 70,
+    "name": "المعارج",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=70&read=55"
+  },
+  {
+    "id": 71,
+    "name": "نوح",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=71&read=55"
+  },
+  {
+    "id": 72,
+    "name": "الجن",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=72&read=55"
+  },
+  {
+    "id": 73,
+    "name": "المزمل",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=73&read=55"
+  },
+  {
+    "id": 74,
+    "name": "المدثر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=74&read=55"
+  },
+  {
+    "id": 75,
+    "name": "القيامة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=75&read=55"
+  },
+  {
+    "id": 76,
+    "name": "الإنسان",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=76&read=55"
+  },
+  {
+    "id": 77,
+    "name": "المرسلات",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=77&read=55"
+  },
+  {
+    "id": 78,
+    "name": "النبأ",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=78&read=55"
+  },
+  {
+    "id": 79,
+    "name": "النازعات",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=79&read=55"
+  },
+  {
+    "id": 80,
+    "name": "عبس",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=80&read=55"
+  },
+  {
+    "id": 81,
+    "name": "التكوير",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=81&read=55"
+  },
+  {
+    "id": 82,
+    "name": "الإنفطار",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=82&read=55"
+  },
+  {
+    "id": 83,
+    "name": "المطففين",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=83&read=55"
+  },
+  {
+    "id": 84,
+    "name": "الإنشقاق",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=84&read=55"
+  },
+  {
+    "id": 85,
+    "name": "البروج",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=85&read=55"
+  },
+  {
+    "id": 86,
+    "name": "الطارق",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=86&read=55"
+  },
+  {
+    "id": 87,
+    "name": "الأعلى",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=87&read=55"
+  },
+  {
+    "id": 88,
+    "name": "الغاشية",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=88&read=55"
+  },
+  {
+    "id": 89,
+    "name": "الفجر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=89&read=55"
+  },
+  {
+    "id": 90,
+    "name": "البلد",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=90&read=55"
+  },
+  {
+    "id": 91,
+    "name": "الشمس",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=91&read=55"
+  },
+  {
+    "id": 92,
+    "name": "الليل",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=92&read=55"
+  },
+  {
+    "id": 93,
+    "name": "الضحى",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=93&read=55"
+  },
+  {
+    "id": 94,
+    "name": "الشرح",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=94&read=55"
+  },
+  {
+    "id": 95,
+    "name": "التين",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=95&read=55"
+  },
+  {
+    "id": 96,
+    "name": "العلق",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=96&read=55"
+  },
+  {
+    "id": 97,
+    "name": "القدر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=97&read=55"
+  },
+  {
+    "id": 98,
+    "name": "البينة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=98&read=55"
+  },
+  {
+    "id": 99,
+    "name": "الزلزلة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=99&read=55"
+  },
+  {
+    "id": 100,
+    "name": "العاديات",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=100&read=55"
+  },
+  {
+    "id": 101,
+    "name": "القارعة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=101&read=55"
+  },
+  {
+    "id": 102,
+    "name": "التكاثر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=102&read=55"
+  },
+  {
+    "id": 103,
+    "name": "العصر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=103&read=55"
+  },
+  {
+    "id": 104,
+    "name": "الهمزة",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=104&read=55"
+  },
+  {
+    "id": 105,
+    "name": "الفيل",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=105&read=55"
+  },
+  {
+    "id": 106,
+    "name": "قريش",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=106&read=55"
+  },
+  {
+    "id": 107,
+    "name": "الماعون",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=107&read=55"
+  },
+  {
+    "id": 108,
+    "name": "الكوثر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=108&read=55"
+  },
+  {
+    "id": 109,
+    "name": "الكافرون",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=109&read=55"
+  },
+  {
+    "id": 110,
+    "name": "النصر",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=110&read=55"
+  },
+  {
+    "id": 111,
+    "name": "المسد",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=111&read=55"
+  },
+  {
+    "id": 112,
+    "name": "الإخلاص",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=112&read=55"
+  },
+  {
+    "id": 113,
+    "name": "الفلق",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=113&read=55"
+  },
+  {
+    "id": 114,
+    "name": "الناس",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=114&read=55"
+  }
+]

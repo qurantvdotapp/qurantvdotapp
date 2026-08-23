@@ -1426,14 +1426,31 @@ def publish_single_timing(req: SingleTimingPublishRequest):
         generate_timing_index_data()
         timing_index_file = os.path.join(DATA_MIRROR, "timing_index.json")
 
+        # Save moshaf-specific fallback filename
+        m_id = req.moshaf_id or req.read_id
+        if m_id and m_id != req.read_id:
+            filename = f"{req.read_id}_{m_id}_{req.surah_id}.json"
+        else:
+            filename = f"{req.read_id}_{req.surah_id}.json"
+
+        file_clean_path = os.path.join(timing_clean_dir, filename)
+        file_surah_path = os.path.join(timing_surah_dir, filename)
+
+        with open(file_clean_path, "w", encoding="utf-8") as f:
+            f.write(compact_content_str)
+        with open(file_surah_path, "w", encoding="utf-8") as f:
+            f.write(compact_content_str)
+
         # 5. Prepare files to commit for GitHub
         files_to_commit = []
-        target_local_files = [file_clean_path, file_surah_path, REVIEWS_FILE, reads_file, timing_index_file] + slug_paths
+        target_local_files = [file_clean_path, file_surah_path, REVIEWS_FILE, reads_file, timing_index_file]
+        if slug_clean_path:
+            target_local_files.append(slug_clean_path)
         if os.path.exists(soar_file):
             target_local_files.append(soar_file)
 
         for lp in target_local_files:
-            if os.path.exists(lp):
+            if lp and os.path.exists(lp):
                 rel_p = os.path.relpath(lp, ROOT_DIR).replace("\\", "/")
                 with open(lp, "r", encoding="utf-8") as f:
                     content = f.read()
@@ -1441,7 +1458,7 @@ def publish_single_timing(req: SingleTimingPublishRequest):
 
         reciter_lbl = req.reciter_name or f"Reciter #{req.reciter_id}"
         moshaf_lbl = req.moshaf_name or f"Moshaf #{req.moshaf_id}"
-        commit_msg = req.commit_message or f"feat(timing): publish reviewed timing for {reciter_lbl} - {moshaf_lbl} - Surah {req.surah_id:03d} ({len(clean_entries)} ayahs)"
+        commit_msg = req.commit_message or f"feat(timing): publish reviewed timing for {reciter_lbl} - {moshaf_lbl} - Surah {req.surah_id:03d} ({len(req.entries)} ayahs)"
 
         res = gh.commit_and_push_files(files_to_commit, commit_msg)
 
@@ -2470,6 +2487,16 @@ def search_remote_reciters(q: Optional[str] = None):
                 if direct_ar or direct_en or direct_id or norm_match or matches_moshaf:
                     results.append(r)
 
+        # Load timing_index.json for quick lookup
+        timing_index_servers = {}
+        timing_index_file = os.path.join(DATA_MIRROR, "timing_index.json")
+        if os.path.exists(timing_index_file):
+            try:
+                with open(timing_index_file, "r", encoding="utf-8") as tif:
+                    timing_index_servers = json.load(tif).get("servers", {})
+            except Exception:
+                pass
+
         decorated_results = []
         for r in results:
             r_copy = dict(r)
@@ -2485,12 +2512,32 @@ def search_remote_reciters(q: Optional[str] = None):
             for m in r.get("moshaf", []):
                 m_copy = dict(m)
                 srv = m.get("server", "").rstrip("/") + "/"
+                m_id = m.get("id")
                 read_info = reads_map_by_server.get(srv)
                 slug = read_info.get("slug") if read_info else None
                 m_copy["slug"] = slug
                 
+                # Check timing_index.json
+                idx_entry = timing_index_servers.get(srv)
+                
                 # Timed count from slug folder
                 m_timed_count = slug_surah_counts.get(slug, 0) if slug else 0
+                
+                # Fallback: check flat files by reciter_id & moshaf_id (e.g. {r_id}_{m_id}_{surah_id}.json)
+                if m_timed_count == 0 and os.path.exists(timing_clean_dir):
+                    prefix = f"{r_id}_{m_id}_" if m_id else f"{r_id}_"
+                    flat_count = len([f for f in os.listdir(timing_clean_dir) if f.startswith(prefix) and f.endswith(".json")])
+                    if flat_count > 0:
+                        m_timed_count = flat_count
+                
+                # If index says "all" or has surah list, use that as confirmation
+                if idx_entry:
+                    surahs_val = idx_entry.get("surahs")
+                    if surahs_val == "all":
+                        m_timed_count = max(m_timed_count, m.get("surah_total", 114))
+                    elif isinstance(surahs_val, list):
+                        m_timed_count = max(m_timed_count, len(surahs_val))
+
                 m_copy["local_timed_count"] = m_timed_count
                 m_copy["is_local_complete"] = m_timed_count >= m.get("surah_total", 114)
                 if m_timed_count > 0:
@@ -2498,10 +2545,9 @@ def search_remote_reciters(q: Optional[str] = None):
                     reciter_has_timed = True
                     reciter_local_count += m_timed_count
 
-                # Pushed status: if timing files exist in slug folder or reads.json indexed
-                is_pushed = False
-                if m_timed_count > 0 and slug:
-                    is_pushed = True
+                # Pushed status: if timing files exist in slug folder / flat clean files / indexed in timing_index.json
+                is_pushed = bool(m_timed_count > 0 or (idx_entry and idx_entry.get("clean")))
+                if is_pushed:
                     reciter_has_pushed = True
                 
                 m_copy["pushed_to_github"] = is_pushed

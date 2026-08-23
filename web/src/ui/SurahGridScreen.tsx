@@ -61,7 +61,7 @@ export function SurahGridScreen(props: SurahGridProps) {
         if (soar && soar.size > 0) {
           const timedList = list.filter((s) => soar.has(s.id));
           setSurahs(timedList);
-          setUntimed(new Set());
+          setUntimed(new Set<number>());
         } else {
           setSurahs([]);
           setUntimed(new Set(list.map((s) => s.id)));

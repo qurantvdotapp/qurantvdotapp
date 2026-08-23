@@ -51,7 +51,7 @@ export function generateCleanSlug(
   else if (rLower.includes("hudhaify") || rLower.includes("huthifi") || rLower.includes("حذيفي")) recSlug = "hudhaify";
   else if (rLower.includes("ajm") || rLower.includes("ajamy") || rLower.includes("عجمي")) recSlug = "ajamy";
   else if (rLower.includes("akram") || rLower.includes("علاقمي")) recSlug = "akram";
-  else if (rLower.includes("akdr") || rLower.includes("اخضر") || rLower.includes("أخضر")) recSlug = "akhdar";
+  else if (rLower.includes("akdr") || rLower.includes("akdar") || rLower.includes("اخضر") || rLower.includes("أخضر")) recSlug = "ibrahim-al-akdar";
   else if (rLower.includes("bana") || rLower.includes("بنا")) recSlug = "banna";
   else if (rLower.includes("juhany") || rLower.includes("جهني")) recSlug = "juhany";
   else if (rLower.includes("shatri") || rLower.includes("شاطري")) recSlug = "shatri";

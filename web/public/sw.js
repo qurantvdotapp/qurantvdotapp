@@ -32,6 +32,8 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
+  const url = new URL(event.request.url);
+
   // Explicitly ignore audio/media requests (never intercept/prefetch mp3 files)
   if (url.pathname.endsWith(".mp3") || url.hostname.includes("mp3quran.net") || event.request.destination === "audio") {
     return;

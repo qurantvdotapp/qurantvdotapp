@@ -55,20 +55,26 @@ export class TimingRepository {
   /** The read whose folder matches this moshaf server, or null when untimed. */
   async readForMoshaf(server: string): Promise<TimingRead | null> {
     const target = normalizeServerUrl(server);
+    const idx = await this.getTimingIndex();
+    const indexRecord = idx?.servers[target];
+
     const all = await this.reads();
     const match = all.find((r) => normalizeServerUrl(r.folderUrl) === target);
-    if (match) return match;
 
-    // Fast path fallback: O(1) check index
-    const idx = await this.getTimingIndex();
-    if (idx && idx.servers[target]) {
-      const record = idx.servers[target];
+    if (match) {
       return {
-        id: record.read_id,
+        ...match,
+        slug: indexRecord?.slug || match.slug || null,
+      };
+    }
+
+    if (indexRecord) {
+      return {
+        id: indexRecord.read_id,
         name: "",
         rewaya: null,
         folderUrl: target,
-        slug: null,
+        slug: indexRecord.slug ?? null,
       };
     }
     return null;

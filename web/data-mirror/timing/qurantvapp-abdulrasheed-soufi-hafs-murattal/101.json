@@ -1,0 +1,57 @@
+[
+  {
+    "ayah": 1,
+    "start_time": 3980,
+    "end_time": 5380
+  },
+  {
+    "ayah": 2,
+    "start_time": 5380,
+    "end_time": 7220
+  },
+  {
+    "ayah": 3,
+    "start_time": 7220,
+    "end_time": 11720
+  },
+  {
+    "ayah": 4,
+    "start_time": 11720,
+    "end_time": 17700
+  },
+  {
+    "ayah": 5,
+    "start_time": 17700,
+    "end_time": 23120
+  },
+  {
+    "ayah": 6,
+    "start_time": 23120,
+    "end_time": 27860
+  },
+  {
+    "ayah": 7,
+    "start_time": 27860,
+    "end_time": 31240
+  },
+  {
+    "ayah": 8,
+    "start_time": 31240,
+    "end_time": 35740
+  },
+  {
+    "ayah": 9,
+    "start_time": 35740,
+    "end_time": 38920
+  },
+  {
+    "ayah": 10,
+    "start_time": 38920,
+    "end_time": 42660
+  },
+  {
+    "ayah": 11,
+    "start_time": 42660,
+    "end_time": 44720
+  }
+]

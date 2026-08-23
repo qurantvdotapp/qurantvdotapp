@@ -1770,10 +1770,10 @@ function renderFilteredRemoteReciters() {
                 <span class="text-xs text-dim">(${m.surah_total || 114} سورة)</span>
                 ${isPushed ? `
                   <span class="tag-badge" style="background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); font-weight: 700;">✅ منشور على GitHub (${timedCount > 0 ? timedCount : 114} سورة)</span>
-                  <button class="btn-mini-action" style="background: rgba(52, 211, 153, 0.15); color: #34d399; border-color: rgba(52, 211, 153, 0.4);" onclick="selectLocalReciter(${r.id})" title="فتح هذا القارئ ومصحفه في الاستوديو">📂 فتح في الاستوديو</button>
+                  <button class="btn-mini-action" style="background: rgba(52, 211, 153, 0.15); color: #34d399; border-color: rgba(52, 211, 153, 0.4);" onclick="selectLocalReciter(${r.id}, ${m.id})" title="فتح هذا القارئ ومصحفه في الاستوديو">📂 فتح في الاستوديو</button>
                 ` : (isComplete ? `
                   <span class="tag-badge" style="background: rgba(6, 182, 212, 0.2); color: #38bdf8; border: 1px solid rgba(6, 182, 212, 0.4); font-weight: 700;">✓ مكتمل محلياً (114 سورة)</span>
-                  <button class="btn-mini-action" onclick="selectLocalReciter(${r.id})" title="فتح هذا القارئ ومصحفه في الاستوديو">📂 فتح في الاستوديو</button>
+                  <button class="btn-mini-action" onclick="selectLocalReciter(${r.id}, ${m.id})" title="فتح هذا القارئ ومصحفه في الاستوديو">📂 فتح في الاستوديو</button>
                 ` : (m.is_timed ? `
                   <span class="tag-badge timed">⚡ توقيت جاهز</span>
                   <button class="btn-mini-action" onclick="jumpToBatchImport(${r.id}, ${m.id})" title="استيراد مصحف كامل لهذه الرواية">⚡ استيراد المصحف</button>
@@ -1849,11 +1849,20 @@ async function importRemoteReciter(reciterId) {
   }
 }
 
-function selectLocalReciter(reciterId) {
+function selectLocalReciter(reciterId, moshafId = null) {
   const selectEl = document.getElementById("step1ReciterSelect");
   if (selectEl) {
     selectEl.value = reciterId.toString();
     onStep1ReciterChange();
+    if (moshafId) {
+      setTimeout(() => {
+        const mSel = document.getElementById("step1MoshafSelect");
+        if (mSel) {
+          mSel.value = moshafId.toString();
+          onStep1MoshafChange();
+        }
+      }, 50);
+    }
     closeApiImportModal();
     showNotification(`تم اختيار القارئ #${reciterId} في الاستوديو`, "info");
   }

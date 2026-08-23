@@ -1647,6 +1647,21 @@ async function runImportSurahTiming() {
 
 // Remote Reciters Search & 1-Click Import
 let searchDebounceTimer = null;
+let currentRemoteFilter = "all"; // 'all' | 'pushed' | 'timed' | 'catalog' | 'untimed'
+let currentRemoteSort = "id_asc"; // 'id_asc' | 'alpha_ar' | 'alpha_en' | 'pushed_first' | 'timed_first'
+
+function setRemoteRecitersFilter(filter, el) {
+  currentRemoteFilter = filter;
+  document.querySelectorAll("#importPaneReciters .filter-chip").forEach(btn => btn.classList.remove("active"));
+  if (el) el.classList.add("active");
+  renderFilteredRemoteReciters();
+}
+
+function onRemoteSortChange() {
+  const sel = document.getElementById("remoteSortSelect");
+  if (sel) currentRemoteSort = sel.value;
+  renderFilteredRemoteReciters();
+}
 
 function onRemoteReciterSearchInput() {
   clearTimeout(searchDebounceTimer);
@@ -1665,73 +1680,114 @@ async function fetchRemoteReciters(force = false) {
     const res = await fetch(`${API_BASE}/api/import/remote-reciters/search?q=${encodeURIComponent(query)}`);
     const data = await res.json();
     remoteReciters = data.reciters || [];
-
-    if (!remoteReciters.length) {
-      container.innerHTML = `<div class="text-center py-4 text-dim">لا توجد نتائج مطابقة لـ "${escapeHtml(query)}"</div>`;
-      return;
-    }
-
-    container.innerHTML = remoteReciters.map(r => `
-      <div class="remote-reciter-card">
-        <div style="flex: 1; min-width: 0;">
-          <div class="flex-between">
-            <div>
-              <span class="reciter-meta-title">${r.id} - ${escapeHtml(r.name_ar)}</span>
-              <span class="text-xs text-dim">(${escapeHtml(r.name_en || '')})</span>
-            </div>
-            <div>
-              ${r.in_local_catalog ? `
-                <button class="btn btn-sm btn-secondary" onclick="selectLocalReciter(${r.id})">اختيار في الاستوديو</button>
-              ` : `
-                <button class="btn btn-sm btn-primary" onclick="importRemoteReciter(${r.id})">📥 استيراد القارئ وكافة رواياته (${r.moshafs_count})</button>
-              `}
-            </div>
-          </div>
-          
-          <div class="reciter-meta-badges mt-1">
-            <span class="tag-badge dim">${r.moshafs_count} رواية/مصحف</span>
-            ${r.pushed_to_github ? '<span class="tag-badge" style="background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4);">🚀 منشور على GitHub</span>' : (r.has_timing ? '<span class="tag-badge timed">⚡ يتضمن توقيت جاهز</span>' : '')}
-            ${r.in_local_catalog ? '<span class="tag-badge catalog">✓ مضاف للكتالوج</span>' : ''}
-            ${r.local_timed_count ? `<span class="tag-badge" style="background: rgba(6, 182, 212, 0.15); color: #38bdf8;">💾 ${r.local_timed_count} سورة موقتة</span>` : ''}
-          </div>
-
-          <!-- All Recitations / Moshafs for this reciter -->
-          <div class="remote-moshaf-list mt-2">
-            ${(r.moshaf || []).map(m => {
-              const isPushed = Boolean(m.pushed_to_github);
-              const isComplete = Boolean(m.is_local_complete);
-              const timedCount = m.local_timed_count || 0;
-              return `
-              <div class="remote-moshaf-chip ${isPushed ? 'github-pushed' : (m.is_timed ? 'timed' : '')}">
-                <div class="moshaf-info">
-                  <span class="moshaf-name">📖 ${escapeHtml(m.name)}</span>
-                  <span class="moshaf-server font-mono">${escapeHtml(m.server)}</span>
-                </div>
-                <div class="moshaf-actions">
-                  <span class="text-xs text-dim">(${m.surah_total || 114} سورة)</span>
-                  ${isPushed ? `
-                    <span class="tag-badge" style="background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); font-weight: 700;">✅ منشور مسبقاً (${timedCount} سورة)</span>
-                    <button class="btn-mini-action" style="background: rgba(52, 211, 153, 0.15); color: #34d399; border-color: rgba(52, 211, 153, 0.4);" onclick="selectLocalReciter(${r.id})" title="فتح هذا القارئ ومصحفه في الاستوديو">📂 فتح في الاستوديو</button>
-                  ` : (isComplete ? `
-                    <span class="tag-badge" style="background: rgba(6, 182, 212, 0.2); color: #38bdf8; border: 1px solid rgba(6, 182, 212, 0.4); font-weight: 700;">✓ مكتمل محلياً (114 سورة)</span>
-                    <button class="btn-mini-action" onclick="selectLocalReciter(${r.id})" title="فتح هذا القارئ ومصحفه في الاستوديو">📂 فتح في الاستوديو</button>
-                  ` : (m.is_timed ? `
-                    <span class="tag-badge timed">⚡ توقيت جاهز</span>
-                    <button class="btn-mini-action" onclick="jumpToBatchImport(${r.id}, ${m.id})" title="استيراد مصحف كامل لهذه الرواية">⚡ استيراد المصحف</button>
-                  ` : `
-                    <span class="tag-badge dim">بدون توقيت</span>
-                    <button class="btn-mini-action" onclick="jumpToBatchImport(${r.id}, ${m.id})" title="استيراد مصحف كامل لهذه الرواية">⚡ استيراد المصحف</button>
-                  `))}
-                </div>
-              </div>
-            `;}).join("")}
-          </div>
-        </div>
-      </div>
-    `).join("");
+    renderFilteredRemoteReciters();
   } catch (e) {
     container.innerHTML = `<div class="text-center py-4 text-dim text-danger">فشل البحث: ${escapeHtml(e.message)}</div>`;
   }
+}
+
+function renderFilteredRemoteReciters() {
+  const container = document.getElementById("remoteRecitersGrid");
+  const query = document.getElementById("remoteReciterSearchInput")?.value.trim() || "";
+  if (!container) return;
+
+  if (!remoteReciters.length) {
+    container.innerHTML = `<div class="text-center py-4 text-dim">لا توجد نتائج مطابقة لـ "${escapeHtml(query)}"</div>`;
+    return;
+  }
+
+  // 1. Filter
+  let list = remoteReciters.filter(r => {
+    if (currentRemoteFilter === "pushed") return Boolean(r.pushed_to_github);
+    if (currentRemoteFilter === "timed") return Boolean(r.has_timing || r.local_timed_count > 0);
+    if (currentRemoteFilter === "catalog") return Boolean(r.in_local_catalog);
+    if (currentRemoteFilter === "untimed") return !r.has_timing && !r.local_timed_count;
+    return true;
+  });
+
+  // 2. Sort
+  list.sort((a, b) => {
+    if (currentRemoteSort === "alpha_ar") {
+      return (a.name_ar || "").localeCompare(b.name_ar || "", "ar");
+    } else if (currentRemoteSort === "alpha_en") {
+      return (a.name_en || "").localeCompare(b.name_en || "", "en");
+    } else if (currentRemoteSort === "pushed_first") {
+      const aP = a.pushed_to_github ? 1 : 0;
+      const bP = b.pushed_to_github ? 1 : 0;
+      if (bP !== aP) return bP - aP;
+      return a.id - b.id;
+    } else if (currentRemoteSort === "timed_first") {
+      const aT = (a.has_timing || a.local_timed_count > 0) ? 1 : 0;
+      const bT = (b.has_timing || b.local_timed_count > 0) ? 1 : 0;
+      if (bT !== aT) return bT - aT;
+      return a.id - b.id;
+    }
+    return a.id - b.id;
+  });
+
+  if (!list.length) {
+    container.innerHTML = `<div class="text-center py-4 text-dim">لا توجد نتائج مطابقة للتصفية المختارة (${currentRemoteFilter})</div>`;
+    return;
+  }
+
+  container.innerHTML = list.map(r => `
+    <div class="remote-reciter-card">
+      <div style="flex: 1; min-width: 0;">
+        <div class="flex-between">
+          <div>
+            <span class="reciter-meta-title">${r.id} - ${escapeHtml(r.name_ar)}</span>
+            <span class="text-xs text-dim">(${escapeHtml(r.name_en || '')})</span>
+          </div>
+          <div>
+            ${r.in_local_catalog ? `
+              <button class="btn btn-sm btn-secondary" onclick="selectLocalReciter(${r.id})">اختيار في الاستوديو</button>
+            ` : `
+              <button class="btn btn-sm btn-primary" onclick="importRemoteReciter(${r.id})">📥 استيراد القارئ وكافة رواياته (${r.moshafs_count})</button>
+            `}
+          </div>
+        </div>
+        
+        <div class="reciter-meta-badges mt-1">
+          <span class="tag-badge dim">${r.moshafs_count} رواية/مصحف</span>
+          ${r.pushed_to_github ? '<span class="tag-badge" style="background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); font-weight: 700;">🚀 منشور على GitHub</span>' : (r.has_timing ? '<span class="tag-badge timed">⚡ يتضمن توقيت جاهز</span>' : '')}
+          ${r.in_local_catalog ? '<span class="tag-badge catalog">✓ مضاف للكتالوج</span>' : ''}
+          ${r.local_timed_count ? `<span class="tag-badge" style="background: rgba(6, 182, 212, 0.15); color: #38bdf8;">💾 ${r.local_timed_count} سورة موقتة</span>` : ''}
+        </div>
+
+        <!-- All Recitations / Moshafs for this reciter -->
+        <div class="remote-moshaf-list mt-2">
+          ${(r.moshaf || []).map(m => {
+            const isPushed = Boolean(m.pushed_to_github);
+            const isComplete = Boolean(m.is_local_complete);
+            const timedCount = m.local_timed_count || 0;
+            return `
+            <div class="remote-moshaf-chip ${isPushed ? 'github-pushed' : (m.is_timed ? 'timed' : '')}">
+              <div class="moshaf-info">
+                <span class="moshaf-name">📖 ${escapeHtml(m.name)}</span>
+                <span class="moshaf-server font-mono">${escapeHtml(m.server)}</span>
+              </div>
+              <div class="moshaf-actions">
+                <span class="text-xs text-dim">(${m.surah_total || 114} سورة)</span>
+                ${isPushed ? `
+                  <span class="tag-badge" style="background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); font-weight: 700;">✅ منشور على GitHub (${timedCount > 0 ? timedCount : 114} سورة)</span>
+                  <button class="btn-mini-action" style="background: rgba(52, 211, 153, 0.15); color: #34d399; border-color: rgba(52, 211, 153, 0.4);" onclick="selectLocalReciter(${r.id})" title="فتح هذا القارئ ومصحفه في الاستوديو">📂 فتح في الاستوديو</button>
+                ` : (isComplete ? `
+                  <span class="tag-badge" style="background: rgba(6, 182, 212, 0.2); color: #38bdf8; border: 1px solid rgba(6, 182, 212, 0.4); font-weight: 700;">✓ مكتمل محلياً (114 سورة)</span>
+                  <button class="btn-mini-action" onclick="selectLocalReciter(${r.id})" title="فتح هذا القارئ ومصحفه في الاستوديو">📂 فتح في الاستوديو</button>
+                ` : (m.is_timed ? `
+                  <span class="tag-badge timed">⚡ توقيت جاهز</span>
+                  <button class="btn-mini-action" onclick="jumpToBatchImport(${r.id}, ${m.id})" title="استيراد مصحف كامل لهذه الرواية">⚡ استيراد المصحف</button>
+                ` : `
+                  <span class="tag-badge dim">بدون توقيت</span>
+                  <button class="btn-mini-action" onclick="jumpToBatchImport(${r.id}, ${m.id})" title="استيراد مصحف كامل لهذه الرواية">⚡ استيراد المصحف</button>
+                `))}
+              </div>
+            </div>
+          `;}).join("")}
+        </div>
+      </div>
+    </div>
+  `).join("");
 }
 
 function jumpToBatchImport(reciterId, moshafId) {

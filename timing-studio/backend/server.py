@@ -2417,19 +2417,29 @@ def search_remote_reciters(q: Optional[str] = None):
             with open(catalog_ar_path, "r", encoding="utf-8") as f:
                 existing_ids = {r["id"] for r in json.load(f).get("reciters", [])}
 
-        # Fast scan of local timing files
-        local_timing_counts = {}
+        # Load reads.json mapping
+        reads_file = os.path.join(DATA_MIRROR, "timing", "reads.json")
+        reads_map_by_server = {}
+        if os.path.exists(reads_file):
+            try:
+                with open(reads_file, "r", encoding="utf-8") as rf:
+                    for rd in json.load(rf):
+                        if "folder_url" in rd:
+                            norm = rd["folder_url"].rstrip("/") + "/"
+                            reads_map_by_server[norm] = rd
+            except Exception:
+                pass
+
+        # Scan local timing_clean directories for slug folders and their surah counts
+        slug_surah_counts = {}
         timing_clean_dir = os.path.join(DATA_MIRROR, "timing_clean")
         if os.path.exists(timing_clean_dir):
-            for f in os.listdir(timing_clean_dir):
-                if f.endswith(".json"):
-                    parts = f[:-5].split("_")
-                    if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():
-                        r_id = int(parts[0])
-                        local_timing_counts[r_id] = local_timing_counts.get(r_id, 0) + 1
-                    elif len(parts) == 3 and parts[0].isdigit() and parts[1].isdigit() and parts[2].isdigit():
-                        key = (int(parts[0]), int(parts[1]))
-                        local_timing_counts[key] = local_timing_counts.get(key, 0) + 1
+            for entry in os.listdir(timing_clean_dir):
+                entry_p = os.path.join(timing_clean_dir, entry)
+                if os.path.isdir(entry_p):
+                    count = len([f for f in os.listdir(entry_p) if f.endswith(".json")])
+                    if count > 0:
+                        slug_surah_counts[entry] = count
 
         gh = GitHubAdapter()
 
@@ -2458,42 +2468,52 @@ def search_remote_reciters(q: Optional[str] = None):
                 if direct_ar or direct_en or direct_id or norm_match or matches_moshaf:
                     results.append(r)
 
-        matched_subset = results[:80]
         decorated_results = []
-        
-        for r in matched_subset:
+        for r in results:
             r_copy = dict(r)
             r_id = r["id"]
             r_copy["in_local_catalog"] = r_id in existing_ids
             
             # Decorate moshafs with local timing & GitHub pushed status
-            reciter_local_count = local_timing_counts.get(r_id, 0)
+            reciter_local_count = 0
             moshafs_copy = []
             reciter_has_pushed = False
+            reciter_has_timed = False
+
             for m in r.get("moshaf", []):
                 m_copy = dict(m)
-                m_id = m.get("id")
-                m_timed_count = local_timing_counts.get((r_id, m_id), reciter_local_count if (m_id == r_id or len(r.get("moshaf", [])) == 1) else 0)
+                srv = m.get("server", "").rstrip("/") + "/"
+                read_info = reads_map_by_server.get(srv)
+                slug = read_info.get("slug") if read_info else None
+                m_copy["slug"] = slug
+                
+                # Timed count from slug folder
+                m_timed_count = slug_surah_counts.get(slug, 0) if slug else 0
                 m_copy["local_timed_count"] = m_timed_count
                 m_copy["is_local_complete"] = m_timed_count >= m.get("surah_total", 114)
-                
-                # Check GitHub pushed status
+                if m_timed_count > 0:
+                    m_copy["is_timed"] = True
+                    reciter_has_timed = True
+                    reciter_local_count += m_timed_count
+
+                # Pushed status: if timing files exist in slug folder or reads.json indexed
                 is_pushed = False
-                if gh.is_configured and m_timed_count > 0:
-                    if gh.check_file_exists(f"web/data-mirror/timing_clean/{r_id}_{m_id}_1.json") or gh.check_file_exists(f"web/data-mirror/timing_clean/{r_id}_1.json"):
-                        is_pushed = True
-                        reciter_has_pushed = True
+                if m_timed_count > 0 and slug:
+                    is_pushed = True
+                    reciter_has_pushed = True
+                
                 m_copy["pushed_to_github"] = is_pushed
                 moshafs_copy.append(m_copy)
 
             r_copy["moshaf"] = moshafs_copy
             r_copy["local_timed_count"] = reciter_local_count
+            r_copy["has_timing"] = reciter_has_timed or r.get("has_timing", False)
             r_copy["pushed_to_github"] = reciter_has_pushed
             decorated_results.append(r_copy)
 
         return {
             "total_remote": len(_remote_reciters_cache),
-            "results_count": len(results),
+            "results_count": len(decorated_results),
             "reciters": decorated_results
         }
     except Exception as e:

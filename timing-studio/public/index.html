@@ -682,7 +682,32 @@
             <button class="btn btn-secondary" onclick="fetchRemoteReciters(true)">🔄 تحديث</button>
           </div>
 
-          <div class="remote-reciters-container mt-3" id="remoteRecitersGrid">
+          <!-- Filters & Sort Bar -->
+          <div class="flex-between mt-3 mb-2 flex-wrap gap-2" style="background: rgba(15, 23, 42, 0.6); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08);">
+            <div class="filter-group flex-wrap gap-1" style="display: flex; align-items: center;">
+              <span class="text-xs font-bold text-dim">تصفية:</span>
+              <div class="filter-chips">
+                <button type="button" class="filter-chip active" id="chipRemoteAll" onclick="setRemoteRecitersFilter('all', this)">الكل</button>
+                <button type="button" class="filter-chip" id="chipRemotePushed" onclick="setRemoteRecitersFilter('pushed', this)">🚀 منشور على GitHub</button>
+                <button type="button" class="filter-chip" id="chipRemoteTimed" onclick="setRemoteRecitersFilter('timed', this)">⚡ يتضمن توقيت جاهز</button>
+                <button type="button" class="filter-chip" id="chipRemoteCatalog" onclick="setRemoteRecitersFilter('catalog', this)">✓ بالكتالوج</button>
+                <button type="button" class="filter-chip" id="chipRemoteUntimed" onclick="setRemoteRecitersFilter('untimed', this)">⚠️ بدون توقيت</button>
+              </div>
+            </div>
+
+            <div class="filter-group" style="display: flex; align-items: center; gap: 6px;">
+              <span class="text-xs font-bold text-dim">الترتيب:</span>
+              <select id="remoteSortSelect" onchange="onRemoteSortChange()" style="font-size: 0.8rem; padding: 4px 8px; height: 30px; background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; border-radius: 6px;">
+                <option value="id_asc" selected>🔢 حسب رقم المعرف (ID)</option>
+                <option value="alpha_ar">🔤 أبجدياً (أ - ي)</option>
+                <option value="alpha_en">🔤 أبجدياً بالإنجليزية (A - Z)</option>
+                <option value="pushed_first">🚀 المنشور أولاً</option>
+                <option value="timed_first">⚡ الموقت أولاً</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="remote-reciters-container mt-2" id="remoteRecitersGrid">
             <div class="text-center py-4 text-dim">جاري البحث في قاعدة بيانات mp3quran.net...</div>
           </div>
         </div>

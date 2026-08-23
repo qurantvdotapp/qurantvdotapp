@@ -94,7 +94,13 @@ export class TimingRepository {
       const idx = await this.getTimingIndex();
       const target = normalizeServerUrl(serverUrl);
       if (idx && idx.servers[target] && idx.servers[target].surahs) {
-        return new Set(idx.servers[target].surahs);
+        const s = idx.servers[target].surahs;
+        if (s === "all" || s === "*") {
+          return new Set(Array.from({ length: 114 }, (_, i) => i + 1));
+        }
+        if (Array.isArray(s)) {
+          return new Set(s);
+        }
       }
     }
 

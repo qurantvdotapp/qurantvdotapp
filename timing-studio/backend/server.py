@@ -1492,10 +1492,12 @@ def generate_timing_index_data() -> Dict[str, Any]:
             surahs = [int(f[:-5]) for f in os.listdir(os.path.join(DATA_MIRROR, "timing_clean", slug)) if f.endswith(".json")]
 
         if surahs:
+            sorted_surahs = sorted(list(set(surahs)))
+            is_full = (len(sorted_surahs) == 114 and sorted_surahs[0] == 1 and sorted_surahs[-1] == 114)
             index["servers"][folder_url] = {
                 "read_id": read_id,
                 "slug": slug,
-                "surahs": sorted(list(set(surahs))),
+                "surahs": "all" if is_full else sorted_surahs,
                 "clean": True
             }
 

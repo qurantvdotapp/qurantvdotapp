@@ -18,7 +18,8 @@ import type {
 
 export interface TimingIndexRecord {
   read_id: number;
-  surahs: number[];
+  slug?: string | null;
+  surahs: number[] | "all" | string;
   clean?: boolean;
 }
 

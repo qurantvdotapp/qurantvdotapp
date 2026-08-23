@@ -441,3 +441,47 @@ describe("ReciterSearch", () => {
     expect(reciterMatchesQuery(reciter("محمود خليل الحصري"), "المنشاوي")).toBe(false);
   });
 });
+
+describe("TimingIndex Surahs Placeholder", () => {
+  it("expands 'all' into 1..114 surahs", async () => {
+    const mockApi = {
+      timingIndex: async () => ({
+        version: 1,
+        servers: {
+          "https://server6.mp3quran.net/akdr/": {
+            read_id: 1,
+            surahs: "all",
+          },
+          "https://server6.mp3quran.net/partial/": {
+            read_id: 2,
+            surahs: [1, 2, 36, 67, 114],
+          },
+        },
+      }),
+      soar: async () => [],
+    } as any;
+
+    const mockCache = {
+      read: async () => null,
+      write: async () => {},
+      singleFlight: async (_key: string, fn: () => any) => fn(),
+    } as any;
+
+    const { TimingRepository } = await import("../src/data/repo/TimingRepository");
+    const repo = new TimingRepository(mockApi, mockCache);
+
+    const akdrSurahs = await repo.surahsWithTiming(1, "https://server6.mp3quran.net/akdr/");
+    expect(akdrSurahs).toBeInstanceOf(Set);
+    expect(akdrSurahs?.size).toBe(114);
+    expect(akdrSurahs?.has(1)).toBe(true);
+    expect(akdrSurahs?.has(114)).toBe(true);
+
+    const partialSurahs = await repo.surahsWithTiming(2, "https://server6.mp3quran.net/partial/");
+    expect(partialSurahs).toBeInstanceOf(Set);
+    expect(partialSurahs?.size).toBe(5);
+    expect(partialSurahs?.has(36)).toBe(true);
+    expect(partialSurahs?.has(2)).toBe(true);
+    expect(partialSurahs?.has(3)).toBe(false);
+  });
+});
+

@@ -59,7 +59,7 @@ class BatchStartRequest(BaseModel):
     moshaf_name: str
     server_url: str
     surahs: List[int]
-    model_size: str = "base"
+    model_size: str = "turbo"
 
 class ReciterSaveRequest(BaseModel):
     id: Optional[int] = None
@@ -849,7 +849,7 @@ def resolve_local_audio_path(url_or_path: str, surah_id: int) -> Optional[str]:
 @app.post("/api/process-timing/start")
 async def start_process_timing(
     surah_id: int = Form(...),
-    model_size: str = Form("base"),
+    model_size: str = Form("turbo"),
     audio_url: Optional[str] = Form(None),
     source_url: Optional[str] = Form(None),
     audio_file: Optional[UploadFile] = File(None)
@@ -883,6 +883,10 @@ async def start_process_timing(
             cache_dir = os.path.join(SCRATCH_DIR, "audio_cache")
             os.makedirs(cache_dir, exist_ok=True)
 
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                "Accept": "*/*"
+            }
             for u in urls_to_try:
                 try:
                     import hashlib
@@ -890,19 +894,37 @@ async def start_process_timing(
                     clean_name = os.path.basename(u.split('?')[0])
                     if not clean_name.endswith(".mp3"):
                         clean_name = f"{surah_id:03d}.mp3"
-                    local_audio_path = os.path.join(cache_dir, f"{url_hash}_{clean_name}")
+                    candidate_path = os.path.join(cache_dir, f"{url_hash}_{clean_name}")
                     
-                    if os.path.exists(local_audio_path) and os.path.getsize(local_audio_path) > 1000:
+                    if os.path.exists(candidate_path) and os.path.getsize(candidate_path) > 10000:
+                        local_audio_path = candidate_path
                         download_success = True
                         break
 
-                    req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0"})
-                    with urllib.request.urlopen(req, timeout=45) as resp, open(local_audio_path, "wb") as f:
-                        f.write(resp.read())
-                    download_success = True
-                    break
+                    tmp_download_path = candidate_path + ".tmp"
+                    with httpx.Client(timeout=60.0, follow_redirects=True, headers=headers) as client:
+                        with client.stream("GET", u) as response:
+                            if response.status_code != 200:
+                                last_err = f"HTTP {response.status_code} from {u}"
+                                continue
+                            with open(tmp_download_path, "wb") as f:
+                                for chunk in response.iter_bytes(chunk_size=65536):
+                                    if chunk:
+                                        f.write(chunk)
+
+                    if os.path.exists(tmp_download_path) and os.path.getsize(tmp_download_path) > 10000:
+                        if os.path.exists(candidate_path):
+                            os.remove(candidate_path)
+                        os.rename(tmp_download_path, candidate_path)
+                        local_audio_path = candidate_path
+                        download_success = True
+                        break
+                    else:
+                        if os.path.exists(tmp_download_path):
+                            os.remove(tmp_download_path)
+                        last_err = "Downloaded audio file is too small or incomplete"
                 except Exception as e:
-                    last_err = e
+                    last_err = str(e)
                     continue
 
             if not download_success:
@@ -1285,39 +1307,18 @@ def save_timing(req: SaveTimingRequest):
         max_end = max([e["end_time"] for e in clean_entries] + [0])
         dur_sec = round(max_end / 1000.0, 2)
 
-        # Save moshaf-specific filename
-        m_id = req.moshaf_id or req.read_id
-        if m_id and m_id != req.read_id:
-            filename = f"{req.read_id}_{m_id}_{req.surah_id}.json"
-        else:
-            filename = f"{req.read_id}_{req.surah_id}.json"
-
-        file_clean_path = os.path.join(timing_clean_dir, filename)
-        file_surah_path = os.path.join(timing_surah_dir, filename)
-
-        with open(file_clean_path, "w", encoding="utf-8") as f:
-            json.dump(clean_entries, f, indent=2)
-        with open(file_surah_path, "w", encoding="utf-8") as f:
-            json.dump(clean_entries, f, indent=2)
-
+        # Save only to canonical slug folder: timing_clean/{slug}/{surah_id}.json
         if req.slug:
-            # 1. Save into dedicated reading folder: timing_clean/{slug}/{surah_id}.json & timing/{slug}/{surah_id}.json
             slug_clean_dir = os.path.join(timing_clean_dir, req.slug)
-            slug_timing_dir = os.path.join(DATA_MIRROR, "timing", req.slug)
             os.makedirs(slug_clean_dir, exist_ok=True)
-            os.makedirs(slug_timing_dir, exist_ok=True)
-
             with open(os.path.join(slug_clean_dir, f"{req.surah_id}.json"), "w", encoding="utf-8") as f:
                 json.dump(clean_entries, f, indent=2)
-            with open(os.path.join(slug_timing_dir, f"{req.surah_id}.json"), "w", encoding="utf-8") as f:
-                json.dump(clean_entries, f, indent=2)
-
-            # 2. Maintain flat slug filenames for backwards compatibility
-            slug_clean_path = os.path.join(timing_clean_dir, f"{req.slug}_{req.surah_id}.json")
-            slug_surah_path = os.path.join(timing_surah_dir, f"{req.slug}_{req.surah_id}.json")
-            with open(slug_clean_path, "w", encoding="utf-8") as f:
-                json.dump(clean_entries, f, indent=2)
-            with open(slug_surah_path, "w", encoding="utf-8") as f:
+        else:
+            # Fallback only if no slug provided
+            m_id = req.moshaf_id or req.read_id
+            filename = f"{req.read_id}_{m_id}_{req.surah_id}.json" if (m_id and m_id != req.read_id) else f"{req.read_id}_{req.surah_id}.json"
+            file_clean_path = os.path.join(timing_clean_dir, filename)
+            with open(file_clean_path, "w", encoding="utf-8") as f:
                 json.dump(clean_entries, f, indent=2)
 
         # Update review status
@@ -1426,26 +1427,21 @@ def publish_single_timing(req: SingleTimingPublishRequest):
         generate_timing_index_data()
         timing_index_file = os.path.join(DATA_MIRROR, "timing_index.json")
 
-        # Save moshaf-specific fallback filename
-        m_id = req.moshaf_id or req.read_id
-        if m_id and m_id != req.read_id:
-            filename = f"{req.read_id}_{m_id}_{req.surah_id}.json"
-        else:
-            filename = f"{req.read_id}_{req.surah_id}.json"
-
-        file_clean_path = os.path.join(timing_clean_dir, filename)
-        file_surah_path = os.path.join(timing_surah_dir, filename)
-
-        with open(file_clean_path, "w", encoding="utf-8") as f:
-            f.write(compact_content_str)
-        with open(file_surah_path, "w", encoding="utf-8") as f:
-            f.write(compact_content_str)
-
         # 5. Prepare files to commit for GitHub
         files_to_commit = []
-        target_local_files = [file_clean_path, file_surah_path, REVIEWS_FILE, reads_file, timing_index_file]
+        target_local_files = [REVIEWS_FILE, reads_file, timing_index_file]
+        
         if slug_clean_path:
             target_local_files.append(slug_clean_path)
+        else:
+            # Fallback only if no slug
+            m_id = req.moshaf_id or req.read_id
+            filename = f"{req.read_id}_{m_id}_{req.surah_id}.json" if (m_id and m_id != req.read_id) else f"{req.read_id}_{req.surah_id}.json"
+            file_clean_path = os.path.join(timing_clean_dir, filename)
+            with open(file_clean_path, "w", encoding="utf-8") as f:
+                f.write(compact_content_str)
+            target_local_files.append(file_clean_path)
+
         if os.path.exists(soar_file):
             target_local_files.append(soar_file)
 

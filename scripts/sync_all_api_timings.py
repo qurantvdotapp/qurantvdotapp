@@ -161,14 +161,7 @@ def main():
 
         compact_json = json.dumps(flat_numbers, separators=(",", ":"))
 
-        # Save to all required mirror locations
-        # 1. Flat files by read_id
-        with open(os.path.join(SURAH_DIR, f"{rid}_{surah_num}.json"), "w", encoding="utf-8") as out:
-            out.write(compact_json)
-        with open(os.path.join(CLEAN_DIR, f"{rid}_{surah_num}.json"), "w", encoding="utf-8") as out:
-            out.write(compact_json)
-
-        # 2. Slug directories & flat slug aliases
+        # Save only to canonical mirror locations
         if slug:
             slug_clean_dir = os.path.join(CLEAN_DIR, slug)
             slug_timing_dir = os.path.join(TIMING_DIR, slug)
@@ -178,11 +171,6 @@ def main():
             with open(os.path.join(slug_clean_dir, f"{surah_num}.json"), "w", encoding="utf-8") as out:
                 out.write(compact_json)
             with open(os.path.join(slug_timing_dir, f"{surah_num}.json"), "w", encoding="utf-8") as out:
-                out.write(compact_json)
-
-            with open(os.path.join(SURAH_DIR, f"{slug}_{surah_num}.json"), "w", encoding="utf-8") as out:
-                out.write(compact_json)
-            with open(os.path.join(CLEAN_DIR, f"{slug}_{surah_num}.json"), "w", encoding="utf-8") as out:
                 out.write(compact_json)
 
         return True
@@ -219,12 +207,6 @@ def main():
         surahs = []
         if slug and os.path.exists(os.path.join(CLEAN_DIR, slug)):
             surahs = [int(f[:-5]) for f in os.listdir(os.path.join(CLEAN_DIR, slug)) if f.endswith(".json") and f[:-5].isdigit()]
-        
-        # Fallback check flat files
-        if not surahs:
-            for s in range(1, 115):
-                if os.path.exists(os.path.join(CLEAN_DIR, f"{read_id}_{s}.json")) or os.path.exists(os.path.join(SURAH_DIR, f"{read_id}_{s}.json")):
-                    surahs.append(s)
 
         if surahs:
             sorted_surahs = sorted(list(set(surahs)))

@@ -570,7 +570,7 @@
     "id": 100,
     "name": "ماجد العنزي",
     "rewaya": "حفص عن عاصم - مرتل",
-    "folder_url": "https://archive.org/download/qurantvapp-majed-al-enezi-hafs-murattal/",
+    "folder_url": "https://server8.mp3quran.net/majd_onazi/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=100",
     "slug": "qurantvapp-majed-al-enezi-hafs-murattal"
@@ -601,6 +601,15 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=110",
     "slug": "qurantvapp-saleh-hafs"
+  },
+  {
+    "id": 111,
+    "name": "محمد جبريل",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://server8.mp3quran.net/jbrl/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=111",
+    "slug": "qurantvapp-mohammed-jibreel-hafs-murattal"
   },
   {
     "id": 112,
@@ -882,13 +891,13 @@
     "slug": "qurantvapp-ahmad-shaheen-hafs"
   },
   {
-    "id": 258,
+    "id": 64,
     "name": "عبدالرشيد صوفي",
-    "rewaya": "حفص عن عاصم",
+    "rewaya": "حفص عن عاصم - مرتل",
     "folder_url": "https://server16.mp3quran.net/soufi/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=258",
-    "slug": "qurantvapp-reciter-258-hafs"
+    "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal"
   },
   {
     "id": 259,
@@ -954,13 +963,13 @@
     "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal"
   },
   {
-    "id": 282,
+    "id": 79,
     "name": "عبدالعزيز التركي",
-    "rewaya": "حفص عن عاصم",
+    "rewaya": "حفص عن عاصم - مرتل",
     "folder_url": "https://server16.mp3quran.net/a_turki/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=282",
-    "slug": "qurantvapp-sayed-ahmad-hashem-hafs"
+    "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal"
   },
   {
     "id": 288,
@@ -972,22 +981,22 @@
     "slug": "qurantvapp-issa-omar-sanankou-hafs"
   },
   {
-    "id": 289,
+    "id": 278,
     "name": "أحمد عيسى المعصراوي",
-    "rewaya": "حفص عن عاصم",
+    "rewaya": "حفص عن عاصم - مرتل",
     "folder_url": "https://server16.mp3quran.net/a_maasaraawi/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=289",
-    "slug": "qurantvapp-haroon-baqai-hafs"
+    "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal"
   },
   {
     "id": 294,
     "name": "سيد أحمد هاشمي",
-    "rewaya": "حفص عن عاصم",
+    "rewaya": "حفص عن عاصم - مرتل",
     "folder_url": "https://server16.mp3quran.net/s_hashemi/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=294",
-    "slug": "qurantvapp-reciter-294-hafs"
+    "slug": "qurantvapp-sayed-ahmad-hashem-hafs"
   },
   {
     "id": 295,
@@ -1028,20 +1037,20 @@
   {
     "id": 303,
     "name": "عيسى عمر سناكو",
-    "rewaya": "حفص عن عاصم",
+    "rewaya": "حفص عن عاصم - مرتل",
     "folder_url": "https://server16.mp3quran.net/i_sanankoua/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=303",
-    "slug": "qurantvapp-abdulmalik-alaskar-hafs"
+    "slug": "qurantvapp-issa-omar-sanankou-hafs"
   },
   {
     "id": 305,
     "name": "علي بن عبدالرحمن الحذيفي",
-    "rewaya": "شعبة  عن عاصم",
+    "rewaya": "شعبة  عن عاصم - مرتل",
     "folder_url": "https://server9.mp3quran.net/hthfi/Rewayat-Sho-bah-A-n-Asim/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=305",
-    "slug": "qurantvapp-hicham-lharraz-hafs"
+    "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal"
   },
   {
     "id": 314,

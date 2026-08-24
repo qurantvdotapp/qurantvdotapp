@@ -12,6 +12,8 @@ import { CACHE, JsonDiskCache } from "../cache/JsonDiskCache";
 
 const MAX_PROBE_BYTES = 10 * 1024 * 1024;
 
+import { EMBEDDED_TIMING_SERVERS } from "../api/localDataMirror";
+
 export class TimingRepository {
   private timingIndexCache: TimingIndex | null = null;
 
@@ -25,13 +27,32 @@ export class TimingRepository {
     if (this.timingIndexCache !== null) return this.timingIndexCache;
     const key = "timing_index_fast";
     return this.cache.singleFlight(key, async () => {
-      const cached = await this.cache.read(CACHE.TIMING, key);
+      const cached = await this.cache.read(CACHE.TIMING, key, 3600_000); // 1 hour TTL for timing index
       if (cached !== null) {
-        this.timingIndexCache = JSON.parse(cached) as TimingIndex;
+        const parsed = JSON.parse(cached) as TimingIndex;
+        // Merge embedded overrides
+        for (const [srv, rec] of Object.entries(EMBEDDED_TIMING_SERVERS)) {
+          parsed.servers[srv] = {
+            read_id: rec.read_id,
+            slug: rec.slug,
+            surahs: rec.surahs,
+            clean: true,
+          };
+        }
+        this.timingIndexCache = parsed;
         return this.timingIndexCache;
       }
       const idx = await this.api.timingIndex();
       if (idx) {
+        // Merge embedded overrides
+        for (const [srv, rec] of Object.entries(EMBEDDED_TIMING_SERVERS)) {
+          idx.servers[srv] = {
+            read_id: rec.read_id,
+            slug: rec.slug,
+            surahs: rec.surahs,
+            clean: true,
+          };
+        }
         await this.cache.write(CACHE.TIMING, key, JSON.stringify(idx));
         this.timingIndexCache = idx;
       }
@@ -42,19 +63,54 @@ export class TimingRepository {
   async reads(): Promise<TimingRead[]> {
     const key = "reads";
     return this.cache.singleFlight(key, async () => {
-      const cached = await this.cache.read(CACHE.TIMING, key);
+      const cached = await this.cache.read(CACHE.TIMING, key, 3600_000); // 1 hour TTL for reads
       if (cached !== null) {
-        return (JSON.parse(cached) as TimingReadDto[]).map(timingReadDtoToDomain);
+        const list = (JSON.parse(cached) as TimingReadDto[]).map(timingReadDtoToDomain);
+        return this.applyEmbeddedReads(list);
       }
       const dtos = await this.api.timingReads();
       await this.cache.write(CACHE.TIMING, key, JSON.stringify(dtos));
-      return dtos.map(timingReadDtoToDomain);
+      return this.applyEmbeddedReads(dtos.map(timingReadDtoToDomain));
     });
+  }
+
+  private applyEmbeddedReads(list: TimingRead[]): TimingRead[] {
+    const result = [...list];
+    for (const [srv, rec] of Object.entries(EMBEDDED_TIMING_SERVERS)) {
+      const target = normalizeServerUrl(srv);
+      const existing = result.find((r) => normalizeServerUrl(r.folderUrl) === target);
+      if (existing) {
+        existing.slug = rec.slug;
+        existing.id = rec.read_id;
+      } else {
+        result.push({
+          id: rec.read_id,
+          name: "",
+          rewaya: null,
+          folderUrl: target,
+          slug: rec.slug,
+        });
+      }
+    }
+    return result;
   }
 
   /** The read whose folder matches this moshaf server, or null when untimed. */
   async readForMoshaf(server: string): Promise<TimingRead | null> {
     const target = normalizeServerUrl(server);
+    
+    // Check embedded canonical map first
+    const embedded = EMBEDDED_TIMING_SERVERS[target] || EMBEDDED_TIMING_SERVERS[server];
+    if (embedded) {
+      return {
+        id: embedded.read_id,
+        name: "",
+        rewaya: null,
+        folderUrl: target,
+        slug: embedded.slug,
+      };
+    }
+
     const idx = await this.getTimingIndex();
     const indexRecord = idx?.servers[target];
 
@@ -83,11 +139,12 @@ export class TimingRepository {
   /** Normalized folder URLs of every read that has ayah timing. */
   async timedServerUrls(): Promise<Set<string>> {
     const idx = await this.getTimingIndex();
+    const urls = new Set<string>();
     if (idx) {
-      return new Set(Object.keys(idx.servers).map(normalizeServerUrl));
+      for (const k of Object.keys(idx.servers)) urls.add(normalizeServerUrl(k));
     }
-    const all = await this.reads();
-    return new Set(all.map((r) => normalizeServerUrl(r.folderUrl)));
+    for (const k of Object.keys(EMBEDDED_TIMING_SERVERS)) urls.add(normalizeServerUrl(k));
+    return urls;
   }
 
   /**

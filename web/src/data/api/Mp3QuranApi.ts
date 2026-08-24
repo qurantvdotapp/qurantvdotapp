@@ -30,14 +30,14 @@ export interface TimingIndex {
 }
 
 export class Mp3QuranApi {
-  // Tier 1: jsDelivr Edge CDN over GitHub (Cloudflare/Fastly global edge caching)
-  private readonly jsdelivrCdnBase = "https://cdn.jsdelivr.net/gh/qurantvdotapp/qurantvdotapp@main/web/data-mirror";
-  // Tier 2: GitHub Raw CDN (Live canonical data published by Admin)
+  // Tier 1: GitHub Raw CDN (Live canonical data published by Admin)
   private readonly githubRawBase = "https://raw.githubusercontent.com/qurantvdotapp/qurantvdotapp/main/web/data-mirror";
+  // Tier 2: jsDelivr Edge CDN over GitHub (Cloudflare/Fastly global edge caching)
+  private readonly jsdelivrCdnBase = "https://cdn.jsdelivr.net/gh/qurantvdotapp/qurantvdotapp@main/web/data-mirror";
   // Tier 3: Archive.org Dataset CDN
   private readonly archiveOrgBase = "https://archive.org/download/qurantv-dataset";
   // Tier 4: Local Bundled Mirror / PWA Cache
-  private readonly localMirrorBase = "/data-mirror";
+  private readonly localMirrorBase = "./data-mirror";
 
   constructor(private readonly client: ApiClient) {}
 
@@ -49,8 +49,8 @@ export class Mp3QuranApi {
     const parse = unwrap ?? ((t: string) => JSON.parse(t) as T);
 
     const endpoints = [
-      `${this.jsdelivrCdnBase}${mirrorPath}`,
       `${this.githubRawBase}${mirrorPath}`,
+      `${this.jsdelivrCdnBase}${mirrorPath}`,
       `${this.archiveOrgBase}${mirrorPath}`,
       `${this.localMirrorBase}${mirrorPath}`,
     ];

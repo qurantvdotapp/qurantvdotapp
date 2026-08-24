@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-23T22:50:58Z",
+  "generated_at": "2026-08-24T01:54:21Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -494,11 +494,16 @@
       "surahs": "all",
       "clean": true
     },
-    "https://archive.org/download/qurantvapp-majed-al-enezi-hafs-murattal/": {
+    "https://server8.mp3quran.net/majd_onazi/": {
       "read_id": 100,
       "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
       "surahs": [
-        75
+        1,
+        18,
+        50,
+        65,
+        75,
+        100
       ],
       "clean": true
     },
@@ -518,6 +523,16 @@
       "read_id": 110,
       "slug": "qurantvapp-saleh-hafs",
       "surahs": "all",
+      "clean": true
+    },
+    "https://server8.mp3quran.net/jbrl/": {
+      "read_id": 111,
+      "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+      "surahs": [
+        1,
+        2,
+        58
+      ],
       "clean": true
     },
     "https://server10.mp3quran.net/minsh/": {
@@ -707,8 +722,8 @@
       "clean": true
     },
     "https://server16.mp3quran.net/soufi/Rewayat-Hafs-A-n-Assem/": {
-      "read_id": 258,
-      "slug": "qurantvapp-reciter-258-hafs",
+      "read_id": 64,
+      "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal",
       "surahs": "all",
       "clean": true
     },
@@ -755,8 +770,8 @@
       "clean": true
     },
     "https://server16.mp3quran.net/a_turki/Rewayat-Hafs-A-n-Assem/": {
-      "read_id": 282,
-      "slug": "qurantvapp-sayed-ahmad-hashem-hafs",
+      "read_id": 79,
+      "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
       "surahs": "all",
       "clean": true
     },
@@ -767,14 +782,14 @@
       "clean": true
     },
     "https://server16.mp3quran.net/a_maasaraawi/Rewayat-Hafs-A-n-Assem/": {
-      "read_id": 289,
-      "slug": "qurantvapp-haroon-baqai-hafs",
+      "read_id": 278,
+      "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
       "surahs": "all",
       "clean": true
     },
     "https://server16.mp3quran.net/s_hashemi/Rewayat-Hafs-A-n-Assem/": {
       "read_id": 294,
-      "slug": "qurantvapp-reciter-294-hafs",
+      "slug": "qurantvapp-sayed-ahmad-hashem-hafs",
       "surahs": "all",
       "clean": true
     },
@@ -804,13 +819,13 @@
     },
     "https://server16.mp3quran.net/i_sanankoua/Rewayat-Hafs-A-n-Assem/": {
       "read_id": 303,
-      "slug": "qurantvapp-abdulmalik-alaskar-hafs",
+      "slug": "qurantvapp-issa-omar-sanankou-hafs",
       "surahs": "all",
       "clean": true
     },
     "https://server9.mp3quran.net/hthfi/Rewayat-Sho-bah-A-n-Asim/": {
       "read_id": 305,
-      "slug": "qurantvapp-hicham-lharraz-hafs",
+      "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
       "surahs": "all",
       "clean": true
     },

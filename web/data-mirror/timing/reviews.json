@@ -15090,5 +15090,203 @@
     "reviewed_at": "2026-08-23T22:08:40.200563+00:00",
     "ayah_count": 6,
     "total_duration_sec": 30.16
+  },
+  "100_100_1": {
+    "key": "100_100_1",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 1,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 7,
+    "total_duration_sec": 61.34
+  },
+  "100_1": {
+    "key": "100_100_1",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 1,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 7,
+    "total_duration_sec": 61.34
+  },
+  "100_100_65": {
+    "key": "100_100_65",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 65,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-23T23:33:56.864337+00:00",
+    "ayah_count": 13,
+    "total_duration_sec": 360.51
+  },
+  "100_65": {
+    "key": "100_100_65",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 65,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-23T23:33:56.864337+00:00",
+    "ayah_count": 13,
+    "total_duration_sec": 360.51
+  },
+  "100_100_18": {
+    "key": "100_100_18",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 18,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 111,
+    "total_duration_sec": 1847.54
+  },
+  "100_18": {
+    "key": "100_100_18",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 18,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 111,
+    "total_duration_sec": 1847.54
+  },
+  "100_100_100": {
+    "key": "100_100_100",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 100,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 12,
+    "total_duration_sec": 55.77
+  },
+  "100_100": {
+    "key": "100_100_100",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 100,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 12,
+    "total_duration_sec": 55.77
+  },
+  "100_100_50": {
+    "key": "100_100_50",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 50,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-24T00:27:31.402613+00:00",
+    "ayah_count": 46,
+    "total_duration_sec": 531.93
+  },
+  "100_50": {
+    "key": "100_100_50",
+    "reciter_id": 100,
+    "moshaf_id": 100,
+    "surah_id": 50,
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-24T00:27:31.402613+00:00",
+    "ayah_count": 46,
+    "total_duration_sec": 531.93
+  },
+  "11_11_58": {
+    "key": "11_11_58",
+    "reciter_id": 11,
+    "moshaf_id": 11,
+    "surah_id": 58,
+    "slug": "qurantvapp-alhusayni-al-azazi-moallim",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 23,
+    "total_duration_sec": 1422.47
+  },
+  "11_58": {
+    "key": "11_11_58",
+    "reciter_id": 11,
+    "moshaf_id": 11,
+    "surah_id": 58,
+    "slug": "qurantvapp-alhusayni-al-azazi-moallim",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 23,
+    "total_duration_sec": 1422.47
+  },
+  "111_111_58": {
+    "key": "111_111_58",
+    "reciter_id": 111,
+    "moshaf_id": 111,
+    "surah_id": 58,
+    "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 23,
+    "total_duration_sec": 526.76
+  },
+  "111_58": {
+    "key": "111_111_58",
+    "reciter_id": 111,
+    "moshaf_id": 111,
+    "surah_id": 58,
+    "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 23,
+    "total_duration_sec": 526.76
+  },
+  "111_111_1": {
+    "key": "111_111_1",
+    "reciter_id": 111,
+    "moshaf_id": 111,
+    "surah_id": 1,
+    "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 7,
+    "total_duration_sec": 46.11
+  },
+  "111_1": {
+    "key": "111_111_1",
+    "reciter_id": 111,
+    "moshaf_id": 111,
+    "surah_id": 1,
+    "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 7,
+    "total_duration_sec": 46.11
+  },
+  "111_111_2": {
+    "key": "111_111_2",
+    "reciter_id": 111,
+    "moshaf_id": 111,
+    "surah_id": 2,
+    "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-24T01:54:21.939084+00:00",
+    "ayah_count": 287,
+    "total_duration_sec": 7748.2
+  },
+  "111_2": {
+    "key": "111_111_2",
+    "reciter_id": 111,
+    "moshaf_id": 111,
+    "surah_id": 2,
+    "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-24T01:54:21.939084+00:00",
+    "ayah_count": 287,
+    "total_duration_sec": 7748.2
   }
 }

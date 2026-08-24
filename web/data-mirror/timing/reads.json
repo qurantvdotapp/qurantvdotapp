@@ -1089,12 +1089,13 @@
     "slug": "qurantvapp-maher-hafs"
   },
   {
-    "id": 10907,
+    "id": 105,
     "name": "محمد البراك",
     "rewaya": "حفص عن عاصم - مرتل",
     "folder_url": "https://server13.mp3quran.net/braak/",
     "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10907"
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=105",
+    "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal"
   },
   {
     "id": 105,

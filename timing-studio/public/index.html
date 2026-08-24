@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=2.1" />
 </head>
 <body>
   <div class="studio-container">
@@ -27,6 +27,12 @@
 
       <!-- Live Cloud Badges & Quick Action Toolbar -->
       <div class="header-badges">
+        <button class="btn-batch-hub-action" onclick="openBatchStudioModal()" title="معالج المصاحف الكاملة بالذكاء الاصطناعي وإدارة المهام">
+          <span class="pulse-sparkle">⚡</span>
+          <span>معالج المصاحف الكاملة (AI Batch Aligner)</span>
+          <span class="badge-mini-active" id="batchHeaderBadge" style="display: none;">0 جاري</span>
+        </button>
+
         <button class="btn-api-import-action" onclick="openApiImportModal()" title="استيراد التوقيت أو القراء والمصاحف من APIs بنقرة واحدة">
           <span class="pulse-sparkle">✨</span>
           <span>📥 استيراد من الـ APIs</span>
@@ -794,6 +800,220 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <!-- ==================== AI BATCH ALIGNER & JOB MANAGER MODAL ==================== -->
+  <div class="modal-overlay" id="batchStudioModal" style="display: none;">
+    <div class="modal-card modal-card-xl">
+      <div class="modal-header">
+        <div class="modal-title-with-icon">
+          <span class="modal-icon" style="background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(245, 158, 11, 0.4)); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3);">⚡</span>
+          <div>
+            <h3 class="modal-title">معالج المصاحف الكاملة بالذكاء الاصطناعي (AI Batch Aligner)</h3>
+            <span class="modal-subtitle">توليد ومعايرة توقيتات المصاحف كاملة (114 سورة) مع تقدم تفصيلي حي ومراقبة كاملة للمهام</span>
+          </div>
+        </div>
+        <button class="btn-close" onclick="closeBatchStudioModal()">✕</button>
+      </div>
+
+      <!-- Modal Tabs -->
+      <div class="modal-tabs">
+        <button class="modal-tab-btn active" id="tabBtnBatchNew" onclick="switchBatchModalTab('new')">
+          ⚡ بدء مصحف جديد (New Batch)
+        </button>
+        <button class="modal-tab-btn" id="tabBtnBatchDashboard" onclick="switchBatchModalTab('dashboard')">
+          📋 لوحة متابعة وإدارة المهام (Jobs Dashboard)
+          <span class="badge-tab-count" id="tabBadgeJobsCount">0</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- TAB 1: Start New Batch Job -->
+        <div class="batch-tab-pane" id="batchPaneNew">
+          <div class="batch-wizard-grid">
+            <div class="batch-form-col">
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label>القارئ المستهدف (Reciter):</label>
+                  <select id="batchNewReciterSelect" onchange="onBatchNewReciterChange()"></select>
+                </div>
+                <div class="form-group flex-1">
+                  <label>المصحف / الرواية (Moshaf):</label>
+                  <select id="batchNewMoshafSelect" onchange="onBatchNewMoshafChange()"></select>
+                </div>
+              </div>
+
+              <!-- Moshaf Details Preview Card -->
+              <div class="moshaf-preview-box mt-3" id="batchNewMoshafPreview"></div>
+
+              <div class="form-group mt-3">
+                <label>خادم الصوت المصدري (Audio Server URL):</label>
+                <input type="url" id="batchNewServerUrlInput" class="font-mono text-xs" />
+                <span class="input-hint">رابط المجلد المصدري للصوتيات (e.g. https://server12.mp3quran.net/maher/)</span>
+              </div>
+
+              <div class="form-group mt-3">
+                <label>المعرف السحابي النظيف (Clean Slug):</label>
+                <input type="text" id="batchNewSlugInput" class="font-mono" />
+              </div>
+
+              <div class="form-group mt-3">
+                <div class="flex-between">
+                  <label>نطاق السور للمعالجة (Surahs Range):</label>
+                  <div class="quick-preset-chips">
+                    <button type="button" class="preset-chip" onclick="setBatchSurahRange('1-114')">كامل المصحف (1-114)</button>
+                    <button type="button" class="preset-chip" onclick="setBatchSurahRange('78-114')">جزء عم (78-114)</button>
+                    <button type="button" class="preset-chip" onclick="setBatchSurahRange('67-77')">جزء تبارك (67-77)</button>
+                    <button type="button" class="preset-chip" onclick="setBatchSurahRange('1-10')">عينة (1-10)</button>
+                    <button type="button" class="preset-chip" onclick="setBatchSurahRange('108-114')">القصار (108-114)</button>
+                  </div>
+                </div>
+                <input type="text" id="batchNewSurahsRangeInput" value="1-114" class="font-mono" />
+                <span class="input-hint">حدد أرقام السور مثل: 1-114 أو 1,2,3,108-114</span>
+              </div>
+
+              <div class="form-group mt-3">
+                <label>محرك Whisper ونموذج الذكاء الاصطناعي (Whisper Engine):</label>
+                <select id="batchNewModelSelect">
+                  <option value="turbo" selected>⚡ Whisper Turbo (Large-v3-Turbo — أسرع وأعلى دقة مع تسريع GPU)</option>
+                  <option value="base">Whisper Base (خفيف وسريع جداً)</option>
+                  <option value="small">Whisper Small (متوازن)</option>
+                  <option value="medium">Whisper Medium (دقة عالية)</option>
+                </select>
+              </div>
+
+              <div class="action-row mt-4">
+                <button class="btn btn-success btn-lg btn-block" id="btnStartNewBatchJob" onclick="startNewBatchJobSubmit()">
+                  🚀 بدء معالجة وتوليد توقيتات المصحف الآن
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: Jobs Dashboard & Live Inspector -->
+        <div class="batch-tab-pane" id="batchPaneDashboard" style="display: none;">
+          <!-- Top Dashboard Summary Toolbar -->
+          <div class="batch-dash-toolbar">
+            <div class="dash-stat-chips">
+              <span class="stat-chip total"><strong id="statTotalJobs">0</strong> مهام إجمالية</span>
+              <span class="stat-chip running"><strong id="statRunningJobs">0</strong> قيد المعالجة</span>
+              <span class="stat-chip paused"><strong id="statPausedJobs">0</strong> متوقف مؤقتاً</span>
+              <span class="stat-chip completed"><strong id="statCompletedJobs">0</strong> مكتمل</span>
+              <span class="stat-chip failed"><strong id="statFailedJobs">0</strong> متعثر</span>
+            </div>
+            <div class="dash-toolbar-actions">
+              <button class="btn-ghost-sm" onclick="fetchBatchJobs(true)" title="تحديث القائمة">🔄 تحديث</button>
+              <button class="btn-ghost-sm text-dim" onclick="clearFinishedJobsAction()" title="حذف المهام المكتملة أو الملغاة">🧹 تنظيف المكتمل</button>
+            </div>
+          </div>
+
+          <!-- Active Job Inspector (Detailed Live Card) -->
+          <div id="batchActiveJobInspector" class="batch-active-inspector-card mt-3" style="display: none;">
+            <div class="flex-between inspector-header">
+              <div class="inspector-title-box">
+                <div class="flex-center gap-2">
+                  <span class="status-pulsing-dot" id="inspectStatusDot"></span>
+                  <strong class="text-base" id="inspectReciterTitle">ماهر المعيقلي — حفص عن عاصم</strong>
+                </div>
+                <span class="text-xs font-mono text-dim" id="inspectJobSubMeta">ID: job_123 | Slug: qurantvapp-maher-hafs | Whisper Turbo (GPU)</span>
+              </div>
+              <div class="inspector-controls" id="inspectControlButtons">
+                <!-- Injected dynamically: Pause, Resume, Retry, Cancel -->
+              </div>
+            </div>
+
+            <!-- Two-Tier Live Progress Bars -->
+            <div class="batch-dual-progress mt-3">
+              <!-- Tier 1: Overall Mushaf Progress -->
+              <div class="progress-tier-box">
+                <div class="flex-between text-xs mb-1">
+                  <span><strong>إجمالي تقدم المصحف:</strong> <span id="inspectMushafCount">0 / 114 سورة</span></span>
+                  <strong class="font-mono text-cyan" id="inspectMushafPct">0%</strong>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill" id="inspectMushafBarFill" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- Tier 2: Current Surah Sub-Progress -->
+              <div class="progress-tier-box mt-2">
+                <div class="flex-between text-xs mb-1">
+                  <span><strong>السورة الحالية:</strong> <span id="inspectCurrentSurahLabel">سورة 1 (الفاتحة)</span> — <span id="inspectPhaseLabel" class="text-dim">تحويل الصوت</span></span>
+                  <strong class="font-mono text-success" id="inspectSurahPct">0%</strong>
+                </div>
+                <div class="progress-bar-track current-surah-track">
+                  <div class="progress-bar-fill current-surah-fill" id="inspectSurahBarFill" style="width: 0%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Granular Live Telemetry Grid -->
+            <div class="grid-4 mt-3 batch-telemetry-grid">
+              <div class="telemetry-card">
+                <span class="label">⏱️ زمن الصوت المعالج</span>
+                <strong id="inspectAudioTime" class="font-mono">00:00 / 00:00</strong>
+              </div>
+              <div class="telemetry-card">
+                <span class="label">⚡ سرعة المعالجة (GPU)</span>
+                <strong id="inspectSpeed" class="font-mono text-success">--x</strong>
+              </div>
+              <div class="telemetry-card">
+                <span class="label">📝 الكلمات المفكوكة</span>
+                <strong id="inspectWordsCount" class="font-mono text-cyan">0 كلمة</strong>
+              </div>
+              <div class="telemetry-card">
+                <span class="label">📌 حالة السور</span>
+                <strong id="inspectSurahsSummary" class="font-mono">0 نجاح | 0 تعثر</strong>
+              </div>
+            </div>
+
+            <!-- Live Arabic Transcription Ticker -->
+            <div class="live-transcription-ticker mt-3">
+              <div class="ticker-header">
+                <span class="ticker-dot"></span>
+                <span>النص الصوتي المباشر من المعالج (Live Transcription):</span>
+              </div>
+              <div class="ticker-text" id="inspectLiveText">جاري تهيئة المحاذاة الصوتية...</div>
+            </div>
+
+            <!-- Live Streaming Log Window -->
+            <div class="batch-terminal-logs mt-3" id="inspectTerminalLogs">
+              <div class="log-line text-dim">سجل العمليات المباشر جاهز...</div>
+            </div>
+          </div>
+
+          <!-- All Jobs List Table -->
+          <div class="jobs-history-section mt-4">
+            <h4 class="section-subtitle mb-2">📋 سجل كافة المهام (Jobs History):</h4>
+            <div class="jobs-table-container">
+              <table class="jobs-table">
+                <thead>
+                  <tr>
+                    <th>القارئ والمصحف</th>
+                    <th>النموذج</th>
+                    <th>عدد السور</th>
+                    <th>التقدم</th>
+                    <th>الحالة</th>
+                    <th>الوقت</th>
+                    <th>إجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="batchJobsTableBody">
+                  <tr>
+                    <td colspan="7" class="text-center py-4 text-dim">لا توجد مهام مسجلة حالياً</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeBatchStudioModal()">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=2.1"></script>
 </body>
 </html>

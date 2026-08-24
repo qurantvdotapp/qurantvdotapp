@@ -109,32 +109,52 @@ export class CatalogRepository {
   private async rawReciters(language: string): Promise<Reciter[]> {
     const key = `reciters_raw_${language}`;
     return this.cache.singleFlight(key, async () => {
+      // 1. Try Live Network First (GitHub Raw canonical data)
+      try {
+        const list = await this.api.reciters(language);
+        if (list && list.length > 0) {
+          await this.cache.write(CACHE.CATALOG, key, JSON.stringify({ reciters: list }));
+          return list.map((d) =>
+            language === "en"
+              ? { ...reciterDtoToDomain(d), nameEn: d.name }
+              : reciterDtoToDomain(d),
+          );
+        }
+      } catch {
+        // Fallback to cache below
+      }
+
+      // 2. Fallback to Disk Cache if offline
       const cached = await this.cache.read(CACHE.CATALOG, key, CACHE_TTL_24H);
-      const dtos: ReciterDto[] =
-        cached !== null
-          ? (JSON.parse(cached) as { reciters: ReciterDto[] }).reciters
-          : await this.api.reciters(language).then(async (list) => {
-              await this.cache.write(CACHE.CATALOG, key, JSON.stringify({ reciters: list }));
-              return list;
-            });
-      return dtos.map((d) =>
-        language === "en"
-          ? { ...reciterDtoToDomain(d), nameEn: d.name }
-          : reciterDtoToDomain(d),
-      );
+      if (cached !== null) {
+        const dtos = (JSON.parse(cached) as { reciters: ReciterDto[] }).reciters;
+        return dtos.map((d) =>
+          language === "en"
+            ? { ...reciterDtoToDomain(d), nameEn: d.name }
+            : reciterDtoToDomain(d),
+        );
+      }
+      return [];
     });
   }
 
   /** Recently added reads row on Home (optional). */
   async recentReads(): Promise<Reciter[]> {
+    try {
+      const list = await this.api.recentReads();
+      if (list && list.length > 0) {
+        await this.cache.write(CACHE.CATALOG, "recent_reads", JSON.stringify({ reads: list }));
+        return list.map((d) => reciterDtoToDomain(d));
+      }
+    } catch {
+      // Fallback to cache below
+    }
+
     const cached = await this.cache.read(CACHE.CATALOG, "recent_reads", CACHE_TTL_24H);
-    const dtos: ReciterDto[] =
-      cached !== null
-        ? (JSON.parse(cached) as { reads: ReciterDto[] }).reads
-        : await this.api.recentReads().then(async (list) => {
-            await this.cache.write(CACHE.CATALOG, "recent_reads", JSON.stringify({ reads: list }));
-            return list;
-          });
-    return dtos.map(reciterDtoToDomain);
+    if (cached !== null) {
+      const dtos = (JSON.parse(cached) as { reads: ReciterDto[] }).reads;
+      return dtos.map((d) => reciterDtoToDomain(d));
+    }
+    return [];
   }
 }

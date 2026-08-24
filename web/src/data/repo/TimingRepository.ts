@@ -22,15 +22,36 @@ export class TimingRepository {
     private readonly cache: JsonDiskCache,
   ) {}
 
-  /** Load fast O(1) timing index from CDN/mirror if available. */
-  async getTimingIndex(): Promise<TimingIndex | null> {
-    if (this.timingIndexCache !== null) return this.timingIndexCache;
+  /** Load fast O(1) timing index from GitHub / CDN on startup with offline fallback. */
+  async getTimingIndex(forceRefresh = false): Promise<TimingIndex | null> {
+    if (this.timingIndexCache !== null && !forceRefresh) return this.timingIndexCache;
     const key = "timing_index_fast";
     return this.cache.singleFlight(key, async () => {
-      const cached = await this.cache.read(CACHE.TIMING, key, 3600_000); // 1 hour TTL for timing index
+      // 1. Try Live Network First (GitHub Raw canonical data)
+      try {
+        const idx = await this.api.timingIndex();
+        if (idx) {
+          // Merge embedded overrides
+          for (const [srv, rec] of Object.entries(EMBEDDED_TIMING_SERVERS)) {
+            idx.servers[srv] = {
+              read_id: rec.read_id,
+              slug: rec.slug,
+              surahs: rec.surahs,
+              clean: true,
+            };
+          }
+          await this.cache.write(CACHE.TIMING, key, JSON.stringify(idx));
+          this.timingIndexCache = idx;
+          return idx;
+        }
+      } catch {
+        // Fallback to cache below
+      }
+
+      // 2. Fallback to Disk Cache if offline
+      const cached = await this.cache.read(CACHE.TIMING, key, 3600_000);
       if (cached !== null) {
         const parsed = JSON.parse(cached) as TimingIndex;
-        // Merge embedded overrides
         for (const [srv, rec] of Object.entries(EMBEDDED_TIMING_SERVERS)) {
           parsed.servers[srv] = {
             read_id: rec.read_id,
@@ -42,35 +63,31 @@ export class TimingRepository {
         this.timingIndexCache = parsed;
         return this.timingIndexCache;
       }
-      const idx = await this.api.timingIndex();
-      if (idx) {
-        // Merge embedded overrides
-        for (const [srv, rec] of Object.entries(EMBEDDED_TIMING_SERVERS)) {
-          idx.servers[srv] = {
-            read_id: rec.read_id,
-            slug: rec.slug,
-            surahs: rec.surahs,
-            clean: true,
-          };
-        }
-        await this.cache.write(CACHE.TIMING, key, JSON.stringify(idx));
-        this.timingIndexCache = idx;
-      }
-      return idx;
+      return null;
     });
   }
 
   async reads(): Promise<TimingRead[]> {
     const key = "reads";
     return this.cache.singleFlight(key, async () => {
-      const cached = await this.cache.read(CACHE.TIMING, key, 3600_000); // 1 hour TTL for reads
+      // 1. Try Live Network First (GitHub Raw canonical data)
+      try {
+        const dtos = await this.api.timingReads();
+        if (dtos && dtos.length > 0) {
+          await this.cache.write(CACHE.TIMING, key, JSON.stringify(dtos));
+          return this.applyEmbeddedReads(dtos.map(timingReadDtoToDomain));
+        }
+      } catch {
+        // Fallback to cache below
+      }
+
+      // 2. Fallback to Disk Cache if offline
+      const cached = await this.cache.read(CACHE.TIMING, key, 3600_000);
       if (cached !== null) {
         const list = (JSON.parse(cached) as TimingReadDto[]).map(timingReadDtoToDomain);
         return this.applyEmbeddedReads(list);
       }
-      const dtos = await this.api.timingReads();
-      await this.cache.write(CACHE.TIMING, key, JSON.stringify(dtos));
-      return this.applyEmbeddedReads(dtos.map(timingReadDtoToDomain));
+      return this.applyEmbeddedReads([]);
     });
   }
 

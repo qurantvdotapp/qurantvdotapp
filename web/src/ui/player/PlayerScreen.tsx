@@ -676,16 +676,6 @@ export function PlayerScreen(props: PlayerProps) {
       const ids = new Set(availableSurahIds(moshaf));
       let available = all.filter((s) => ids.has(s.id));
 
-      const read = await c.timing.readForMoshaf(moshaf.server);
-      if (read) {
-        const soar = await c.timing.surahsWithTiming(read.id, moshaf.server);
-        if (soar && soar.size > 0) {
-          available = available.filter((s) => soar.has(s.id));
-        }
-      }
-
-      if (available.length === 0) return;
-
       const kept = available.find((s) => s.id === props.surah.id) ?? null;
       const surah = kept ?? available[0];
       const ayah = kept ? currentAyah() : undefined;

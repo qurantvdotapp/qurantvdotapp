@@ -28,8 +28,16 @@ from stt_surah_timings import (
     normalize_arabic,
     BASMALA_CANONICAL
 )
-from batch_processor import start_batch_in_background, active_jobs
+from batch_processor import (
+    start_batch_in_background,
+    active_jobs,
+    retry_batch_job,
+    delete_batch_job,
+    clear_finished_jobs
+)
 from cloud_adapters import ArchiveOrgAdapter, GitHubAdapter, load_env
+
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request
 
 app = FastAPI(title="Quran TV — Studio & Cloud Control Backend")
 
@@ -40,6 +48,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def add_no_cache_header(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 DATA_MIRROR = os.path.join(ROOT_DIR, "web", "data-mirror")
 SCRATCH_DIR = os.path.join(ROOT_DIR, "scratch")
@@ -58,8 +74,9 @@ class BatchStartRequest(BaseModel):
     reciter_name: str
     moshaf_name: str
     server_url: str
-    surahs: List[int]
+    surahs: Optional[List[int]] = None
     model_size: str = "turbo"
+    slug: Optional[str] = None
 
 class ReciterSaveRequest(BaseModel):
     id: Optional[int] = None
@@ -1848,40 +1865,57 @@ def get_catalog_filter_summary():
 
 # ----------------- Batch Processing Endpoints -----------------
 
+@app.get("/api/batch/jobs")
+def list_batch_jobs():
+    """List all batch STT alignment jobs with live statuses and metrics."""
+    jobs_list = [job.to_dict() for job in active_jobs.values()]
+    # Sort newest first
+    jobs_list.sort(key=lambda j: j.get("created_at", 0), reverse=True)
+    return {
+        "success": True,
+        "total": len(jobs_list),
+        "jobs": jobs_list
+    }
+
 @app.post("/api/batch/start")
 def start_batch(req: BatchStartRequest):
     """Start batch STT timing for a full or partial mushaf."""
-    surah_list = req.surahs or list(range(1, 115))
+    surah_list = req.surahs if (req.surahs and len(req.surahs) > 0) else list(range(1, 115))
     job_id = start_batch_in_background(
         reciter_name=req.reciter_name,
         moshaf_name=req.moshaf_name,
         server_url=req.server_url,
         surah_list=surah_list,
-        model_size=req.model_size
+        model_size=req.model_size,
+        slug=req.slug
     )
     return {"success": True, "job_id": job_id, "total_surahs": len(surah_list)}
 
 @app.get("/api/batch/status/{job_id}")
 def get_batch_status(job_id: str):
-    """Check live status of a batch job."""
+    """Check live status and granular progress of a batch job."""
     job = active_jobs.get(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
-        
-    return {
-        "job_id": job.job_id,
-        "status": job.status,
-        "reciter_name": job.reciter_name,
-        "moshaf_name": job.moshaf_name,
-        "read_id": job.read_id,
-        "current_surah": job.current_surah,
-        "completed_count": len(job.completed_surahs),
-        "total_surahs": job.total_surahs,
-        "percent": round((len(job.completed_surahs) / max(1, job.total_surahs)) * 100, 1),
-        "current_step": job.current_step,
-        "logs": job.logs[-20:],
-        "error": job.error
-    }
+    return job.to_dict()
+
+@app.post("/api/batch/pause/{job_id}")
+def pause_batch(job_id: str):
+    """Pause a running batch job."""
+    job = active_jobs.get(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    job.pause()
+    return {"success": True, "status": "paused"}
+
+@app.post("/api/batch/resume/{job_id}")
+def resume_batch(job_id: str):
+    """Resume a paused batch job."""
+    job = active_jobs.get(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    job.resume()
+    return {"success": True, "status": "running"}
 
 @app.post("/api/batch/cancel/{job_id}")
 def cancel_batch(job_id: str):
@@ -1891,6 +1925,28 @@ def cancel_batch(job_id: str):
         raise HTTPException(status_code=404, detail="Job not found")
     job.cancel()
     return {"success": True, "status": "cancelled"}
+
+@app.post("/api/batch/retry/{job_id}")
+def retry_batch(job_id: str):
+    """Retry remaining/failed surahs of a batch job."""
+    success = retry_batch_job(job_id)
+    if not success:
+        raise HTTPException(status_code=400, detail="Unable to retry job")
+    return {"success": True, "status": "running"}
+
+@app.delete("/api/batch/job/{job_id}")
+def delete_batch(job_id: str):
+    """Delete a batch job record."""
+    success = delete_batch_job(job_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return {"success": True, "deleted": True}
+
+@app.post("/api/batch/clear-finished")
+def clear_finished_batch_jobs():
+    """Clear all completed, cancelled, or failed jobs."""
+    cleared_count = clear_finished_jobs()
+    return {"success": True, "cleared_count": cleared_count}
 
 # ----------------- GitHub Sync & Admin Approval Endpoints -----------------
 
@@ -2695,9 +2751,10 @@ def publish_to_github(req: GitHubPublishRequest):
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
-# Mount static frontend
+# Mount data mirror and static frontend
 PUBLIC_DIR = os.path.join(os.path.dirname(__file__), "..", "public")
 os.makedirs(PUBLIC_DIR, exist_ok=True)
+app.mount("/data-mirror", StaticFiles(directory=DATA_MIRROR), name="data_mirror")
 app.mount("/", StaticFiles(directory=PUBLIC_DIR, html=True), name="public")
 
 if __name__ == "__main__":

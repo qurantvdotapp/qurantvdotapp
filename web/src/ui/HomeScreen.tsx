@@ -196,14 +196,16 @@ export function HomeScreen(props: HomeProps) {
       const moshaf = reciter.moshafs.find((m) => m.id === s.moshafId) ?? reciter.moshafs[0];
       if (!moshaf) return;
       void c.catalog.surahs(props.lang).then((surahs) => {
-        const surah = surahs.find((x) => x.id === s.surahId);
+        const ids = new Set(availableSurahIds(moshaf));
+        const available = surahs.filter((x) => ids.has(x.id));
+        const surah = available.find((x) => x.id === s.surahId) ?? surahs.find((x) => x.id === s.surahId);
         if (!surah) return;
         props.nav.push({
           kind: "player",
           reciter,
           moshaf,
           surah,
-          availableSurahs: surahs,
+          availableSurahs: available.length > 0 ? available : [surah],
           startAyahIndex: s.ayahIndex,
         });
       });

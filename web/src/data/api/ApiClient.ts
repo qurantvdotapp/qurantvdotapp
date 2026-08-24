@@ -43,6 +43,7 @@ export class ApiClient {
           headers: {
             Accept: "application/json, text/plain, */*",
           },
+          cache: "no-cache",
           signal: controller.signal,
         });
       } finally {

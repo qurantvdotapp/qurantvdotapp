@@ -40,4 +40,9 @@ export const EMBEDDED_TIMING_SERVERS: Record<string, { read_id: number; slug: st
     slug: "qurantvapp-sayed-ahmad-hashem-hafs",
     surahs: "all",
   },
+  "https://server13.mp3quran.net/braak/": {
+    read_id: 105,
+    slug: "qurantvapp-mohammed-al-barrak-hafs-murattal",
+    surahs: [1, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114],
+  },
 };

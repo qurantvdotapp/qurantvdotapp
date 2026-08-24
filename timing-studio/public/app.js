@@ -2014,6 +2014,495 @@ async function submitReciterModal() {
   }
 }
 
+// ==================== AI BATCH ALIGNER & JOB MANAGER ====================
+let allBatchJobs = [];
+let batchPollingTimer = null;
+let currentInspectedJobId = null;
+
+function openBatchStudioModal(tab = "new") {
+  const modal = document.getElementById("batchStudioModal");
+  if (!modal) return;
+  modal.style.display = "flex";
+  populateBatchModalReciters();
+  switchBatchModalTab(tab);
+  fetchBatchJobs(true);
+  startBatchPolling();
+}
+
+function closeBatchStudioModal() {
+  const modal = document.getElementById("batchStudioModal");
+  if (modal) modal.style.display = "none";
+}
+
+function switchBatchModalTab(tab) {
+  const tabNew = document.getElementById("tabBtnBatchNew");
+  const tabDash = document.getElementById("tabBtnBatchDashboard");
+  const paneNew = document.getElementById("batchPaneNew");
+  const paneDash = document.getElementById("batchPaneDashboard");
+
+  if (tab === "new") {
+    tabNew?.classList.add("active");
+    tabDash?.classList.remove("active");
+    if (paneNew) paneNew.style.display = "block";
+    if (paneDash) paneDash.style.display = "none";
+  } else {
+    tabNew?.classList.remove("active");
+    tabDash?.classList.add("active");
+    if (paneNew) paneNew.style.display = "none";
+    if (paneDash) paneDash.style.display = "block";
+    fetchBatchJobs(true);
+  }
+}
+
+function populateBatchModalReciters() {
+  const recSel = document.getElementById("batchNewReciterSelect");
+  if (!recSel || !allReciters.length) return;
+
+  const currentRecId = selectedReciter?.id || allReciters[0]?.id;
+  recSel.innerHTML = allReciters.map(r => `
+    <option value="${r.id}" ${r.id === currentRecId ? 'selected' : ''}>
+      ${escapeHtml(r.name_ar)} (${escapeHtml(r.name_en || '')})
+    </option>
+  `).join("");
+
+  onBatchNewReciterChange();
+}
+
+function onBatchNewReciterChange() {
+  const recId = parseInt(document.getElementById("batchNewReciterSelect")?.value) || selectedReciter?.id;
+  const reciter = allReciters.find(r => r.id === recId) || allReciters[0];
+  const moshafSel = document.getElementById("batchNewMoshafSelect");
+  if (!moshafSel || !reciter) return;
+
+  moshafSel.innerHTML = (reciter.moshafs || []).map(m => `
+    <option value="${m.id}" ${m.id === selectedMoshaf?.id ? 'selected' : ''}>
+      ${escapeHtml(m.name)} ${m.is_timed ? '⚡ (موقت)' : '⚠️ (غير موقت)'}
+    </option>
+  `).join("");
+
+  onBatchNewMoshafChange();
+}
+
+function onBatchNewMoshafChange() {
+  const recId = parseInt(document.getElementById("batchNewReciterSelect")?.value);
+  const moshafId = parseInt(document.getElementById("batchNewMoshafSelect")?.value);
+  const reciter = allReciters.find(r => r.id === recId);
+  const moshaf = reciter?.moshafs?.find(m => m.id === moshafId) || reciter?.moshafs?.[0];
+  const previewBox = document.getElementById("batchNewMoshafPreview");
+  const serverInput = document.getElementById("batchNewServerUrlInput");
+  const slugInput = document.getElementById("batchNewSlugInput");
+
+  if (!moshaf) return;
+
+  const targetSlug = generateCleanSlug(reciter?.name_en || reciter?.name_ar, moshaf?.name, moshaf, reciter);
+  if (serverInput) serverInput.value = moshaf.server || "";
+  if (slugInput) slugInput.value = targetSlug;
+
+  if (previewBox) {
+    previewBox.innerHTML = `
+      <div class="flex-between">
+        <div>
+          <strong>📖 ${escapeHtml(moshaf.name)}</strong>
+          <span class="text-xs text-dim">(${moshaf.surah_total || 114} سورة)</span>
+        </div>
+        <div>
+          ${moshaf.is_timed ? '<span class="tag-badge timed font-bold">⚡ توقيت جاهز</span>' : '<span class="tag-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); font-weight: 700;">⚠️ غير موقت — يتطلب Whisper STT</span>'}
+        </div>
+      </div>
+      <div class="mt-2 text-xs font-mono text-dim">
+        <div><strong>خادم الصوت:</strong> <span class="text-white">${escapeHtml(moshaf.server || '')}</span></div>
+        <div><strong>المعرف السحابي (Slug):</strong> <span class="text-cyan">${escapeHtml(targetSlug)}</span></div>
+      </div>
+    `;
+  }
+}
+
+function setBatchSurahRange(rangeStr) {
+  const inp = document.getElementById("batchNewSurahsRangeInput");
+  if (inp) inp.value = rangeStr;
+}
+
+async function startNewBatchJobSubmit() {
+  const recId = parseInt(document.getElementById("batchNewReciterSelect")?.value);
+  const moshafId = parseInt(document.getElementById("batchNewMoshafSelect")?.value);
+  const reciter = allReciters.find(r => r.id === recId);
+  const moshaf = reciter?.moshafs?.find(m => m.id === moshafId) || reciter?.moshafs?.[0];
+
+  const serverUrl = document.getElementById("batchNewServerUrlInput")?.value.trim();
+  const slug = document.getElementById("batchNewSlugInput")?.value.trim();
+  const rangeStr = document.getElementById("batchNewSurahsRangeInput")?.value.trim() || "1-114";
+  const modelSize = document.getElementById("batchNewModelSelect")?.value || "turbo";
+  const startBtn = document.getElementById("btnStartNewBatchJob");
+
+  if (!serverUrl) {
+    alert("يرجى إدخال رابط خادم الصوت المصدري.");
+    return;
+  }
+
+  let surahs = [];
+  if (rangeStr.includes("-")) {
+    const parts = rangeStr.split("-");
+    const start = parseInt(parts[0]) || 1;
+    const end = parseInt(parts[1]) || 114;
+    for (let i = start; i <= end; i++) surahs.push(i);
+  } else {
+    surahs = rangeStr.split(",").map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+  }
+
+  if (!surahs.length) {
+    alert("يرجى تحديد أرقام سور صحيحة.");
+    return;
+  }
+
+  startBtn.disabled = true;
+  startBtn.textContent = "⏳ جاري إطلاق مهمة المعالجة بالذكاء الاصطناعي...";
+
+  try {
+    const payload = {
+      reciter_name: reciter?.name_ar || "القارئ",
+      moshaf_name: moshaf?.name || "المصحف",
+      server_url: serverUrl,
+      surahs: surahs,
+      model_size: modelSize,
+      slug: slug
+    };
+
+    const res = await fetch(`${API_BASE}/api/batch/start`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      showNotification(`🚀 تم بدء معالجة المصحف بالذكاء الاصطناعي بنجاح (${result.total_surahs} سورة)!`, "success");
+      currentInspectedJobId = result.job_id;
+      switchBatchModalTab("dashboard");
+      fetchBatchJobs(true);
+    } else {
+      alert("فشل بدء المهمة: " + (result.detail || "خطأ غير معروف"));
+    }
+  } catch (e) {
+    alert("خطأ أثناء بدء المهمة: " + e.message);
+  } finally {
+    startBtn.disabled = false;
+    startBtn.textContent = "🚀 بدء معالجة وتوليد توقيتات المصحف الآن";
+  }
+}
+
+async function fetchBatchJobs(manual = false) {
+  try {
+    const res = await fetch(`${API_BASE}/api/batch/jobs?t=${Date.now()}`);
+    const data = await res.json();
+    if (data.success) {
+      allBatchJobs = data.jobs || [];
+      renderBatchDashboard();
+    }
+  } catch (e) {
+    if (manual) console.error("Failed to fetch batch jobs:", e);
+  }
+}
+
+function renderBatchDashboard() {
+  // 1. Update stats chips & tab count
+  const total = allBatchJobs.length;
+  const running = allBatchJobs.filter(j => j.status === "running").length;
+  const paused = allBatchJobs.filter(j => j.status === "paused").length;
+  const completed = allBatchJobs.filter(j => j.status === "completed" || j.status === "completed_with_errors").length;
+  const failed = allBatchJobs.filter(j => j.status === "failed").length;
+
+  const statTotal = document.getElementById("statTotalJobs");
+  const statRunning = document.getElementById("statRunningJobs");
+  const statPaused = document.getElementById("statPausedJobs");
+  const statCompleted = document.getElementById("statCompletedJobs");
+  const statFailed = document.getElementById("statFailedJobs");
+  const tabBadge = document.getElementById("tabBadgeJobsCount");
+  const headerBadge = document.getElementById("batchHeaderBadge");
+
+  if (statTotal) statTotal.textContent = total;
+  if (statRunning) statRunning.textContent = running;
+  if (statPaused) statPaused.textContent = paused;
+  if (statCompleted) statCompleted.textContent = completed;
+  if (statFailed) statFailed.textContent = failed;
+  if (tabBadge) tabBadge.textContent = total;
+
+  if (headerBadge) {
+    if (running > 0) {
+      headerBadge.style.display = "inline-block";
+      headerBadge.textContent = `${running} جاري`;
+    } else {
+      headerBadge.style.display = "none";
+    }
+  }
+
+  // 2. Determine inspected job
+  let inspectedJob = null;
+  if (currentInspectedJobId) {
+    inspectedJob = allBatchJobs.find(j => j.job_id === currentInspectedJobId);
+  }
+  if (!inspectedJob) {
+    // Default to first running or first job
+    inspectedJob = allBatchJobs.find(j => j.status === "running") || allBatchJobs[0];
+  }
+
+  renderActiveJobInspector(inspectedJob);
+  renderBatchJobsTable();
+}
+
+function renderActiveJobInspector(job) {
+  const inspectorCard = document.getElementById("batchActiveJobInspector");
+  if (!inspectorCard) return;
+
+  if (!job) {
+    inspectorCard.style.display = "none";
+    return;
+  }
+
+  inspectorCard.style.display = "block";
+  currentInspectedJobId = job.job_id;
+
+  // Title & Status dot
+  const dot = document.getElementById("inspectStatusDot");
+  const title = document.getElementById("inspectReciterTitle");
+  const meta = document.getElementById("inspectJobSubMeta");
+
+  if (dot) dot.className = `status-pulsing-dot ${job.status}`;
+  if (title) title.textContent = `${escapeHtml(job.reciter_name)} — ${escapeHtml(job.moshaf_name)}`;
+  if (meta) meta.textContent = `ID: ${job.job_id} | Slug: ${job.slug} | Whisper ${job.model_size.toUpperCase()}`;
+
+  // Controls
+  const ctrlBox = document.getElementById("inspectControlButtons");
+  if (ctrlBox) {
+    let btnsHtml = "";
+    if (job.status === "running") {
+      btnsHtml += `<button class="btn-table-action" onclick="pauseBatchJob('${job.job_id}')" title="إيقاف مؤقت">⏸️ إيقاف مؤقت</button>`;
+      btnsHtml += `<button class="btn-table-action danger" onclick="cancelBatchJob('${job.job_id}')" title="إلغاء المهمة">⏹️ إلغاء</button>`;
+    } else if (job.status === "paused") {
+      btnsHtml += `<button class="btn-table-action" style="color:#34d399;" onclick="resumeBatchJob('${job.job_id}')" title="استئناف">▶️ استئناف</button>`;
+      btnsHtml += `<button class="btn-table-action danger" onclick="cancelBatchJob('${job.job_id}')" title="إلغاء المهمة">⏹️ إلغاء</button>`;
+    } else if (job.status === "failed" || job.status === "completed_with_errors" || job.status === "cancelled") {
+      btnsHtml += `<button class="btn-table-action" onclick="retryBatchJob('${job.job_id}')" title="إعادة محاولة">🔄 إعادة المحاولة</button>`;
+      btnsHtml += `<button class="btn-table-action danger" onclick="deleteBatchJob('${job.job_id}')" title="حذف">🗑️ حذف</button>`;
+    } else if (job.status === "completed") {
+      btnsHtml += `<button class="btn-table-action" style="color:#34d399;" onclick="openCompletedInStudio('${job.slug}')" title="فتح هذا المصحف في الاستوديو">📂 فتح في الاستوديو</button>`;
+      btnsHtml += `<button class="btn-table-action danger" onclick="deleteBatchJob('${job.job_id}')" title="حذف السجل">🗑️ حذف السجل</button>`;
+    }
+    ctrlBox.innerHTML = btnsHtml;
+  }
+
+  // Tier 1: Mushaf Progress
+  const mushafCount = document.getElementById("inspectMushafCount");
+  const mushafPct = document.getElementById("inspectMushafPct");
+  const mushafBar = document.getElementById("inspectMushafBarFill");
+
+  if (mushafCount) mushafCount.textContent = `${job.completed_count} / ${job.total_surahs} سورة`;
+  if (mushafPct) mushafPct.textContent = `${job.percent}%`;
+  if (mushafBar) mushafBar.style.width = `${job.percent}%`;
+
+  // Tier 2: Current Surah Sub-Progress
+  const curSurahLabel = document.getElementById("inspectCurrentSurahLabel");
+  const phaseLabel = document.getElementById("inspectPhaseLabel");
+  const surahPct = document.getElementById("inspectSurahPct");
+  const surahBar = document.getElementById("inspectSurahBarFill");
+
+  const surahId = job.current_surah || (job.completed_surahs[job.completed_surahs.length - 1] || 1);
+  if (curSurahLabel) curSurahLabel.textContent = `سورة ${surahId}`;
+  if (phaseLabel) {
+    const phaseNames = {
+      "downloading": "📥 تحميل الصوت المصدري",
+      "loading_text": "📖 تحميل نص التنزيل المعتمد",
+      "transcribing": "🧠 تحويل الصوت بالذكاء الاصطناعي (GPU)",
+      "aligning": "📐 معايرة وتطابق الآيات",
+      "saving": "💾 حفظ ملفات التوقيت الصافية",
+      "completed": "🎉 مكتمل بنجاح",
+      "paused": "⏸️ متوقف مؤقتاً",
+      "failed": "❌ فشل"
+    };
+    phaseLabel.textContent = phaseNames[job.current_phase] || job.current_phase || "قيد المعالجة";
+  }
+  if (surahPct) surahPct.textContent = `${job.current_surah_pct}%`;
+  if (surahBar) surahBar.style.width = `${job.current_surah_pct}%`;
+
+  // Telemetry Grid
+  const curTimeStr = formatAudioTime(job.current_surah_time);
+  const totalTimeStr = formatAudioTime(job.current_surah_total_time);
+  const audioTime = document.getElementById("inspectAudioTime");
+  const speed = document.getElementById("inspectSpeed");
+  const wordsCount = document.getElementById("inspectWordsCount");
+  const surahsSummary = document.getElementById("inspectSurahsSummary");
+
+  if (audioTime) audioTime.textContent = `${curTimeStr} / ${totalTimeStr}`;
+  if (speed) speed.textContent = job.current_speed || "1.0x";
+  if (wordsCount) wordsCount.textContent = `${job.current_words_count || 0} كلمة`;
+  if (surahsSummary) {
+    const failCount = Object.keys(job.failed_surahs || {}).length;
+    surahsSummary.textContent = `${job.completed_count} نجاح | ${failCount} تعثر`;
+  }
+
+  // Live Ticker Text
+  const liveText = document.getElementById("inspectLiveText");
+  if (liveText) {
+    liveText.textContent = job.current_last_text || job.current_message || "جاري تهيئة المحاذاة الصوتية...";
+  }
+
+  // Terminal Logs
+  const terminal = document.getElementById("inspectTerminalLogs");
+  if (terminal && job.logs) {
+    terminal.innerHTML = job.logs.map(l => `<div class="log-line">${escapeHtml(l)}</div>`).join("");
+    terminal.scrollTop = terminal.scrollHeight;
+  }
+}
+
+function formatAudioTime(sec) {
+  if (!sec || isNaN(sec)) return "00:00";
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+}
+
+function renderBatchJobsTable() {
+  const tbody = document.getElementById("batchJobsTableBody");
+  if (!tbody) return;
+
+  if (!allBatchJobs.length) {
+    tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-dim">لا توجد مهام مسجلة حالياً</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = allBatchJobs.map(job => {
+    const statusLabels = {
+      "running": '<span class="job-status-badge running">⚡ جاري</span>',
+      "paused": '<span class="job-status-badge paused">⏸️ متوقف</span>',
+      "completed": '<span class="job-status-badge completed">✅ مكتمل</span>',
+      "completed_with_errors": '<span class="job-status-badge failed">⚠️ أخطاء جزئية</span>',
+      "failed": '<span class="job-status-badge failed">❌ فشل</span>',
+      "cancelled": '<span class="job-status-badge cancelled">⏹️ ملغي</span>',
+      "queued": '<span class="job-status-badge paused">⏳ في الانتظار</span>'
+    };
+
+    const dateStr = job.created_at ? new Date(job.created_at * 1000).toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" }) : "--:--";
+
+    return `
+      <tr style="${job.job_id === currentInspectedJobId ? 'background: rgba(6, 182, 212, 0.08);' : ''}">
+        <td>
+          <div style="font-weight: 700; color: #fff;">${escapeHtml(job.reciter_name)}</div>
+          <div class="text-xs text-dim font-mono">${escapeHtml(job.moshaf_name)} (${job.slug})</div>
+        </td>
+        <td><span class="badge font-mono text-xs">${escapeHtml(job.model_size)}</span></td>
+        <td><strong>${job.completed_count} / ${job.total_surahs}</strong></td>
+        <td>
+          <div style="width: 80px;" class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: ${job.percent}%;"></div>
+          </div>
+          <span class="text-xs font-mono">${job.percent}%</span>
+        </td>
+        <td>${statusLabels[job.status] || job.status}</td>
+        <td class="font-mono text-xs text-dim">${dateStr}</td>
+        <td>
+          <div class="job-action-btn-group">
+            <button class="btn-table-action" onclick="inspectBatchJob('${job.job_id}')" title="عرض التفاصيل الحية">👁️ عرض</button>
+            ${job.status === "running" ? `
+              <button class="btn-table-action" onclick="pauseBatchJob('${job.job_id}')" title="إيقاف مؤقت">⏸️</button>
+              <button class="btn-table-action danger" onclick="cancelBatchJob('${job.job_id}')" title="إلغاء">⏹️</button>
+            ` : (job.status === "paused" ? `
+              <button class="btn-table-action" onclick="resumeBatchJob('${job.job_id}')" title="استئناف">▶️</button>
+              <button class="btn-table-action danger" onclick="cancelBatchJob('${job.job_id}')" title="إلغاء">⏹️</button>
+            ` : `
+              <button class="btn-table-action" onclick="retryBatchJob('${job.job_id}')" title="إعادة محاولة">🔄</button>
+              <button class="btn-table-action danger" onclick="deleteBatchJob('${job.job_id}')" title="حذف">🗑️</button>
+            `)}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function inspectBatchJob(jobId) {
+  currentInspectedJobId = jobId;
+  renderBatchDashboard();
+  switchBatchModalTab("dashboard");
+}
+
+async function pauseBatchJob(jobId) {
+  try {
+    await fetch(`${API_BASE}/api/batch/pause/${jobId}`, { method: "POST" });
+    fetchBatchJobs(true);
+  } catch (e) {
+    alert("خطأ: " + e.message);
+  }
+}
+
+async function resumeBatchJob(jobId) {
+  try {
+    await fetch(`${API_BASE}/api/batch/resume/${jobId}`, { method: "POST" });
+    fetchBatchJobs(true);
+  } catch (e) {
+    alert("خطأ: " + e.message);
+  }
+}
+
+async function cancelBatchJob(jobId) {
+  if (!confirm("هل أنت متأكد من رغبتك في إلغاء هذه المهمة؟")) return;
+  try {
+    await fetch(`${API_BASE}/api/batch/cancel/${jobId}`, { method: "POST" });
+    fetchBatchJobs(true);
+  } catch (e) {
+    alert("خطأ: " + e.message);
+  }
+}
+
+async function retryBatchJob(jobId) {
+  try {
+    await fetch(`${API_BASE}/api/batch/retry/${jobId}`, { method: "POST" });
+    fetchBatchJobs(true);
+  } catch (e) {
+    alert("خطأ: " + e.message);
+  }
+}
+
+async function deleteBatchJob(jobId) {
+  if (!confirm("هل أنت متأكد من حذف هذا السجل؟")) return;
+  try {
+    await fetch(`${API_BASE}/api/batch/job/${jobId}`, { method: "DELETE" });
+    if (currentInspectedJobId === jobId) currentInspectedJobId = null;
+    fetchBatchJobs(true);
+  } catch (e) {
+    alert("خطأ: " + e.message);
+  }
+}
+
+async function clearFinishedJobsAction() {
+  try {
+    const res = await fetch(`${API_BASE}/api/batch/clear-finished`, { method: "POST" });
+    const data = await res.json();
+    showNotification(`تم تنظيف ${data.cleared_count || 0} من المهام المكتملة`, "info");
+    fetchBatchJobs(true);
+  } catch (e) {
+    alert("خطأ: " + e.message);
+  }
+}
+
+function openCompletedInStudio(slug) {
+  closeBatchStudioModal();
+  // Find reciter matching slug
+  for (const r of allReciters) {
+    for (const m of (r.moshafs || [])) {
+      if (generateCleanSlug(r.name_en || r.name_ar, m.name, m, r) === slug) {
+        selectLocalReciter(r.id, m.id);
+        return;
+      }
+    }
+  }
+}
+
+function startBatchPolling() {
+  if (batchPollingTimer) clearInterval(batchPollingTimer);
+  batchPollingTimer = setInterval(() => {
+    fetchBatchJobs();
+  }, 1500);
+}
+
 // ----------------- Utilities -----------------
 
 function formatTime(sec) {
@@ -2074,4 +2563,7 @@ window.addEventListener("keydown", (e) => {
 // Initialize on DOM load
 document.addEventListener("DOMContentLoaded", () => {
   loadRecitersAndSurahs();
+  fetchBatchJobs();
+  startBatchPolling();
 });
+

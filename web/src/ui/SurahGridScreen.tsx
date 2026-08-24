@@ -53,22 +53,21 @@ export function SurahGridScreen(props: SurahGridProps) {
       const ids = new Set(availableSurahIds(props.moshaf));
       const list = all.filter((s) => ids.has(s.id));
 
-      // Strictly filter to surahs that have timing in GitHub catalogue
+      // Show all available surahs for the reciter's moshaf.
+      // If the reciter has timings for only some surahs (or none), mark untimed ones.
+      setSurahs(list);
       const read = await c.timing.readForMoshaf(props.moshaf.server);
       if (read) {
         setMatchedReadId(read.id);
         const soar = await c.timing.surahsWithTiming(read.id, props.moshaf.server);
         if (soar && soar.size > 0) {
-          const timedList = list.filter((s) => soar.has(s.id));
-          setSurahs(timedList);
-          setUntimed(new Set<number>());
+          const untimedIds = new Set(list.filter((s) => !soar.has(s.id)).map((s) => s.id));
+          setUntimed(untimedIds);
         } else {
-          setSurahs([]);
           setUntimed(new Set(list.map((s) => s.id)));
         }
       } else {
         setMatchedReadId(undefined);
-        setSurahs([]);
         setUntimed(new Set(list.map((s) => s.id)));
       }
 

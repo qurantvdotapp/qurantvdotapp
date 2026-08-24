@@ -256,21 +256,55 @@ def transcribe_audio(
 
     if engine_type == "whisper_gpu":
         import whisper
+        import whisper.transcribe
+        import tqdm
+
         # PyTorch Whisper GPU backend
         audio_tensor = whisper.load_audio(audio_path)
         total_duration = max(1.0, len(audio_tensor) / 16000.0)
         start_time = time.time()
 
-        res = model.transcribe(
-            audio_tensor,
-            language="ar",
-            word_timestamps=True,
-            beam_size=beam_size,
-            best_of=beam_size if beam_size > 1 else None,
-            condition_on_previous_text=False,
-            initial_prompt=initial_prompt or None,
-            temperature=(0.0, 0.2)
-        )
+        orig_tqdm = tqdm.tqdm
+
+        class WhisperProgressTqdm(orig_tqdm):
+            def update(self, n=1):
+                super().update(n)
+                if progress_callback and self.total:
+                    processed_frames = min(self.total, self.n)
+                    processed_sec = round((processed_frames / max(1, self.total)) * total_duration, 2)
+                    pct = min(95.0, round((processed_frames / max(1, self.total)) * 85.0 + 10.0, 1))
+                    elapsed = max(0.1, time.time() - start_time)
+                    speed = round(processed_sec / elapsed, 1)
+                    progress_callback({
+                        "phase": "transcribing",
+                        "percent": pct,
+                        "current_time_sec": processed_sec,
+                        "total_duration_sec": round(total_duration, 2),
+                        "speed_x": f"{speed}x",
+                        "words_count": len(all_words),
+                        "message": f"Transcribing on GPU ({processed_sec:.1f}s / {total_duration:.1f}s) — {pct:.1f}% @ {speed}x"
+                    })
+
+        try:
+            tqdm.tqdm = WhisperProgressTqdm
+            if hasattr(whisper.transcribe, "tqdm") and hasattr(whisper.transcribe.tqdm, "tqdm"):
+                whisper.transcribe.tqdm.tqdm = WhisperProgressTqdm
+
+            res = model.transcribe(
+                audio_tensor,
+                language="ar",
+                word_timestamps=True,
+                beam_size=beam_size,
+                best_of=beam_size if beam_size > 1 else None,
+                condition_on_previous_text=False,
+                initial_prompt=initial_prompt or None,
+                temperature=(0.0, 0.2),
+                verbose=False
+            )
+        finally:
+            tqdm.tqdm = orig_tqdm
+            if hasattr(whisper.transcribe, "tqdm") and hasattr(whisper.transcribe.tqdm, "tqdm"):
+                whisper.transcribe.tqdm.tqdm = orig_tqdm
 
         segments = res.get("segments", [])
         for segment in segments:
@@ -288,20 +322,19 @@ def transcribe_audio(
                     })
                     seg_words.append(raw_w)
 
-            if progress_callback:
-                seg_end = segment.get("end", total_duration)
-                pct = min(95.0, round((seg_end / total_duration) * 85.0 + 10.0, 1))
-                elapsed = max(0.1, time.time() - start_time)
-                speed = round(seg_end / elapsed, 1)
-                progress_callback({
-                    "phase": "transcribing",
-                    "percent": pct,
-                    "current_time_sec": round(seg_end, 2),
-                    "total_duration_sec": round(total_duration, 2),
-                    "speed_x": f"{speed}x",
-                    "words_count": len(all_words),
-                    "last_text": " ".join(seg_words) or segment.get("text", "")
-                })
+        if progress_callback:
+            elapsed = max(0.1, time.time() - start_time)
+            speed = round(total_duration / elapsed, 1)
+            progress_callback({
+                "phase": "transcription_finished",
+                "percent": 95.0,
+                "current_time_sec": round(total_duration, 2),
+                "total_duration_sec": round(total_duration, 2),
+                "speed_x": f"{speed}x",
+                "words_count": len(all_words),
+                "last_text": " ".join(seg_words[-15:]) if seg_words else "",
+                "message": f"Transcribed {len(all_words)} words in {elapsed:.1f}s ({speed}x on GPU)"
+            })
 
     else:
         # Faster-Whisper CPU / CTranslate2 backend

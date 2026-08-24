@@ -48,7 +48,9 @@ export class Mp3QuranApi {
   ): Promise<T> {
     const parse = unwrap ?? ((t: string) => JSON.parse(t) as T);
 
+    const cacheBuster = `?t=${Date.now()}`;
     const endpoints = [
+      `${this.githubRawBase}${mirrorPath}${cacheBuster}`,
       `${this.githubRawBase}${mirrorPath}`,
       `${this.jsdelivrCdnBase}${mirrorPath}`,
       `${this.archiveOrgBase}${mirrorPath}`,

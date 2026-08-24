@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-24T23:01:34Z",
+  "generated_at": "2026-08-24T23:04:01Z",
   "servers": {
     "https://server8.mp3quran.net/ryan/": {
       "read_id": 48,
@@ -108,6 +108,7 @@
       "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
       "surahs": [
         1,
+        96,
         97,
         98,
         99,
@@ -134,6 +135,7 @@
       "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
       "surahs": [
         1,
+        96,
         97,
         98,
         99,

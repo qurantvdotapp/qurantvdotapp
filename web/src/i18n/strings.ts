@@ -89,6 +89,9 @@ export const STRINGS = {
     about_text:
       "القرآن — الصوت من mp3quran.net · نص القرآن: تنزيل (CC BY-NC-ND) · صفحات المصحف: mp3quran SVG (مصحف المدينة).",
     back: "رجوع",
+    exit: "خروج",
+    exit_hint: "اضغط رجوع مرة أخرى للخروج من التطبيق",
+    exit_confirm: "هل تريد الخروج من التطبيق؟",
     verse: "آية",
     position: "الموضع",
     loading_error: "تعذر تحميل البيانات",
@@ -179,6 +182,9 @@ export const STRINGS = {
     about_text:
       "Quran TV — audio from mp3quran.net · Quran text: Tanzil (CC BY-NC-ND) · Mushaf pages: mp3quran SVG (Madinah mushaf).",
     back: "Back",
+    exit: "Exit",
+    exit_hint: "Press Back again to exit the app",
+    exit_confirm: "Do you want to exit the application?",
     verse: "Verse",
     position: "Position",
     loading_error: "Could not load data",

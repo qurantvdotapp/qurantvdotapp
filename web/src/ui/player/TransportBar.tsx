@@ -83,11 +83,10 @@ export function TransportBar(props: TransportBarProps) {
         "align-items": "center",
         gap: "16px",
         padding: "16px 32px",
-        background: "rgba(13, 26, 51, 0.72)", // semi-transparent over the mushaf
-        "backdrop-filter": "blur(6px)",
-        "-webkit-backdrop-filter": "blur(6px)",
+        background: "rgba(10, 20, 40, 0.94)", // solid dark alpha instead of backdrop-filter blur for TV GPU performance
         "border-top": "1px solid rgba(51, 72, 122, 0.5)",
         "min-height": "110px",
+        "transform": "translateZ(0)",
       }}
     >
       {/* LEFT zone */}

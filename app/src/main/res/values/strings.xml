@@ -82,6 +82,8 @@
     <string name="about_title">About</string>
     <string name="about_text">Quran TV — audio from mp3quran.net · Quran text: Tanzil (CC BY-NC-ND) · Mushaf pages: mp3quran SVG (Madinah mushaf).</string>
     <string name="back">Back</string>
+    <string name="exit">Exit</string>
+    <string name="exit_hint">Press Back again to exit the app</string>
     <string name="verse">Verse</string>
     <string name="position">Position</string>
 </resources>

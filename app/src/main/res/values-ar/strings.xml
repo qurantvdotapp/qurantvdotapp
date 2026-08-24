@@ -82,6 +82,8 @@
     <string name="about_title">حول التطبيق</string>
     <string name="about_text">القرآن — الصوت من mp3quran.net · نص القرآن: تنزيل (CC BY-NC-ND) · صفحات المصحف: mp3quran SVG (مصحف المدينة).</string>
     <string name="back">رجوع</string>
+    <string name="exit">خروج</string>
+    <string name="exit_hint">اضغط رجوع مرة أخرى للخروج من التطبيق</string>
     <string name="verse">آية</string>
     <string name="position">الموضع</string>
 </resources>

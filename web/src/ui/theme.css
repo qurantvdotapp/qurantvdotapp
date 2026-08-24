@@ -90,13 +90,14 @@ body,
 [data-focusable] {
   outline: none;
   cursor: pointer;
-  transition: transform 0.13s ease, box-shadow 0.13s ease, border-color 0.13s ease,
-    background-color 0.13s ease, opacity 0.13s ease;
+  transform: translateZ(0);
+  will-change: transform;
+  transition: transform 0.08s ease-out, border-color 0.08s ease-out, background-color 0.08s ease-out;
 }
 
 [data-focusable].focused {
-  transform: scale(1.06);
-  box-shadow: var(--shadow-glow);
+  transform: scale(1.06) translateZ(0);
+  box-shadow: 0 0 0 3px var(--ring), 0 8px 20px rgba(0, 0, 0, 0.6);
   z-index: 5;
   position: relative;
 }
@@ -114,6 +115,7 @@ body,
   flex-direction: column;
   padding: 44px 56px;
   overflow: hidden;
+  contain: layout style;
 }
 
 .h-scroll {
@@ -121,6 +123,7 @@ body,
   overflow-y: auto;
   scrollbar-width: none;
   overscroll-behavior: contain;
+  contain: content;
 }
 .h-scroll::-webkit-scrollbar {
   display: none;
@@ -128,7 +131,7 @@ body,
 
 /* ------- cards ------- */
 .tv-card {
-  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+  background: var(--surface);
   border: 1px solid #2a3c66;
   border-radius: var(--radius);
   padding: 18px 22px;
@@ -136,7 +139,8 @@ body,
   display: flex;
   align-items: center;
   gap: 14px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  contain: layout style;
 }
 
 .tv-card.dim {
@@ -144,7 +148,7 @@ body,
 }
 
 .tv-chip {
-  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+  background: var(--surface);
   border: 1px solid #2a3c66;
   border-radius: 14px;
   padding: 13px 20px;
@@ -152,20 +156,19 @@ body,
   font-size: 22px;
   font-weight: 400;
   white-space: nowrap;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 .tv-chip.focused {
   color: var(--gold-bright);
   border-color: var(--gold-dim);
-  background: linear-gradient(180deg, #27406e 0%, #1a2a4e 100%);
+  background: #1e3157;
 }
 
 /* ------- dialogs ------- */
 .dialog-scrim {
   position: fixed;
   inset: 0;
-  background: rgba(3, 6, 16, 0.78);
-  backdrop-filter: blur(4px);
+  background: rgba(3, 6, 16, 0.88);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,7 +176,7 @@ body,
 }
 
 .dialog {
-  background: linear-gradient(180deg, #16233f 0%, var(--surface) 100%);
+  background: var(--surface);
   border: 1px solid #33487a;
   border-radius: 20px;
   width: min(940px, 86vw);
@@ -181,7 +184,7 @@ body,
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
 }
 
 .dialog-title {

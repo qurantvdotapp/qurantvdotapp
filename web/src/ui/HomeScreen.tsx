@@ -210,10 +210,27 @@ export function HomeScreen(props: HomeProps) {
     });
   }
 
+  const [exitDialogOpen, setExitDialogOpen] = createSignal(false);
+  const [showExitToast, setShowExitToast] = createSignal(false);
+  let toastTimer: number | undefined;
+
+  onMount(() => {
+    const onExitPrompt = () => {
+      setShowExitToast(true);
+      if (toastTimer) window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => setShowExitToast(false), 2500);
+    };
+    window.addEventListener("qurantv-exit-prompt", onExitPrompt);
+    return () => {
+      window.removeEventListener("qurantv-exit-prompt", onExitPrompt);
+      if (toastTimer) window.clearTimeout(toastTimer);
+    };
+  });
+
   return (
     <div class="screen">
-      {/* header: app name + SEARCH BAR + settings */}
-      <div style="display:flex;align-items:center;gap:20px;padding-bottom:18px">
+      {/* header: app name + SEARCH BAR + settings + exit */}
+      <div style="display:flex;align-items:center;gap:14px;padding-bottom:18px">
         <h1 style="margin:0;font-size:40px;font-weight:700;color:var(--gold);white-space:nowrap">{props.t("app_name")}</h1>
         <div
           use:focusable="home-search"
@@ -247,7 +264,54 @@ export function HomeScreen(props: HomeProps) {
           </Show>
         </div>
         <Chip id="home-settings" label={props.t("settings")} onClick={() => props.onOpenSettings()} />
+        <Chip
+          id="home-exit"
+          label={`⏻ ${props.t("exit")}`}
+          onClick={() => {
+            setExitDialogOpen(true);
+            setTimeout(() => focusElement("exit-confirm-btn"), 60);
+          }}
+        />
       </div>
+
+      {/* Exit confirmation dialog */}
+      <Show when={exitDialogOpen()}>
+        <Dialog title={props.t("exit")} hint={props.t("exit_confirm")} onClose={() => setExitDialogOpen(false)}>
+          <div class="dialog-list" style="display:flex;gap:14px;padding:12px 18px 24px">
+            <div
+              use:focusable="exit-confirm-btn"
+              id="exit-confirm-btn"
+              class="tv-chip"
+              style="flex:1;text-align:center;background:linear-gradient(180deg,#7a2828,#541c1c);color:#ffc4c4;font-weight:700"
+              onClick={() => {
+                setExitDialogOpen(false);
+                props.nav.exitApp();
+              }}
+            >
+              {props.t("exit")}
+            </div>
+            <div
+              use:focusable="exit-cancel-btn"
+              id="exit-cancel-btn"
+              class="tv-chip"
+              style="flex:1;text-align:center"
+              onClick={() => setExitDialogOpen(false)}
+            >
+              {props.t("back")}
+            </div>
+          </div>
+        </Dialog>
+      </Show>
+
+      {/* Double back exit toast prompt */}
+      <Show when={showExitToast()}>
+        <div
+          style="position:fixed;bottom:36px;left:50%;transform:translateX(-50%);background:rgba(12,20,40,0.96);border:1px solid #3b5080;padding:12px 28px;border-radius:30px;color:var(--text);font-size:22px;box-shadow:var(--shadow-glow);z-index:99;pointer-events:none;display:flex;align-items:center;gap:10px"
+        >
+          <span style="color:var(--gold)">ℹ</span>
+          <span>{props.t("exit_hint")}</span>
+        </div>
+      </Show>
 
       {/* on-screen TV keyboard — a POPUP, opened on click, closed on exit */}
       <Show when={kbOpen()}>

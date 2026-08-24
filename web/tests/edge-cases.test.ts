@@ -1,5 +1,5 @@
 // Edge case exploration suite for mp3qurantv
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { normalizeArabic, reciterMatchesQuery } from "../src/domain/search";
 import { parseSurahList, parsePolygon, normalizeServerUrl, audioUrlFor } from "../src/domain/CatalogParsing";
 import { ayahAt, repeatAyahTarget } from "../src/domain/TimingIndex";
@@ -218,5 +218,74 @@ describe("Edge Case Probing: TV Remote Key Normalization", () => {
     expect(normalizeKey({ key: "ArrowLeft", keyCode: 37, preventDefault: () => {}, target: null })).toBe("left");
     expect(normalizeKey({ key: "Enter", keyCode: 13, preventDefault: () => {}, target: null })).toBe("ok");
     expect(normalizeKey({ key: " ", keyCode: 32, preventDefault: () => {}, target: null })).toBe("playPause");
+  });
+});
+
+import { createNavigator, exitApp } from "../src/ui/navigation";
+
+describe("Navigator and App Exit handling", () => {
+  it("emits exit prompt on first Back at Home screen and exits on double Back", () => {
+    const listeners: Record<string, Function[]> = {};
+    const win = {
+      addEventListener: (type: string, fn: Function) => {
+        (listeners[type] = listeners[type] || []).push(fn);
+      },
+      removeEventListener: (type: string, fn: Function) => {
+        listeners[type] = (listeners[type] || []).filter((f) => f !== fn);
+      },
+      dispatchEvent: (e: any) => {
+        (listeners[e.type] || []).forEach((fn) => fn(e));
+        return true;
+      },
+      close: vi.fn(),
+      history: { length: 1, back: vi.fn() },
+    };
+
+    const origWindow = (globalThis as any).window;
+    (globalThis as any).window = win;
+    (globalThis as any).CustomEvent = class CustomEvent {
+      type: string;
+      constructor(type: string) {
+        this.type = type;
+      }
+    };
+
+    try {
+      const nav = createNavigator();
+      let promptFired = false;
+      win.addEventListener("qurantv-exit-prompt", () => {
+        promptFired = true;
+      });
+
+      // First Back: fires toast prompt
+      nav.back();
+      expect(promptFired).toBe(true);
+
+      // Second Back within 2.5s: triggers exitApp
+      nav.back();
+      expect(win.close).toHaveBeenCalled();
+    } finally {
+      (globalThis as any).window = origWindow;
+    }
+  });
+
+  it("calls Tizen exit when tizen application object exists", () => {
+    const exitMock = vi.fn();
+    const win: any = {
+      tizen: {
+        application: {
+          getCurrentApplication: () => ({ exit: exitMock }),
+        },
+      },
+    };
+    const origWindow = (globalThis as any).window;
+    (globalThis as any).window = win;
+
+    try {
+      exitApp();
+      expect(exitMock).toHaveBeenCalled();
+    } finally {
+      (globalThis as any).window = origWindow;
+    }
   });
 });

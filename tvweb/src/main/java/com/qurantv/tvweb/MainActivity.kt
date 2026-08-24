@@ -40,8 +40,22 @@ class MainActivity : Activity() {
             mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
             userAgentString = "${userAgentString} QuranTV-Web; AndroidTV"
         }
-        webView.webChromeClient = WebChromeClient()
+        webView.webChromeClient = object : WebChromeClient() {
+            override fun onCloseWindow(window: WebView?) {
+                finishAffinity()
+            }
+        }
         webView.webViewClient = WebViewClient()
+        webView.addJavascriptInterface(object {
+            @android.webkit.JavascriptInterface
+            fun exitApp() {
+                runOnUiThread { finishAffinity() }
+            }
+            @android.webkit.JavascriptInterface
+            fun close() {
+                runOnUiThread { finishAffinity() }
+            }
+        }, "AndroidHost")
         webView.isFocusable = true
         webView.isFocusableInTouchMode = true
 
@@ -92,8 +106,29 @@ class MainActivity : Activity() {
         forwardToPage("Escape", 10009)
     }
 
+    override fun onPause() {
+        super.onPause()
+        runCatching {
+            webView.onPause()
+            webView.pauseTimers()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        runCatching {
+            webView.onResume()
+            webView.resumeTimers()
+        }
+    }
+
     override fun onDestroy() {
         runCatching { window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) }
+        runCatching {
+            webView.loadUrl("about:blank")
+            webView.stopLoading()
+            webView.destroy()
+        }
         super.onDestroy()
     }
 }

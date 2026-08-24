@@ -24,28 +24,32 @@ export function unregisterFocusable(id: string): void {
 
 function isVisible(el: HTMLElement): boolean {
   if (!el.isConnected) return false;
-  // Opacity/display don't inherit — a button inside an opacity-0 container
-  // (e.g. the auto-hidden page-mode chrome) reports opacity 1 itself. Walk the
-  // ancestor chain so hidden-chrome buttons never become D-pad targets (that
-  // made focus move invisibly while the mushaf was fullscreen).
+  // Fast path for visibility on TV without layout thrashing:
+  // offsetParent is null when an element (or ancestor) is display: none.
+  // We check offsetWidth/offsetHeight or offsetParent.
+  if (el.offsetParent === null && el.style.position !== "fixed") return false;
+  if (el.offsetWidth <= 0 || el.offsetHeight <= 0) {
+    const r = el.getBoundingClientRect();
+    if (r.width <= 0 || r.height <= 0) return false;
+  }
+  // Check ancestor hidden classes without calling getComputedStyle in a loop
   let node: HTMLElement | null = el;
   while (node) {
-    const style = window.getComputedStyle(node);
-    if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0) return false;
+    if (node.classList && (node.classList.contains("chrome-hidden") || node.getAttribute("aria-hidden") === "true")) {
+      return false;
+    }
+    if (node.style.display === "none" || node.style.visibility === "hidden") return false;
     node = node.parentElement;
   }
-  const r = el.getBoundingClientRect();
-  // Only require a non-zero size — NOT a "within the viewport" check. Elements
-  // below the fold of a scroll container are valid focus targets: scrollIntoView
-  // brings them up. (The old viewport clip left the reciter list unable to scroll.)
-  return r.width > 0 && r.height > 0;
+  return true;
 }
 
 export function focusElement(id: string): void {
   const el = registry.get(id);
   if (el && isVisible(el)) {
     setFocusedId(id);
-    el.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+    // Use instant scroll ("auto") instead of "smooth" on TV to eliminate input lag and frame drops during rapid remote D-pad presses
+    el.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "auto" });
     // When app focus leaves the search bar, drop DOM focus from the search
     // <input>. Otherwise Enter/OK keeps landing on the input (which re-runs
     // the search via openFirstMatch) instead of activating the newly focused

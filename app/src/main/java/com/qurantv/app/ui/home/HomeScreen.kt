@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.NavigateNext
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.PowerSettingsNew
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -68,6 +69,7 @@ fun HomeScreen(
     container: AppContainer,
     onOpenSettings: () -> Unit,
     onOpenSearch: () -> Unit,
+    onExit: () -> Unit,
 ) {
     val vm = container.homeViewModel
     val ui by vm.ui.collectAsState()
@@ -131,8 +133,13 @@ fun HomeScreen(
                 color = MaterialTheme.colorScheme.primary,
             )
             Spacer(Modifier.weight(1f))
-            TvIconButton(onClick = onOpenSettings) {
-                Icon(Icons.Filled.Settings, contentDescription = null, tint = MaterialTheme.colorScheme.onSurface)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                TvIconButton(onClick = onOpenSettings) {
+                    Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.settings), tint = MaterialTheme.colorScheme.onSurface)
+                }
+                TvIconButton(onClick = onExit) {
+                    Icon(Icons.Filled.PowerSettingsNew, contentDescription = stringResource(R.string.exit), tint = MaterialTheme.colorScheme.onSurface)
+                }
             }
         }
 

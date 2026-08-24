@@ -62,6 +62,7 @@ fun QuranTvRoot(
                     container = container,
                     onOpenSettings = { navigator.push(Screen.Settings) },
                     onOpenSearch = { container.homeViewModel.openSearch() },
+                    onExit = onExit,
                 )
                 is Screen.SurahGrid -> SurahGridScreen(
                     container = container,

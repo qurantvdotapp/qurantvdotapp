@@ -110,6 +110,10 @@ export function Dialog(props: {
   onMount(() => {
     const onCloseReq = () => props.onClose();
     window.addEventListener("qurantv-close-dialog", onCloseReq as EventListener);
+    setTimeout(() => {
+      const scrim = document.querySelector(".dialog-scrim");
+      if (scrim) focusFirst(scrim);
+    }, 40);
     onCleanup(() => window.removeEventListener("qurantv-close-dialog", onCloseReq as EventListener));
   });
   return (

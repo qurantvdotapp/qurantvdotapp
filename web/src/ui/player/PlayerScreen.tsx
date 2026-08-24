@@ -275,6 +275,7 @@ export function PlayerScreen(props: PlayerProps) {
       if (t) {
         const suggested = suggestOffset(t.entries.length, versesCount);
         const effOffset = settings.ayahOffset !== 0 ? settings.ayahOffset : suggested;
+        setEffectiveOffset(effOffset);
         const list: TextItem[] = [];
         for (const e of t.entries) {
           if (e.ayah < 1) continue;
@@ -286,6 +287,7 @@ export function PlayerScreen(props: PlayerProps) {
         }
         setItems(list);
       } else {
+        setEffectiveOffset(0);
         // No timing → static list of the surah's verses (graceful degradation).
         const list: TextItem[] = [];
         for (let v = 1; v <= versesCount; v++) {
@@ -386,6 +388,7 @@ export function PlayerScreen(props: PlayerProps) {
     if (t) {
       const suggested = suggestOffset(t.entries.length, versesCount);
       const effOffset = settings.ayahOffset !== 0 ? settings.ayahOffset : suggested;
+      setEffectiveOffset(effOffset);
       const list: TextItem[] = [];
       for (const e of t.entries) {
         if (e.ayah < 1) continue;
@@ -397,6 +400,7 @@ export function PlayerScreen(props: PlayerProps) {
       }
       items = list;
     } else {
+      setEffectiveOffset(0);
       const list: TextItem[] = [];
       for (let v = 1; v <= versesCount; v++) {
         const text = (await c.quranText.verseText(surah.id, v)) ?? "";
@@ -531,6 +535,7 @@ export function PlayerScreen(props: PlayerProps) {
 
     if (t) {
       const effOffset = settings.ayahOffset !== 0 ? settings.ayahOffset : suggestOffset(t.entries.length, versesCount);
+      setEffectiveOffset(effOffset);
       const list: TextItem[] = [];
       for (const e of t.entries) {
         if (e.ayah < 1) continue;
@@ -541,6 +546,7 @@ export function PlayerScreen(props: PlayerProps) {
       }
       setItems(list);
     } else {
+      setEffectiveOffset(0);
       const list: TextItem[] = [];
       for (let v = 1; v <= versesCount; v++) {
         list.push({ ayah: v, verseKey: `${surah.id}:${v}`, text: (await c.quranText.verseText(surah.id, v)) ?? "" });
@@ -702,12 +708,15 @@ export function PlayerScreen(props: PlayerProps) {
     }
   }
 
+  const [effectiveOffset, setEffectiveOffset] = createSignal<number>(settings.ayahOffset);
+
   /* ---------- derived ---------- */
   const rtl = props.lang === "ar";
   const verseKey = createMemo(() => {
     if (currentAyah() < 1) return null;
     const versesCount = activeSurah().versesCount;
-    return verseKeyFor(currentAyah(), activeSurah().id, versesCount, settings.ayahOffset);
+    const eff = settings.ayahOffset !== 0 ? settings.ayahOffset : effectiveOffset();
+    return verseKeyFor(currentAyah(), activeSurah().id, versesCount, eff);
   });
 
   // Load the context content when the side panel is open.

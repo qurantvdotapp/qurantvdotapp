@@ -16,12 +16,24 @@ export class ApiException extends Error {
   }
 }
 
+import { loadAssetText } from "../assetLoader";
+
 export class ApiClient {
   /** Abort a fetch that the server accepted but never answered — a stalled
    *  connection must not wedge the player (singleFlight shares the promise). */
   private static readonly FETCH_TIMEOUT_MS = 15_000;
 
   async getText(url: string): Promise<string> {
+    // Android WebView and older TV webviews block fetch() on file:///android_asset/
+    // and relative ./ paths. Use XMLHttpRequest via loadAssetText fallback.
+    if (url.startsWith("./") || url.startsWith("file://") || url.startsWith("/")) {
+      try {
+        return await loadAssetText(url);
+      } catch {
+        // Fall back to fetch below if XHR fails
+      }
+    }
+
     let res: Response;
     try {
       const controller = new AbortController();
@@ -37,6 +49,12 @@ export class ApiClient {
         clearTimeout(timer);
       }
     } catch (e) {
+      // If fetch fails with file scheme or network error, attempt loadAssetText
+      try {
+        return await loadAssetText(url);
+      } catch {
+        /* ignore */
+      }
       const isAbort = (e as Error).name === "AbortError" || (e as Error).message?.includes("aborted");
       const msg = isAbort ? `Request timed out for ${url}` : `Network error for ${url}: ${(e as Error).message}`;
       throw new ApiException(msg, isAbort ? 408 : 0, isAbort);

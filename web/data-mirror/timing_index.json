@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-23T23:33:56Z",
+  "generated_at": "2026-08-24T00:58:46Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -499,8 +499,11 @@
       "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
       "surahs": [
         1,
+        18,
+        50,
         65,
-        75
+        75,
+        100
       ],
       "clean": true
     },
@@ -839,6 +842,14 @@
       "slug": "qurantvapp-maher-hafs",
       "surahs": [
         108
+      ],
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-mohammed-jibreel-hafs-murattal/": {
+      "read_id": 111,
+      "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+      "surahs": [
+        58
       ],
       "clean": true
     }

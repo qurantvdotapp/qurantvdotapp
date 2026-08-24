@@ -15640,5 +15640,49 @@
     "reviewed_at": "2026-08-24T21:34:35.672080+00:00",
     "ayah_count": 7,
     "total_duration_sec": 30.46
+  },
+  "48_48_1": {
+    "key": "48_48_1",
+    "reciter_id": 48,
+    "moshaf_id": 48,
+    "surah_id": 1,
+    "slug": "qurantvapp-adel-ryyan-hafs",
+    "reviewed": true,
+    "reviewed_at": "2026-08-24T22:30:20.624714+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 45.0
+  },
+  "48_1": {
+    "key": "48_48_1",
+    "reciter_id": 48,
+    "moshaf_id": 48,
+    "surah_id": 1,
+    "slug": "qurantvapp-adel-ryyan-hafs",
+    "reviewed": true,
+    "reviewed_at": "2026-08-24T22:30:20.624714+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 45.0
+  },
+  "105_105_99": {
+    "key": "105_105_99",
+    "reciter_id": 105,
+    "moshaf_id": 105,
+    "surah_id": 99,
+    "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-24T22:32:11.720634+00:00",
+    "ayah_count": 9,
+    "total_duration_sec": 44.64
+  },
+  "105_99": {
+    "key": "105_105_99",
+    "reciter_id": 105,
+    "moshaf_id": 105,
+    "surah_id": 99,
+    "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-24T22:32:11.720634+00:00",
+    "ayah_count": 9,
+    "total_duration_sec": 44.64
   }
 }

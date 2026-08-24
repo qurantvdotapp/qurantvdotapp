@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-24T21:04:55Z",
+  "generated_at": "2026-08-24T21:08:04Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -861,7 +861,21 @@
       "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
       "surahs": [
         1,
-        100
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114
       ],
       "clean": true
     }

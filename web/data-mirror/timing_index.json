@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-24T01:54:21Z",
+  "generated_at": "2026-08-24T21:02:23Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -851,7 +851,17 @@
       "read_id": 10906,
       "slug": "qurantvapp-maher-hafs",
       "surahs": [
-        108
+        108,
+        112
+      ],
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-mohammed-al-barrak-hafs-murattal/": {
+      "read_id": 105,
+      "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
+      "surahs": [
+        1,
+        100
       ],
       "clean": true
     }

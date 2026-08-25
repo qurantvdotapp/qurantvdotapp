@@ -1,7 +1,13 @@
 {
   "version": 1,
-  "generated_at": "2026-08-25T02:17:02Z",
+  "generated_at": "2026-08-25T19:19:35Z",
   "servers": {
+    "https://server6.mp3quran.net/akdr/": {
+      "read_id": 1,
+      "slug": "qurantvapp-ibrahim-al-akdar-hafs",
+      "surahs": "all",
+      "clean": true
+    },
     "https://server8.mp3quran.net/ryan/": {
       "read_id": 48,
       "slug": "qurantvapp-adel-ryyan-hafs",
@@ -175,12 +181,6 @@
         113,
         114
       ],
-      "clean": true
-    },
-    "https://server6.mp3quran.net/akdr/": {
-      "read_id": 1,
-      "slug": "qurantvapp-ibrahim-al-akdar-hafs",
-      "surahs": "all",
       "clean": true
     },
     "https://server6.mp3quran.net/3siri/": {

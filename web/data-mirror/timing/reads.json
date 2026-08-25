@@ -1113,5 +1113,21 @@
     "folder_url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10907"
+  },
+  {
+    "id": 10908,
+    "name": "ماهر المعيقلي",
+    "rewaya": "المصحف المعلم - المصحف المعلم",
+    "folder_url": "https://server12.mp3quran.net/maher/Almusshaf-Al-Mo-lim/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10908"
+  },
+  {
+    "id": 10909,
+    "name": "شعبان الصياد",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://server11.mp3quran.net/shaban/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10909"
   }
 ]

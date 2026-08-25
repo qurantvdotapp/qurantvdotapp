@@ -16168,5 +16168,27 @@
     "reviewed_at": "2026-08-25T19:44:38.313642+00:00",
     "ayah_count": 43,
     "total_duration_sec": 203.47
+  },
+  "105_105_79": {
+    "key": "105_105_79",
+    "reciter_id": 105,
+    "moshaf_id": 105,
+    "surah_id": 79,
+    "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-25T19:48:09.247021+00:00",
+    "ayah_count": 47,
+    "total_duration_sec": 234.45
+  },
+  "105_79": {
+    "key": "105_105_79",
+    "reciter_id": 105,
+    "moshaf_id": 105,
+    "surah_id": 79,
+    "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-25T19:48:09.247021+00:00",
+    "ayah_count": 47,
+    "total_duration_sec": 234.45
   }
 }

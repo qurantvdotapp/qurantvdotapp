@@ -1105,5 +1105,13 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=105",
     "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal"
+  },
+  {
+    "id": 10907,
+    "name": "محمد أيوب",
+    "rewaya": "حفص عن عاصم - تلاوة مميزة",
+    "folder_url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10907"
   }
 ]

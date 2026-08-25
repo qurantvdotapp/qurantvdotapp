@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-25T01:17:05Z",
+  "generated_at": "2026-08-25T01:50:45Z",
   "servers": {
     "https://server8.mp3quran.net/ryan/": {
       "read_id": 48,
@@ -109,6 +109,7 @@
       "surahs": [
         1,
         12,
+        87,
         88,
         89,
         90,
@@ -145,6 +146,7 @@
       "surahs": [
         1,
         12,
+        87,
         88,
         89,
         90,

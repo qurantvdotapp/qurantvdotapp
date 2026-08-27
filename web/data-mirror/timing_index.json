@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-27T21:55:22Z",
+  "generated_at": "2026-08-27T22:06:44Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -226,7 +226,8 @@
       "slug": "qurantvapp-mohammad-al-airawy-warsh-murattal",
       "surahs": [
         1,
-        112
+        112,
+        113
       ],
       "clean": true
     },

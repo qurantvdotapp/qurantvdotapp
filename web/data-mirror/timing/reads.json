@@ -1146,5 +1146,14 @@
     "folder_url": "https://server6.mp3quran.net/earawi/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10910"
+  },
+  {
+    "id": 107,
+    "name": "محمد اللحيدان",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://server8.mp3quran.net/lhdan/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=107",
+    "slug": "qurantvapp-mohammed-al-lohaid-hafs-murattal"
   }
 ]

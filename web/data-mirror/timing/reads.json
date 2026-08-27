@@ -1138,5 +1138,13 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=104",
     "slug": "qurantvapp-mohammad-al-airawy-warsh-murattal"
+  },
+  {
+    "id": 10910,
+    "name": "محمد الأيراوي",
+    "rewaya": "ورش عن نافع من طريق الأزرق - مرتل",
+    "folder_url": "https://server6.mp3quran.net/earawi/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10910"
   }
 ]

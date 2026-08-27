@@ -16630,5 +16630,27 @@
     "reviewed_at": "2026-08-27T22:07:47.278806+00:00",
     "ayah_count": 7,
     "total_duration_sec": 44.01
+  },
+  "112_113_110": {
+    "key": "112_113_110",
+    "reciter_id": 112,
+    "moshaf_id": 113,
+    "surah_id": 110,
+    "slug": "qurantvapp-minshawi-mojawwad",
+    "reviewed": true,
+    "reviewed_at": "2026-08-27T22:46:46.016453+00:00",
+    "ayah_count": 4,
+    "total_duration_sec": 45.09
+  },
+  "112_110": {
+    "key": "112_113_110",
+    "reciter_id": 112,
+    "moshaf_id": 113,
+    "surah_id": 110,
+    "slug": "qurantvapp-minshawi-mojawwad",
+    "reviewed": true,
+    "reviewed_at": "2026-08-27T22:46:46.016453+00:00",
+    "ayah_count": 4,
+    "total_duration_sec": 45.09
   }
 }

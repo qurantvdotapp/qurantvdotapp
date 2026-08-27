@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-27T22:07:47Z",
+  "generated_at": "2026-08-27T22:46:46Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -50,6 +50,12 @@
       "surahs": [
         2
       ],
+      "clean": true
+    },
+    "https://server10.mp3quran.net/minsh/": {
+      "read_id": 112,
+      "slug": "qurantvapp-minshawi-mojawwad",
+      "surahs": "all",
       "clean": true
     },
     "https://server13.mp3quran.net/husr/": {
@@ -726,12 +732,6 @@
     "https://server12.mp3quran.net/shah/": {
       "read_id": 110,
       "slug": "qurantvapp-saleh-hafs",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server10.mp3quran.net/minsh/": {
-      "read_id": 112,
-      "slug": "qurantvapp-minshawi-hafs-murattal",
       "surahs": "all",
       "clean": true
     },

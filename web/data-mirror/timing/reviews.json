@@ -16608,5 +16608,27 @@
     "reviewed_at": "2026-08-27T22:06:44.460064+00:00",
     "ayah_count": 6,
     "total_duration_sec": 33.35
+  },
+  "104_104_114": {
+    "key": "104_104_114",
+    "reciter_id": 104,
+    "moshaf_id": 104,
+    "surah_id": 114,
+    "slug": "qurantvapp-mohammad-al-airawy-warsh-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-27T22:07:47.278806+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 44.01
+  },
+  "104_114": {
+    "key": "104_104_114",
+    "reciter_id": 104,
+    "moshaf_id": 104,
+    "surah_id": 114,
+    "slug": "qurantvapp-mohammad-al-airawy-warsh-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-27T22:07:47.278806+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 44.01
   }
 }

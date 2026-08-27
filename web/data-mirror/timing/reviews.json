@@ -16351,10 +16351,10 @@
     "moshaf_id": 105,
     "surah_id": 44,
     "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
-    "reviewed": false,
-    "reviewed_at": null,
+    "reviewed": true,
+    "reviewed_at": "2026-08-27T11:24:01.079785+00:00",
     "ayah_count": 60,
-    "total_duration_sec": 542.64
+    "total_duration_sec": 541.4
   },
   "105_44": {
     "key": "105_105_44",
@@ -16362,10 +16362,10 @@
     "moshaf_id": 105,
     "surah_id": 44,
     "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
-    "reviewed": false,
-    "reviewed_at": null,
+    "reviewed": true,
+    "reviewed_at": "2026-08-27T11:24:01.079785+00:00",
     "ayah_count": 60,
-    "total_duration_sec": 542.64
+    "total_duration_sec": 541.4
   },
   "105_105_68": {
     "key": "105_105_68",

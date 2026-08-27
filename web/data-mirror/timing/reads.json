@@ -1148,10 +1148,26 @@
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10910"
   },
   {
+    "id": 10911,
+    "name": "محمد صديق المنشاوي",
+    "rewaya": "حفص عن عاصم - تسجيل عام 1387 هـ - 1967م",
+    "folder_url": "https://server10.mp3quran.net/minsh1387/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10911"
+  },
+  {
+    "id": 10912,
+    "name": "محمد صديق المنشاوي",
+    "rewaya": "المصحف المجود - المصحف المجود",
+    "folder_url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10912"
+  },
+  {
     "id": 107,
     "name": "محمد اللحيدان",
     "rewaya": "حفص عن عاصم - مرتل",
-    "folder_url": "https://server8.mp3quran.net/lhdan/",
+    "folder_url": "https://archive.org/download/qurantvapp-mohammed-al-lohaid-hafs-murattal/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=107",
     "slug": "qurantvapp-mohammed-al-lohaid-hafs-murattal"

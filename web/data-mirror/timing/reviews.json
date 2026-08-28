@@ -64,5 +64,27 @@
     "reviewed_at": "2026-08-28T00:30:19.270284+00:00",
     "ayah_count": 56,
     "total_duration_sec": 415.03
+  },
+  "111_111_8": {
+    "key": "111_111_8",
+    "reciter_id": 111,
+    "moshaf_id": 111,
+    "surah_id": 8,
+    "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-28T00:40:45.979634+00:00",
+    "ayah_count": 76,
+    "total_duration_sec": 1892.44
+  },
+  "111_8": {
+    "key": "111_111_8",
+    "reciter_id": 111,
+    "moshaf_id": 111,
+    "surah_id": 8,
+    "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-28T00:40:45.979634+00:00",
+    "ayah_count": 76,
+    "total_duration_sec": 1892.44
   }
 }

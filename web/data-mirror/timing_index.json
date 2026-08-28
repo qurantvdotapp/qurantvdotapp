@@ -1,7 +1,16 @@
 {
   "version": 1,
-  "generated_at": "2026-08-28T00:30:19Z",
+  "generated_at": "2026-08-28T00:40:45Z",
   "servers": {
+    "https://server8.mp3quran.net/jbrl/": {
+      "read_id": 111,
+      "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+      "surahs": [
+        2,
+        8
+      ],
+      "clean": true
+    },
     "https://server13.mp3quran.net/braak/": {
       "read_id": 105,
       "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
@@ -169,14 +178,6 @@
         50,
         65,
         75
-      ],
-      "clean": true
-    },
-    "https://server8.mp3quran.net/jbrl/": {
-      "read_id": 111,
-      "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
-      "surahs": [
-        2
       ],
       "clean": true
     },

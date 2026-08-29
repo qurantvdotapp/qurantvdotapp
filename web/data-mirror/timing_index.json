@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-29T10:54:43Z",
+  "generated_at": "2026-08-29T11:08:40Z",
   "servers": {
     "https://server8.mp3quran.net/jbrl/": {
       "read_id": 111,
@@ -145,7 +145,8 @@
       "read_id": 121,
       "slug": "qurantvapp-mahmoud-ali-albann-hafs-murattal",
       "surahs": [
-        1
+        1,
+        18
       ],
       "clean": true
     },

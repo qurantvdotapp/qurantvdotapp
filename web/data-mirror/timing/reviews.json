@@ -130,5 +130,27 @@
     "reviewed_at": "2026-08-29T10:54:43.761712+00:00",
     "ayah_count": 7,
     "total_duration_sec": 40.68
+  },
+  "121_121_18": {
+    "key": "121_121_18",
+    "reciter_id": 121,
+    "moshaf_id": 121,
+    "surah_id": 18,
+    "slug": "qurantvapp-mahmoud-ali-albann-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-29T11:08:40.332150+00:00",
+    "ayah_count": 111,
+    "total_duration_sec": 2060.62
+  },
+  "121_18": {
+    "key": "121_121_18",
+    "reciter_id": 121,
+    "moshaf_id": 121,
+    "surah_id": 18,
+    "slug": "qurantvapp-mahmoud-ali-albann-hafs-murattal",
+    "reviewed": true,
+    "reviewed_at": "2026-08-29T11:08:40.332150+00:00",
+    "ayah_count": 111,
+    "total_duration_sec": 2060.62
   }
 }

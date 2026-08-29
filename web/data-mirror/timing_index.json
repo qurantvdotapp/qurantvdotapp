@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-28T11:32:09Z",
+  "generated_at": "2026-08-29T10:54:43Z",
   "servers": {
     "https://server8.mp3quran.net/jbrl/": {
       "read_id": 111,
@@ -136,6 +136,14 @@
     "https://server8.mp3quran.net/lhdan/": {
       "read_id": 107,
       "slug": "qurantvapp-mohammed-al-lohaid-hafs-murattal",
+      "surahs": [
+        1
+      ],
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-mahmoud-ali-albann-hafs-murattal/": {
+      "read_id": 121,
+      "slug": "qurantvapp-mahmoud-ali-albann-hafs-murattal",
       "surahs": [
         1
       ],

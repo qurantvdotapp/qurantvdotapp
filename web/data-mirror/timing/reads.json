@@ -1155,5 +1155,14 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=107",
     "slug": "qurantvapp-mohammed-al-lohaid-hafs-murattal"
+  },
+  {
+    "id": 121,
+    "name": "محمود علي البنا",
+    "rewaya": "حفص عن عاصم - مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-mahmoud-ali-albann-hafs-murattal/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=121",
+    "slug": "qurantvapp-mahmoud-ali-albann-hafs-murattal"
   }
 ]

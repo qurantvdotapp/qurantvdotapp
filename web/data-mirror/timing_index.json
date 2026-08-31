@@ -517,7 +517,7 @@
     },
     "https://server16.mp3quran.net/soufi/Rewayat-Assosi-A-n-Abi-Amr/": {
       "read_id": 65,
-      "slug": "qurantvapp-reciter-65-susi",
+      "slug": "qurantvapp-abdulrasheed-soufi-susi",
       "surahs": "all",
       "clean": true
     },
@@ -961,13 +961,13 @@
     },
     "https://server16.mp3quran.net/kh_mohammadi/Rewayat-Hafs-A-n-Assem/": {
       "read_id": 295,
-      "slug": "qurantvapp-reciter-295-hafs",
+      "slug": "qurantvapp-khalid-mohammadi-hafs",
       "surahs": "all",
       "clean": true
     },
     "https://server16.mp3quran.net/okasha/Rewayat-Albizi-A-n-Ibn-Katheer/": {
       "read_id": 296,
-      "slug": "qurantvapp-reciter-296-bazzi",
+      "slug": "qurantvapp-okasha-kameny-bazzi",
       "surahs": "all",
       "clean": true
     },
@@ -991,19 +991,19 @@
     },
     "https://server16.mp3quran.net/a_alemadi/Rewayat-Hafs-A-n-Assem/": {
       "read_id": 314,
-      "slug": "qurantvapp-reciter-314-hafs",
+      "slug": "qurantvapp-anas-alemadi-hafs",
       "surahs": "all",
       "clean": true
     },
     "https://server16.mp3quran.net/M_Burhaji/Rewayat-Hafs-A-n-Assem/": {
       "read_id": 340,
-      "slug": "qurantvapp-reciter-340-hafs",
+      "slug": "qurantvapp-muhammad-burhaji-hafs",
       "surahs": "all",
       "clean": true
     },
     "https://server16.mp3quran.net/H-Aldaghriri/Rewayat-Hafs-A-n-Assem/": {
       "read_id": 10905,
-      "slug": "qurantvapp-reciter-10905-hafs",
+      "slug": "qurantvapp-hassan-aldaghriri-hafs",
       "surahs": "all",
       "clean": true
     },

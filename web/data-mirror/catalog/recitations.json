@@ -2066,7 +2066,7 @@
     "rewaya_id": 1
   },
   {
-    "slug": "qurantvapp-reciter-10905-hafs",
+    "slug": "qurantvapp-hassan-aldaghriri-hafs",
     "name_ar": "حسن الدغريري",
     "name_en": "Hassan Aldaghriri",
     "rewaya_ar": "حفص عن عاصم",
@@ -2083,9 +2083,9 @@
     "rewaya_id": 1
   },
   {
-    "slug": "qurantvapp-reciter-258-hafs",
-    "name_ar": "",
-    "name_en": "",
+    "slug": "qurantvapp-mohammad-saleh-alim-shah-hafs",
+    "name_ar": "محمد صالح عالم شاه",
+    "name_en": "Mohammad Saleh Alim Shah",
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
@@ -2094,18 +2094,7 @@
     "rewaya_id": 1
   },
   {
-    "slug": "qurantvapp-reciter-294-hafs",
-    "name_ar": "",
-    "name_en": "",
-    "rewaya_ar": "حفص عن عاصم",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [],
-    "surahs": "all",
-    "rewaya_id": 1
-  },
-  {
-    "slug": "qurantvapp-reciter-295-hafs",
+    "slug": "qurantvapp-khalid-mohammadi-hafs",
     "name_ar": "خالد كريم محمدي",
     "name_en": "Khalid Mohammadi",
     "rewaya_ar": "حفص عن عاصم",
@@ -2122,11 +2111,11 @@
     "rewaya_id": 1
   },
   {
-    "slug": "qurantvapp-reciter-296-bazzi",
+    "slug": "qurantvapp-okasha-kameny-bazzi",
     "name_ar": "عكاشة كميني",
     "name_en": "Okasha Kameny",
     "rewaya_ar": "البزي عن ابن كثير",
-    "rewaya_en": "Hafs A'n Assem",
+    "rewaya_en": "Al-Bazzi A'n Ibn Katheer",
     "style": "murattal",
     "sources": [
       {
@@ -2144,7 +2133,7 @@
     "rewaya_id": 4
   },
   {
-    "slug": "qurantvapp-reciter-314-hafs",
+    "slug": "qurantvapp-anas-alemadi-hafs",
     "name_ar": "أنس العمادي",
     "name_en": "Anas Alemadi",
     "rewaya_ar": "حفص عن عاصم",
@@ -2161,7 +2150,7 @@
     "rewaya_id": 1
   },
   {
-    "slug": "qurantvapp-reciter-340-hafs",
+    "slug": "qurantvapp-muhammad-burhaji-hafs",
     "name_ar": "محمد برهجي",
     "name_en": "Muhammad Burhaji",
     "rewaya_ar": "حفص عن عاصم",
@@ -2178,11 +2167,11 @@
     "rewaya_id": 1
   },
   {
-    "slug": "qurantvapp-reciter-65-susi",
+    "slug": "qurantvapp-abdulrasheed-soufi-susi",
     "name_ar": "عبدالرشيد صوفي",
     "name_en": "Abdulrasheed Soufi",
     "rewaya_ar": "السوسي عن أبي عمرو",
-    "rewaya_en": "Hafs A'n Assem",
+    "rewaya_en": "Al-Soosi A'n Abi Amr",
     "style": "murattal",
     "sources": [
       {

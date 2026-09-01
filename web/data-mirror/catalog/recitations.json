@@ -297,6 +297,30 @@
     "rewaya_id": "hafs"
   },
   {
+    "slug": "qurantvapp-abdulmalik-alaskar-hafs-murattal",
+    "name_ar": "عبدالملك العسكر",
+    "name_en": "Abdulmalik Alaskar",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/a_alaskar/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulmalik-alaskar-hafs-murattal/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "30,36,40,69,70,71,75",
+    "reciter_id": 303,
+    "moshaf_id": 315
+  },
+  {
     "slug": "qurantvapp-abdulmohsen-al-qas-hafs",
     "name_ar": "عبدالمحسن القاسم",
     "name_en": "Abdulmohsen Al-Qasim",
@@ -1471,6 +1495,30 @@
     "rewaya_id": "hafs"
   },
   {
+    "slug": "qurantvapp-issa-omar-sanankoua-hafs-murattal",
+    "name_ar": "عيسى عمر سناكو",
+    "name_en": "Issa Omar Sanankoua",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/i_sanankoua/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-issa-omar-sanankoua-hafs-murattal/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all",
+    "reciter_id": 288,
+    "moshaf_id": 303
+  },
+  {
     "slug": "qurantvapp-jamaan-alosaimi-hafs",
     "name_ar": "جمعان العصيمي",
     "name_en": "Jamaan Alosaimi",
@@ -1676,6 +1724,28 @@
       {
         "kind": "archive.org",
         "url": "https://archive.org/download/qurantvapp-maher-mojawwad/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all"
+  },
+  {
+    "slug": "qurantvapp-mahmoud-ali-alb-mojawwad",
+    "name_ar": "محمود علي البنا",
+    "name_en": "Mahmoud Ali Al-Banna",
+    "rewaya_id": "hafs",
+    "style": "mojawwad",
+    "timing_source": null,
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mahmoud-ali-alb-mojawwad/",
         "primary": false,
         "derived": true
       }
@@ -2319,6 +2389,28 @@
     ],
     "surahs": "all",
     "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-sahood-hafs",
+    "name_ar": "صالح الصاهود",
+    "name_en": "Saleh Alsahood",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server8.mp3quran.net/sahood/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-sahood-hafs/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all"
   },
   {
     "slug": "qurantvapp-salah-albudair-hafs",

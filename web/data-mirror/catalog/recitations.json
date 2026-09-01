@@ -3,35 +3,45 @@
     "slug": "qurantvapp-abdelbari-al-touba-hafs",
     "name_ar": "عبدالبارئ الثبيتي",
     "name_en": "Abdelbari Al-Toubayti",
+    "rewaya_id": 1,
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
+    "timing_source": null,
     "sources": [
       {
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/thubti/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdelbari-al-touba-hafs/"
       }
     ],
-    "surahs": "all",
-    "rewaya_id": 1
+    "surahs": "all"
   },
   {
     "slug": "qurantvapp-abdul-aziz-al-ahma-hafs",
     "name_ar": "عبدالعزيز الأحمد",
     "name_en": "Abdul Aziz Al-Ahmad",
+    "rewaya_id": 1,
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
+    "timing_source": null,
     "sources": [
       {
         "kind": "mp3quran",
         "url": "https://server11.mp3quran.net/a_ahmed/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdul-aziz-al-ahma-hafs/"
       }
     ],
-    "surahs": "all",
-    "rewaya_id": 1
+    "surahs": "all"
   },
   {
     "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
@@ -67,6 +77,10 @@
         "kind": "mp3quran",
         "url": "https://server9.mp3quran.net/zahrani/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulaziz-az-zahra-hafs/"
       }
     ],
     "surahs": "all",
@@ -84,6 +98,10 @@
         "kind": "mp3quran",
         "url": "https://server12.mp3quran.net/bari/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulbari-mohammad-hafs-murattal/"
       }
     ],
     "surahs": "all",
@@ -106,6 +124,10 @@
         "kind": "mp3quran",
         "url": "https://server7.mp3quran.net/basit/Rewayat-Warsh-A-n-Nafi/",
         "primary": false
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulbasit-hafs/"
       }
     ],
     "surahs": "all",
@@ -123,6 +145,10 @@
         "kind": "mp3quran",
         "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulbasit-mojawwad/"
       }
     ],
     "surahs": "all",
@@ -140,6 +166,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/kanakeri/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulhadi-kanakeri-hafs/"
       }
     ],
     "surahs": "all",
@@ -157,6 +187,10 @@
         "kind": "mp3quran",
         "url": "https://server13.mp3quran.net/jhn/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdullah-al-johany-hafs/"
       }
     ],
     "surahs": "all",
@@ -174,6 +208,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/mtrod/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdullah-al-mattro-hafs/"
       }
     ],
     "surahs": "all",
@@ -191,6 +229,10 @@
         "kind": "mp3quran",
         "url": "https://server14.mp3quran.net/mousa/Rewayat-Hafs-A-n-Assem/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdullah-al-mousa-hafs-murattal/"
       }
     ],
     "surahs": "all",
@@ -208,6 +250,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/buajan/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdullah-albuajan-hafs/"
       }
     ],
     "surahs": "all",
@@ -225,6 +271,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/bsfr/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdullah-basfer-hafs/"
       }
     ],
     "surahs": "all",
@@ -242,6 +292,10 @@
         "kind": "mp3quran",
         "url": "https://server12.mp3quran.net/kyat/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdullah-khayyat-hafs/"
       }
     ],
     "surahs": "all",
@@ -254,7 +308,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulmalik-alaskar-hafs/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -270,6 +334,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/qasm/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulmohsen-al-qas-hafs/"
       }
     ],
     "surahs": "all",
@@ -287,6 +355,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/mohsin_harthi/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulmohsin-al-har-hafs/"
       }
     ],
     "surahs": "all",
@@ -304,6 +376,10 @@
         "kind": "mp3quran",
         "url": "https://server12.mp3quran.net/obk/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulmohsin-al-oba-hafs/"
       }
     ],
     "surahs": "all",
@@ -321,6 +397,10 @@
         "kind": "mp3quran",
         "url": "https://server10.mp3quran.net/a_majed/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulrahman-al-maj-hafs/"
       }
     ],
     "surahs": "all",
@@ -338,6 +418,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/aloosi/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulrahman-aloosi-hafs/"
       }
     ],
     "surahs": "all",
@@ -355,6 +439,10 @@
         "kind": "mp3quran",
         "url": "https://server11.mp3quran.net/sds/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulrahman-alsuda-hafs/"
       }
     ],
     "surahs": "all",
@@ -372,6 +460,10 @@
         "kind": "mp3quran",
         "url": "https://server16.mp3quran.net/a_swaiyd/Rewayat-Hafs-A-n-Assem/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulrahman-alsuwa-hafs/"
       }
     ],
     "surahs": "all",
@@ -410,6 +502,27 @@
     "rewaya_id": 1
   },
   {
+    "slug": "qurantvapp-abdulrasheed-soufi-susi",
+    "name_ar": "عبدالرشيد صوفي",
+    "name_en": "Abdulrasheed Soufi",
+    "rewaya_ar": "السوسي عن أبي عمرو",
+    "rewaya_en": "Al-Soosi A'n Abi Amr",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/soufi/Rewayat-Assosi-A-n-Abi-Amr/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulrasheed-soufi-susi/"
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": 7
+  },
+  {
     "slug": "qurantvapp-abdulwadood-haneef-hafs",
     "name_ar": "عبدالودود حنيف",
     "name_en": "Abdulwadood Haneef",
@@ -421,6 +534,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/wdod/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulwadood-haneef-hafs/"
       }
     ],
     "surahs": "all",
@@ -438,6 +555,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/arkani/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulwali-al-arkan-hafs/"
       }
     ],
     "surahs": "all",
@@ -455,6 +576,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/ryan/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-adel-ryyan-hafs/"
       }
     ],
     "surahs": "all",
@@ -480,7 +605,7 @@
       },
       {
         "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-afasy-dori-murattal/"
+        "url": "https://archive.org/download/qurantvapp-afasy-hafs-murattal/"
       }
     ],
     "surahs": "all",
@@ -498,6 +623,10 @@
         "kind": "mp3quran",
         "url": "https://server11.mp3quran.net/hawashi/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ahmad-al-hawashi-hafs/"
       }
     ],
     "surahs": "all",
@@ -515,6 +644,10 @@
         "kind": "mp3quran",
         "url": "https://server16.mp3quran.net/nufais/Rewayat-Hafs-A-n-Assem/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ahmad-al-nufais-hafs/"
       }
     ],
     "surahs": "all",
@@ -592,6 +725,10 @@
         "kind": "mp3quran",
         "url": "https://server16.mp3quran.net/deban/Rewayat-Sho-bah-A-n-Asim/",
         "primary": false
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ahmad-deban-hafs-murattal/"
       }
     ],
     "surahs": "all",
@@ -636,6 +773,10 @@
         "kind": "mp3quran",
         "url": "https://server11.mp3quran.net/ahmad_nu/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ahmad-nauina-hafs/"
       }
     ],
     "surahs": "all",
@@ -653,6 +794,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/saber/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ahmad-saber-hafs/"
       }
     ],
     "surahs": "all",
@@ -670,6 +815,10 @@
         "kind": "mp3quran",
         "url": "https://server16.mp3quran.net/shaheen/Rewayat-Hafs-A-n-Assem/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ahmad-shaheen-hafs/"
       }
     ],
     "surahs": "all",
@@ -687,6 +836,10 @@
         "kind": "mp3quran",
         "url": "https://server16.mp3quran.net/a_binhameed/Rewayat-Hafs-A-n-Assem/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ahmad-talib-bin-hu-hafs/"
       }
     ],
     "surahs": "all",
@@ -712,7 +865,7 @@
       },
       {
         "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-ahmed-al-trabulsi-qalon-murattal/"
+        "url": "https://archive.org/download/qurantvapp-ahmed-al-trabulsi-hafs-murattal/"
       }
     ],
     "surahs": "all",
@@ -730,6 +883,10 @@
         "kind": "mp3quran",
         "url": "https://server10.mp3quran.net/Aamer/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ahmed-amer-hafs/"
       }
     ],
     "surahs": "all",
@@ -747,6 +904,10 @@
         "kind": "mp3quran",
         "url": "https://server10.mp3quran.net/ajm/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ajamy-hafs/"
       }
     ],
     "surahs": "all",
@@ -759,7 +920,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server9.mp3quran.net/akrm/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-akram-alalaqmi-hafs/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -775,6 +946,10 @@
         "kind": "mp3quran",
         "url": "https://server9.mp3quran.net/akrm/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-akram-hafs/"
       }
     ],
     "surahs": "all",
@@ -787,7 +962,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-alhusayni-al-azazi-moallim/"
+      }
+    ],
     "surahs": "58",
     "rewaya_id": 1
   },
@@ -798,7 +983,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server9.mp3quran.net/hthfi/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ali-alhuthaifi-hafs-murattal/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -824,6 +1019,10 @@
         "kind": "mp3quran",
         "url": "https://server9.mp3quran.net/huthifi_qalon/",
         "primary": false
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ali-alhuthaifi-shuba-murattal/"
       }
     ],
     "surahs": "all",
@@ -841,6 +1040,10 @@
         "kind": "mp3quran",
         "url": "https://server9.mp3quran.net/hajjaj/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ali-hajjaj-alsouas-hafs/"
       }
     ],
     "surahs": "all",
@@ -858,6 +1061,10 @@
         "kind": "mp3quran",
         "url": "https://server11.mp3quran.net/a_jbr/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ali-jaber-hafs/"
       }
     ],
     "surahs": "all",
@@ -875,6 +1082,10 @@
         "kind": "mp3quran",
         "url": "https://server11.mp3quran.net/koshi/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-aloyoon-al-koshi-warsh/"
       }
     ],
     "surahs": "all",
@@ -892,6 +1103,31 @@
         "kind": "mp3quran",
         "url": "https://server9.mp3quran.net/alzain/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-alzain-mohammad-ah-hafs/"
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": 1
+  },
+  {
+    "slug": "qurantvapp-anas-alemadi-hafs",
+    "name_ar": "أنس العمادي",
+    "name_en": "Anas Alemadi",
+    "rewaya_ar": "حفص عن عاصم",
+    "rewaya_en": "Hafs A'n Assem",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/a_alemadi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-anas-alemadi-hafs/"
       }
     ],
     "surahs": "all",
@@ -904,7 +1140,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server8.mp3quran.net/ayyub/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ayyoub-hafs/"
+      }
+    ],
     "surahs": "108-114",
     "rewaya_id": 1
   },
@@ -929,6 +1175,10 @@
       {
         "kind": "archive.org",
         "url": "https://archive.org/download/qurantvapp-ayyoub-hafs/"
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ayyoub-hafs-murattal/"
       }
     ],
     "surahs": "all",
@@ -946,6 +1196,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/balilah/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-balilah-hafs/"
       }
     ],
     "surahs": "all",
@@ -965,19 +1219,13 @@
         "primary": true
       },
       {
-        "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-mahmoud-ali-alb-mojawwad/",
-        "primary": false
-      },
-      {
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/bna/",
         "primary": false
       },
       {
         "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-mahmoud-ali-albann-hafs-murattal/",
-        "primary": false
+        "url": "https://archive.org/download/qurantvapp-banna-mojawwad/"
       }
     ],
     "surahs": "all",
@@ -995,6 +1243,10 @@
         "kind": "mp3quran",
         "url": "https://server9.mp3quran.net/zaki/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-daghistani-hafs/"
       }
     ],
     "surahs": "all",
@@ -1012,6 +1264,10 @@
         "kind": "mp3quran",
         "url": "https://server9.mp3quran.net/hamza/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-dawood-hamza-hafs/"
       }
     ],
     "surahs": "all",
@@ -1029,6 +1285,10 @@
         "kind": "mp3quran",
         "url": "https://server7.mp3quran.net/dokali/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-dokali-qalon/"
       }
     ],
     "surahs": "all",
@@ -1054,7 +1314,7 @@
       },
       {
         "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-ibrahim-aldosari-warsh-murattal/"
+        "url": "https://archive.org/download/qurantvapp-dosri-hafs/"
       }
     ],
     "surahs": "all",
@@ -1072,6 +1332,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/hafz/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-emad-hafez-hafs/"
       }
     ],
     "surahs": "all",
@@ -1089,6 +1353,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/frs_a/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-fares-abbad-hafs/"
       }
     ],
     "surahs": "all",
@@ -1106,6 +1374,10 @@
         "kind": "mp3quran",
         "url": "https://server16.mp3quran.net/h_dukhain/Rewayat-Hafs-A-n-Assem/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-haitham-aldukhain-hafs/"
       }
     ],
     "surahs": "all",
@@ -1123,6 +1395,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/hani/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-hani-arrifai-hafs/"
       }
     ],
     "surahs": "all",
@@ -1135,7 +1411,38 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-haroon-baqai-hafs/"
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": 1
+  },
+  {
+    "slug": "qurantvapp-hassan-aldaghriri-hafs",
+    "name_ar": "حسن الدغريري",
+    "name_en": "Hassan Aldaghriri",
+    "rewaya_ar": "حفص عن عاصم",
+    "rewaya_en": "Hafs A'n Assem",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/H-Aldaghriri/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-hassan-aldaghriri-hafs/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -1146,7 +1453,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-hicham-lharraz-hafs/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -1162,6 +1479,10 @@
         "kind": "mp3quran",
         "url": "https://server9.mp3quran.net/huthifi_qalon/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-hudhaify-qalon/"
       }
     ],
     "surahs": "all",
@@ -1181,18 +1502,9 @@
         "primary": true
       },
       {
-        "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-husry-qalon/",
-        "primary": false
-      },
-      {
         "kind": "mp3quran",
         "url": "https://server13.mp3quran.net/husr/Rewayat-Warsh-A-n-Nafi/",
         "primary": false
-      },
-      {
-        "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-husry-warsh/"
       },
       {
         "kind": "mp3quran",
@@ -1201,12 +1513,7 @@
       },
       {
         "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-husry-mojawwad/"
-      },
-      {
-        "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-husry-hafs/",
-        "primary": false
+        "url": "https://archive.org/download/qurantvapp-husry-dori/"
       }
     ],
     "surahs": "all",
@@ -1219,7 +1526,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server13.mp3quran.net/husr/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-husry-dori-murattal/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -1235,6 +1552,10 @@
         "kind": "mp3quran",
         "url": "https://server13.mp3quran.net/husr/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-husry-hafs/"
       }
     ],
     "surahs": "all",
@@ -1247,7 +1568,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server13.mp3quran.net/husr/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-husry-hafs-m1/"
+      }
+    ],
     "surahs": "101",
     "rewaya_id": 1
   },
@@ -1263,6 +1594,10 @@
         "kind": "mp3quran",
         "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-husry-mojawwad/"
       }
     ],
     "surahs": "all",
@@ -1280,6 +1615,10 @@
         "kind": "mp3quran",
         "url": "https://server13.mp3quran.net/husr/Rewayat-Qalon-A-n-Nafi/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-husry-qalon/"
       }
     ],
     "surahs": "all",
@@ -1292,7 +1631,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server13.mp3quran.net/husr/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-husry-qalon-m270/"
+      }
+    ],
     "surahs": "1,102",
     "rewaya_id": 1
   },
@@ -1308,6 +1657,10 @@
         "kind": "mp3quran",
         "url": "https://server13.mp3quran.net/husr/Rewayat-Warsh-A-n-Nafi/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-husry-warsh/"
       }
     ],
     "surahs": "all",
@@ -1320,7 +1673,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server13.mp3quran.net/husr/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-husry-warsh-murattal/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -1331,7 +1694,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server6.mp3quran.net/akdr/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ibrahim-al-akda-hafs/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -1347,6 +1720,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/akdr/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ibrahim-al-akdar-hafs/"
       }
     ],
     "surahs": "all",
@@ -1364,6 +1741,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/3siri/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ibrahim-al-asiri-hafs/"
       }
     ],
     "surahs": "all",
@@ -1381,6 +1762,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/abkr/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-idrees-abkr-hafs/"
       }
     ],
     "surahs": "all",
@@ -1411,7 +1796,7 @@
       },
       {
         "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-mustafa-ismail-hafs-murattal/"
+        "url": "https://archive.org/download/qurantvapp-issa-omar-sanankou-hafs/"
       }
     ],
     "surahs": "all",
@@ -1429,6 +1814,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/jaman/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-jamaan-alosaimi-hafs/"
       }
     ],
     "surahs": "all",
@@ -1446,6 +1835,10 @@
         "kind": "mp3quran",
         "url": "https://server14.mp3quran.net/khalf/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-khalaf-hafs/"
       }
     ],
     "surahs": "all",
@@ -1463,6 +1856,10 @@
         "kind": "mp3quran",
         "url": "https://server11.mp3quran.net/kafi/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-khalid-abdulkafi-hafs/"
       }
     ],
     "surahs": "all",
@@ -1480,6 +1877,10 @@
         "kind": "mp3quran",
         "url": "https://server10.mp3quran.net/jleel/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-khalid-al-jileel-hafs/"
       }
     ],
     "surahs": "all",
@@ -1497,6 +1898,31 @@
         "kind": "mp3quran",
         "url": "https://server11.mp3quran.net/mohna/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-khalid-almohana-hafs/"
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": 1
+  },
+  {
+    "slug": "qurantvapp-khalid-mohammadi-hafs",
+    "name_ar": "خالد كريم محمدي",
+    "name_en": "Khalid Mohammadi",
+    "rewaya_ar": "حفص عن عاصم",
+    "rewaya_en": "Hafs A'n Assem",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/kh_mohammadi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-khalid-mohammadi-hafs/"
       }
     ],
     "surahs": "all",
@@ -1514,6 +1940,10 @@
         "kind": "mp3quran",
         "url": "https://server12.mp3quran.net/tnjy/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-khalifa-altunaiji-hafs/"
       }
     ],
     "surahs": "all",
@@ -1531,6 +1961,10 @@
         "kind": "mp3quran",
         "url": "https://server12.mp3quran.net/maher/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-maher-hafs/"
       }
     ],
     "surahs": "108,112",
@@ -1543,7 +1977,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server12.mp3quran.net/maher/Almusshaf-Al-Mojawwad/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-maher-hafs-m103/"
+      }
+    ],
     "surahs": "1",
     "rewaya_id": 1
   },
@@ -1554,7 +1998,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server12.mp3quran.net/maher/Almusshaf-Al-Mojawwad/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-maher-moallim/"
+      }
+    ],
     "surahs": "1,12,14,36-37,44-45,50-57,67-114",
     "rewaya_id": 1
   },
@@ -1570,6 +2024,10 @@
         "kind": "mp3quran",
         "url": "https://server12.mp3quran.net/maher/Almusshaf-Al-Mojawwad/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-maher-mojawwad/"
       }
     ],
     "surahs": "all",
@@ -1587,6 +2045,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/majd_onazi/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-majed-al-enezi-hafs-murattal/"
       }
     ],
     "surahs": "1,18,50,65,75,100,114",
@@ -1604,6 +2066,10 @@
         "kind": "mp3quran",
         "url": "https://server9.mp3quran.net/zaml/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-majed-al-zamil-hafs/"
       }
     ],
     "surahs": "all",
@@ -1621,6 +2087,10 @@
         "kind": "mp3quran",
         "url": "https://server14.mp3quran.net/mansor/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mansour-al-salemi-hafs/"
       }
     ],
     "surahs": "all",
@@ -1633,7 +2103,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server10.mp3quran.net/minsh/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-minshawi-hafs/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -1644,7 +2124,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server10.mp3quran.net/minsh/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-minshawi-hafs-murattal/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -1673,13 +2163,7 @@
       },
       {
         "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-minshawi-hafs/",
-        "primary": false
-      },
-      {
-        "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-minshawi-hafs-murattal/",
-        "primary": false
+        "url": "https://archive.org/download/qurantvapp-minshawi-mojawwad/"
       }
     ],
     "surahs": "110-111",
@@ -1692,7 +2176,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server12.mp3quran.net/m_krm/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammad-abdull-hafs/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -1716,7 +2210,7 @@
       },
       {
         "kind": "archive.org",
-        "url": "https://archive.org/download/qurantvapp-mohammad-abdullkar-warsh-murattal/"
+        "url": "https://archive.org/download/qurantvapp-mohammad-abdullkar-hafs-murattal/"
       }
     ],
     "surahs": "all",
@@ -1751,7 +2245,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server12.mp3quran.net/tblawi/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammad-al-tab-hafs/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -1762,7 +2266,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server12.mp3quran.net/tblawi/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammad-al-tab-mojawwad/"
+      }
+    ],
     "surahs": "1",
     "rewaya_id": 1
   },
@@ -1778,6 +2292,10 @@
         "kind": "mp3quran",
         "url": "https://server12.mp3quran.net/tblawi/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammad-al-tablaw-hafs-murattal/"
       }
     ],
     "surahs": "all",
@@ -1790,7 +2308,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server12.mp3quran.net/tblawi/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammad-al-tablaw-mojawwad/"
+      }
+    ],
     "surahs": "1",
     "rewaya_id": 1
   },
@@ -1806,6 +2334,10 @@
         "kind": "mp3quran",
         "url": "https://server14.mp3quran.net/bukheet/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammad-albukheet-hafs/"
       }
     ],
     "surahs": "all",
@@ -1823,6 +2355,10 @@
         "kind": "mp3quran",
         "url": "https://server16.mp3quran.net/m_sayed/Rewayat-Warsh-A-n-Nafi/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammad-saayed-warsh/"
       }
     ],
     "surahs": "all",
@@ -1835,7 +2371,38 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammad-saleh--hafs/"
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": 1
+  },
+  {
+    "slug": "qurantvapp-mohammad-saleh-alim-shah-hafs",
+    "name_ar": "محمد صالح عالم شاه",
+    "name_en": "Mohammad Saleh Alim Shah",
+    "rewaya_ar": "حفص عن عاصم",
+    "rewaya_en": "Hafs A'n Assem",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammad-saleh-alim-shah-hafs/"
+      }
+    ],
     "surahs": "all",
     "rewaya_id": 1
   },
@@ -1851,6 +2418,10 @@
         "kind": "mp3quran",
         "url": "https://server13.mp3quran.net/braak/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammed-al-barrak-hafs-murattal/"
       }
     ],
     "surahs": "1,12,14,36-37,44-45,50-57,67-114",
@@ -1890,9 +2461,34 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/jbrl/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-mohammed-jibreel-hafs-murattal/"
       }
     ],
     "surahs": "1-2,58",
+    "rewaya_id": 1
+  },
+  {
+    "slug": "qurantvapp-muhammad-burhaji-hafs",
+    "name_ar": "محمد برهجي",
+    "name_en": "Muhammad Burhaji",
+    "rewaya_ar": "حفص عن عاصم",
+    "rewaya_en": "Hafs A'n Assem",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/M_Burhaji/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-muhammad-burhaji-hafs/"
+      }
+    ],
+    "surahs": "all",
     "rewaya_id": 1
   },
   {
@@ -1907,6 +2503,10 @@
         "kind": "mp3quran",
         "url": "https://server9.mp3quran.net/nabil/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-nabil-al-rifay-hafs/"
       }
     ],
     "surahs": "1-26,28-114",
@@ -1924,6 +2524,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/qtm/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-nasser-alqatami-hafs/"
       }
     ],
     "surahs": "all",
@@ -1941,170 +2545,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/namh/",
         "primary": true
-      }
-    ],
-    "surahs": "all",
-    "rewaya_id": 1
-  },
-  {
-    "slug": "qurantvapp-omar-al-qazabri-warsh",
-    "name_ar": "عمر القزابري",
-    "name_en": "Omar Al-Qazabri",
-    "rewaya_ar": "ورش عن نافع",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [
+      },
       {
-        "kind": "mp3quran",
-        "url": "https://server9.mp3quran.net/omar_warsh/",
-        "primary": true
-      }
-    ],
-    "surahs": "all",
-    "rewaya_id": 2
-  },
-  {
-    "slug": "qurantvapp-peshawa-hafs",
-    "name_ar": "بيشه وا قادر الكردي",
-    "name_en": "Peshawa Qadr Al-Kurdi",
-    "rewaya_ar": "حفص عن عاصم",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [
-      {
-        "kind": "mp3quran",
-        "url": "https://server16.mp3quran.net/peshawa/Rewayat-Hafs-A-n-Assem/",
-        "primary": true
-      }
-    ],
-    "surahs": "all",
-    "rewaya_id": 1
-  },
-  {
-    "slug": "qurantvapp-qahtani-hafs",
-    "name_ar": "خالد القحطاني",
-    "name_en": "Khaled Al-Qahtani",
-    "rewaya_ar": "حفص عن عاصم",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [
-      {
-        "kind": "mp3quran",
-        "url": "https://server10.mp3quran.net/qht/",
-        "primary": true
-      }
-    ],
-    "surahs": "all",
-    "rewaya_id": 1
-  },
-  {
-    "slug": "qurantvapp-qari-hafs",
-    "name_ar": "محمد خليل القارئ",
-    "name_en": "Mohammad Khalil Al-Qari",
-    "rewaya_ar": "حفص عن عاصم",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [
-      {
-        "kind": "mp3quran",
-        "url": "https://server8.mp3quran.net/m_qari/",
-        "primary": true
-      }
-    ],
-    "surahs": "all",
-    "rewaya_id": 1
-  },
-  {
-    "slug": "qurantvapp-qari-warsh",
-    "name_ar": "القارئ ياسين",
-    "name_en": "Al-Qaria Yassen",
-    "rewaya_ar": "ورش عن نافع",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [
-      {
-        "kind": "mp3quran",
-        "url": "https://server11.mp3quran.net/qari/",
-        "primary": true
-      }
-    ],
-    "surahs": "all",
-    "rewaya_id": 2
-  },
-  {
-    "slug": "qurantvapp-raad-al-kurdi-hafs",
-    "name_ar": "رعد محمد الكردي",
-    "name_en": "Raad Al Kurdi",
-    "rewaya_ar": "حفص عن عاصم",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [
-      {
-        "kind": "mp3quran",
-        "url": "https://server6.mp3quran.net/kurdi/",
-        "primary": true
-      }
-    ],
-    "surahs": "all",
-    "rewaya_id": 1
-  },
-  {
-    "slug": "qurantvapp-rashad-hafs",
-    "name_ar": "محمد رشاد الشريف",
-    "name_en": "Mohammad Rashad Alshareef",
-    "rewaya_ar": "حفص عن عاصم",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [
-      {
-        "kind": "mp3quran",
-        "url": "https://server10.mp3quran.net/rashad/",
-        "primary": true
-      }
-    ],
-    "surahs": "all",
-    "rewaya_id": 1
-  },
-  {
-    "slug": "qurantvapp-hassan-aldaghriri-hafs",
-    "name_ar": "حسن الدغريري",
-    "name_en": "Hassan Aldaghriri",
-    "rewaya_ar": "حفص عن عاصم",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [
-      {
-        "kind": "mp3quran",
-        "url": "https://server16.mp3quran.net/H-Aldaghriri/Rewayat-Hafs-A-n-Assem/",
-        "primary": true
-      }
-    ],
-    "surahs": "all",
-    "rewaya_id": 1
-  },
-  {
-    "slug": "qurantvapp-mohammad-saleh-alim-shah-hafs",
-    "name_ar": "محمد صالح عالم شاه",
-    "name_en": "Mohammad Saleh Alim Shah",
-    "rewaya_ar": "حفص عن عاصم",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [],
-    "surahs": "all",
-    "rewaya_id": 1
-  },
-  {
-    "slug": "qurantvapp-khalid-mohammadi-hafs",
-    "name_ar": "خالد كريم محمدي",
-    "name_en": "Khalid Mohammadi",
-    "rewaya_ar": "حفص عن عاصم",
-    "rewaya_en": "Hafs A'n Assem",
-    "style": "murattal",
-    "sources": [
-      {
-        "kind": "mp3quran",
-        "url": "https://server16.mp3quran.net/kh_mohammadi/Rewayat-Hafs-A-n-Assem/",
-        "primary": true
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-neamah-al-hassan-hafs/"
       }
     ],
     "surahs": "all",
@@ -2127,61 +2571,161 @@
         "kind": "mp3quran",
         "url": "https://server16.mp3quran.net/okasha/Rewayat-AlDorai-A-n-Al-Kisa-ai/",
         "primary": false
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-okasha-kameny-bazzi/"
       }
     ],
     "surahs": "all",
     "rewaya_id": 4
   },
   {
-    "slug": "qurantvapp-anas-alemadi-hafs",
-    "name_ar": "أنس العمادي",
-    "name_en": "Anas Alemadi",
+    "slug": "qurantvapp-omar-al-qazabri-warsh",
+    "name_ar": "عمر القزابري",
+    "name_en": "Omar Al-Qazabri",
+    "rewaya_ar": "ورش عن نافع",
+    "rewaya_en": "Hafs A'n Assem",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server9.mp3quran.net/omar_warsh/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-omar-al-qazabri-warsh/"
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": 2
+  },
+  {
+    "slug": "qurantvapp-peshawa-hafs",
+    "name_ar": "بيشه وا قادر الكردي",
+    "name_en": "Peshawa Qadr Al-Kurdi",
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
     "sources": [
       {
         "kind": "mp3quran",
-        "url": "https://server16.mp3quran.net/a_alemadi/Rewayat-Hafs-A-n-Assem/",
+        "url": "https://server16.mp3quran.net/peshawa/Rewayat-Hafs-A-n-Assem/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-peshawa-hafs/"
       }
     ],
     "surahs": "all",
     "rewaya_id": 1
   },
   {
-    "slug": "qurantvapp-muhammad-burhaji-hafs",
-    "name_ar": "محمد برهجي",
-    "name_en": "Muhammad Burhaji",
+    "slug": "qurantvapp-qahtani-hafs",
+    "name_ar": "خالد القحطاني",
+    "name_en": "Khaled Al-Qahtani",
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
     "sources": [
       {
         "kind": "mp3quran",
-        "url": "https://server16.mp3quran.net/M_Burhaji/Rewayat-Hafs-A-n-Assem/",
+        "url": "https://server10.mp3quran.net/qht/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-qahtani-hafs/"
       }
     ],
     "surahs": "all",
     "rewaya_id": 1
   },
   {
-    "slug": "qurantvapp-abdulrasheed-soufi-susi",
-    "name_ar": "عبدالرشيد صوفي",
-    "name_en": "Abdulrasheed Soufi",
-    "rewaya_ar": "السوسي عن أبي عمرو",
-    "rewaya_en": "Al-Soosi A'n Abi Amr",
+    "slug": "qurantvapp-qari-hafs",
+    "name_ar": "محمد خليل القارئ",
+    "name_en": "Mohammad Khalil Al-Qari",
+    "rewaya_ar": "حفص عن عاصم",
+    "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
     "sources": [
       {
         "kind": "mp3quran",
-        "url": "https://server16.mp3quran.net/soufi/Rewayat-Assosi-A-n-Abi-Amr/",
+        "url": "https://server8.mp3quran.net/m_qari/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-qari-hafs/"
       }
     ],
     "surahs": "all",
-    "rewaya_id": 7
+    "rewaya_id": 1
+  },
+  {
+    "slug": "qurantvapp-qari-warsh",
+    "name_ar": "القارئ ياسين",
+    "name_en": "Al-Qaria Yassen",
+    "rewaya_ar": "ورش عن نافع",
+    "rewaya_en": "Hafs A'n Assem",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server11.mp3quran.net/qari/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-qari-warsh/"
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": 2
+  },
+  {
+    "slug": "qurantvapp-raad-al-kurdi-hafs",
+    "name_ar": "رعد محمد الكردي",
+    "name_en": "Raad Al Kurdi",
+    "rewaya_ar": "حفص عن عاصم",
+    "rewaya_en": "Hafs A'n Assem",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server6.mp3quran.net/kurdi/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-raad-al-kurdi-hafs/"
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": 1
+  },
+  {
+    "slug": "qurantvapp-rashad-hafs",
+    "name_ar": "محمد رشاد الشريف",
+    "name_en": "Mohammad Rashad Alshareef",
+    "rewaya_ar": "حفص عن عاصم",
+    "rewaya_en": "Hafs A'n Assem",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server10.mp3quran.net/rashad/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-rashad-hafs/"
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": 1
   },
   {
     "slug": "qurantvapp-saad-al-ghamdi-hafs",
@@ -2195,6 +2739,10 @@
         "kind": "mp3quran",
         "url": "https://server7.mp3quran.net/s_gmd/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-saad-al-ghamdi-hafs/"
       }
     ],
     "surahs": "all",
@@ -2212,6 +2760,10 @@
         "kind": "mp3quran",
         "url": "https://server12.mp3quran.net/hkm/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-saber-abdulhakm-hafs/"
       }
     ],
     "surahs": "all",
@@ -2229,6 +2781,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/shl/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-sahl-yassin-hafs/"
       }
     ],
     "surahs": "all",
@@ -2246,6 +2802,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/s_bud/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-salah-albudair-hafs/"
       }
     ],
     "surahs": "all",
@@ -2268,6 +2828,10 @@
         "kind": "mp3quran",
         "url": "https://server12.mp3quran.net/salah_hashim_m/Rewayat-Qalon-A-n-Nafi/",
         "primary": false
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-salah-alhashim-hafs-murattal/"
       }
     ],
     "surahs": "all",
@@ -2305,6 +2869,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/sahood/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-saleh-hafs/"
       }
     ],
     "surahs": "all",
@@ -2322,6 +2890,10 @@
         "kind": "mp3quran",
         "url": "https://server7.mp3quran.net/shur/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-saud-al-shuraim-hafs/"
       }
     ],
     "surahs": "all",
@@ -2339,6 +2911,10 @@
         "kind": "mp3quran",
         "url": "https://server16.mp3quran.net/s_hashemi/Rewayat-Hafs-A-n-Assem/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-sayed-ahmad-hashem-hafs/"
       }
     ],
     "surahs": "all",
@@ -2351,7 +2927,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-shaban-al-sayiaad-hafs-murattal/"
+      }
+    ],
     "surahs": "1-6,104",
     "rewaya_id": 1
   },
@@ -2367,6 +2953,10 @@
         "kind": "mp3quran",
         "url": "https://server11.mp3quran.net/shatri/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-shatri-hafs/"
       }
     ],
     "surahs": "all",
@@ -2384,6 +2974,10 @@
         "kind": "mp3quran",
         "url": "https://server12.mp3quran.net/taher/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-shirazad-taher-hafs/"
       }
     ],
     "surahs": "all",
@@ -2401,6 +2995,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/bu_khtr/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-slaah-bukhatir-hafs/"
       }
     ],
     "surahs": "all",
@@ -2413,7 +3011,17 @@
     "rewaya_ar": "حفص عن عاصم",
     "rewaya_en": "Hafs A'n Assem",
     "style": "murattal",
-    "sources": [],
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-tablawy-hafs/"
+      }
+    ],
     "surahs": "1",
     "rewaya_id": 1
   },
@@ -2429,6 +3037,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/twfeeq/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-tawfeeq-as-sayegh-hafs/"
       }
     ],
     "surahs": "all",
@@ -2446,6 +3058,10 @@
         "kind": "mp3quran",
         "url": "https://server6.mp3quran.net/wdee3/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-wadeea-al-yamani-hafs/"
       }
     ],
     "surahs": "all",
@@ -2463,6 +3079,10 @@
         "kind": "mp3quran",
         "url": "https://server11.mp3quran.net/yasser/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-yasser-hafs/"
       }
     ],
     "surahs": "all",
@@ -2480,6 +3100,10 @@
         "kind": "mp3quran",
         "url": "https://server8.mp3quran.net/noah/",
         "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-yousef-bin-noah-ah-hafs/"
       }
     ],
     "surahs": "all",

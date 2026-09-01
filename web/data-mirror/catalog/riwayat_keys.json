@@ -1,0 +1,124 @@
+{
+  "riwayat": [
+    {
+      "key": "hafs",
+      "id": 1,
+      "ar": "حفص عن عاصم",
+      "en": "Hafs A'n Assem"
+    },
+    {
+      "key": "warsh",
+      "id": 2,
+      "ar": "ورش عن نافع",
+      "en": "Warsh A'n Nafi"
+    },
+    {
+      "key": "khalaf",
+      "id": 3,
+      "ar": "خلف عن حمزة",
+      "en": "Khalaf A'n Hamzah"
+    },
+    {
+      "key": "bazzi",
+      "id": 4,
+      "ar": "البزي عن ابن كثير",
+      "en": "Al-Bazzi A'n Ibn Katheer"
+    },
+    {
+      "key": "qalon",
+      "id": 5,
+      "ar": "قالون عن نافع",
+      "en": "Qalun A'n Nafi"
+    },
+    {
+      "key": "qunbul",
+      "id": 6,
+      "ar": "قنبل عن ابن كثير",
+      "en": "Qunbul A'n Ibn Katheer"
+    },
+    {
+      "key": "susi",
+      "id": 7,
+      "ar": "السوسي عن أبي عمرو",
+      "en": "Al-Soosi A'n Abi Amr"
+    },
+    {
+      "key": "qalon-nasheet",
+      "id": 8,
+      "ar": "قالون عن نافع من طريق أبي نشيط",
+      "en": "Qalun A'n Nafi (Abi Nusayt)"
+    },
+    {
+      "key": "yaqub",
+      "id": 9,
+      "ar": "قراءة يعقوب الحضرمي بروايتي رويس وروح",
+      "en": "Ya'qub Al-Hadrami"
+    },
+    {
+      "key": "warsh-asbahani",
+      "id": 10,
+      "ar": "ورش عن نافع من طريق أبي بكر الأصبهاني",
+      "en": "Warsh A'n Nafi (Abu Bakr Al-Asbahani)"
+    },
+    {
+      "key": "bazzi-qunbul",
+      "id": 11,
+      "ar": "البزي وقنبل عن ابن كثير",
+      "en": "Al-Bazzi wa Qunbul"
+    },
+    {
+      "key": "dori-kisaai",
+      "id": 12,
+      "ar": "الدوري عن الكسائي",
+      "en": "Al-Duri A'n Al-Kisa'i"
+    },
+    {
+      "key": "dori-abu-amr",
+      "id": 13,
+      "ar": "الدوري عن أبي عمرو",
+      "en": "Al-Duri A'n Abi Amr"
+    },
+    {
+      "key": "shuba",
+      "id": 15,
+      "ar": "شعبة عن عاصم",
+      "en": "Shu'bah A'n Assem"
+    },
+    {
+      "key": "ibn-dhakwan",
+      "id": 16,
+      "ar": "ابن ذكوان عن ابن عامر",
+      "en": "Ibn Dhakwan A'n Ibn Aamir"
+    },
+    {
+      "key": "warsh-azraq",
+      "id": 18,
+      "ar": "ورش عن نافع من طريق الأزرق",
+      "en": "Warsh A'n Nafi (Al-Azraq)"
+    },
+    {
+      "key": "hisham",
+      "id": 19,
+      "ar": "هشام عن أبي عامر",
+      "en": "Hisham A'n Abi Aamir"
+    },
+    {
+      "key": "ibn-jammaz",
+      "id": 20,
+      "ar": "ابن جماز عن أبي جعفر",
+      "en": "Ibn Jammaz A'n Abu Ja'far"
+    },
+    {
+      "key": "muallim",
+      "id": 21,
+      "ar": "المصحف المعلم",
+      "en": "Al-Muallim"
+    },
+    {
+      "key": "mojawwad",
+      "id": 22,
+      "ar": "المصحف المجود",
+      "en": "Al-Mojawwad"
+    }
+  ]
+}

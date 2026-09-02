@@ -316,7 +316,7 @@
         "derived": true
       }
     ],
-    "surahs": "all",
+    "surahs": "30,36,40,69-71,75",
     "reciter_id": 303,
     "moshaf_id": 315
   },
@@ -1255,7 +1255,7 @@
         "derived": true
       }
     ],
-    "surahs": "all",
+    "surahs": "1,56,62,67-114",
     "reciter_id": 289,
     "moshaf_id": 304
   },
@@ -1300,7 +1300,7 @@
         "derived": true
       }
     ],
-    "surahs": "all",
+    "surahs": "1-32,34-114",
     "reciter_id": 305,
     "moshaf_id": 317
   },
@@ -2093,7 +2093,7 @@
         "derived": true
       }
     ],
-    "surahs": "1-2,8,58",
+    "surahs": "1-2,58",
     "rewaya_id": "hafs"
   },
   {

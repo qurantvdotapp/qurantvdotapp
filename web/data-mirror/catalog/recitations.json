@@ -11619,12 +11619,13 @@
         "derived": true
       }
     ],
-    "surahs": "1,108-114",
+    "surahs": "1,107-114",
     "read_id": 10911,
-    "published_surahs": "1,108-114",
+    "published_surahs": "1,107-114",
     "available_surahs": "all",
     "published_versions": {
       "1": "1dffa00e",
+      "107": "1a95b01d",
       "108": "3614401a",
       "109": "9addd55d",
       "110": "36d75bad",
@@ -11633,7 +11634,7 @@
       "113": "8fc0e8e3",
       "114": "5fd71c5d"
     },
-    "version": "175fbbd6ac"
+    "version": "953ae8e557"
   },
   {
     "slug": "qurantvapp-minshawi-hafs-murattal",

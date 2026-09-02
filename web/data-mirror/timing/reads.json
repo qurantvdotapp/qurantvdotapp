@@ -1204,5 +1204,22 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10916",
     "slug": "qurantvapp-abdulmalik-alaskar-hafs-murattal"
+  },
+  {
+    "id": 10917,
+    "name": "عبدالباسط عبدالصمد",
+    "rewaya": "ورش عن نافع · مرتل",
+    "folder_url": "https://server7.mp3quran.net/basit/Rewayat-Warsh-A-n-Nafi/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10917"
+  },
+  {
+    "id": -75,
+    "name": "محمد صديق المنشاوي",
+    "rewaya": "حفص عن عاصم · مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-minshawi-hafs-1387/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-75",
+    "slug": "qurantvapp-minshawi-hafs-1387"
   }
 ]

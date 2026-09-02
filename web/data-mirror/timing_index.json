@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-01T23:03:28Z",
+  "generated_at": "2026-09-02T19:19:30Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -273,6 +273,14 @@
       "surahs": [
         50,
         110
+      ],
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-minshawi-hafs-1387/": {
+      "read_id": -75,
+      "slug": "qurantvapp-minshawi-hafs-1387",
+      "surahs": [
+        1
       ],
       "clean": true
     },

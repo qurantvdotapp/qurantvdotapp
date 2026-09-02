@@ -2029,9 +2029,9 @@
         "derived": true
       }
     ],
-    "surahs": "1,101-102,104-114",
+    "surahs": "1,101-114",
     "read_id": 10911,
-    "version": "681e32c205"
+    "version": "09c51b8cd7"
   },
   {
     "slug": "qurantvapp-minshawi-hafs-murattal",

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-02T21:06:26Z",
+  "generated_at": "2026-09-02T21:06:46Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -281,6 +281,7 @@
       "slug": "qurantvapp-minshawi-hafs-1387",
       "surahs": [
         1,
+        94,
         95,
         96,
         97,

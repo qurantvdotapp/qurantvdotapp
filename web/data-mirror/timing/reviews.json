@@ -17048,5 +17048,27 @@
     "reviewed_at": "2026-09-02T20:21:51.772064+00:00",
     "ayah_count": 6,
     "total_duration_sec": 28.7
+  },
+  "-75_900103_114": {
+    "key": "-75_900103_114",
+    "reciter_id": -75,
+    "moshaf_id": 900103,
+    "surah_id": 114,
+    "slug": "qurantvapp-minshawi-hafs-1387",
+    "reviewed": true,
+    "reviewed_at": "2026-09-02T20:23:37.554118+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 30.54
+  },
+  "-75_114": {
+    "key": "-75_900103_114",
+    "reciter_id": -75,
+    "moshaf_id": 900103,
+    "surah_id": 114,
+    "slug": "qurantvapp-minshawi-hafs-1387",
+    "reviewed": true,
+    "reviewed_at": "2026-09-02T20:23:37.554118+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 30.54
   }
 }

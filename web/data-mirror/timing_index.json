@@ -1,11 +1,53 @@
 {
   "version": 1,
-  "generated_at": "2026-09-03T18:07:08Z",
+  "generated_at": "2026-09-03T19:34:42Z",
   "servers": {
-    "https://server11.mp3quran.net/qari/": {
-      "read_id": 14,
-      "slug": "qurantvapp-qari-warsh",
+    "https://server6.mp3quran.net/akdr/": {
+      "read_id": 1,
+      "slug": "qurantvapp-ibrahim-al-akdar-hafs",
       "surahs": "all",
+      "clean": true
+    },
+    "https://server8.mp3quran.net/ryan/": {
+      "read_id": 48,
+      "slug": "qurantvapp-adel-ryyan-hafs",
+      "surahs": [
+        1
+      ],
+      "clean": true
+    },
+    "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/": {
+      "read_id": 51,
+      "slug": "qurantvapp-abdulbasit-mojawwad",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdulrasheed-soufi-hafs-murattal/": {
+      "read_id": 64,
+      "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server9.mp3quran.net/hthfi/": {
+      "read_id": 74,
+      "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdulaziz-alturki-hafs-murattal/": {
+      "read_id": 79,
+      "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server8.mp3quran.net/majd_onazi/": {
+      "read_id": 100,
+      "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+      "surahs": [
+        50,
+        65,
+        75
+      ],
       "clean": true
     },
     "https://server8.mp3quran.net/jbrl/": {
@@ -15,6 +57,69 @@
         2,
         8
       ],
+      "clean": true
+    },
+    "https://server10.mp3quran.net/minsh/": {
+      "read_id": 112,
+      "slug": "qurantvapp-minshawi-mojawwad",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server13.mp3quran.net/husr/": {
+      "read_id": 118,
+      "slug": "qurantvapp-husry-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server13.mp3quran.net/husr/Rewayat-Warsh-A-n-Nafi/": {
+      "read_id": 120,
+      "slug": "qurantvapp-husry-warsh",
+      "surahs": [
+        113,
+        114
+      ],
+      "clean": true
+    },
+    "https://server16.mp3quran.net/soufi/Rewayat-Hafs-A-n-Assem/": {
+      "read_id": 64,
+      "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server16.mp3quran.net/deban/Rewayat-Hafs-A-n-Assem/": {
+      "read_id": 265,
+      "slug": "qurantvapp-ahmad-deban-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server13.mp3quran.net/husr/Rewayat-Aldori-A-n-Abi-Amr/": {
+      "read_id": 269,
+      "slug": "qurantvapp-husry-dori",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-ahmad-issa-al-maas-hafs-murattal/": {
+      "read_id": 278,
+      "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server16.mp3quran.net/a_turki/Rewayat-Hafs-A-n-Assem/": {
+      "read_id": 79,
+      "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server16.mp3quran.net/a_maasaraawi/Rewayat-Hafs-A-n-Assem/": {
+      "read_id": 278,
+      "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server9.mp3quran.net/hthfi/Rewayat-Sho-bah-A-n-Asim/": {
+      "read_id": 305,
+      "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
+      "surahs": "all",
       "clean": true
     },
     "https://server13.mp3quran.net/braak/": {
@@ -157,149 +262,6 @@
       ],
       "clean": true
     },
-    "https://server8.mp3quran.net/lhdan/": {
-      "read_id": 107,
-      "slug": "qurantvapp-mohammed-al-lohaid-hafs-murattal",
-      "surahs": [
-        1
-      ],
-      "clean": true
-    },
-    "https://archive.org/download/qurantvapp-mahmoud-ali-albann-hafs-murattal/": {
-      "read_id": 121,
-      "slug": "qurantvapp-mahmoud-ali-albann-hafs-murattal",
-      "surahs": [
-        1,
-        18
-      ],
-      "clean": true
-    },
-    "https://archive.org/download/qurantvapp-qari-warsh/": {
-      "read_id": -95,
-      "slug": "qurantvapp-qari-warsh",
-      "surahs": [
-        1
-      ],
-      "clean": true
-    },
-    "https://archive.org/download/qurantvapp-abdulbasit-warsh/": {
-      "read_id": -11,
-      "slug": "qurantvapp-abdulbasit-warsh",
-      "surahs": [
-        1,
-        2,
-        12,
-        18,
-        30,
-        114
-      ],
-      "clean": true
-    },
-    "https://server6.mp3quran.net/akdr/": {
-      "read_id": 1,
-      "slug": "qurantvapp-ibrahim-al-akdar-hafs",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server8.mp3quran.net/ryan/": {
-      "read_id": 48,
-      "slug": "qurantvapp-adel-ryyan-hafs",
-      "surahs": [
-        1
-      ],
-      "clean": true
-    },
-    "https://archive.org/download/qurantvapp-abdulrasheed-soufi-hafs-murattal/": {
-      "read_id": 64,
-      "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server9.mp3quran.net/hthfi/": {
-      "read_id": 74,
-      "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://archive.org/download/qurantvapp-abdulaziz-alturki-hafs-murattal/": {
-      "read_id": 79,
-      "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server8.mp3quran.net/majd_onazi/": {
-      "read_id": 100,
-      "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
-      "surahs": [
-        50,
-        65,
-        75
-      ],
-      "clean": true
-    },
-    "https://server10.mp3quran.net/minsh/": {
-      "read_id": 112,
-      "slug": "qurantvapp-minshawi-mojawwad",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server13.mp3quran.net/husr/": {
-      "read_id": 118,
-      "slug": "qurantvapp-husry-hafs",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server13.mp3quran.net/husr/Rewayat-Warsh-A-n-Nafi/": {
-      "read_id": 120,
-      "slug": "qurantvapp-husry-warsh",
-      "surahs": [
-        113,
-        114
-      ],
-      "clean": true
-    },
-    "https://server16.mp3quran.net/soufi/Rewayat-Hafs-A-n-Assem/": {
-      "read_id": 64,
-      "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server16.mp3quran.net/deban/Rewayat-Hafs-A-n-Assem/": {
-      "read_id": 265,
-      "slug": "qurantvapp-ahmad-deban-hafs-murattal",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server13.mp3quran.net/husr/Rewayat-Aldori-A-n-Abi-Amr/": {
-      "read_id": 269,
-      "slug": "qurantvapp-husry-dori",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://archive.org/download/qurantvapp-ahmad-issa-al-maas-hafs-murattal/": {
-      "read_id": 278,
-      "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server16.mp3quran.net/a_turki/Rewayat-Hafs-A-n-Assem/": {
-      "read_id": 79,
-      "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server16.mp3quran.net/a_maasaraawi/Rewayat-Hafs-A-n-Assem/": {
-      "read_id": 278,
-      "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server9.mp3quran.net/hthfi/Rewayat-Sho-bah-A-n-Asim/": {
-      "read_id": 305,
-      "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
-      "surahs": "all",
-      "clean": true
-    },
     "https://archive.org/download/qurantvapp-mohammad-al-airawy-warsh-murattal/": {
       "read_id": 104,
       "slug": "qurantvapp-mohammad-al-airawy-warsh-murattal",
@@ -350,6 +312,58 @@
         112,
         113,
         114
+      ],
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdulbasit-warsh/": {
+      "read_id": -6,
+      "slug": "qurantvapp-abdulbasit-warsh",
+      "surahs": [
+        1,
+        2,
+        12,
+        18,
+        30,
+        114
+      ],
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdulbasit-mojawwad/": {
+      "read_id": -7,
+      "slug": "qurantvapp-abdulbasit-mojawwad",
+      "surahs": [
+        9
+      ],
+      "clean": true
+    },
+    "https://server11.mp3quran.net/qari/": {
+      "read_id": 14,
+      "slug": "qurantvapp-qari-warsh",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server8.mp3quran.net/lhdan/": {
+      "read_id": 107,
+      "slug": "qurantvapp-mohammed-al-lohaid-hafs-murattal",
+      "surahs": [
+        1
+      ],
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-mahmoud-ali-albann-hafs-murattal/": {
+      "read_id": 121,
+      "slug": "qurantvapp-mahmoud-ali-albann-hafs-murattal",
+      "surahs": [
+        1,
+        18
+      ],
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-qari-warsh/": {
+      "read_id": -95,
+      "slug": "qurantvapp-qari-warsh",
+      "surahs": [
+        1
       ],
       "clean": true
     },
@@ -524,12 +538,6 @@
     "https://server12.mp3quran.net/bari/": {
       "read_id": 50,
       "slug": "qurantvapp-abdulbari-mohammad-hafs-murattal",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/": {
-      "read_id": 51,
-      "slug": "qurantvapp-abdulbasit-mojawwad",
       "surahs": "all",
       "clean": true
     },

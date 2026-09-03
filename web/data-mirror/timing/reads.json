@@ -1173,5 +1173,14 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-95",
     "slug": "qurantvapp-qari-warsh"
+  },
+  {
+    "id": -11,
+    "name": "عبدالباسط عبدالصمد",
+    "rewaya": "ورش عن نافع · مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-abdulbasit-warsh/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-11",
+    "slug": "qurantvapp-abdulbasit-warsh"
   }
 ]

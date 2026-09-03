@@ -21,7 +21,7 @@
     ],
     "surahs": "all",
     "read_id": 49,
-    "version": "63b56b6073"
+    "version": "c6321b8cab"
   },
   {
     "slug": "qurantvapp-abdul-aziz-al-ahma-hafs",
@@ -45,7 +45,7 @@
     ],
     "surahs": "all",
     "read_id": 55,
-    "version": "63b56b6073"
+    "version": "061f33bcc0"
   },
   {
     "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
@@ -68,7 +68,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 79,
-    "version": "63b56b6073"
+    "version": "4451745500"
   },
   {
     "slug": "qurantvapp-abdulaziz-az-zahra-hafs",
@@ -91,7 +91,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 56,
-    "version": "63b56b6073"
+    "version": "46cd77f05f"
   },
   {
     "slug": "qurantvapp-abdulbari-mohammad-hafs-murattal",
@@ -114,7 +114,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 50,
-    "version": "63b56b6073"
+    "version": "feaf65dc18"
   },
   {
     "slug": "qurantvapp-abdulbasit-hafs",
@@ -138,13 +138,15 @@
     ],
     "surahs": "all",
     "read_id": 53,
-    "version": "63b56b6073"
+    "version": "1c9c28a211"
   },
   {
     "slug": "qurantvapp-abdulbasit-mojawwad",
-    "name_ar": "عبد الباسط عبد الصمد",
+    "name_ar": "عبدالباسط عبد الصمد",
     "name_en": "Abdulbasit Abdulsamad",
+    "rewaya_id": "hafs",
     "style": "mojawwad",
+    "timing_source": null,
     "sources": [
       {
         "kind": "mp3quran",
@@ -159,7 +161,6 @@
       }
     ],
     "surahs": "all",
-    "rewaya_id": "hafs",
     "read_id": 51,
     "version": "63b56b6073"
   },
@@ -183,9 +184,9 @@
         "derived": true
       }
     ],
-    "surahs": "1,114",
+    "surahs": "1,18,114",
     "read_id": null,
-    "version": "b8d7bdd36b"
+    "version": "5b57f4ab9e"
   },
   {
     "slug": "qurantvapp-abdulhadi-kanakeri-hafs",
@@ -906,7 +907,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 203,
-    "version": "63b56b6073"
+    "version": "da08a1b7f9"
   },
   {
     "slug": "qurantvapp-ajamy-hafs",
@@ -1281,7 +1282,7 @@
     ],
     "surahs": "all",
     "read_id": 232,
-    "version": "63b56b6073"
+    "version": "20b8220f1a"
   },
   {
     "slug": "qurantvapp-emad-hafez-hafs",
@@ -1610,7 +1611,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 1,
-    "version": "351cb240c4"
+    "version": "1e9b77df77"
   },
   {
     "slug": "qurantvapp-ibrahim-al-asiri-hafs",
@@ -1633,7 +1634,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 3,
-    "version": "63b56b6073"
+    "version": "b48a1b0c57"
   },
   {
     "slug": "qurantvapp-idrees-abkr-hafs",
@@ -2552,7 +2553,9 @@
     "slug": "qurantvapp-qari-warsh",
     "name_ar": "القارئ ياسين",
     "name_en": "Al-Qaria Yassen",
+    "rewaya_id": "warsh",
     "style": "murattal",
+    "timing_source": null,
     "sources": [
       {
         "kind": "mp3quran",
@@ -2567,9 +2570,10 @@
       }
     ],
     "surahs": "all",
-    "rewaya_id": "warsh",
+    "reciter_id": 14,
+    "moshaf_id": 14,
     "read_id": 14,
-    "version": "e0699f68ff"
+    "version": "b373c6980a"
   },
   {
     "slug": "qurantvapp-raad-al-kurdi-hafs",

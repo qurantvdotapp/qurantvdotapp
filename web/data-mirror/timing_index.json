@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-03T16:30:09Z",
+  "generated_at": "2026-09-03T16:58:20Z",
   "servers": {
     "https://server11.mp3quran.net/qari/": {
       "read_id": 14,
@@ -182,6 +182,16 @@
       ],
       "clean": true
     },
+    "https://archive.org/download/qurantvapp-abdulbasit-warsh/": {
+      "read_id": -11,
+      "slug": "qurantvapp-abdulbasit-warsh",
+      "surahs": [
+        1,
+        18,
+        114
+      ],
+      "clean": true
+    },
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
       "slug": "qurantvapp-ibrahim-al-akdar-hafs",
@@ -336,15 +346,6 @@
         111,
         112,
         113,
-        114
-      ],
-      "clean": true
-    },
-    "https://archive.org/download/qurantvapp-abdulbasit-warsh/": {
-      "read_id": -6,
-      "slug": "qurantvapp-abdulbasit-warsh",
-      "surahs": [
-        1,
         114
       ],
       "clean": true

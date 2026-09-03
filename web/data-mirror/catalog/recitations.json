@@ -138,7 +138,7 @@
     ],
     "surahs": "all",
     "read_id": 53,
-    "version": "bd53dd7225"
+    "version": "1d6bfddf93"
   },
   {
     "slug": "qurantvapp-abdulbasit-mojawwad",
@@ -184,9 +184,9 @@
         "derived": true
       }
     ],
-    "surahs": "1,18,30,114",
+    "surahs": "1-2,18,30,114",
     "read_id": null,
-    "version": "cee6b8ef4d"
+    "version": "10d09d4962"
   },
   {
     "slug": "qurantvapp-abdulhadi-kanakeri-hafs",

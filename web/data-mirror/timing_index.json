@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-03T17:35:50Z",
+  "generated_at": "2026-09-03T17:56:55Z",
   "servers": {
     "https://server11.mp3quran.net/qari/": {
       "read_id": 14,
@@ -187,6 +187,7 @@
       "slug": "qurantvapp-abdulbasit-warsh",
       "surahs": [
         1,
+        2,
         18,
         30,
         114

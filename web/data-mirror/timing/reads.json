@@ -222,7 +222,7 @@
     "folder_url": "https://server8.mp3quran.net/sahood/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=40",
-    "slug": "qurantvapp-sahood-hafs"
+    "slug": "qurantvapp-saleh-hafs"
   },
   {
     "id": 42,
@@ -231,7 +231,7 @@
     "folder_url": "https://server6.mp3quran.net/habdan/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=42",
-    "slug": "qurantvapp-saleh-al-habdan-hafs-murattal"
+    "slug": "qurantvapp-saleh-hafs"
   },
   {
     "id": 43,
@@ -393,7 +393,7 @@
     "folder_url": "https://server16.mp3quran.net/soufi/Rewayat-Assosi-A-n-Abi-Amr/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=65",
-    "slug": "qurantvapp-abdulrasheed-soufi-susi"
+    "slug": "qurantvapp-reciter-65-susi"
   },
   {
     "id": 66,
@@ -600,7 +600,7 @@
     "folder_url": "https://server12.mp3quran.net/shah/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=110",
-    "slug": "qurantvapp-mohammad-saleh-alim-shah-hafs"
+    "slug": "qurantvapp-saleh-hafs"
   },
   {
     "id": 111,
@@ -618,7 +618,7 @@
     "folder_url": "https://server10.mp3quran.net/minsh/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=112",
-    "slug": "qurantvapp-minshawi-mojawwad"
+    "slug": "qurantvapp-minshawi-hafs-murattal"
   },
   {
     "id": 115,
@@ -663,7 +663,7 @@
     "folder_url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=122",
-    "slug": "qurantvapp-mahmoud-ali-alb-mojawwad"
+    "slug": "qurantvapp-banna-mojawwad"
   },
   {
     "id": 123,
@@ -978,7 +978,7 @@
     "folder_url": "https://server8.mp3quran.net/mustafa/Almusshaf-Al-Mojawwad/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=288",
-    "slug": "qurantvapp-mustafa-ismail-hafs-mojawwad"
+    "slug": "qurantvapp-issa-omar-sanankou-hafs"
   },
   {
     "id": 278,
@@ -1005,7 +1005,7 @@
     "folder_url": "https://server16.mp3quran.net/kh_mohammadi/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=295",
-    "slug": "qurantvapp-khalid-mohammadi-hafs"
+    "slug": "qurantvapp-reciter-295-hafs"
   },
   {
     "id": 296,
@@ -1014,7 +1014,7 @@
     "folder_url": "https://server16.mp3quran.net/okasha/Rewayat-Albizi-A-n-Ibn-Katheer/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=296",
-    "slug": "qurantvapp-okasha-kameny-bazzi"
+    "slug": "qurantvapp-reciter-296-bazzi"
   },
   {
     "id": 299,
@@ -1023,7 +1023,7 @@
     "folder_url": "https://server16.mp3quran.net/h_saleh/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=299",
-    "slug": "qurantvapp-hasan-saleh-hafs-murattal"
+    "slug": "qurantvapp-saleh-hafs"
   },
   {
     "id": 300,
@@ -1032,7 +1032,7 @@
     "folder_url": "https://server16.mp3quran.net/shamrani/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=300",
-    "slug": "qurantvapp-saleh-alshamrani-hafs-murattal"
+    "slug": "qurantvapp-saleh-hafs"
   },
   {
     "id": 303,
@@ -1041,7 +1041,7 @@
     "folder_url": "https://server16.mp3quran.net/i_sanankoua/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=303",
-    "slug": "qurantvapp-issa-omar-sanankoua-hafs-murattal"
+    "slug": "qurantvapp-issa-omar-sanankou-hafs"
   },
   {
     "id": 305,
@@ -1059,7 +1059,7 @@
     "folder_url": "https://server16.mp3quran.net/a_alemadi/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=314",
-    "slug": "qurantvapp-anas-alemadi-hafs"
+    "slug": "qurantvapp-reciter-314-hafs"
   },
   {
     "id": 340,
@@ -1068,7 +1068,7 @@
     "folder_url": "https://server16.mp3quran.net/M_Burhaji/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=340",
-    "slug": "qurantvapp-muhammad-burhaji-hafs"
+    "slug": "qurantvapp-reciter-340-hafs"
   },
   {
     "id": 10905,
@@ -1077,7 +1077,7 @@
     "folder_url": "https://server16.mp3quran.net/H-Aldaghriri/Rewayat-Hafs-A-n-Assem/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10905",
-    "slug": "qurantvapp-hassan-aldaghriri-hafs"
+    "slug": "qurantvapp-reciter-10905-hafs"
   },
   {
     "id": 10906,
@@ -1148,87 +1148,30 @@
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10910"
   },
   {
-    "id": 10911,
-    "name": "محمد صديق المنشاوي",
-    "rewaya": "حفص عن عاصم - تسجيل عام 1387 هـ - 1967م",
-    "folder_url": "https://server10.mp3quran.net/minsh1387/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10911"
-  },
-  {
-    "id": 10912,
-    "name": "محمد صديق المنشاوي",
-    "rewaya": "المصحف المجود - المصحف المجود",
-    "folder_url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10912"
-  },
-  {
     "id": 107,
     "name": "محمد اللحيدان",
     "rewaya": "حفص عن عاصم - مرتل",
-    "folder_url": "https://archive.org/download/qurantvapp-mohammed-al-lohaid-hafs-murattal/",
+    "folder_url": "https://server8.mp3quran.net/lhdan/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=107",
     "slug": "qurantvapp-mohammed-al-lohaid-hafs-murattal"
   },
   {
-    "id": 10913,
-    "name": "محمد الطبلاوي",
-    "rewaya": "المصحف المجود - المصحف المجود",
-    "folder_url": "https://server12.mp3quran.net/tblawi/Al-Mojawwad/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10913"
-  },
-  {
-    "id": 10914,
+    "id": 121,
     "name": "محمود علي البنا",
     "rewaya": "حفص عن عاصم - مرتل",
-    "folder_url": "https://server8.mp3quran.net/bna/",
+    "folder_url": "https://archive.org/download/qurantvapp-mahmoud-ali-albann-hafs-murattal/",
     "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10914"
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=121",
+    "slug": "qurantvapp-mahmoud-ali-albann-hafs-murattal"
   },
   {
-    "id": 10915,
-    "name": "هزاع البلوشي",
-    "rewaya": "حفص عن عاصم - مرتل",
-    "folder_url": "https://server11.mp3quran.net/hazza/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10915"
-  },
-  {
-    "id": 10916,
-    "name": "عبدالملك العسكر",
-    "rewaya": "حفص عن عاصم - مرتل",
-    "folder_url": "https://server16.mp3quran.net/a_alaskar/Rewayat-Hafs-A-n-Assem/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10916",
-    "slug": "qurantvapp-abdulmalik-alaskar-hafs-murattal"
-  },
-  {
-    "id": 10917,
-    "name": "عبدالباسط عبدالصمد",
+    "id": -95,
+    "name": "القارئ ياسين",
     "rewaya": "ورش عن نافع · مرتل",
-    "folder_url": "https://server7.mp3quran.net/basit/Rewayat-Warsh-A-n-Nafi/",
+    "folder_url": "https://archive.org/download/qurantvapp-qari-warsh/",
     "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10917"
-  },
-  {
-    "id": -75,
-    "name": "محمد صديق المنشاوي",
-    "rewaya": "حفص عن عاصم · مرتل",
-    "folder_url": "https://archive.org/download/qurantvapp-minshawi-hafs-1387/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-75",
-    "slug": "qurantvapp-minshawi-hafs-1387"
-  },
-  {
-    "id": -6,
-    "name": "عبدالباسط عبدالصمد",
-    "rewaya": "ورش عن نافع · مرتل",
-    "folder_url": "https://archive.org/download/qurantvapp-abdulbasit-warsh/",
-    "soar_count": 114,
-    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-6",
-    "slug": "qurantvapp-abdulbasit-warsh"
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-95",
+    "slug": "qurantvapp-qari-warsh"
   }
 ]

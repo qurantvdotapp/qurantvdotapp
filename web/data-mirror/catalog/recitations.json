@@ -138,11 +138,11 @@
     ],
     "surahs": "all",
     "read_id": 53,
-    "version": "e44a679aaf"
+    "version": "bd53dd7225"
   },
   {
     "slug": "qurantvapp-abdulbasit-mojawwad",
-    "name_ar": "عبدالباسط عبد الصمد",
+    "name_ar": "عبدالباسط عبدالصمد",
     "name_en": "Abdulbasit Abdulsamad",
     "rewaya_id": "hafs",
     "style": "mojawwad",
@@ -162,7 +162,7 @@
     ],
     "surahs": "all",
     "read_id": 51,
-    "version": "c002f07eac"
+    "version": "eb11d9b820"
   },
   {
     "slug": "qurantvapp-abdulbasit-warsh",
@@ -184,9 +184,9 @@
         "derived": true
       }
     ],
-    "surahs": "1,18,114",
+    "surahs": "1,18,30,114",
     "read_id": null,
-    "version": "61887acd28"
+    "version": "cee6b8ef4d"
   },
   {
     "slug": "qurantvapp-abdulhadi-kanakeri-hafs",
@@ -209,7 +209,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 70,
-    "version": "63b56b6073"
+    "version": "b60f22d575"
   },
   {
     "slug": "qurantvapp-abdullah-al-johany-hafs",
@@ -232,7 +232,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 62,
-    "version": "63b56b6073"
+    "version": "062717ee87"
   },
   {
     "slug": "qurantvapp-abdullah-al-mattro-hafs",
@@ -255,7 +255,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 59,
-    "version": "63b56b6073"
+    "version": "39941251ad"
   },
   {
     "slug": "qurantvapp-abdullah-al-mousa-hafs-murattal",
@@ -278,7 +278,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 243,
-    "version": "63b56b6073"
+    "version": "c7ac5b3db2"
   },
   {
     "slug": "qurantvapp-abdullah-albuajan-hafs",
@@ -301,7 +301,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 58,
-    "version": "63b56b6073"
+    "version": "4cffbab930"
   },
   {
     "slug": "qurantvapp-abdullah-basfer-hafs",
@@ -324,7 +324,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 60,
-    "version": "63b56b6073"
+    "version": "4a41185701"
   },
   {
     "slug": "qurantvapp-abdullah-khayyat-hafs",
@@ -347,7 +347,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 61,
-    "version": "63b56b6073"
+    "version": "7ffe398de1"
   },
   {
     "slug": "qurantvapp-abdulmalik-alaskar-hafs-murattal",
@@ -373,7 +373,7 @@
     "reciter_id": 303,
     "moshaf_id": 315,
     "read_id": null,
-    "version": "faa04138ea"
+    "version": "c373703202"
   },
   {
     "slug": "qurantvapp-abdulmohsen-al-qas-hafs",
@@ -768,7 +768,7 @@
     ],
     "surahs": "all",
     "read_id": 278,
-    "version": "63b56b6073"
+    "version": "ff855c8c19"
   },
   {
     "slug": "qurantvapp-ahmad-nauina-hafs",
@@ -1611,7 +1611,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 1,
-    "version": "1e9b77df77"
+    "version": "ee5f0f23a9"
   },
   {
     "slug": "qurantvapp-ibrahim-al-asiri-hafs",
@@ -1867,7 +1867,7 @@
     "surahs": "108,112",
     "rewaya_id": "hafs",
     "read_id": 10906,
-    "version": "5579827fe2"
+    "version": "311bbaa919"
   },
   {
     "slug": "qurantvapp-maher-moallim",
@@ -1915,7 +1915,7 @@
     ],
     "surahs": "all",
     "read_id": 133,
-    "version": "19ecf884a7"
+    "version": "7b1d565a6a"
   },
   {
     "slug": "qurantvapp-mahmoud-ali-alb-mojawwad",
@@ -2056,7 +2056,7 @@
     ],
     "surahs": "1,18,91-114",
     "read_id": null,
-    "version": "1091ddda8a"
+    "version": "52fcb1db06"
   },
   {
     "slug": "qurantvapp-minshawi-hafs-murattal",
@@ -2573,7 +2573,7 @@
     "reciter_id": 14,
     "moshaf_id": 14,
     "read_id": 14,
-    "version": "b373c6980a"
+    "version": "c8fd74148c"
   },
   {
     "slug": "qurantvapp-raad-al-kurdi-hafs",
@@ -2943,7 +2943,7 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 92,
-    "version": "63b56b6073"
+    "version": "38a96082b6"
   },
   {
     "slug": "qurantvapp-yousef-bin-noah-ah-hafs",
@@ -2966,6 +2966,6 @@
     "surahs": "all",
     "rewaya_id": "hafs",
     "read_id": 193,
-    "version": "63b56b6073"
+    "version": "78390a9bbf"
   }
 ]

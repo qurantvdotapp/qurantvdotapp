@@ -17532,5 +17532,27 @@
     "reviewed_at": "2026-09-03T01:14:56.733775+00:00",
     "ayah_count": 7,
     "total_duration_sec": 51.97
+  },
+  "-6_900007_114": {
+    "key": "-6_900007_114",
+    "reciter_id": -6,
+    "moshaf_id": 900007,
+    "surah_id": 114,
+    "slug": "qurantvapp-abdulbasit-warsh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-03T01:30:45.951427+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 42.36
+  },
+  "-6_114": {
+    "key": "-6_900007_114",
+    "reciter_id": -6,
+    "moshaf_id": 900007,
+    "surah_id": 114,
+    "slug": "qurantvapp-abdulbasit-warsh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-03T01:30:45.951427+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 42.36
   }
 }

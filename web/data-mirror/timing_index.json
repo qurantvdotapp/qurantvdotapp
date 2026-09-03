@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-03T01:14:56Z",
+  "generated_at": "2026-09-03T01:30:45Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -313,7 +313,8 @@
       "read_id": -6,
       "slug": "qurantvapp-abdulbasit-warsh",
       "surahs": [
-        1
+        1,
+        114
       ],
       "clean": true
     },

@@ -1221,5 +1221,14 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-75",
     "slug": "qurantvapp-minshawi-hafs-1387"
+  },
+  {
+    "id": -6,
+    "name": "عبدالباسط عبدالصمد",
+    "rewaya": "ورش عن نافع · مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-abdulbasit-warsh/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-6",
+    "slug": "qurantvapp-abdulbasit-warsh"
   }
 ]

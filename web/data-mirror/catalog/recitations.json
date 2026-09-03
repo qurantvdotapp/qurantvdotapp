@@ -164,6 +164,30 @@
     "version": "021fb97543"
   },
   {
+    "slug": "qurantvapp-abdulbasit-warsh",
+    "name_ar": "عبدالباسط عبدالصمد",
+    "name_en": "Abdulbasit Abdulsamad",
+    "rewaya_id": "warsh",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server7.mp3quran.net/basit/Rewayat-Warsh-A-n-Nafi/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulbasit-warsh/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "1",
+    "read_id": 10917,
+    "version": "b64d9cb5ab"
+  },
+  {
     "slug": "qurantvapp-abdulhadi-kanakeri-hafs",
     "name_ar": "عبدالهادي أحمد كناكري",
     "name_en": "Abdulhadi Kanakeri",
@@ -1257,7 +1281,7 @@
     ],
     "surahs": "all",
     "read_id": 232,
-    "version": "03b237178f"
+    "version": "616ad00097"
   },
   {
     "slug": "qurantvapp-emad-hafez-hafs",
@@ -2545,7 +2569,7 @@
     "surahs": "all",
     "rewaya_id": "warsh",
     "read_id": 14,
-    "version": "c0cbdaee5b"
+    "version": "427a56d560"
   },
   {
     "slug": "qurantvapp-raad-al-kurdi-hafs",

@@ -17488,5 +17488,49 @@
     "reviewed_at": "2026-09-02T21:30:32.316908+00:00",
     "ayah_count": 111,
     "total_duration_sec": 2109.05
+  },
+  "-75_900103_2": {
+    "key": "-75_900103_2",
+    "reciter_id": -75,
+    "moshaf_id": 900103,
+    "surah_id": 2,
+    "slug": "qurantvapp-minshawi-hafs-1387",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 287,
+    "total_duration_sec": 10190.01
+  },
+  "-75_2": {
+    "key": "-75_900103_2",
+    "reciter_id": -75,
+    "moshaf_id": 900103,
+    "surah_id": 2,
+    "slug": "qurantvapp-minshawi-hafs-1387",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 287,
+    "total_duration_sec": 10190.01
+  },
+  "-6_900007_1": {
+    "key": "-6_900007_1",
+    "reciter_id": -6,
+    "moshaf_id": 900007,
+    "surah_id": 1,
+    "slug": "qurantvapp-abdulbasit-warsh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-03T01:14:56.733775+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 51.97
+  },
+  "-6_1": {
+    "key": "-6_900007_1",
+    "reciter_id": -6,
+    "moshaf_id": 900007,
+    "surah_id": 1,
+    "slug": "qurantvapp-abdulbasit-warsh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-03T01:14:56.733775+00:00",
+    "ayah_count": 7,
+    "total_duration_sec": 51.97
   }
 }

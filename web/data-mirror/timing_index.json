@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-03T17:56:55Z",
+  "generated_at": "2026-09-03T18:07:08Z",
   "servers": {
     "https://server11.mp3quran.net/qari/": {
       "read_id": 14,
@@ -188,6 +188,7 @@
       "surahs": [
         1,
         2,
+        12,
         18,
         30,
         114

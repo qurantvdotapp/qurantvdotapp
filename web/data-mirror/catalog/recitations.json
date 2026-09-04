@@ -241,7 +241,7 @@
     "rewaya_id": "hafs",
     "added_at": "2025-08-30T21:47:54.000000Z",
     "read_id": 62,
-    "version": "3c161ad498"
+    "version": "87dc754c90"
   },
   {
     "slug": "qurantvapp-abdullah-al-mattro-hafs",
@@ -2140,10 +2140,10 @@
         "derived": true
       }
     ],
-    "surahs": "1,18,36,66-114",
+    "surahs": "1,18,36-37,66-114",
     "added_at": "2026-07-23T17:40:12.000000Z",
     "read_id": 10911,
-    "version": "571e7de81d"
+    "version": "f3610147af"
   },
   {
     "slug": "qurantvapp-minshawi-hafs-murattal",

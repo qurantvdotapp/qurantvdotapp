@@ -18148,5 +18148,49 @@
     "reviewed_at": "2026-09-04T22:45:10.641084+00:00",
     "ayah_count": 13,
     "total_duration_sec": 363.05
+  },
+  "-9_900009_4": {
+    "key": "-9_900009_4",
+    "reciter_id": -9,
+    "moshaf_id": 900009,
+    "surah_id": 4,
+    "slug": "qurantvapp-abdullah-al-johany-hafs",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 177,
+    "total_duration_sec": 4052.56
+  },
+  "-9_4": {
+    "key": "-9_900009_4",
+    "reciter_id": -9,
+    "moshaf_id": 900009,
+    "surah_id": 4,
+    "slug": "qurantvapp-abdullah-al-johany-hafs",
+    "reviewed": false,
+    "reviewed_at": null,
+    "ayah_count": 177,
+    "total_duration_sec": 4052.56
+  },
+  "-75_900103_37": {
+    "key": "-75_900103_37",
+    "reciter_id": -75,
+    "moshaf_id": 900103,
+    "surah_id": 37,
+    "slug": "qurantvapp-minshawi-hafs-1387",
+    "reviewed": true,
+    "reviewed_at": "2026-09-04T23:29:12.452101+00:00",
+    "ayah_count": 183,
+    "total_duration_sec": 1220.16
+  },
+  "-75_37": {
+    "key": "-75_900103_37",
+    "reciter_id": -75,
+    "moshaf_id": 900103,
+    "surah_id": 37,
+    "slug": "qurantvapp-minshawi-hafs-1387",
+    "reviewed": true,
+    "reviewed_at": "2026-09-04T23:29:12.452101+00:00",
+    "ayah_count": 183,
+    "total_duration_sec": 1220.16
   }
 }

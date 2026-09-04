@@ -2140,10 +2140,10 @@
         "derived": true
       }
     ],
-    "surahs": "1,18,36-37,66-114",
+    "surahs": "1,18,36-37,65-114",
     "added_at": "2026-07-23T17:40:12.000000Z",
     "read_id": 10911,
-    "version": "f3610147af"
+    "version": "b962559e7e"
   },
   {
     "slug": "qurantvapp-minshawi-hafs-murattal",

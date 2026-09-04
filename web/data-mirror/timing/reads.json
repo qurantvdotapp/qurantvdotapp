@@ -1239,5 +1239,21 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-7",
     "slug": "qurantvapp-abdulbasit-mojawwad"
+  },
+  {
+    "id": 10918,
+    "name": "أحمد ديبان",
+    "rewaya": "خلف عن حمزة · مرتل",
+    "folder_url": "https://server16.mp3quran.net/deban/Rewayat-Khalaf-A-n-Hamzah/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10918"
+  },
+  {
+    "id": 10919,
+    "name": "أحمد عيسى المعصراوي",
+    "rewaya": "قراءة يعقوب الحضرمي بروايتي رويس وروح · مرتل",
+    "folder_url": "https://server16.mp3quran.net/a_maasaraawi/Rewayat-Rawh-A-n-Yakoob-Alhadrami/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10919"
   }
 ]

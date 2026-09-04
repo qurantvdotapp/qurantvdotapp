@@ -1,0 +1,572 @@
+[
+  {
+    "id": 1,
+    "name": "Surah 1",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=1&read=10906"
+  },
+  {
+    "id": 2,
+    "name": "Surah 2",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=2&read=10906"
+  },
+  {
+    "id": 3,
+    "name": "Surah 3",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=3&read=10906"
+  },
+  {
+    "id": 4,
+    "name": "Surah 4",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=4&read=10906"
+  },
+  {
+    "id": 5,
+    "name": "Surah 5",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=5&read=10906"
+  },
+  {
+    "id": 6,
+    "name": "Surah 6",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=6&read=10906"
+  },
+  {
+    "id": 7,
+    "name": "Surah 7",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=7&read=10906"
+  },
+  {
+    "id": 8,
+    "name": "Surah 8",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=8&read=10906"
+  },
+  {
+    "id": 9,
+    "name": "Surah 9",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=9&read=10906"
+  },
+  {
+    "id": 10,
+    "name": "Surah 10",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=10&read=10906"
+  },
+  {
+    "id": 11,
+    "name": "Surah 11",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=11&read=10906"
+  },
+  {
+    "id": 12,
+    "name": "Surah 12",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=12&read=10906"
+  },
+  {
+    "id": 13,
+    "name": "Surah 13",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=13&read=10906"
+  },
+  {
+    "id": 14,
+    "name": "Surah 14",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=14&read=10906"
+  },
+  {
+    "id": 15,
+    "name": "Surah 15",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=15&read=10906"
+  },
+  {
+    "id": 16,
+    "name": "Surah 16",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=16&read=10906"
+  },
+  {
+    "id": 17,
+    "name": "Surah 17",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=17&read=10906"
+  },
+  {
+    "id": 18,
+    "name": "Surah 18",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=18&read=10906"
+  },
+  {
+    "id": 19,
+    "name": "Surah 19",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=19&read=10906"
+  },
+  {
+    "id": 20,
+    "name": "Surah 20",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=20&read=10906"
+  },
+  {
+    "id": 21,
+    "name": "Surah 21",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=21&read=10906"
+  },
+  {
+    "id": 22,
+    "name": "Surah 22",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=22&read=10906"
+  },
+  {
+    "id": 23,
+    "name": "Surah 23",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=23&read=10906"
+  },
+  {
+    "id": 24,
+    "name": "Surah 24",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=24&read=10906"
+  },
+  {
+    "id": 25,
+    "name": "Surah 25",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=25&read=10906"
+  },
+  {
+    "id": 26,
+    "name": "Surah 26",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=26&read=10906"
+  },
+  {
+    "id": 27,
+    "name": "Surah 27",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=27&read=10906"
+  },
+  {
+    "id": 28,
+    "name": "Surah 28",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=28&read=10906"
+  },
+  {
+    "id": 29,
+    "name": "Surah 29",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=29&read=10906"
+  },
+  {
+    "id": 30,
+    "name": "Surah 30",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=30&read=10906"
+  },
+  {
+    "id": 31,
+    "name": "Surah 31",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=31&read=10906"
+  },
+  {
+    "id": 32,
+    "name": "Surah 32",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=32&read=10906"
+  },
+  {
+    "id": 33,
+    "name": "Surah 33",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=33&read=10906"
+  },
+  {
+    "id": 34,
+    "name": "Surah 34",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=34&read=10906"
+  },
+  {
+    "id": 35,
+    "name": "Surah 35",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=35&read=10906"
+  },
+  {
+    "id": 36,
+    "name": "Surah 36",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=36&read=10906"
+  },
+  {
+    "id": 37,
+    "name": "Surah 37",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=37&read=10906"
+  },
+  {
+    "id": 38,
+    "name": "Surah 38",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=38&read=10906"
+  },
+  {
+    "id": 39,
+    "name": "Surah 39",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=39&read=10906"
+  },
+  {
+    "id": 40,
+    "name": "Surah 40",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=40&read=10906"
+  },
+  {
+    "id": 41,
+    "name": "Surah 41",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=41&read=10906"
+  },
+  {
+    "id": 42,
+    "name": "Surah 42",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=42&read=10906"
+  },
+  {
+    "id": 43,
+    "name": "Surah 43",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=43&read=10906"
+  },
+  {
+    "id": 44,
+    "name": "Surah 44",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=44&read=10906"
+  },
+  {
+    "id": 45,
+    "name": "Surah 45",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=45&read=10906"
+  },
+  {
+    "id": 46,
+    "name": "Surah 46",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=46&read=10906"
+  },
+  {
+    "id": 47,
+    "name": "Surah 47",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=47&read=10906"
+  },
+  {
+    "id": 48,
+    "name": "Surah 48",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=48&read=10906"
+  },
+  {
+    "id": 49,
+    "name": "Surah 49",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=49&read=10906"
+  },
+  {
+    "id": 50,
+    "name": "Surah 50",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=50&read=10906"
+  },
+  {
+    "id": 51,
+    "name": "Surah 51",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=51&read=10906"
+  },
+  {
+    "id": 52,
+    "name": "Surah 52",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=52&read=10906"
+  },
+  {
+    "id": 53,
+    "name": "Surah 53",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=53&read=10906"
+  },
+  {
+    "id": 54,
+    "name": "Surah 54",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=54&read=10906"
+  },
+  {
+    "id": 55,
+    "name": "Surah 55",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=55&read=10906"
+  },
+  {
+    "id": 56,
+    "name": "Surah 56",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=56&read=10906"
+  },
+  {
+    "id": 57,
+    "name": "Surah 57",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=57&read=10906"
+  },
+  {
+    "id": 58,
+    "name": "Surah 58",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=58&read=10906"
+  },
+  {
+    "id": 59,
+    "name": "Surah 59",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=59&read=10906"
+  },
+  {
+    "id": 60,
+    "name": "Surah 60",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=60&read=10906"
+  },
+  {
+    "id": 61,
+    "name": "Surah 61",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=61&read=10906"
+  },
+  {
+    "id": 62,
+    "name": "Surah 62",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=62&read=10906"
+  },
+  {
+    "id": 63,
+    "name": "Surah 63",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=63&read=10906"
+  },
+  {
+    "id": 64,
+    "name": "Surah 64",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=64&read=10906"
+  },
+  {
+    "id": 65,
+    "name": "Surah 65",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=65&read=10906"
+  },
+  {
+    "id": 66,
+    "name": "Surah 66",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=66&read=10906"
+  },
+  {
+    "id": 67,
+    "name": "Surah 67",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=67&read=10906"
+  },
+  {
+    "id": 68,
+    "name": "Surah 68",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=68&read=10906"
+  },
+  {
+    "id": 69,
+    "name": "Surah 69",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=69&read=10906"
+  },
+  {
+    "id": 70,
+    "name": "Surah 70",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=70&read=10906"
+  },
+  {
+    "id": 71,
+    "name": "Surah 71",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=71&read=10906"
+  },
+  {
+    "id": 72,
+    "name": "Surah 72",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=72&read=10906"
+  },
+  {
+    "id": 73,
+    "name": "Surah 73",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=73&read=10906"
+  },
+  {
+    "id": 74,
+    "name": "Surah 74",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=74&read=10906"
+  },
+  {
+    "id": 75,
+    "name": "Surah 75",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=75&read=10906"
+  },
+  {
+    "id": 76,
+    "name": "Surah 76",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=76&read=10906"
+  },
+  {
+    "id": 77,
+    "name": "Surah 77",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=77&read=10906"
+  },
+  {
+    "id": 78,
+    "name": "Surah 78",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=78&read=10906"
+  },
+  {
+    "id": 79,
+    "name": "Surah 79",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=79&read=10906"
+  },
+  {
+    "id": 80,
+    "name": "Surah 80",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=80&read=10906"
+  },
+  {
+    "id": 81,
+    "name": "Surah 81",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=81&read=10906"
+  },
+  {
+    "id": 82,
+    "name": "Surah 82",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=82&read=10906"
+  },
+  {
+    "id": 83,
+    "name": "Surah 83",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=83&read=10906"
+  },
+  {
+    "id": 84,
+    "name": "Surah 84",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=84&read=10906"
+  },
+  {
+    "id": 85,
+    "name": "Surah 85",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=85&read=10906"
+  },
+  {
+    "id": 86,
+    "name": "Surah 86",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=86&read=10906"
+  },
+  {
+    "id": 87,
+    "name": "Surah 87",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=87&read=10906"
+  },
+  {
+    "id": 88,
+    "name": "Surah 88",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=88&read=10906"
+  },
+  {
+    "id": 89,
+    "name": "Surah 89",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=89&read=10906"
+  },
+  {
+    "id": 90,
+    "name": "Surah 90",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=90&read=10906"
+  },
+  {
+    "id": 91,
+    "name": "Surah 91",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=91&read=10906"
+  },
+  {
+    "id": 92,
+    "name": "Surah 92",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=92&read=10906"
+  },
+  {
+    "id": 93,
+    "name": "Surah 93",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=93&read=10906"
+  },
+  {
+    "id": 94,
+    "name": "Surah 94",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=94&read=10906"
+  },
+  {
+    "id": 95,
+    "name": "Surah 95",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=95&read=10906"
+  },
+  {
+    "id": 96,
+    "name": "Surah 96",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=96&read=10906"
+  },
+  {
+    "id": 97,
+    "name": "Surah 97",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=97&read=10906"
+  },
+  {
+    "id": 98,
+    "name": "Surah 98",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=98&read=10906"
+  },
+  {
+    "id": 99,
+    "name": "Surah 99",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=99&read=10906"
+  },
+  {
+    "id": 100,
+    "name": "Surah 100",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=100&read=10906"
+  },
+  {
+    "id": 101,
+    "name": "Surah 101",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=101&read=10906"
+  },
+  {
+    "id": 102,
+    "name": "Surah 102",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=102&read=10906"
+  },
+  {
+    "id": 103,
+    "name": "Surah 103",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=103&read=10906"
+  },
+  {
+    "id": 104,
+    "name": "Surah 104",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=104&read=10906"
+  },
+  {
+    "id": 105,
+    "name": "Surah 105",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=105&read=10906"
+  },
+  {
+    "id": 106,
+    "name": "Surah 106",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=106&read=10906"
+  },
+  {
+    "id": 107,
+    "name": "Surah 107",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=107&read=10906"
+  },
+  {
+    "id": 108,
+    "name": "Surah 108",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=108&read=10906"
+  },
+  {
+    "id": 109,
+    "name": "Surah 109",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=109&read=10906"
+  },
+  {
+    "id": 110,
+    "name": "Surah 110",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=110&read=10906"
+  },
+  {
+    "id": 111,
+    "name": "Surah 111",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=111&read=10906"
+  },
+  {
+    "id": 112,
+    "name": "Surah 112",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=112&read=10906"
+  },
+  {
+    "id": 113,
+    "name": "Surah 113",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=113&read=10906"
+  },
+  {
+    "id": 114,
+    "name": "Surah 114",
+    "timing_link": "https://www.mp3quran.net/api/v3/ayat_timing?surah=114&read=10906"
+  }
+]

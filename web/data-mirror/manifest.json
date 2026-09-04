@@ -1,15 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<section name="Workbench">
-	<section name="org.eclipse.ui.internal.QuickAccess">
-		<item value="-1" key="dialogHeight"/>
-		<item value="-1" key="dialogWidth"/>
-		<list key="textEntries">
-		</list>
-		<list key="orderedElements">
-		</list>
-		<list key="orderedProviders">
-		</list>
-		<list key="textArray">
-		</list>
-	</section>
-</section>
+{
+  "source": {
+    "mp3quran": "https://mp3quran.net/api/v3",
+    "ksu": "https://quran.ksu.edu.sa"
+  },
+  "mirrors": [
+    "https://archive.org/details/qurantv-dataset",
+    "https://archive.org/download/qurantv-dataset/qurantv-dataset-20260820.tar.gz"
+  ],
+  "generated_at": "2026-08-20T18:15:02.555Z",
+  "counts": {
+    "catalog": 8,
+    "reads": 1,
+    "soar": 115,
+    "timing": 13109,
+    "hilites": 1812
+  },
+  "license": "Dataset for the Quran TV app. mp3quran.net API data and quran.ksu.edu.sa hilites are provided for off-/mirror use; see mp3quran.net terms. Quran text attribution: Tanzil (CC BY-NC-ND) — bundled separately.",
+  "offline_fallback_note": "The web app can be pointed at these mirrors when mp3quran.net/ksu are unreachable (future). Tarball: data-mirror/qurantv-dataset-20260820.tar.gz (31 MB)."
+}

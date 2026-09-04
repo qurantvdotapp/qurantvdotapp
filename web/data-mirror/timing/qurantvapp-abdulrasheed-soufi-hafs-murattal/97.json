@@ -1,0 +1,27 @@
+[
+  {
+    "ayah": 1,
+    "start_time": 3980,
+    "end_time": 9760
+  },
+  {
+    "ayah": 2,
+    "start_time": 9760,
+    "end_time": 14460
+  },
+  {
+    "ayah": 3,
+    "start_time": 14460,
+    "end_time": 19500
+  },
+  {
+    "ayah": 4,
+    "start_time": 19500,
+    "end_time": 29460
+  },
+  {
+    "ayah": 5,
+    "start_time": 29460,
+    "end_time": 33860
+  }
+]

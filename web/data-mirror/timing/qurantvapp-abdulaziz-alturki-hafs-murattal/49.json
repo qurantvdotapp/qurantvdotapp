@@ -1,0 +1,92 @@
+[
+  {
+    "ayah": 1,
+    "start_time": 1860,
+    "end_time": 18220
+  },
+  {
+    "ayah": 2,
+    "start_time": 18220,
+    "end_time": 46380
+  },
+  {
+    "ayah": 3,
+    "start_time": 46380,
+    "end_time": 85360
+  },
+  {
+    "ayah": 4,
+    "start_time": 85360,
+    "end_time": 97420
+  },
+  {
+    "ayah": 5,
+    "start_time": 97420,
+    "end_time": 109820
+  },
+  {
+    "ayah": 6,
+    "start_time": 109820,
+    "end_time": 135240
+  },
+  {
+    "ayah": 7,
+    "start_time": 135240,
+    "end_time": 178500
+  },
+  {
+    "ayah": 8,
+    "start_time": 178500,
+    "end_time": 190380
+  },
+  {
+    "ayah": 9,
+    "start_time": 190380,
+    "end_time": 231360
+  },
+  {
+    "ayah": 10,
+    "start_time": 231360,
+    "end_time": 246660
+  },
+  {
+    "ayah": 11,
+    "start_time": 246660,
+    "end_time": 311740
+  },
+  {
+    "ayah": 12,
+    "start_time": 311740,
+    "end_time": 347140
+  },
+  {
+    "ayah": 13,
+    "start_time": 347140,
+    "end_time": 374180
+  },
+  {
+    "ayah": 14,
+    "start_time": 374180,
+    "end_time": 405080
+  },
+  {
+    "ayah": 15,
+    "start_time": 405080,
+    "end_time": 428240
+  },
+  {
+    "ayah": 16,
+    "start_time": 428240,
+    "end_time": 441780
+  },
+  {
+    "ayah": 17,
+    "start_time": 441780,
+    "end_time": 461720
+  },
+  {
+    "ayah": 18,
+    "start_time": 461720,
+    "end_time": 478220
+  }
+]

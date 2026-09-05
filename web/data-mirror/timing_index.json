@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-05T01:10:49Z",
+  "generated_at": "2026-09-05T01:16:28Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -396,6 +396,7 @@
       "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
       "surahs": [
         51,
+        52,
         107,
         108,
         109,

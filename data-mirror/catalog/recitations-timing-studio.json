@@ -1,0 +1,4545 @@
+[
+  {
+    "slug": "qurantvapp-abdelbari-al-touba-hafs",
+    "name_ar": "عبدالبارئ الثبيتي",
+    "name_en": "Abdelbari Al-Toubayti",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/thubti/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-abdul-aziz-al-ahma-hafs",
+    "name_ar": "عبدالعزيز الأحمد",
+    "name_en": "Abdul Aziz Al-Ahmad",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/a_ahmed/",
+        "primary": true
+      }
+    ],
+    "surahs": "all"
+  },
+  {
+    "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
+    "name_ar": "عبدالعزيز التركي",
+    "name_en": "Abdulaziz Alturki",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_turki/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulaziz-az-zahra-hafs",
+    "name_ar": "عبدالعزيز الزهراني",
+    "name_en": "Abdulaziz Az-Zahrani",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/zahrani/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulbari-mohammad-hafs-murattal",
+    "name_ar": "عبدالبارئ محمد",
+    "name_en": "Abdulbari Mohammad",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/bari/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulbasit-hafs",
+    "name_ar": "عبدالباسط عبدالصمد",
+    "name_en": "Abdulbasit Abdulsamad",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server7.mp3quran.net/basit/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-abdulbasit-mojawwad",
+    "name_ar": "عبد الباسط عبد الصمد",
+    "name_en": "Abdulbasit Abdulsamad",
+    "style": "mojawwad",
+    "sources": [
+      {
+        "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulbasit-warsh",
+    "name_ar": "عبدالباسط عبدالصمد",
+    "name_en": "Abdulbasit Abdulsamad",
+    "rewaya_id": "warsh",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server7.mp3quran.net/basit/Rewayat-Warsh-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-abdulhadi-kanakeri-hafs",
+    "name_ar": "عبدالهادي أحمد كناكري",
+    "name_en": "Abdulhadi Kanakeri",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/kanakeri/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdullah-al-johany-hafs",
+    "name_ar": "عبدالله عواد الجهني",
+    "name_en": "Abdullah Al-Johany",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server13.mp3quran.net/jhn/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdullah-al-mattro-hafs",
+    "name_ar": "عبدالله المطرود",
+    "name_en": "Abdullah Al-Mattrod",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/mtrod/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdullah-al-mousa-hafs-murattal",
+    "name_ar": "عبدالله الموسى",
+    "name_en": "Abdullah Al-Mousa",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/mousa/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdullah-albuajan-hafs",
+    "name_ar": "عبدالله البعيجان",
+    "name_en": "Abdullah Albuajan",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/buajan/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdullah-basfer-hafs",
+    "name_ar": "عبدالله بصفر",
+    "name_en": "Abdullah Basfer",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/bsfr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdullah-khayyat-hafs",
+    "name_ar": "عبدالله خياط",
+    "name_en": "Abdullah Khayyat",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/kyat/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulmohsen-al-qas-hafs",
+    "name_ar": "عبدالمحسن القاسم",
+    "name_en": "Abdulmohsen Al-Qasim",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/qasm/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulmohsin-al-har-hafs",
+    "name_ar": "عبدالمحسن الحارثي",
+    "name_en": "Abdulmohsin Al-Harthy",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/mohsin_harthi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulmohsin-al-oba-hafs",
+    "name_ar": "عبدالمحسن العبيكان",
+    "name_en": "Abdulmohsin Al-Obaikan",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/obk/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulrahman-al-maj-hafs",
+    "name_ar": "عبدالرحمن الماجد",
+    "name_en": "Abdulrahman Al-Majed",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/a_majed/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulrahman-aloosi-hafs",
+    "name_ar": "عبدالرحمن العوسي",
+    "name_en": "Abdulrahman Aloosi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/aloosi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulrahman-alsuda-hafs",
+    "name_ar": "عبدالرحمن السديس",
+    "name_en": "Abdulrahman Alsudaes",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/sds/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulrahman-alsuwa-hafs",
+    "name_ar": "عبدالرحمن السويّد",
+    "name_en": "Abdulrahman Alsuwayid",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_swaiyd/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal",
+    "name_ar": "عبدالرشيد صوفي",
+    "name_en": "Abdulrasheed Soufi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/soufi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-abdulrasheed-soufi-khalaf",
+    "name_ar": "عبدالرشيد صوفي",
+    "name_en": "Abdulrasheed Soufi",
+    "rewaya_id": "khalaf",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/soufi/Rewayat-Khalaf-A-n-Hamzah/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-abdulrasheed-soufi-susi",
+    "name_ar": "عبدالرشيد صوفي",
+    "name_en": "Abdulrasheed Soufi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/soufi/Rewayat-Assosi-A-n-Abi-Amr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "susi"
+  },
+  {
+    "slug": "qurantvapp-abdulwadood-haneef-hafs",
+    "name_ar": "عبدالودود حنيف",
+    "name_en": "Abdulwadood Haneef",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/wdod/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-abdulwali-al-arkan-hafs",
+    "name_ar": "عبدالولي الأركاني",
+    "name_en": "Abdulwali Al-Arkani",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/arkani/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-adel-ryyan-hafs",
+    "name_ar": "عادل ريان",
+    "name_en": "Adel Ryyan",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/ryan/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-afasy-dori-murattal",
+    "name_ar": "مشاري العفاسي",
+    "name_en": "Mishary Alafasi",
+    "rewaya_id": "dori-kisaai",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/afs/Rewayat-AlDorai-A-n-Al-Kisa-ai/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-afasy-hafs-murattal",
+    "name_ar": "مشاري العفاسي",
+    "name_en": "Mishary Alafasi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/afs/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-al-hawashi-hafs",
+    "name_ar": "أحمد الحواشي",
+    "name_en": "Ahmad Al-Hawashi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/hawashi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ahmad-al-nufais-hafs",
+    "name_ar": "أحمد النفيس",
+    "name_en": "Ahmad Al Nufais",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/nufais/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-bizi",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "bazzi",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Albizi-A-n-Ibn-Katheer/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-dori",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "dori-kisaai",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-AlDorai-A-n-Al-Kisa-ai/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-dori-ibn-amr",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "dori-abu-amr",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Aldori-A-n-Abi-Amr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-hafs-murattal",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-hesham",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "hisham",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Hesham-A-n-Abi-A-mer/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-jammaz",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "ibn-jammaz",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Ibn-Jammaz-A-n-Abi-Ja-far/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-khalaf",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "khalaf",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Khalaf-A-n-Hamzah/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-qalon",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "qalon",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Qalon-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-qonbol",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "qunbul",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Qunbol-A-n-Ibn-Katheer/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-shoabah",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "qurantvapp-ahmad-deban-shoabah/",
+        "primary": true
+      },
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Sho-bah-A-n-Asim/",
+        "primary": false
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-sossi",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "susi",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Assosi-A-n-Abi-Amr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-warsh",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "warsh-azraq",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Warsh-A-n-Nafi-Men-Tariq-Alazraq/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-deban-zakwan",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "ibn-dhakwan",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Ibn-Thakwan-A-n-Ibn-Amer/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
+    "name_ar": "أحمد عيسى المعصراوي",
+    "name_en": "Ahmad Issa Al Maasaraawi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_maasaraawi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
+    "name_ar": "أحمد عيسى المعصراوي",
+    "name_en": "Ahmad Issa Al Maasaraawi",
+    "rewaya_id": "yaqub",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_maasaraawi/Rewayat-Rawh-A-n-Yakoob-Alhadrami/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmad-nauina-hafs",
+    "name_ar": "أحمد نعينع",
+    "name_en": "Ahmad Nauina",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/ahmad_nu/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ahmad-saber-hafs",
+    "name_ar": "أحمد صابر",
+    "name_en": "Ahmad Saber",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/saber/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ahmad-shaheen-hafs",
+    "name_ar": "أحمد خليل شاهين",
+    "name_en": "Ahmad Shaheen",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/shaheen/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ahmad-talib-bin-hu-hafs",
+    "name_ar": "أحمد طالب بن حميد",
+    "name_en": "Ahmad Talib bin Humaid",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_binhameed/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ahmed-al-trabulsi-hafs-murattal",
+    "name_ar": "أحمد الطرابلسي",
+    "name_en": "Ahmed Al-trabulsi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/trabulsi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmed-al-trabulsi-qalon-murattal",
+    "name_ar": "أحمد الطرابلسي",
+    "name_en": "Ahmed Al-trabulsi",
+    "rewaya_id": "qalon",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/trablsi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ahmed-amer-hafs",
+    "name_ar": "أحمد عامر",
+    "name_en": "Ahmed Amer",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/Aamer/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ajamy-hafs",
+    "name_ar": "أحمد بن علي العجمي",
+    "name_en": "Ahmad Al-Ajmy",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/ajm/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-akram-hafs",
+    "name_ar": "أكرم العلاقمي",
+    "name_en": "Akram Alalaqmi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/akrm/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-alhusayni-al-azazi-moallim",
+    "name_ar": "الحسيني العزازي",
+    "name_en": "Alhusayni Al-Azazi",
+    "rewaya_id": "muallim",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/3zazi/",
+        "primary": true
+      }
+    ],
+    "surahs": "58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 11,
+    "moshaf_id": 11
+  },
+  {
+    "slug": "qurantvapp-ali-alhuthaifi-hafs-murattal",
+    "name_ar": "علي بن عبدالرحمن الحذيفي",
+    "name_en": "Ali Alhuthaifi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/hthfi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ali-alhuthaifi-shuba-murattal",
+    "name_ar": "علي بن عبدالرحمن الحذيفي",
+    "name_en": "Ali Alhuthaifi",
+    "rewaya_id": "shuba",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/hthfi/Rewayat-Sho-bah-A-n-Asim/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ali-hajjaj-alsouas-hafs",
+    "name_ar": "علي حجاج السويسي",
+    "name_en": "Ali Hajjaj Alsouasi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/hajjaj/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ali-jaber-hafs",
+    "name_ar": "علي جابر",
+    "name_en": "Ali Jaber",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/a_jbr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-aloyoon-al-koshi-warsh",
+    "name_ar": "العيون الكوشي",
+    "name_en": "Aloyoon Al-Koshi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/koshi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "warsh"
+  },
+  {
+    "slug": "qurantvapp-alzain-mohammad-ah-hafs",
+    "name_ar": "الزين محمد أحمد",
+    "name_en": "Alzain Mohammad Ahmad",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/alzain/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-anas-alemadi-hafs",
+    "name_ar": "أنس العمادي",
+    "name_en": "Anas Alemadi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_alemadi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ayyoub-hafs-murattal",
+    "name_ar": "محمد أيوب",
+    "name_en": "Mohammed Ayyub",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/ayyub/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-ayyoub2-hafs-murattal",
+    "name_ar": "محمد أيوب",
+    "name_en": "Mohammed Ayyub",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/ayyoub2/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-balilah-hafs",
+    "name_ar": "بندر بليله",
+    "name_en": "Bandar Balilah",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/balilah/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-daghistani-hafs",
+    "name_ar": "زكي داغستاني",
+    "name_en": "Zaki Daghistani",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/zaki/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-dawood-hamza-hafs",
+    "name_ar": "داود حمزة",
+    "name_en": "Dawood Hamza",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/hamza/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-dokali-qalon",
+    "name_ar": "الدوكالي محمد العالم",
+    "name_en": "Addokali Mohammad Alalim",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server7.mp3quran.net/dokali/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "qalon"
+  },
+  {
+    "slug": "qurantvapp-dosri-hafs",
+    "name_ar": "إبراهيم الدوسري",
+    "name_en": "Ibrahim Aldosari",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/ibrahim_dosri/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-emad-hafez-hafs",
+    "name_ar": "عماد زهير حافظ",
+    "name_en": "Emad Hafez",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/hafz/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-fares-abbad-hafs",
+    "name_ar": "فارس عباد",
+    "name_en": "Fares Abbad",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/frs_a/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-haitham-aldukhain-hafs",
+    "name_ar": "هيثم الدخين",
+    "name_en": "Haitham Aldukhain",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/h_dukhain/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-hani-arrifai-hafs",
+    "name_ar": "هاني الرفاعي",
+    "name_en": "Hani Arrifai",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/hani/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-haroon-baqai-hafs",
+    "name_ar": "هارون بقائي",
+    "name_en": "Haroon Baqai",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/h_baqai/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,56,62,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 289,
+    "moshaf_id": 304
+  },
+  {
+    "slug": "qurantvapp-hassan-aldaghriri-hafs",
+    "name_ar": "حسن الدغريري",
+    "name_en": "Hassan Aldaghriri",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/H-Aldaghriri/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-hicham-lharraz-hafs",
+    "name_ar": "هشام الهراز",
+    "name_en": "Hicham Lharraz",
+    "rewaya_id": "warsh",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/H-Lharraz/Rewayat-Warsh-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 305,
+    "moshaf_id": 317
+  },
+  {
+    "slug": "qurantvapp-hudhaify-qalon",
+    "name_ar": "علي بن عبدالرحمن الحذيفي",
+    "name_en": "Ali Alhuthaifi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/huthifi_qalon/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "qalon"
+  },
+  {
+    "slug": "qurantvapp-husry-dori",
+    "name_ar": "محمود خليل الحصري",
+    "name_en": "Mahmoud Khalil Al-Hussary",
+    "rewaya_id": "dori-abu-amr",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server13.mp3quran.net/husr/Rewayat-Aldori-A-n-Abi-Amr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-husry-hafs",
+    "name_ar": "محمود خليل الحصري",
+    "name_en": "Mahmoud Khalil Al-Husary",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server13.mp3quran.net/husr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-husry-mojawwad",
+    "name_ar": "محمود خليل الحصري",
+    "name_en": "Mahmoud Khalil Al-Husary",
+    "style": "mojawwad",
+    "sources": [
+      {
+        "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-husry-qalon",
+    "name_ar": "محمود خليل الحصري",
+    "name_en": "Mahmoud Khalil Al-Hussary",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server13.mp3quran.net/husr/Rewayat-Qalon-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "qalon"
+  },
+  {
+    "slug": "qurantvapp-husry-warsh",
+    "name_ar": "محمود خليل الحصري",
+    "name_en": "Mahmoud Khalil Al-Hussary",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server13.mp3quran.net/husr/Rewayat-Warsh-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "warsh"
+  },
+  {
+    "slug": "qurantvapp-ibrahim-al-akdar-hafs",
+    "name_ar": "إبراهيم الأخضر",
+    "name_en": "Ibrahim Al-Akdar",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/akdr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ibrahim-al-asiri-hafs",
+    "name_ar": "إبراهيم العسيري",
+    "name_en": "Ibrahim Al-Asiri",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/3siri/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ibrahim-aldosari-warsh-murattal",
+    "name_ar": "إبراهيم الدوسري",
+    "name_en": "Ibrahim Aldosari",
+    "rewaya_id": "warsh",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/ibrahim_dosri/Rewayat-Warsh-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-idrees-abkr-hafs",
+    "name_ar": "إدريس أبكر",
+    "name_en": "Idrees Abkr",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/abkr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-jamaan-alosaimi-hafs",
+    "name_ar": "جمعان العصيمي",
+    "name_en": "Jamaan Alosaimi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/jaman/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-khalaf-hafs",
+    "name_ar": "عبدالله الخلف",
+    "name_en": "Abdullah Al-Khalaf",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/khalf/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-khalid-abdulkafi-hafs",
+    "name_ar": "خالد عبدالكافي",
+    "name_en": "Khalid Abdulkafi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/kafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-khalid-al-jileel-hafs",
+    "name_ar": "خالد الجليل",
+    "name_en": "Khalid Al-Jileel",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/jleel/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-khalid-almohana-hafs",
+    "name_ar": "خالد المهنا",
+    "name_en": "Khalid Almohana",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/mohna/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-khalid-mohammadi-hafs",
+    "name_ar": "خالد كريم محمدي",
+    "name_en": "Khalid Mohammadi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/kh_mohammadi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-khalifa-altunaiji-hafs",
+    "name_ar": "خليفة الطنيجي",
+    "name_en": "Khalifa Altunaiji",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/tnjy/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-maher-hafs",
+    "name_ar": "ماهر المعيقلي",
+    "name_en": "Maher Al Meaqli",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/maher/",
+        "primary": true
+      }
+    ],
+    "surahs": "108,112",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-maher-moallim",
+    "name_ar": "ماهر المعيقلي",
+    "name_en": "Maher Al Meaqli",
+    "rewaya_id": "hafs",
+    "style": "moallim",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/maher/Almusshaf-Al-Mo-lim/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,12,14,36-37,44-45,50-57,67-114",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-maher-mojawwad",
+    "name_ar": "ماهر المعيقلي",
+    "name_en": "Maher Al Meaqli",
+    "rewaya_id": "hafs",
+    "style": "mojawwad",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/maher/Almusshaf-Al-Mojawwad/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-mahmoud-ali-alb-mojawwad",
+    "name_ar": "محمود علي البنا",
+    "name_en": "Mahmoud Ali Al-Banna",
+    "rewaya_id": "hafs",
+    "style": "mojawwad",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-mahmoud-ali-albann-hafs-murattal",
+    "name_ar": "محمود علي البنا",
+    "name_en": "Mahmoud Ali Al-Banna",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/bna/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-majed-al-enezi-hafs-murattal",
+    "name_ar": "ماجد العنزي",
+    "name_en": "Majed Al-Enezi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/majd_onazi/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,18,50,65,75,100,114",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-majed-al-zamil-hafs",
+    "name_ar": "ماجد الزامل",
+    "name_en": "Majed Al-Zamil",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/zaml/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-mansour-al-salemi-hafs",
+    "name_ar": "منصور السالمي",
+    "name_en": "Mansour Al-Salemi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/mansor/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-minshawi-hafs-1387",
+    "name_ar": "محمد صديق المنشاوي",
+    "name_en": "Mohamed Siddiq Al-Minshawi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/minsh1387/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-minshawi-hafs-moallim",
+    "name_ar": "محمد صديق المنشاوي",
+    "name_en": "Mohamed Siddiq Al-Minshawi",
+    "rewaya_id": "hafs",
+    "style": "moallim",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mo-lim/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-minshawi-hafs-murattal",
+    "name_ar": "محمد صديق المنشاوي",
+    "name_en": "Mohamed Siddiq Al-Minshawi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/minsh/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-minshawi-mojawwad",
+    "name_ar": "محمد صديق المنشاوي",
+    "name_en": "Mohamed Siddiq Al-Minshawi",
+    "rewaya_id": "hafs",
+    "style": "mojawwad",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/",
+        "primary": true
+      }
+    ],
+    "surahs": "110-111",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-mohammad-abdullkar-hafs-murattal",
+    "name_ar": "محمد عبدالكريم",
+    "name_en": "Mohammad Abdullkarem",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/m_krm/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-mohammad-abdullkar-warsh-murattal",
+    "name_ar": "محمد عبدالكريم",
+    "name_en": "Mohammad Abdullkarem",
+    "rewaya_id": "warsh",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/m_krm/Rewayat-Warsh-A-n-Nafi-Men-Tariq-Abi-Baker-Alasbahani/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-mohammad-al-airawy-warsh-murattal",
+    "name_ar": "محمد الأيراوي",
+    "name_en": "Mohammad Al-Airawy",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/earawi/",
+        "primary": true
+      }
+    ],
+    "surahs": "1-3,110,112-114",
+    "rewaya_id": "warsh-azraq"
+  },
+  {
+    "slug": "qurantvapp-mohammad-al-tablaw-hafs-murattal",
+    "name_ar": "محمد الطبلاوي",
+    "name_en": "Mohammad Al-Tablaway",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/tblawi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-mohammad-al-tablaw-mojawwad",
+    "name_ar": "محمد الطبلاوي",
+    "name_en": "Mohammad Al-Tablaway",
+    "rewaya_id": "hafs",
+    "style": "mojawwad",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/tblawi/Al-Mojawwad/",
+        "primary": true
+      }
+    ],
+    "surahs": "1",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-mohammad-albukheet-hafs",
+    "name_ar": "محمد البخيت",
+    "name_en": "Mohammad Albukheet",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/bukheet/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-mohammad-saayed-warsh",
+    "name_ar": "محمد سايد",
+    "name_en": "Mohammad Saayed",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/m_sayed/Rewayat-Warsh-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "warsh"
+  },
+  {
+    "slug": "qurantvapp-mohammad-saleh-alim-shah-hafs",
+    "name_ar": "محمد صالح عالم شاه",
+    "name_en": "Mohammad Saleh Alim Shah",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/shah/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 110,
+    "moshaf_id": 110
+  },
+  {
+    "slug": "qurantvapp-mohammed-al-barrak-hafs-murattal",
+    "name_ar": "محمد البراك",
+    "name_en": "Mohammed Al-Barrak",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server13.mp3quran.net/braak/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,12,14,36-37,44-45,50-57,67-114",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-mohammed-al-lohaid-hafs-murattal",
+    "name_ar": "محمد اللحيدان",
+    "name_en": "Mohammed Al-Lohaidan",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/lhdan/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,50,110",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-mohammed-jibreel-hafs-murattal",
+    "name_ar": "محمد جبريل",
+    "name_en": "Mohammed Jibreel",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/jbrl/",
+        "primary": true
+      }
+    ],
+    "surahs": "1-2,58",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-muhammad-burhaji-hafs",
+    "name_ar": "محمد برهجي",
+    "name_en": "Muhammad Burhaji",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/M_Burhaji/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-mustafa-ismail-hafs-mojawwad",
+    "name_ar": "مصطفى إسماعيل",
+    "name_en": "Mustafa Ismail",
+    "rewaya_id": "hafs",
+    "style": "mojawwad",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/mustafa/Almusshaf-Al-Mojawwad/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-mustafa-ismail-hafs-murattal",
+    "name_ar": "مصطفى إسماعيل",
+    "name_en": "Mustafa Ismail",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/mustafa/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-nabil-al-rifay-hafs",
+    "name_ar": "نبيل الرفاعي",
+    "name_en": "Nabil Al Rifay",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/nabil/",
+        "primary": true
+      }
+    ],
+    "surahs": "1-26,28-114",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-nasser-alqatami-hafs",
+    "name_ar": "ناصر القطامي",
+    "name_en": "Nasser Alqatami",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/qtm/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-neamah-al-hassan-hafs",
+    "name_ar": "نعمة الحسان",
+    "name_en": "Neamah Al-Hassan",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/namh/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-okasha-kameny-bazzi",
+    "name_ar": "عكاشة كميني",
+    "name_en": "Okasha Kameny",
+    "rewaya_id": "bazzi",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/okasha/Rewayat-Albizi-A-n-Ibn-Katheer/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-okasha-kameny-dori",
+    "name_ar": "عكاشة كميني",
+    "name_en": "Okasha Kameny",
+    "rewaya_id": "dori-kisaai",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/okasha/Rewayat-AlDorai-A-n-Al-Kisa-ai/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-omar-al-qazabri-warsh",
+    "name_ar": "عمر القزابري",
+    "name_en": "Omar Al-Qazabri",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/omar_warsh/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "warsh"
+  },
+  {
+    "slug": "qurantvapp-peshawa-hafs",
+    "name_ar": "بيشه وا قادر الكردي",
+    "name_en": "Peshawa Qadr Al-Kurdi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/peshawa/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-qahtani-hafs",
+    "name_ar": "خالد القحطاني",
+    "name_en": "Khaled Al-Qahtani",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/qht/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-qari-hafs",
+    "name_ar": "محمد خليل القارئ",
+    "name_en": "Mohammad Khalil Al-Qari",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/m_qari/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-qari-warsh",
+    "name_ar": "القارئ ياسين",
+    "name_en": "Al-Qaria Yassen",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/qari/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "warsh"
+  },
+  {
+    "slug": "qurantvapp-raad-al-kurdi-hafs",
+    "name_ar": "رعد محمد الكردي",
+    "name_en": "Raad Al Kurdi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/kurdi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-rashad-hafs",
+    "name_ar": "محمد رشاد الشريف",
+    "name_en": "Mohammad Rashad Alshareef",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/rashad/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-saad-al-ghamdi-hafs",
+    "name_ar": "سعد الغامدي",
+    "name_en": "Saad Al-Ghamdi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server7.mp3quran.net/s_gmd/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-saber-abdulhakm-hafs",
+    "name_ar": "صابر عبدالحكم",
+    "name_en": "Saber Abdulhakm",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/hkm/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-sahl-yassin-hafs",
+    "name_ar": "سهل ياسين",
+    "name_en": "Sahl Yassin",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/shl/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-sahood-hafs",
+    "name_ar": "صالح الصاهود",
+    "name_en": "Saleh Alsahood",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/sahood/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-salah-albudair-hafs",
+    "name_ar": "صلاح البدير",
+    "name_en": "Salah Albudair",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/s_bud/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-salah-alhashim-hafs-murattal",
+    "name_ar": "صلاح الهاشم",
+    "name_en": "Salah Alhashim",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/salah_hashim_m/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false
+  },
+  {
+    "slug": "qurantvapp-saud-al-shuraim-hafs",
+    "name_ar": "سعود الشريم",
+    "name_en": "Saud Al-Shuraim",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server7.mp3quran.net/shur/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-sayed-ahmad-hashem-hafs",
+    "name_ar": "سيد أحمد هاشمي",
+    "name_en": "Sayed Ahmad Hashemi",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/s_hashemi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-shaban-al-sayiaad-hafs-murattal",
+    "name_ar": "شعبان الصياد",
+    "name_en": "Shaban Al-Sayiaad",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/shaban/",
+        "primary": true
+      }
+    ],
+    "surahs": "2,3,4,5,6,7,9,10,11,12,13,16,17,19,20,21,22,24,26,27,28,29,32,33,35,38,40,41,42,43,45,46,47,52,53,54,59,60,67,68,69,77,78,79,80,81,82,87,88,89,90,91,92,94,95,96,97,98,99,100,101,102,103,104,105",
+    "untimed": false,
+    "reciter_id": 37,
+    "moshaf_id": 37
+  },
+  {
+    "slug": "qurantvapp-shatri-hafs",
+    "name_ar": "شيخ أبو بكر الشاطري",
+    "name_en": "Shaik Abu Bakr Al Shatri",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/shatri/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-shirazad-taher-hafs",
+    "name_ar": "شيرزاد عبدالرحمن طاهر",
+    "name_en": "Shirazad Taher",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/taher/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-slaah-bukhatir-hafs",
+    "name_ar": "صلاح بو خاطر",
+    "name_en": "Slaah Bukhatir",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/bu_khtr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-tawfeeq-as-sayegh-hafs",
+    "name_ar": "توفيق الصايغ",
+    "name_en": "Tawfeeq As-Sayegh",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/twfeeq/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-wadeea-al-yamani-hafs",
+    "name_ar": "وديع اليمني",
+    "name_en": "Wadeea Al-Yamani",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/wdee3/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-yasser-hafs",
+    "name_ar": "ياسر الدوسري",
+    "name_en": "Yasser Al-Dosari",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/yasser/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-yousef-bin-noah-ah-hafs",
+    "name_ar": "يوسف بن نوح أحمد",
+    "name_en": "Yousef Bin Noah Ahmad",
+    "style": "murattal",
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/noah/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs"
+  },
+  {
+    "slug": "qurantvapp-ahmad-alhuthaifi-hafs-murattal",
+    "name_ar": "أحمد الحذيفي",
+    "name_en": "Ahmad Alhuthaifi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/ahmad_huth/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,35,36,38,39,41,42,43,44,45,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 205,
+    "moshaf_id": 205
+  },
+  {
+    "slug": "qurantvapp-ahmed-al-swailem-hafs-murattal",
+    "name_ar": "أحمد السويلم",
+    "name_en": "Ahmed Al-Swailem",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/swlim/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 252,
+    "moshaf_id": 252
+  },
+  {
+    "slug": "qurantvapp-ahmad-saud-hafs-murattal",
+    "name_ar": "أحمد سعود",
+    "name_en": "Ahmad Saud",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/saud/",
+        "primary": true
+      }
+    ],
+    "surahs": "85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 7,
+    "moshaf_id": 7
+  },
+  {
+    "slug": "qurantvapp-akhil-abdulhayy-rawa-hafs-murattal",
+    "name_ar": "أخيل عبدالحي روا",
+    "name_en": "Akhil Abdulhayy Rawa",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/akil/",
+        "primary": true
+      }
+    ],
+    "surahs": "50,51,52,56",
+    "untimed": false,
+    "reciter_id": 153,
+    "moshaf_id": 153
+  },
+  {
+    "slug": "qurantvapp-ustaz-zamri-hafs-murattal",
+    "name_ar": "أستاذ زامري",
+    "name_en": "Ustaz Zamri",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/zamri/",
+        "primary": true
+      }
+    ],
+    "surahs": "32,44,55,56,61,67,76",
+    "untimed": false,
+    "reciter_id": 154,
+    "moshaf_id": 154
+  },
+  {
+    "slug": "qurantvapp-ibrahim-al-jebreen-hafs-murattal",
+    "name_ar": "إبراهيم الجبرين",
+    "name_en": "Ibrahim Al-Jebreen",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/jbreen/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,6,7,8,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,30,31,32,33,34,35,36,37,38,39,40,41,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 2,
+    "moshaf_id": 2
+  },
+  {
+    "slug": "qurantvapp-ibrahim-aljormy-hafs-murattal",
+    "name_ar": "إبراهيم الجرمي",
+    "name_en": "Ibrahim Aljormy",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/jormy/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 164,
+    "moshaf_id": 164
+  },
+  {
+    "slug": "qurantvapp-ibrahem-assadan-hafs-murattal",
+    "name_ar": "إبراهيم السعدان",
+    "name_en": "Ibrahem Assadan",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/IbrahemSadan/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,4,5,6,7,8,9,11,12,15,16,19,20,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 204,
+    "moshaf_id": 204
+  },
+  {
+    "slug": "qurantvapp-ibrahim-al-shahri-hafs-murattal",
+    "name_ar": "إبراهيم الشهري",
+    "name_en": "Ibrahim Al-Shahri",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/Ibrahim-Al-Shahri/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 21191,
+    "moshaf_id": 10911
+  },
+  {
+    "slug": "qurantvapp-ibrahim-kshidan-qalon-murattal",
+    "name_ar": "إبراهيم كشيدان",
+    "name_en": "Ibrahim Kshidan",
+    "rewaya_id": "qalon",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/i_kshidan/Rewayat-Qalon-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 279,
+    "moshaf_id": 291
+  },
+  {
+    "slug": "qurantvapp-islam-sobhi-hafs-murattal",
+    "name_ar": "إسلام صبحي",
+    "name_en": "Islam Sobhi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/islam/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,38,41,42,43,44,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 253,
+    "moshaf_id": 253
+  },
+  {
+    "slug": "qurantvapp-alashri-omran-hafs-murattal",
+    "name_ar": "العشري عمران",
+    "name_en": "Alashri Omran",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/omran/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 15,
+    "moshaf_id": 15
+  },
+  {
+    "slug": "qurantvapp-alfateh-alzubair-dori-abu-amr-murattal",
+    "name_ar": "الفاتح محمد الزبير",
+    "name_en": "Alfateh Alzubair",
+    "rewaya_id": "dori-abu-amr",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/fateh/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 211,
+    "moshaf_id": 211
+  },
+  {
+    "slug": "qurantvapp-alwaleed-alshamsan-hafs-murattal",
+    "name_ar": "الوليد الشمسان",
+    "name_en": "Alwaleed Alshamsan",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/shamsan/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,8,17,19,20,24,25,26,29,30,31,32,33,35,36,37,41,42,43,44,45,47,48,49,50,51,52,53,54,55,56,57,58,59,60,62,63,64,65,66,67,68,70,75,76,81,82,85,86,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 21188,
+    "moshaf_id": 10910
+  },
+  {
+    "slug": "qurantvapp-bader-alturki-hafs-murattal",
+    "name_ar": "بدر التركي",
+    "name_en": "Bader Alturki",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/bader/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 254,
+    "moshaf_id": 254
+  },
+  {
+    "slug": "qurantvapp-jamal-addeen-alzailaie-hafs-murattal",
+    "name_ar": "جمال الدين الزيلعي",
+    "name_en": "Jamal Addeen Alzailaie",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/zilaie/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,19,32,54,67,70,73,91",
+    "untimed": false,
+    "reciter_id": 194,
+    "moshaf_id": 194
+  },
+  {
+    "slug": "qurantvapp-jamal-shaker-abdullah-hafs-murattal",
+    "name_ar": "جمال شاكر عبدالله",
+    "name_en": "Jamal Shaker Abdullah",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/jamal/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 18,
+    "moshaf_id": 18
+  },
+  {
+    "slug": "qurantvapp-junaid-adam-abdullah-hafs-murattal",
+    "name_ar": "جنيد آدم عبدالله",
+    "name_en": "Junaid Adam Abdullah",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/J-Abdullah/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21186,
+    "moshaf_id": 10908
+  },
+  {
+    "slug": "qurantvapp-hatem-fareed-alwaer-hafs-murattal",
+    "name_ar": "حاتم فريد الواعر",
+    "name_en": "Hatem Fareed Alwaer",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/hatem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 163,
+    "moshaf_id": 163
+  },
+  {
+    "slug": "qurantvapp-hasan-saleh-hafs-murattal",
+    "name_ar": "حسن صالح",
+    "name_en": "Hasan Saleh",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/h_saleh/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 286,
+    "moshaf_id": 299
+  },
+  {
+    "slug": "qurantvapp-hussain-alshaik-hafs-murattal",
+    "name_ar": "حسين آل الشيخ",
+    "name_en": "Hussain Alshaik",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/alshaik/",
+        "primary": true
+      }
+    ],
+    "surahs": "2,8,13,14,22,32,36,38,44,45,49,50,54,55,56,57,62,63,64,65,66,72,73,75,76,77,78,79,80,81,82,85,87,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 162,
+    "moshaf_id": 162
+  },
+  {
+    "slug": "qurantvapp-hamad-al-daghriri-hafs-murattal",
+    "name_ar": "حمد الدغريري",
+    "name_en": "Hamad Al Daghriri",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/hamad/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,12,13,19,21,23,27,29,31,36,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 19,
+    "moshaf_id": 19
+  },
+  {
+    "slug": "qurantvapp-khalid-alziyadi-hafs-murattal",
+    "name_ar": "خالد الزيادي",
+    "name_en": "Khalid Alziyadi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/K-Alzadi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21187,
+    "moshaf_id": 10909
+  },
+  {
+    "slug": "qurantvapp-khalid-alsharekh-hafs-murattal",
+    "name_ar": "خالد الشارخ",
+    "name_en": "Khalid Alsharekh",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/sharekh/",
+        "primary": true
+      }
+    ],
+    "surahs": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 247,
+    "moshaf_id": 247
+  },
+  {
+    "slug": "qurantvapp-khalid-al-shoraimy-hafs-murattal",
+    "name_ar": "خالد الشريمي",
+    "name_en": "Khalid Al-Shoraimy",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/shoraimy/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 218,
+    "moshaf_id": 218
+  },
+  {
+    "slug": "qurantvapp-khalid-algamdi-hafs-murattal",
+    "name_ar": "خالد الغامدي",
+    "name_en": "Khalid Algamdi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/ghamdi/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,39,40,41,42,43,45,46,47,49,50,51,52,53,54,55,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,73,75,76,77,80,82,83,85,86,87,88,89,90,91,92,93,94,95,97,98,99,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 226,
+    "moshaf_id": 226
+  },
+  {
+    "slug": "qurantvapp-khalid-al-wehabi-hafs-murattal",
+    "name_ar": "خالد الوهيبي",
+    "name_en": "Khalid Al-Wehabi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/whabi/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,24,25,29,30,31,32",
+    "untimed": false,
+    "reciter_id": 23,
+    "moshaf_id": 23
+  },
+  {
+    "slug": "qurantvapp-rami-aldeais-hafs-murattal",
+    "name_ar": "رامي الدعيس",
+    "name_en": "Rami Aldeais",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/rami/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 230,
+    "moshaf_id": 230
+  },
+  {
+    "slug": "qurantvapp-rasheed-ifrad-warsh-murattal",
+    "name_ar": "رشيد إفراد",
+    "name_en": "Rasheed Ifrad",
+    "rewaya_id": "warsh",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/ifrad/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,3,12,13,14,18,20,22,23,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,41,42,43,46,47,48,49,51,67,68,69,70,71,74,75,79,82,86,87,88,89,93,94,104,109,112",
+    "untimed": false,
+    "reciter_id": 26,
+    "moshaf_id": 26
+  },
+  {
+    "slug": "qurantvapp-rachid-belalya-hafs-murattal",
+    "name_ar": "رشيد بلعالية",
+    "name_en": "Rachid Belalya",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/bl3/",
+        "primary": true
+      },
+      {
+        "url": "https://server6.mp3quran.net/bl3/Rewayat-Warsh-A-n-Nafi/",
+        "primary": false
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 27,
+    "moshaf_id": 261
+  },
+  {
+    "slug": "qurantvapp-rodziah-abdulrahman-hafs-murattal",
+    "name_ar": "رضية عبدالرحمن",
+    "name_en": "Rodziah Abdulrahman",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/rziah/",
+        "primary": true
+      }
+    ],
+    "surahs": "3,8,33,35",
+    "untimed": false,
+    "reciter_id": 183,
+    "moshaf_id": 183
+  },
+  {
+    "slug": "qurantvapp-rogayah-sulong-hafs-murattal",
+    "name_ar": "رقية سولونق",
+    "name_en": "Rogayah Sulong",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/rogiah/",
+        "primary": true
+      }
+    ],
+    "surahs": "36",
+    "untimed": false,
+    "reciter_id": 184,
+    "moshaf_id": 184
+  },
+  {
+    "slug": "qurantvapp-ramadan-shakoor-hafs-murattal",
+    "name_ar": "رمضان شكور",
+    "name_en": "Ramadan Shakoor",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/shakoor/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,9,10,12,13,14,23,24,26,29,35,36,39,40,42,43,47,48,49,50,51,57,58,59,60,63,68,69,70,71,72,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 227,
+    "moshaf_id": 227
+  },
+  {
+    "slug": "qurantvapp-zakaria-hamamah-hafs-murattal",
+    "name_ar": "زكريا حمامة",
+    "name_en": "Zakaria Hamamah",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 28,
+    "moshaf_id": 28
+  },
+  {
+    "slug": "qurantvapp-sapinah-mamat-hafs-murattal",
+    "name_ar": "سابينة مامات",
+    "name_en": "Sapinah Mamat",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/mamat/",
+        "primary": true
+      }
+    ],
+    "surahs": "3,14,21,22",
+    "untimed": false,
+    "reciter_id": 185,
+    "moshaf_id": 185
+  },
+  {
+    "slug": "qurantvapp-sami-al-hasn-hafs-murattal",
+    "name_ar": "سامي الحسن",
+    "name_en": "Sami Al-Hasn",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/sami_hsn/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,19,20,24,26,27,32,34,50,55,81,82,86,87,88,91,92,93,94,95,97,102,104,105,109,110,111,112",
+    "untimed": false,
+    "reciter_id": 34,
+    "moshaf_id": 34
+  },
+  {
+    "slug": "qurantvapp-sami-al-dosari-hafs-murattal",
+    "name_ar": "سامي الدوسري",
+    "name_en": "Sami Al-Dosari",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/sami_dosr/",
+        "primary": true
+      }
+    ],
+    "surahs": "2,8,9,12,13,14,29,30,31,32,33,34,35,39,40,41,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 35,
+    "moshaf_id": 35
+  },
+  {
+    "slug": "qurantvapp-saad-almqren-hafs-murattal",
+    "name_ar": "سعد المقرن",
+    "name_en": "Saad Almqren",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/saad/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 257,
+    "moshaf_id": 257
+  },
+  {
+    "slug": "qurantvapp-salman-alsadeiq-hafs-murattal",
+    "name_ar": "سلمان الصديق",
+    "name_en": "Salman Alsadeiq",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/s_sadeiq/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 285,
+    "moshaf_id": 298
+  },
+  {
+    "slug": "qurantvapp-salman-alotaibi-hafs-murattal",
+    "name_ar": "سلمان العتيبي",
+    "name_en": "Salman Alotaibi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/salman/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,10,11,14,16,19,23,25,32,36,38,39,40,46,48,50,52,55,56,58,59,61,62,63,64,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 240,
+    "moshaf_id": 240
+  },
+  {
+    "slug": "qurantvapp-sayeed-ramadan-hafs-murattal",
+    "name_ar": "سيد رمضان",
+    "name_en": "Sayeed Ramadan",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/sayed/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 36,
+    "moshaf_id": 36
+  },
+  {
+    "slug": "qurantvapp-saidin-abdulrahman-hafs-murattal",
+    "name_ar": "سيدين عبدالرحمن",
+    "name_en": "Saidin Abdulrahman",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/sideen/",
+        "primary": true
+      }
+    ],
+    "surahs": "17,23,56,75",
+    "untimed": false,
+    "reciter_id": 187,
+    "moshaf_id": 187
+  },
+  {
+    "slug": "qurantvapp-saleh-al-talib-hafs-murattal",
+    "name_ar": "صالح آل طالب",
+    "name_en": "Saleh Al-Talib",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/tlb/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,25,34,38,39,44,45,46,47,55,56,57,58,59,60,61,70,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86",
+    "untimed": false,
+    "reciter_id": 41,
+    "moshaf_id": 41
+  },
+  {
+    "slug": "qurantvapp-saleh-alshamrani-hafs-murattal",
+    "name_ar": "صالح الشمراني",
+    "name_en": "Saleh Alshamrani",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/shamrani/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 300,
+    "moshaf_id": 300
+  },
+  {
+    "slug": "qurantvapp-saleh-alquraishi-hafs-murattal",
+    "name_ar": "صالح القريشي",
+    "name_en": "Saleh Alquraishi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/s_alquraishi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 290,
+    "moshaf_id": 306
+  },
+  {
+    "slug": "qurantvapp-saleh-al-habdan-hafs-murattal",
+    "name_ar": "صالح الهبدان",
+    "name_en": "Saleh Al-Habdan",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/habdan/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 42,
+    "moshaf_id": 42
+  },
+  {
+    "slug": "qurantvapp-salah-musali-hafs-murattal",
+    "name_ar": "صلاح مصلي",
+    "name_en": "Salah Musali",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/musali/",
+        "primary": true
+      }
+    ],
+    "surahs": "50,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 246,
+    "moshaf_id": 246
+  },
+  {
+    "slug": "qurantvapp-tareq-abdulgani-daawob-qalon-murattal",
+    "name_ar": "طارق عبدالغني دعوب",
+    "name_en": "Tareq Abdulgani daawob",
+    "rewaya_id": "qalon",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/tareq/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 212,
+    "moshaf_id": 212
+  },
+  {
+    "slug": "qurantvapp-adel-al-khalbany-hafs-murattal",
+    "name_ar": "عادل الكلباني",
+    "name_en": "Adel Al-Khalbany",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/a_klb/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 160,
+    "moshaf_id": 160
+  },
+  {
+    "slug": "qurantvapp-asim-al-luhaidan-hafs-murattal",
+    "name_ar": "عاصم اللحیدان",
+    "name_en": "Asim Al-Luhaidan",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server7.mp3quran.net/asim/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21201,
+    "moshaf_id": 10922
+  },
+  {
+    "slug": "qurantvapp-abdelmoujib-benkirane-warsh-murattal",
+    "name_ar": "عبد المجيب بنكيران",
+    "name_en": "Abdelmoujib Benkirane",
+    "rewaya_id": "warsh",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/A-Benkirane/Rewayat-Warsh-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21199,
+    "moshaf_id": 10920
+  },
+  {
+    "slug": "qurantvapp-abdulelah-bin-aoun-hafs-murattal",
+    "name_ar": "عبدالإله بن عون",
+    "name_en": "Abdulelah bin Aoun",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_binaoun/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 136,
+    "moshaf_id": 136
+  },
+  {
+    "slug": "qurantvapp-abdulbadi-ghailan-hafs-murattal",
+    "name_ar": "عبدالبديع غيلان",
+    "name_en": "Abdulbadi Ghailan",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/A-Ghailan/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21148,
+    "moshaf_id": 10915
+  },
+  {
+    "slug": "qurantvapp-abdulrahman-alshahhat-hafs-murattal",
+    "name_ar": "عبدالرحمن الشحات",
+    "name_en": "Abdulrahman Alshahhat",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_alshahhat/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 287,
+    "moshaf_id": 302
+  },
+  {
+    "slug": "qurantvapp-abdul-rahman-bin-abdul-ra-hafs-murattal",
+    "name_ar": "عبدالرحمن بن عبدالرزاق البدر",
+    "name_en": "Abdul Rahman bin Abdul Razzaq Al Badr",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/A-AlBadr/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21193,
+    "moshaf_id": 10913
+  },
+  {
+    "slug": "qurantvapp-abdulaziz-alasiri-hafs-murattal",
+    "name_ar": "عبدالعزيز العسيري",
+    "name_en": "Abdulaziz Alasiri",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/abdulazizasiri/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30,31,32,35,36,37,39,40,41,45,49,50,51,52,53,54,55,56,57,63,66,67,69,70,71,72,73,75,76,77,78,80,81,83,86,87,88,89,93,99,101,107,110,112",
+    "untimed": false,
+    "reciter_id": 263,
+    "moshaf_id": 263
+  },
+  {
+    "slug": "qurantvapp-abdelaziz-sheim-warsh-murattal",
+    "name_ar": "عبدالعزيز سحيم",
+    "name_en": "Abdelaziz sheim",
+    "rewaya_id": "warsh",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_sheim/Rewayat-Warsh-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,18,19,31,49,50,51,55,56,66,67,72,75,87,89,112",
+    "untimed": false,
+    "reciter_id": 307,
+    "moshaf_id": 319
+  },
+  {
+    "slug": "qurantvapp-abdulghani-abdullah-hafs-murattal",
+    "name_ar": "عبدالغني عبدالله",
+    "name_en": "Abdulghani Abdullah",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/abdulgani/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,5,6,9,67,87,91,92,94,95,97,114",
+    "untimed": false,
+    "reciter_id": 188,
+    "moshaf_id": 188
+  },
+  {
+    "slug": "qurantvapp-abdulkareem-alhazmi-hafs-murattal",
+    "name_ar": "عبدالكريم الحازمي",
+    "name_en": "Abdulkareem Alhazmi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_alhazmi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 304,
+    "moshaf_id": 316
+  },
+  {
+    "slug": "qurantvapp-abdullah-al-burimi-hafs-murattal",
+    "name_ar": "عبدالله البريمي",
+    "name_en": "Abdullah Al-Burimi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/brmi/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,19,23,24,25,31,32,36,49,50,55,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 57,
+    "moshaf_id": 57
+  },
+  {
+    "slug": "qurantvapp-abdullah-alqarafi-hafs-murattal",
+    "name_ar": "عبدالله القرافي",
+    "name_en": "Abdullah Alqarafi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_alqrafi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21136,
+    "moshaf_id": 10914
+  },
+  {
+    "slug": "qurantvapp-abdullah-al-kandari-hafs-murattal",
+    "name_ar": "عبدالله الكندري",
+    "name_en": "Abdullah Al-Kandari",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/Abdullahk/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 202,
+    "moshaf_id": 202
+  },
+  {
+    "slug": "qurantvapp-abdullah-al-mishal-hafs-murattal",
+    "name_ar": "عبدالله المشعل",
+    "name_en": "Abdullah Al-Mishal",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a-almishal/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "8,14,41,49,50,51,52,53,54,55,56",
+    "untimed": false,
+    "reciter_id": 306,
+    "moshaf_id": 318
+  },
+  {
+    "slug": "qurantvapp-abdullah-bukhari-hafs-murattal",
+    "name_ar": "عبدالله بخاري",
+    "name_en": "Abdullah Bukhari",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 29,
+    "moshaf_id": 281
+  },
+  {
+    "slug": "qurantvapp-abdullah-abdal-hafs-murattal",
+    "name_ar": "عبدالله عبدل",
+    "name_en": "Abdullah Abdal",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_abdl/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 98,
+    "moshaf_id": 284
+  },
+  {
+    "slug": "qurantvapp-abdullah-qaulan-hafs-murattal",
+    "name_ar": "عبدالله غيلان",
+    "name_en": "Abdullah Qaulan",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/gulan/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 63,
+    "moshaf_id": 63
+  },
+  {
+    "slug": "qurantvapp-abdullah-fahmi-hafs-murattal",
+    "name_ar": "عبدالله فهمي",
+    "name_en": "Abdullah Fahmi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/fhmi/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,36,53,75",
+    "untimed": false,
+    "reciter_id": 189,
+    "moshaf_id": 189
+  },
+  {
+    "slug": "qurantvapp-abdullah-kamel-hafs-murattal",
+    "name_ar": "عبدالله كامل",
+    "name_en": "Abdullah Kamel",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/kamel/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 267,
+    "moshaf_id": 267
+  },
+  {
+    "slug": "qurantvapp-abdulmajeed-al-arkani-hafs-murattal",
+    "name_ar": "عبدالمجيد الأركاني",
+    "name_en": "Abdulmajeed Al-Arkani",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server7.mp3quran.net/m_arkani/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,12,14,15,18,19,21,22,40,50,56,76,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 228,
+    "moshaf_id": 228
+  },
+  {
+    "slug": "qurantvapp-abdulmohsin-al-askar-hafs-murattal",
+    "name_ar": "عبدالمحسن العسكر",
+    "name_en": "Abdulmohsin Al-Askar",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/askr/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,7,55",
+    "untimed": false,
+    "reciter_id": 68,
+    "moshaf_id": 68
+  },
+  {
+    "slug": "qurantvapp-abdulmalik-alaskar-hafs-murattal",
+    "name_ar": "عبدالملك العسكر",
+    "name_en": "Abdulmalik Alaskar",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/a_alaskar/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "30,36,40,69,70,71,75",
+    "untimed": false,
+    "reciter_id": 303,
+    "moshaf_id": 315
+  },
+  {
+    "slug": "qurantvapp-othman-al-ansary-hafs-murattal",
+    "name_ar": "عثمان الأنصاري",
+    "name_en": "Othman Al-Ansary",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/Othmn/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,40,41,42,43,44,46,47,48,49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66,67,68,69,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 216,
+    "moshaf_id": 216
+  },
+  {
+    "slug": "qurantvapp-ali-abo-hashim-hafs-murattal",
+    "name_ar": "علي أبو هاشم",
+    "name_en": "Ali Abo-Hashim",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/abo_hashim/",
+        "primary": true
+      }
+    ],
+    "surahs": "11,12,18,19,21,25,50,51,52,53,54,55,56,57",
+    "untimed": false,
+    "reciter_id": 73,
+    "moshaf_id": 73
+  },
+  {
+    "slug": "qurantvapp-alijon-qori-hafs-murattal",
+    "name_ar": "عليجان قوري حمدان",
+    "name_en": "Alijon Qori",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/Alijon/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21196,
+    "moshaf_id": 10917
+  },
+  {
+    "slug": "qurantvapp-omar-al-darweez-hafs-murattal",
+    "name_ar": "عمر الدريويز",
+    "name_en": "Omar Al Darweez",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/darweez/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 260,
+    "moshaf_id": 260
+  },
+  {
+    "slug": "qurantvapp-issa-omar-sanankoua-hafs-murattal",
+    "name_ar": "عيسى عمر سناكو",
+    "name_en": "Issa Omar Sanankoua",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/i_sanankoua/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 288,
+    "moshaf_id": 303
+  },
+  {
+    "slug": "qurantvapp-fouad-alkhamery-hafs-murattal",
+    "name_ar": "فؤاد الخامري",
+    "name_en": "Fouad Alkhamery",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/f_khamery/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 281,
+    "moshaf_id": 293
+  },
+  {
+    "slug": "qurantvapp-fahad-al-otaibi-hafs-murattal",
+    "name_ar": "فهد العتيبي",
+    "name_en": "Fahad Al-Otaibi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/fahad_otibi/",
+        "primary": true
+      }
+    ],
+    "surahs": "50,56,69,72,73,74,75,76",
+    "untimed": false,
+    "reciter_id": 82,
+    "moshaf_id": 82
+  },
+  {
+    "slug": "qurantvapp-fahad-al-kandari-hafs-murattal",
+    "name_ar": "فهد الكندري",
+    "name_en": "Fahad Al-Kandari",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/kndri/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,6,12,14,17,18,19,22,23,30,31,36,42,51,52,53,54,55,56,57,58,59,60,61,62,63,64,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 83,
+    "moshaf_id": 83
+  },
+  {
+    "slug": "qurantvapp-fawaz-alkabi-hafs-murattal",
+    "name_ar": "فواز الكعبي",
+    "name_en": "Fawaz Alkabi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/fawaz/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22,23,25,26,27,28,29,30,33,35,36,39,40,41,49,54,55,56,57,58,59,62,63,66,67,73,78,87,109,112",
+    "untimed": false,
+    "reciter_id": 84,
+    "moshaf_id": 84
+  },
+  {
+    "slug": "qurantvapp-faisal-al-hajry-hafs-murattal",
+    "name_ar": "فيصل الهاجري",
+    "name_en": "Faisal Al-Hajry",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/f_hajry/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 301,
+    "moshaf_id": 307
+  },
+  {
+    "slug": "qurantvapp-lafi-al-oni-hafs-murattal",
+    "name_ar": "لافي العوني",
+    "name_en": "Lafi Al-Oni",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/lafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "3,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28,29,30,31,32,33,35,36,37,38,39,40,41,42,43,44,45,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 85,
+    "moshaf_id": 85
+  },
+  {
+    "slug": "qurantvapp-mal-allah-abdulrhman-alja-hafs-murattal",
+    "name_ar": "مال الله عبدالرحمن الجابر",
+    "name_en": "Mal-Allah Abdulrhman Aljaber",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/mal-allah_jaber/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 284,
+    "moshaf_id": 297
+  },
+  {
+    "slug": "qurantvapp-maher-shakhashero-hafs-murattal",
+    "name_ar": "ماهر شخاشيرو",
+    "name_en": "Maher Shakhashero",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/shaksh/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 149,
+    "moshaf_id": 149
+  },
+  {
+    "slug": "qurantvapp-muhammad-abu-sneina-qalon-murattal",
+    "name_ar": "محمد أبو سنينة",
+    "name_en": "Muhammad Abu Sneina",
+    "rewaya_id": "qalon",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/sneineh/Rewayat-Qalon-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 274,
+    "moshaf_id": 274
+  },
+  {
+    "slug": "qurantvapp-mohammed-al-amin-qeniwa-qalon-murattal",
+    "name_ar": "محمد الأمين قنيوة",
+    "name_en": "Mohammed Al-Amin Qeniwa",
+    "rewaya_id": "qalon",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/qeniwa/Rewayat-Qalon-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 275,
+    "moshaf_id": 275
+  },
+  {
+    "slug": "qurantvapp-muhammad-al-hafiz-hafs-murattal",
+    "name_ar": "محمد الحافظ",
+    "name_en": "Muhammad Al-Hafiz",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/hafz/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,19,31",
+    "untimed": false,
+    "reciter_id": 190,
+    "moshaf_id": 190
+  },
+  {
+    "slug": "qurantvapp-mohammed-al-zubaidi-hafs-murattal",
+    "name_ar": "محمد الزبيدي",
+    "name_en": "Mohammed Al-Zubaidi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/M-AlZubaidi/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21197,
+    "moshaf_id": 10918
+  },
+  {
+    "slug": "qurantvapp-muhammad-al-faqih-hafs-murattal",
+    "name_ar": "محمد الفقيه",
+    "name_en": "Muhammad Al Faqih",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/M_Alfaqih/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21184,
+    "moshaf_id": 10906
+  },
+  {
+    "slug": "qurantvapp-mohammed-al-muhasny-hafs-murattal",
+    "name_ar": "محمد المحيسني",
+    "name_en": "Mohammed Al-Muhasny",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/mhsny/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 108,
+    "moshaf_id": 108
+  },
+  {
+    "slug": "qurantvapp-mohammad-almonshed-hafs-murattal",
+    "name_ar": "محمد المنشد",
+    "name_en": "Mohammad AlMonshed",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/monshed/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,80,81,82,83,84,85,86,87,88,90,91,92,93,94,95,96,97,98,99,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 150,
+    "moshaf_id": 150
+  },
+  {
+    "slug": "qurantvapp-mohammed-hafas-ali-hafs-murattal",
+    "name_ar": "محمد حفص علي",
+    "name_en": "Mohammed Hafas Ali",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/hfs/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,9,11,13,67",
+    "untimed": false,
+    "reciter_id": 191,
+    "moshaf_id": 191
+  },
+  {
+    "slug": "qurantvapp-muhammed-khairul-anuar-hafs-murattal",
+    "name_ar": "محمد خير النور",
+    "name_en": "Muhammed Khairul Anuar",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/malaysia/nor/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,12,19,31",
+    "untimed": false,
+    "reciter_id": 192,
+    "moshaf_id": 192
+  },
+  {
+    "slug": "qurantvapp-mohammad-refat-hafs-murattal",
+    "name_ar": "محمد رفعت",
+    "name_en": "Mohammad Refat",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/refat/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,10,11,12,17,18,19,20,48,54,55,56,69,72,73,75,76,77,78,79,81,82,83,85,86,87,88,89,96,98,100",
+    "untimed": false,
+    "reciter_id": 241,
+    "moshaf_id": 241
+  },
+  {
+    "slug": "qurantvapp-mohammad-al-abdullah-dori-kisaai-murattal",
+    "name_ar": "محمد عبدالحكيم سعيد العبدالله",
+    "name_en": "Mohammad Al-Abdullah",
+    "rewaya_id": "dori-kisaai",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/abdullah/Rewayat-AlDorai-A-n-Al-Kisa-ai/",
+        "primary": true
+      },
+      {
+        "url": "https://server9.mp3quran.net/abdullah/",
+        "primary": false
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 116,
+    "moshaf_id": 117
+  },
+  {
+    "slug": "qurantvapp-mohammed-osman-khan-hafs-murattal",
+    "name_ar": "محمد عثمان خان",
+    "name_en": "Mohammed Osman Khan",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/khan/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 206,
+    "moshaf_id": 206
+  },
+  {
+    "slug": "qurantvapp-mahmood-al-rifai-hafs-murattal",
+    "name_ar": "محمود الرفاعي",
+    "name_en": "Mahmood Al rifai",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/mrifai/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 165,
+    "moshaf_id": 165
+  },
+  {
+    "slug": "qurantvapp-mahmood-alsheimy-dori-kisaai-murattal",
+    "name_ar": "محمود الشيمي",
+    "name_en": "Mahmood AlSheimy",
+    "rewaya_id": "dori-kisaai",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server10.mp3quran.net/sheimy/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 151,
+    "moshaf_id": 151
+  },
+  {
+    "slug": "qurantvapp-mahmoud-harfoush-hafs-murattal",
+    "name_ar": "محمود حرفوش",
+    "name_en": "Mahmoud Harfoush",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/M-Harfoush/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21202,
+    "moshaf_id": 10923
+  },
+  {
+    "slug": "qurantvapp-mahmoud-abdul-hakam-hafs-murattal",
+    "name_ar": "محمود عبدالحكم",
+    "name_en": "Mahmoud Abdul Hakam",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/m_abdelhakam/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 277,
+    "moshaf_id": 277
+  },
+  {
+    "slug": "qurantvapp-mukhtar-al-haj-hafs-murattal",
+    "name_ar": "مختار الحاج",
+    "name_en": "Mukhtar Al-Haj",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/mukhtar_haj/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 47,
+    "moshaf_id": 283
+  },
+  {
+    "slug": "qurantvapp-marwan-alakri-qalon-murattal",
+    "name_ar": "مروان العكري",
+    "name_en": "Marwan Alakri",
+    "rewaya_id": "qalon",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/m_akri/Rewayat-Qalon-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 237,
+    "moshaf_id": 287
+  },
+  {
+    "slug": "qurantvapp-mustafa-al-lahoni-hafs-murattal",
+    "name_ar": "مصطفى اللاهوني",
+    "name_en": "Mustafa Al-Lahoni",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/lahoni/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 126,
+    "moshaf_id": 126
+  },
+  {
+    "slug": "qurantvapp-mustafa-raad-alazawy-hafs-murattal",
+    "name_ar": "مصطفى رعد العزاوي",
+    "name_en": "Mustafa raad Alazawy",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/ra3ad/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 127,
+    "moshaf_id": 127
+  },
+  {
+    "slug": "qurantvapp-muamar-from-indonesia-hafs-murattal",
+    "name_ar": "معمر الأندونيسي",
+    "name_en": "Muamar (From Indonesia)",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/muamr/",
+        "primary": true
+      }
+    ],
+    "surahs": "36,93,94,97,101,109,110,111",
+    "untimed": false,
+    "reciter_id": 128,
+    "moshaf_id": 128
+  },
+  {
+    "slug": "qurantvapp-moeedh-alharthi-hafs-murattal",
+    "name_ar": "معيض الحارثي",
+    "name_en": "Moeedh Alharthi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/harthi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 197,
+    "moshaf_id": 197
+  },
+  {
+    "slug": "qurantvapp-muftah-alsaltany-ibn-dhakwan-murattal",
+    "name_ar": "مفتاح السلطني",
+    "name_en": "Muftah Alsaltany",
+    "rewaya_id": "ibn-dhakwan",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/muftah_sultany/Rewayat_Ibn-Thakwan-A-n-Ibn-Amer/",
+        "primary": true
+      },
+      {
+        "url": "https://server14.mp3quran.net/muftah_sultany/Rewayat_Sho-bah-A-n-Asim/",
+        "primary": false
+      },
+      {
+        "url": "https://server14.mp3quran.net/muftah_sultany/Rewayat-Hafs-A-n-Assem/",
+        "primary": false
+      },
+      {
+        "url": "https://server14.mp3quran.net/muftah_sultany/Rewayat-AlDorai-A-n-Al-Kisa-ai/",
+        "primary": false
+      },
+      {
+        "url": "https://server14.mp3quran.net/muftah_sultany/Rewayat-Aldori-A-n-Abi-Amr/",
+        "primary": false
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 129,
+    "moshaf_id": 196
+  },
+  {
+    "slug": "qurantvapp-mousa-bilal-hafs-murattal",
+    "name_ar": "موسى بلال",
+    "name_en": "Mousa Bilal",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/bilal/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 161,
+    "moshaf_id": 161
+  },
+  {
+    "slug": "qurantvapp-nasser-al-obaid-hafs-murattal",
+    "name_ar": "ناصر العبيد",
+    "name_en": "Nasser Al obaid",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/obaid/",
+        "primary": true
+      }
+    ],
+    "surahs": "3,7,10,13,14,15,19,21,25,26,27,32,35,36,37,38,39,40,41,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 166,
+    "moshaf_id": 166
+  },
+  {
+    "slug": "qurantvapp-nasser-alosfor-hafs-murattal",
+    "name_ar": "ناصر العصفور",
+    "name_en": "Nasser Alosfor",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/alosfor/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 248,
+    "moshaf_id": 248
+  },
+  {
+    "slug": "qurantvapp-nasser-almajed-hafs-murattal",
+    "name_ar": "ناصر الماجد",
+    "name_en": "Nasser Almajed",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server14.mp3quran.net/nasser_almajed/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 251,
+    "moshaf_id": 251
+  },
+  {
+    "slug": "qurantvapp-nathier-almalki-hafs-murattal",
+    "name_ar": "نذير المالكي",
+    "name_en": "Nathier Almalki",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net//nathier/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 271,
+    "moshaf_id": 271
+  },
+  {
+    "slug": "qurantvapp-noreen-mohammad-siddiq-dori-abu-amr-murattal",
+    "name_ar": "نورين محمد صديق",
+    "name_en": "Noreen Mohammad Siddiq",
+    "rewaya_id": "dori-abu-amr",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/nourin_siddig/Rewayat-Aldori-A-n-Abi-Amr/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 138,
+    "moshaf_id": 138
+  },
+  {
+    "slug": "qurantvapp-hashim-abu-dalal-hafs-murattal",
+    "name_ar": "هاشم أبو دلال",
+    "name_en": "Hashim Abu Dalal",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/h_abudalal/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 280,
+    "moshaf_id": 292
+  },
+  {
+    "slug": "qurantvapp-hazza-al-balushi-hafs-murattal",
+    "name_ar": "هزاع البلوشي",
+    "name_en": "Hazza Al-Balushi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/hazza/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,6,8,12,13,14,15,17,18,19,20,21,22,25,29,30,31,32,34,35,36,37,38,39,40,41,42,43,44,45,46,47,49,50,51,52,53,54,55,56,57,61,63,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 231,
+    "moshaf_id": 231
+  },
+  {
+    "slug": "qurantvapp-hitham-aljadani-hafs-murattal",
+    "name_ar": "هيثم الجدعاني",
+    "name_en": "Hitham Aljadani",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/hitham/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,61,62,63,64,67,68,69,70,72,75,76,77,78,79,80,81,82,83,84,85,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 255,
+    "moshaf_id": 255
+  },
+  {
+    "slug": "qurantvapp-wasel-almethen-hafs-murattal",
+    "name_ar": "واصل المذن",
+    "name_en": "Wasel Almethen",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/wasel/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "8,9,36,38,42,45,50,59,60",
+    "untimed": false,
+    "reciter_id": 167,
+    "moshaf_id": 167
+  },
+  {
+    "slug": "qurantvapp-wishear-hayder-arbili-hafs-murattal",
+    "name_ar": "وشيار حيدر اربيلي",
+    "name_en": "Wishear Hayder Arbili",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server11.mp3quran.net/wishear/",
+        "primary": true
+      }
+    ],
+    "surahs": "55,56",
+    "untimed": false,
+    "reciter_id": 209,
+    "moshaf_id": 209
+  },
+  {
+    "slug": "qurantvapp-walid-al-dulaimi-hafs-murattal",
+    "name_ar": "وليد الدليمي",
+    "name_en": "Walid Al-Dulaimi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server8.mp3quran.net/dlami/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,8,11,12,17,19,31,37,39,41,45,48,49,50,51,52,53,54,63,70,75,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 90,
+    "moshaf_id": 90
+  },
+  {
+    "slug": "qurantvapp-waleed-alnaehi-qalon-nasheet-murattal",
+    "name_ar": "وليد النائحي",
+    "name_en": "Waleed Alnaehi",
+    "rewaya_id": "qalon-nasheet",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/waleed/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 91,
+    "moshaf_id": 91
+  },
+  {
+    "slug": "qurantvapp-yasser-al-faylakawi-hafs-murattal",
+    "name_ar": "ياسر الفيلكاوي",
+    "name_en": "Yasser Al-Faylakawi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server6.mp3quran.net/fyl/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,39,40,41,44,56,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,113,114",
+    "untimed": false,
+    "reciter_id": 94,
+    "moshaf_id": 94
+  },
+  {
+    "slug": "qurantvapp-yasser-al-qurashi-hafs-murattal",
+    "name_ar": "ياسر القرشي",
+    "name_en": "Yasser Al-Qurashi",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/qurashi/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 93,
+    "moshaf_id": 93
+  },
+  {
+    "slug": "qurantvapp-yasser-al-mazroyee-yaqub-murattal",
+    "name_ar": "ياسر المزروعي",
+    "name_en": "Yasser Al-Mazroyee",
+    "rewaya_id": "yaqub",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/mzroyee/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 95,
+    "moshaf_id": 95
+  },
+  {
+    "slug": "qurantvapp-yasser-salamah-hafs-murattal",
+    "name_ar": "ياسر سلامة",
+    "name_en": "Yasser Salamah",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/salamah/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 152,
+    "moshaf_id": 152
+  },
+  {
+    "slug": "qurantvapp-yahya-hawwa-hafs-murattal",
+    "name_ar": "يحيى حوا",
+    "name_en": "Yahya Hawwa",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server12.mp3quran.net/yahya/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 96,
+    "moshaf_id": 96
+  },
+  {
+    "slug": "qurantvapp-youssef-edghouch-hafs-murattal",
+    "name_ar": "يوسف الدغوش",
+    "name_en": "Youssef Edghouch",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server7.mp3quran.net/dgsh/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,3,55,67,71,73,75,78,82,85,87,88,90,91,92,100,105,106,107,108,109,110,111,112,113,114",
+    "untimed": false,
+    "reciter_id": 207,
+    "moshaf_id": 207
+  },
+  {
+    "slug": "qurantvapp-yousef-alshoaey-hafs-murattal",
+    "name_ar": "يوسف الشويعي",
+    "name_en": "Yousef Alshoaey",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server9.mp3quran.net/yousef/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 97,
+    "moshaf_id": 97
+  },
+  {
+    "slug": "qurantvapp-yusuf-alaidroos-hafs-murattal",
+    "name_ar": "يوسف العيدروس",
+    "name_en": "Yusuf ALaidroos",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/Y_ALaidroos/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      }
+    ],
+    "surahs": "all",
+    "untimed": false,
+    "reciter_id": 21182,
+    "moshaf_id": 10904
+  },
+  {
+    "slug": "qurantvapp-younes-souilass-warsh-murattal",
+    "name_ar": "يونس اسويلص",
+    "name_en": "Younes Souilass",
+    "rewaya_id": "warsh",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "url": "https://server16.mp3quran.net/souilass/Rewayat-Warsh-A-n-Nafi/",
+        "primary": true
+      }
+    ],
+    "surahs": "1,2,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,45,46,47,48,50,51,52,53,54,56,57,67,71,73,76,77,78,79,80,81,82,86,89,90,91,93,95,97,112",
+    "untimed": false,
+    "reciter_id": 264,
+    "moshaf_id": 264
+  }
+]

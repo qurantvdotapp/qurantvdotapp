@@ -19314,5 +19314,27 @@
     "reviewed_at": "2026-09-05T01:53:21.733597+00:00",
     "ayah_count": 13,
     "total_duration_sec": 377.48
+  },
+  "-30_900046_66": {
+    "key": "-30_900046_66",
+    "reciter_id": -30,
+    "moshaf_id": 900046,
+    "surah_id": 66,
+    "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-05T01:53:56.373787+00:00",
+    "ayah_count": 13,
+    "total_duration_sec": 320.78
+  },
+  "-30_66": {
+    "key": "-30_900046_66",
+    "reciter_id": -30,
+    "moshaf_id": 900046,
+    "surah_id": 66,
+    "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-05T01:53:56.373787+00:00",
+    "ayah_count": 13,
+    "total_duration_sec": 320.78
   }
 }

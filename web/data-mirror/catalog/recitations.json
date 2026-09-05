@@ -803,6 +803,31 @@
     "version": "a472d961c7"
   },
   {
+    "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
+    "name_ar": "أحمد عيسى المعصراوي",
+    "name_en": "Ahmad Issa Al Maasaraawi",
+    "rewaya_id": "yaqub",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/a_maasaraawi/Rewayat-Rawh-A-n-Yakoob-Alhadrami/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ahmad-issa-al-maas-rawh/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "107",
+    "added_at": "2025-08-30T21:47:54.000000Z",
+    "read_id": 10919,
+    "version": "a4d8249e39"
+  },
+  {
     "slug": "qurantvapp-ahmad-nauina-hafs",
     "name_ar": "أحمد نعينع",
     "name_en": "Ahmad Nauina",

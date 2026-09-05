@@ -1255,5 +1255,14 @@
     "folder_url": "https://server16.mp3quran.net/a_maasaraawi/Rewayat-Rawh-A-n-Yakoob-Alhadrami/",
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=10919"
+  },
+  {
+    "id": -30,
+    "name": "أحمد عيسى المعصراوي",
+    "rewaya": "قراءة يعقوب الحضرمي بروايتي رويس وروح · مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-ahmad-issa-al-maas-rawh/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-30",
+    "slug": "qurantvapp-ahmad-issa-al-maas-rawh"
   }
 ]

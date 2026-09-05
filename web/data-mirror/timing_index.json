@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-05T00:53:18Z",
+  "generated_at": "2026-09-05T01:06:05Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -388,6 +388,14 @@
       "slug": "qurantvapp-abdulbasit-mojawwad",
       "surahs": [
         9
+      ],
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-ahmad-issa-al-maas-rawh/": {
+      "read_id": -30,
+      "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
+      "surahs": [
+        107
       ],
       "clean": true
     },

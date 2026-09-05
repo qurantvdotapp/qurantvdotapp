@@ -822,10 +822,10 @@
         "derived": true
       }
     ],
-    "surahs": "107-114",
+    "surahs": "51,107-114",
     "added_at": "2025-08-30T21:47:54.000000Z",
     "read_id": 10919,
-    "version": "66ecb886cf"
+    "version": "477ebca30a"
   },
   {
     "slug": "qurantvapp-ahmad-nauina-hafs",

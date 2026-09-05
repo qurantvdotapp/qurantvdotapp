@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-05T01:07:02Z",
+  "generated_at": "2026-09-05T01:07:36Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -398,7 +398,8 @@
         107,
         108,
         109,
-        110
+        110,
+        111
       ],
       "clean": true
     },

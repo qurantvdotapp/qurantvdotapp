@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-05T01:56:47Z",
+  "generated_at": "2026-09-06T00:45:26Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -25,6 +25,12 @@
     "https://archive.org/download/qurantvapp-abdulrasheed-soufi-hafs-murattal/": {
       "read_id": 64,
       "slug": "qurantvapp-abdulrasheed-soufi-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server8.mp3quran.net/qasm/": {
+      "read_id": 67,
+      "slug": "qurantvapp-abdulmohsen-al-qas-hafs",
       "surahs": "all",
       "clean": true
     },
@@ -424,6 +430,14 @@
       ],
       "clean": true
     },
+    "https://archive.org/download/qurantvapp-abdulmohsen-al-qas-hafs/": {
+      "read_id": -15,
+      "slug": "qurantvapp-abdulmohsen-al-qas-hafs",
+      "surahs": [
+        27
+      ],
+      "clean": true
+    },
     "https://server11.mp3quran.net/qari/": {
       "read_id": 14,
       "slug": "qurantvapp-qari-warsh",
@@ -692,12 +706,6 @@
     "https://server6.mp3quran.net/mohsin_harthi/": {
       "read_id": 66,
       "slug": "qurantvapp-abdulmohsin-al-har-hafs",
-      "surahs": "all",
-      "clean": true
-    },
-    "https://server8.mp3quran.net/qasm/": {
-      "read_id": 67,
-      "slug": "qurantvapp-abdulmohsen-al-qas-hafs",
       "surahs": "all",
       "clean": true
     },

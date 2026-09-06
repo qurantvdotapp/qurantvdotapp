@@ -19380,5 +19380,27 @@
     "reviewed_at": "2026-09-05T01:56:47.266038+00:00",
     "ayah_count": 53,
     "total_duration_sec": 405.67
+  },
+  "-15_900015_27": {
+    "key": "-15_900015_27",
+    "reciter_id": -15,
+    "moshaf_id": 900015,
+    "surah_id": 27,
+    "slug": "qurantvapp-abdulmohsen-al-qas-hafs",
+    "reviewed": true,
+    "reviewed_at": "2026-09-06T00:45:26.667943+00:00",
+    "ayah_count": 94,
+    "total_duration_sec": 1134.08
+  },
+  "-15_27": {
+    "key": "-15_900015_27",
+    "reciter_id": -15,
+    "moshaf_id": 900015,
+    "surah_id": 27,
+    "slug": "qurantvapp-abdulmohsen-al-qas-hafs",
+    "reviewed": true,
+    "reviewed_at": "2026-09-06T00:45:26.667943+00:00",
+    "ayah_count": 94,
+    "total_duration_sec": 1134.08
   }
 }

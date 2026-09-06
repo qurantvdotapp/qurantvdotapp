@@ -193,7 +193,7 @@
     "surahs": "1-2,12,18,30,114",
     "added_at": "2025-08-30T21:47:54.000000Z",
     "read_id": 10917,
-    "version": "6d9d773595"
+    "version": "4bcd36df93"
   },
   {
     "slug": "qurantvapp-abdulhadi-kanakeri-hafs",
@@ -412,7 +412,7 @@
     "rewaya_id": "hafs",
     "added_at": "2025-08-30T21:47:54.000000Z",
     "read_id": 67,
-    "version": "e7063a3300"
+    "version": "7baef7ea00"
   },
   {
     "slug": "qurantvapp-abdulmohsin-al-har-hafs",
@@ -2071,7 +2071,7 @@
     "surahs": "1,18",
     "added_at": "2025-08-30T21:47:54.000000Z",
     "read_id": 10914,
-    "version": "b1e6df79fd"
+    "version": "e29f78aceb"
   },
   {
     "slug": "qurantvapp-majed-al-enezi-hafs-murattal",

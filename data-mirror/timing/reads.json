@@ -1264,5 +1264,14 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-30",
     "slug": "qurantvapp-ahmad-issa-al-maas-rawh"
+  },
+  {
+    "id": -15,
+    "name": "عبدالمحسن القاسم",
+    "rewaya": "حفص عن عاصم · مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-abdulmohsen-al-qas-hafs/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-15",
+    "slug": "qurantvapp-abdulmohsen-al-qas-hafs"
   }
 ]

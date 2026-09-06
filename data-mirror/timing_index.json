@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-06T00:54:36Z",
+  "generated_at": "2026-09-06T01:05:35Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -440,6 +440,7 @@
       "read_id": -15,
       "slug": "qurantvapp-abdulmohsen-al-qas-hafs",
       "surahs": [
+        4,
         27
       ],
       "clean": true

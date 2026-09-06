@@ -1282,5 +1282,14 @@
     "soar_count": 114,
     "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=-22",
     "slug": "qurantvapp-abdulrasheed-soufi-susi"
+  },
+  {
+    "id": 253,
+    "name": "إسلام صبحي",
+    "rewaya": "حفص عن عاصم · مرتل",
+    "folder_url": "https://archive.org/download/qurantvapp-islam-sobhi-hafs-murattal/",
+    "soar_count": 114,
+    "soar_link": "https://www.mp3quran.net/api/v3/ayat_timing/soar?read=253",
+    "slug": "qurantvapp-islam-sobhi-hafs-murattal"
   }
 ]

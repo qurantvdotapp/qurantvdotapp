@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-06T01:33:47Z",
+  "generated_at": "2026-09-06T20:39:56Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -454,6 +454,14 @@
         101,
         106,
         107
+      ],
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-islam-sobhi-hafs-murattal/": {
+      "read_id": 253,
+      "slug": "qurantvapp-islam-sobhi-hafs-murattal",
+      "surahs": [
+        1
       ],
       "clean": true
     },

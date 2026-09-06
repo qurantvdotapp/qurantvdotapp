@@ -19490,5 +19490,27 @@
     "reviewed_at": "2026-09-06T01:29:33.880685+00:00",
     "ayah_count": 8,
     "total_duration_sec": 33.7
+  },
+  "-22_900024_96": {
+    "key": "-22_900024_96",
+    "reciter_id": -22,
+    "moshaf_id": 900024,
+    "surah_id": 96,
+    "slug": "qurantvapp-abdulrasheed-soufi-susi",
+    "reviewed": true,
+    "reviewed_at": "2026-09-06T01:31:33.174036+00:00",
+    "ayah_count": 20,
+    "total_duration_sec": 80.62
+  },
+  "-22_96": {
+    "key": "-22_900024_96",
+    "reciter_id": -22,
+    "moshaf_id": 900024,
+    "surah_id": 96,
+    "slug": "qurantvapp-abdulrasheed-soufi-susi",
+    "reviewed": true,
+    "reviewed_at": "2026-09-06T01:31:33.174036+00:00",
+    "ayah_count": 20,
+    "total_duration_sec": 80.62
   }
 }

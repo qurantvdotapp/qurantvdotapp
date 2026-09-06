@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-06T01:29:33Z",
+  "generated_at": "2026-09-06T01:31:33Z",
   "servers": {
     "https://server6.mp3quran.net/akdr/": {
       "read_id": 1,
@@ -449,6 +449,7 @@
       "read_id": -22,
       "slug": "qurantvapp-abdulrasheed-soufi-susi",
       "surahs": [
+        96,
         101,
         106,
         107

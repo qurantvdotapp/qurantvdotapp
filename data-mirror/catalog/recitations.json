@@ -23,7 +23,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 53,
-    "version": "63b56b6073"
+    "version": "672a08d28a"
   },
   {
     "slug": "qurantvapp-abdulbasit-warsh",
@@ -49,7 +49,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 10917,
-    "version": "38d85fbaa6"
+    "version": "4bcd36df93"
   },
   {
     "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
@@ -75,7 +75,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 278,
-    "version": "63b56b6073"
+    "version": "a472d961c7"
   },
   {
     "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
@@ -101,7 +101,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 10919,
-    "version": "b2e3b89a71"
+    "version": "71140d37ab"
   },
   {
     "slug": "qurantvapp-ajamy-hafs",
@@ -126,6 +126,6 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 5,
-    "version": "63b56b6073"
+    "version": "81b4aa2f4e"
   }
 ]

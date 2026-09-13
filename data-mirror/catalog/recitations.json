@@ -97,11 +97,11 @@
         "derived": true
       }
     ],
-    "surahs": "51-68,94-114",
+    "surahs": "51-68,93-114",
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 10919,
-    "version": "0748467cc9"
+    "version": "66760d2bee"
   },
   {
     "slug": "qurantvapp-ajamy-hafs",

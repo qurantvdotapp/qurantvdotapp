@@ -14773,15 +14773,15 @@
     "total_duration_sec": 52.4
   },
   "278_100": {
-    "key": "278_289_100",
+    "key": "278_290_100",
     "reciter_id": 278,
-    "moshaf_id": 289,
+    "moshaf_id": 290,
     "surah_id": 100,
-    "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
+    "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T22:08:31.678312+00:00",
-    "ayah_count": 11,
-    "total_duration_sec": 52.4
+    "reviewed_at": "2026-09-13T21:43:22.048446+00:00",
+    "ayah_count": 12,
+    "total_duration_sec": 52.06
   },
   "278_289_101": {
     "key": "278_289_101",
@@ -23483,5 +23483,27 @@
     "reviewed_at": "2026-09-13T21:42:36.449464+00:00",
     "ayah_count": 12,
     "total_duration_sec": 44.29
+  },
+  "278_290_100": {
+    "key": "278_290_100",
+    "reciter_id": 278,
+    "moshaf_id": 290,
+    "surah_id": 100,
+    "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-13T21:43:22.048446+00:00",
+    "ayah_count": 12,
+    "total_duration_sec": 52.06
+  },
+  "qurantvapp-ahmad-issa-al-maas-rawh_100": {
+    "key": "278_290_100",
+    "reciter_id": 278,
+    "moshaf_id": 290,
+    "surah_id": 100,
+    "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-13T21:43:22.048446+00:00",
+    "ayah_count": 12,
+    "total_duration_sec": 52.06
   }
 }

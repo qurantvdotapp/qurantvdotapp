@@ -24220,5 +24220,38 @@
     "reviewed_at": "2026-09-13T23:26:36.231425+00:00",
     "ayah_count": 7,
     "total_duration_sec": 71.38
+  },
+  "51_51_18": {
+    "key": "51_51_18",
+    "reciter_id": 51,
+    "moshaf_id": 51,
+    "surah_id": 18,
+    "slug": "qurantvapp-abdulbasit-mojawwad",
+    "reviewed": true,
+    "reviewed_at": "2026-09-13T23:35:34.519917+00:00",
+    "ayah_count": 111,
+    "total_duration_sec": 4199.36
+  },
+  "51_18": {
+    "key": "51_51_18",
+    "reciter_id": 51,
+    "moshaf_id": 51,
+    "surah_id": 18,
+    "slug": "qurantvapp-abdulbasit-mojawwad",
+    "reviewed": true,
+    "reviewed_at": "2026-09-13T23:35:34.519917+00:00",
+    "ayah_count": 111,
+    "total_duration_sec": 4199.36
+  },
+  "qurantvapp-abdulbasit-mojawwad_18": {
+    "key": "51_51_18",
+    "reciter_id": 51,
+    "moshaf_id": 51,
+    "surah_id": 18,
+    "slug": "qurantvapp-abdulbasit-mojawwad",
+    "reviewed": true,
+    "reviewed_at": "2026-09-13T23:35:34.519917+00:00",
+    "ayah_count": 111,
+    "total_duration_sec": 4199.36
   }
 }

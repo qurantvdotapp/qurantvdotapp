@@ -26,6 +26,32 @@
     "version": "672a08d28a"
   },
   {
+    "slug": "qurantvapp-abdulbasit-mojawwad",
+    "name_ar": "عبدالباسط عبدالصمد",
+    "name_en": "Abdulbasit Abdulsamad",
+    "rewaya_id": "hafs",
+    "style": "mojawwad",
+    "timing_source": null,
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulbasit-mojawwad/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all",
+    "enabled": true,
+    "added_at": "2025-08-30T21:47:54.000000Z",
+    "read_id": 51,
+    "version": "90b15d2aba"
+  },
+  {
     "slug": "qurantvapp-abdulbasit-warsh",
     "name_ar": "عبدالباسط عبدالصمد",
     "name_en": "Abdulbasit Abdulsamad",

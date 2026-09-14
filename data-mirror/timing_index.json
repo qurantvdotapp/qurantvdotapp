@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-13T23:35:34Z",
+  "generated_at": "2026-09-14T00:01:08Z",
   "servers": {
     "https://server7.mp3quran.net/basit/": {
       "read_id": 53,
@@ -11,6 +11,18 @@
     "https://archive.org/download/qurantvapp-abdulbasit-hafs/": {
       "read_id": 53,
       "slug": "qurantvapp-abdulbasit-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/": {
+      "read_id": 51,
+      "slug": "qurantvapp-abdulbasit-mojawwad",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdulbasit-mojawwad/": {
+      "read_id": 51,
+      "slug": "qurantvapp-abdulbasit-mojawwad",
       "surahs": "all",
       "clean": true
     },

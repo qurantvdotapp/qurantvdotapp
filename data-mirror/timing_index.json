@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-14T13:38:30Z",
+  "generated_at": "2026-09-14T13:46:57Z",
   "servers": {
     "https://server7.mp3quran.net/basit/": {
       "read_id": 53,
@@ -148,6 +148,7 @@
       "surahs": [
         1,
         2,
+        3,
         18,
         36,
         37,
@@ -237,6 +238,7 @@
       "surahs": [
         1,
         2,
+        3,
         18,
         36,
         37,

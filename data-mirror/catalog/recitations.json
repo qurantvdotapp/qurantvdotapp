@@ -77,6 +77,31 @@
     "version": "114887fd0c"
   },
   {
+    "slug": "qurantvapp-abdulaziz-az-zahra-hafs",
+    "name_ar": "عبدالعزيز الزهراني",
+    "name_en": "Abdulaziz Az-Zahrani",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server9.mp3quran.net/zahrani/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulaziz-az-zahra-hafs/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs",
+    "added_at": "2025-08-30T21:47:54.000000Z",
+    "enabled": true,
+    "read_id": 56,
+    "version": "34d227c87e"
+  },
+  {
     "slug": "qurantvapp-abdulbasit-hafs",
     "name_ar": "عبدالباسط عبدالصمد",
     "name_en": "Abdulbasit Abdulsamad",

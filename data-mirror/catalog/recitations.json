@@ -102,6 +102,31 @@
     "version": "34d227c87e"
   },
   {
+    "slug": "qurantvapp-abdulbari-mohammad-hafs-murattal",
+    "name_ar": "عبدالبارئ محمد",
+    "name_en": "Abdulbari Mohammad",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server12.mp3quran.net/bari/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulbari-mohammad-hafs-murattal/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs",
+    "added_at": "2025-08-30T21:47:54.000000Z",
+    "enabled": true,
+    "read_id": 50,
+    "version": "bdc0522ab8"
+  },
+  {
     "slug": "qurantvapp-abdulbasit-hafs",
     "name_ar": "عبدالباسط عبدالصمد",
     "name_en": "Abdulbasit Abdulsamad",

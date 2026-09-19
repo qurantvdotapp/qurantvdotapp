@@ -52,6 +52,31 @@
     "version": "34aef01a79"
   },
   {
+    "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
+    "name_ar": "عبدالعزيز التركي",
+    "name_en": "Abdulaziz Alturki",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/a_turki/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulaziz-alturki-hafs-murattal/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs",
+    "added_at": "2025-08-30T21:47:54.000000Z",
+    "enabled": true,
+    "read_id": 79,
+    "version": "114887fd0c"
+  },
+  {
     "slug": "qurantvapp-abdulbasit-hafs",
     "name_ar": "عبدالباسط عبدالصمد",
     "name_en": "Abdulbasit Abdulsamad",

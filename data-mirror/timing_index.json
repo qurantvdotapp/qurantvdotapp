@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-16T18:35:52Z",
+  "generated_at": "2026-09-19T16:11:20Z",
   "servers": {
     "https://server7.mp3quran.net/basit/": {
       "read_id": 53,
@@ -151,6 +151,7 @@
         3,
         4,
         5,
+        6,
         9,
         12,
         13,
@@ -254,6 +255,7 @@
         3,
         4,
         5,
+        6,
         9,
         12,
         13,

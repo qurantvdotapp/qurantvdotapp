@@ -174,10 +174,10 @@
         "derived": true
       }
     ],
-    "surahs": "1-6,9,12-15,17-21,25-33,36-114",
+    "surahs": "1-7,9,12-15,17-21,25-33,36-114",
     "added_at": "2026-07-23T17:40:12.000000Z",
     "enabled": true,
     "read_id": 10911,
-    "version": "f61bed34b6"
+    "version": "4b309aa9fd"
   }
 ]

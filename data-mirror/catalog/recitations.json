@@ -1,5 +1,31 @@
 [
   {
+    "slug": "qurantvapp-abdelbari-al-touba-hafs",
+    "name_ar": "عبدالبارئ الثبيتي",
+    "name_en": "Abdelbari Al-Toubayti",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server6.mp3quran.net/thubti/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdelbari-al-touba-hafs/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all",
+    "added_at": "2025-08-30T21:47:54.000000Z",
+    "enabled": true,
+    "read_id": 49,
+    "version": "ed86a069b6"
+  },
+  {
     "slug": "qurantvapp-abdulbasit-hafs",
     "name_ar": "عبدالباسط عبدالصمد",
     "name_en": "Abdulbasit Abdulsamad",
@@ -23,7 +49,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 53,
-    "version": "63b56b6073"
+    "version": "672a08d28a"
   },
   {
     "slug": "qurantvapp-abdulbasit-mojawwad",
@@ -49,7 +75,7 @@
     "enabled": true,
     "added_at": "2025-08-30T21:47:54.000000Z",
     "read_id": 51,
-    "version": "63b56b6073"
+    "version": "90b15d2aba"
   },
   {
     "slug": "qurantvapp-abdulbasit-warsh",
@@ -75,7 +101,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 10917,
-    "version": "38d85fbaa6"
+    "version": "4bcd36df93"
   },
   {
     "slug": "qurantvapp-ahmad-deban-hafs-murattal",
@@ -101,7 +127,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 265,
-    "version": "63b56b6073"
+    "version": "edf817a2a8"
   },
   {
     "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
@@ -127,7 +153,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 278,
-    "version": "63b56b6073"
+    "version": "a472d961c7"
   },
   {
     "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
@@ -153,7 +179,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 10919,
-    "version": "251a4bc606"
+    "version": "78b2167381"
   },
   {
     "slug": "qurantvapp-ajamy-hafs",
@@ -178,7 +204,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 5,
-    "version": "63b56b6073"
+    "version": "81b4aa2f4e"
   },
   {
     "slug": "qurantvapp-minshawi-hafs-1387",
@@ -204,6 +230,6 @@
     "added_at": "2026-07-23T17:40:12.000000Z",
     "enabled": true,
     "read_id": 10911,
-    "version": "8dc72d149f"
+    "version": "04708ee880"
   }
 ]

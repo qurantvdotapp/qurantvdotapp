@@ -26,6 +26,32 @@
     "version": "ed86a069b6"
   },
   {
+    "slug": "qurantvapp-abdul-aziz-al-ahma-hafs",
+    "name_ar": "عبدالعزيز الأحمد",
+    "name_en": "Abdul Aziz Al-Ahmad",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server11.mp3quran.net/a_ahmed/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdul-aziz-al-ahma-hafs/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all",
+    "added_at": "2025-08-30T21:47:54.000000Z",
+    "enabled": true,
+    "read_id": 55,
+    "version": "34aef01a79"
+  },
+  {
     "slug": "qurantvapp-abdulbasit-hafs",
     "name_ar": "عبدالباسط عبدالصمد",
     "name_en": "Abdulbasit Abdulsamad",

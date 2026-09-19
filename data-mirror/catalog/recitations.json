@@ -78,6 +78,32 @@
     "version": "4bcd36df93"
   },
   {
+    "slug": "qurantvapp-ahmad-deban-hafs-murattal",
+    "name_ar": "أحمد ديبان",
+    "name_en": "Ahmad Deban",
+    "rewaya_id": "hafs",
+    "style": "murattal",
+    "timing_source": null,
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server16.mp3quran.net/deban/Rewayat-Hafs-A-n-Assem/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-ahmad-deban-hafs-murattal/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all",
+    "added_at": "2025-08-30T21:47:54.000000Z",
+    "enabled": true,
+    "read_id": 265,
+    "version": "edf817a2a8"
+  },
+  {
     "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
     "name_ar": "أحمد عيسى المعصراوي",
     "name_en": "Ahmad Issa Al Maasaraawi",

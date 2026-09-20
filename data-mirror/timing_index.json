@@ -1,7 +1,67 @@
 {
   "version": 1,
-  "generated_at": "2026-09-19T19:13:32Z",
+  "generated_at": "2026-09-20T08:30:22Z",
   "servers": {
+    "https://server6.mp3quran.net/thubti/": {
+      "read_id": 49,
+      "slug": "qurantvapp-abdelbari-al-touba-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdelbari-al-touba-hafs/": {
+      "read_id": 49,
+      "slug": "qurantvapp-abdelbari-al-touba-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server11.mp3quran.net/a_ahmed/": {
+      "read_id": 55,
+      "slug": "qurantvapp-abdul-aziz-al-ahma-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdul-aziz-al-ahma-hafs/": {
+      "read_id": 55,
+      "slug": "qurantvapp-abdul-aziz-al-ahma-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server16.mp3quran.net/a_turki/Rewayat-Hafs-A-n-Assem/": {
+      "read_id": 79,
+      "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdulaziz-alturki-hafs-murattal/": {
+      "read_id": 79,
+      "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server9.mp3quran.net/zahrani/": {
+      "read_id": 56,
+      "slug": "qurantvapp-abdulaziz-az-zahra-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdulaziz-az-zahra-hafs/": {
+      "read_id": 56,
+      "slug": "qurantvapp-abdulaziz-az-zahra-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server12.mp3quran.net/bari/": {
+      "read_id": 50,
+      "slug": "qurantvapp-abdulbari-mohammad-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdulbari-mohammad-hafs-murattal/": {
+      "read_id": 50,
+      "slug": "qurantvapp-abdulbari-mohammad-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
     "https://server7.mp3quran.net/basit/": {
       "read_id": 53,
       "slug": "qurantvapp-abdulbasit-hafs",
@@ -50,6 +110,30 @@
         30,
         114
       ],
+      "clean": true
+    },
+    "https://server6.mp3quran.net/kanakeri/": {
+      "read_id": 70,
+      "slug": "qurantvapp-abdulhadi-kanakeri-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-abdulhadi-kanakeri-hafs/": {
+      "read_id": 70,
+      "slug": "qurantvapp-abdulhadi-kanakeri-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server16.mp3quran.net/deban/Rewayat-Hafs-A-n-Assem/": {
+      "read_id": 265,
+      "slug": "qurantvapp-ahmad-deban-hafs-murattal",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-ahmad-deban-hafs-murattal/": {
+      "read_id": 265,
+      "slug": "qurantvapp-ahmad-deban-hafs-murattal",
+      "surahs": "all",
       "clean": true
     },
     "https://server16.mp3quran.net/a_maasaraawi/Rewayat-Hafs-A-n-Assem/": {
@@ -156,6 +240,7 @@
         8,
         9,
         10,
+        11,
         12,
         13,
         14,
@@ -263,6 +348,7 @@
         8,
         9,
         10,
+        11,
         12,
         13,
         14,

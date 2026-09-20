@@ -205,6 +205,31 @@
     "version": "4bcd36df93"
   },
   {
+    "slug": "qurantvapp-abdulhadi-kanakeri-hafs",
+    "name_ar": "عبدالهادي أحمد كناكري",
+    "name_en": "Abdulhadi Kanakeri",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server6.mp3quran.net/kanakeri/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-abdulhadi-kanakeri-hafs/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "hafs",
+    "added_at": "2025-08-30T21:47:54.000000Z",
+    "enabled": true,
+    "read_id": 70,
+    "version": "5499a5ba52"
+  },
+  {
     "slug": "qurantvapp-ahmad-deban-hafs-murattal",
     "name_ar": "أحمد ديبان",
     "name_en": "Ahmad Deban",

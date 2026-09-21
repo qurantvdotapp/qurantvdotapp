@@ -26497,5 +26497,38 @@
     "reviewed_at": "2026-09-21T10:55:35.129902+00:00",
     "ayah_count": 21,
     "total_duration_sec": 285.23
+  },
+  "51_52_72": {
+    "key": "51_52_72",
+    "reciter_id": 51,
+    "moshaf_id": 52,
+    "surah_id": 72,
+    "slug": "qurantvapp-abdulbasit-warsh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-21T10:58:02.325101+00:00",
+    "ayah_count": 29,
+    "total_duration_sec": 384.29
+  },
+  "51_72": {
+    "key": "51_52_72",
+    "reciter_id": 51,
+    "moshaf_id": 52,
+    "surah_id": 72,
+    "slug": "qurantvapp-abdulbasit-warsh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-21T10:58:02.325101+00:00",
+    "ayah_count": 29,
+    "total_duration_sec": 384.29
+  },
+  "qurantvapp-abdulbasit-warsh_72": {
+    "key": "51_52_72",
+    "reciter_id": 51,
+    "moshaf_id": 52,
+    "surah_id": 72,
+    "slug": "qurantvapp-abdulbasit-warsh",
+    "reviewed": true,
+    "reviewed_at": "2026-09-21T10:58:02.325101+00:00",
+    "ayah_count": 29,
+    "total_duration_sec": 384.29
   }
 }

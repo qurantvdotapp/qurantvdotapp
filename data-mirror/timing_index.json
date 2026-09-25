@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-25T08:36:40Z",
+  "generated_at": "2026-09-25T10:32:45Z",
   "servers": {
     "https://server6.mp3quran.net/thubti/": {
       "read_id": 49,
@@ -95,6 +95,7 @@
         12,
         18,
         30,
+        34,
         35,
         36,
         37,
@@ -187,6 +188,7 @@
         12,
         18,
         30,
+        34,
         35,
         36,
         37,

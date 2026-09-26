@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-25T19:52:38Z",
+  "generated_at": "2026-09-26T18:30:43Z",
   "servers": {
     "https://server6.mp3quran.net/thubti/": {
       "read_id": 49,
@@ -92,6 +92,7 @@
       "surahs": [
         1,
         2,
+        3,
         12,
         18,
         19,
@@ -199,6 +200,7 @@
       "surahs": [
         1,
         2,
+        3,
         12,
         18,
         19,

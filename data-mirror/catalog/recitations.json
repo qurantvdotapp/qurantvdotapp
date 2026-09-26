@@ -23,7 +23,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 49,
-    "version": "63b56b6073"
+    "version": "ed86a069b6"
   },
   {
     "slug": "qurantvapp-abdul-aziz-al-ahma-hafs",
@@ -49,7 +49,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 55,
-    "version": "63b56b6073"
+    "version": "34aef01a79"
   },
   {
     "slug": "qurantvapp-abdulaziz-alturki-hafs-murattal",
@@ -74,7 +74,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 79,
-    "version": "63b56b6073"
+    "version": "114887fd0c"
   },
   {
     "slug": "qurantvapp-abdulaziz-az-zahra-hafs",
@@ -99,7 +99,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 56,
-    "version": "63b56b6073"
+    "version": "34d227c87e"
   },
   {
     "slug": "qurantvapp-abdulbari-mohammad-hafs-murattal",
@@ -124,7 +124,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 50,
-    "version": "63b56b6073"
+    "version": "bdc0522ab8"
   },
   {
     "slug": "qurantvapp-abdulbasit-hafs",
@@ -150,7 +150,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 53,
-    "version": "63b56b6073"
+    "version": "672a08d28a"
   },
   {
     "slug": "qurantvapp-abdulbasit-mojawwad",
@@ -176,7 +176,7 @@
     "enabled": true,
     "added_at": "2025-08-30T21:47:54.000000Z",
     "read_id": 51,
-    "version": "63b56b6073"
+    "version": "90b15d2aba"
   },
   {
     "slug": "qurantvapp-abdulbasit-warsh",
@@ -198,11 +198,11 @@
         "derived": true
       }
     ],
-    "surahs": "1-4,12,16-114",
+    "surahs": "1-4,12,15-114",
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 10917,
-    "version": "33df54e495"
+    "version": "2ec53d2a3d"
   },
   {
     "slug": "qurantvapp-abdulhadi-kanakeri-hafs",
@@ -227,7 +227,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 70,
-    "version": "63b56b6073"
+    "version": "5499a5ba52"
   },
   {
     "slug": "qurantvapp-ahmad-deban-hafs-murattal",
@@ -253,7 +253,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 265,
-    "version": "63b56b6073"
+    "version": "edf817a2a8"
   },
   {
     "slug": "qurantvapp-ahmad-issa-al-maas-hafs-murattal",
@@ -279,7 +279,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 278,
-    "version": "63b56b6073"
+    "version": "a472d961c7"
   },
   {
     "slug": "qurantvapp-ahmad-issa-al-maas-rawh",
@@ -305,7 +305,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 10919,
-    "version": "251a4bc606"
+    "version": "78b2167381"
   },
   {
     "slug": "qurantvapp-ajamy-hafs",
@@ -330,7 +330,7 @@
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 5,
-    "version": "63b56b6073"
+    "version": "81b4aa2f4e"
   },
   {
     "slug": "qurantvapp-minshawi-hafs-1387",
@@ -356,6 +356,6 @@
     "added_at": "2026-07-23T17:40:12.000000Z",
     "enabled": true,
     "read_id": 10911,
-    "version": "8dc72d149f"
+    "version": "04708ee880"
   }
 ]

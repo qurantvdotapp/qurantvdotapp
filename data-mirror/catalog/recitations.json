@@ -198,11 +198,11 @@
         "derived": true
       }
     ],
-    "surahs": "1-4,8-114",
+    "surahs": "1-4,7-114",
     "added_at": "2025-08-30T21:47:54.000000Z",
     "enabled": true,
     "read_id": 10917,
-    "version": "8e7cc0ed2a"
+    "version": "64b86ac272"
   },
   {
     "slug": "qurantvapp-abdulhadi-kanakeri-hafs",

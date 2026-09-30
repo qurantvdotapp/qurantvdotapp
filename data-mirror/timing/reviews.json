@@ -1419,15 +1419,15 @@
     "total_duration_sec": 5499.66
   },
   "118_3": {
-    "key": "118_269_3",
+    "key": "118_270_3",
     "reciter_id": 118,
-    "moshaf_id": 269,
+    "moshaf_id": 270,
     "surah_id": 3,
-    "slug": "qurantvapp-husry-dori",
+    "slug": "qurantvapp-husry-qalon",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T17:12:17.310508+00:00",
-    "ayah_count": 200,
-    "total_duration_sec": 5499.66
+    "reviewed_at": "2026-09-30T10:49:28.519582+00:00",
+    "ayah_count": 201,
+    "total_duration_sec": 5930.43
   },
   "118_269_4": {
     "key": "118_269_4",
@@ -28741,5 +28741,27 @@
     "reviewed_at": "2026-09-30T10:30:30.076688+00:00",
     "ayah_count": 287,
     "total_duration_sec": 10523.75
+  },
+  "118_270_3": {
+    "key": "118_270_3",
+    "reciter_id": 118,
+    "moshaf_id": 270,
+    "surah_id": 3,
+    "slug": "qurantvapp-husry-qalon",
+    "reviewed": true,
+    "reviewed_at": "2026-09-30T10:49:28.519582+00:00",
+    "ayah_count": 201,
+    "total_duration_sec": 5930.43
+  },
+  "qurantvapp-husry-qalon_3": {
+    "key": "118_270_3",
+    "reciter_id": 118,
+    "moshaf_id": 270,
+    "surah_id": 3,
+    "slug": "qurantvapp-husry-qalon",
+    "reviewed": true,
+    "reviewed_at": "2026-09-30T10:49:28.519582+00:00",
+    "ayah_count": 201,
+    "total_duration_sec": 5930.43
   }
 }

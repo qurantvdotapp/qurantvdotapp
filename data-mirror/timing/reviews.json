@@ -1705,15 +1705,15 @@
     "total_duration_sec": 3545.26
   },
   "118_16": {
-    "key": "118_270_16",
+    "key": "118_269_16",
     "reciter_id": 118,
-    "moshaf_id": 270,
+    "moshaf_id": 269,
     "surah_id": 16,
-    "slug": "qurantvapp-husry-qalon",
+    "slug": "qurantvapp-husry-dori",
     "reviewed": true,
-    "reviewed_at": "2026-09-30T14:29:30.599585+00:00",
-    "ayah_count": 129,
-    "total_duration_sec": 3246.25
+    "reviewed_at": "2026-08-23T17:12:29.323592+00:00",
+    "ayah_count": 128,
+    "total_duration_sec": 3545.26
   },
   "118_269_17": {
     "key": "118_269_17",
@@ -1727,15 +1727,15 @@
     "total_duration_sec": 2258.6
   },
   "118_17": {
-    "key": "118_269_17",
+    "key": "118_270_17",
     "reciter_id": 118,
-    "moshaf_id": 269,
+    "moshaf_id": 270,
     "surah_id": 17,
-    "slug": "qurantvapp-husry-dori",
+    "slug": "qurantvapp-husry-qalon",
     "reviewed": true,
-    "reviewed_at": "2026-08-23T17:12:30.312807+00:00",
-    "ayah_count": 110,
-    "total_duration_sec": 2258.6
+    "reviewed_at": "2026-09-30T14:55:51.756410+00:00",
+    "ayah_count": 112,
+    "total_duration_sec": 2569.72
   },
   "118_269_18": {
     "key": "118_269_18",
@@ -28918,26 +28918,26 @@
     "ayah_count": 124,
     "total_duration_sec": 3217.25
   },
-  "118_270_16": {
-    "key": "118_270_16",
+  "118_270_17": {
+    "key": "118_270_17",
     "reciter_id": 118,
     "moshaf_id": 270,
-    "surah_id": 16,
+    "surah_id": 17,
     "slug": "qurantvapp-husry-qalon",
     "reviewed": true,
-    "reviewed_at": "2026-09-30T14:29:30.599585+00:00",
-    "ayah_count": 129,
-    "total_duration_sec": 3246.25
+    "reviewed_at": "2026-09-30T14:55:51.756410+00:00",
+    "ayah_count": 112,
+    "total_duration_sec": 2569.72
   },
-  "qurantvapp-husry-qalon_16": {
-    "key": "118_270_16",
+  "qurantvapp-husry-qalon_17": {
+    "key": "118_270_17",
     "reciter_id": 118,
     "moshaf_id": 270,
-    "surah_id": 16,
+    "surah_id": 17,
     "slug": "qurantvapp-husry-qalon",
     "reviewed": true,
-    "reviewed_at": "2026-09-30T14:29:30.599585+00:00",
-    "ayah_count": 129,
-    "total_duration_sec": 3246.25
+    "reviewed_at": "2026-09-30T14:55:51.756410+00:00",
+    "ayah_count": 112,
+    "total_duration_sec": 2569.72
   }
 }

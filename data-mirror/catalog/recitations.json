@@ -333,6 +333,31 @@
     "version": "81b4aa2f4e"
   },
   {
+    "slug": "qurantvapp-husry-qalon",
+    "name_ar": "محمود خليل الحصري",
+    "name_en": "Mahmoud Khalil Al-Hussary",
+    "style": "murattal",
+    "sources": [
+      {
+        "kind": "mp3quran",
+        "url": "https://server13.mp3quran.net/husr/Rewayat-Qalon-A-n-Nafi/",
+        "primary": true
+      },
+      {
+        "kind": "archive.org",
+        "url": "https://archive.org/download/qurantvapp-husry-qalon/",
+        "primary": false,
+        "derived": true
+      }
+    ],
+    "surahs": "all",
+    "rewaya_id": "qalon",
+    "added_at": "2025-08-30T21:47:54.000000Z",
+    "enabled": true,
+    "read_id": 270,
+    "version": "6466b9fa72"
+  },
+  {
     "slug": "qurantvapp-minshawi-hafs-1387",
     "name_ar": "محمد صديق المنشاوي",
     "name_en": "Mohamed Siddiq Al-Minshawi",

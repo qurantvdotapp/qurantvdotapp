@@ -96,7 +96,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T17:11:02.245476+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 38.0
+    "total_duration_sec": 38
   },
   "118_113": {
     "key": "118_269_113",
@@ -107,7 +107,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T17:14:11.210857+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 52.0
+    "total_duration_sec": 52
   },
   "118_269_58": {
     "key": "118_269_58",
@@ -360,7 +360,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T17:13:19.504026+00:00",
     "ayah_count": 52,
-    "total_duration_sec": 563.0
+    "total_duration_sec": 563
   },
   "118_68": {
     "key": "118_269_68",
@@ -371,7 +371,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T17:13:19.504026+00:00",
     "ayah_count": 52,
-    "total_duration_sec": 563.0
+    "total_duration_sec": 563
   },
   "118_269_69": {
     "key": "118_269_69",
@@ -1350,7 +1350,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T17:14:11.210857+00:00",
     "ayah_count": 5,
-    "total_duration_sec": 52.0
+    "total_duration_sec": 52
   },
   "118_269_114": {
     "key": "118_269_114",
@@ -5134,7 +5134,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T21:15:49.760129+00:00",
     "ayah_count": 120,
-    "total_duration_sec": 3952.0
+    "total_duration_sec": 3952
   },
   "74_5": {
     "key": "74_305_5",
@@ -5145,7 +5145,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T21:15:49.760129+00:00",
     "ayah_count": 120,
-    "total_duration_sec": 3952.0
+    "total_duration_sec": 3952
   },
   "74_305_6": {
     "key": "74_305_6",
@@ -5838,7 +5838,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T21:16:09.916114+00:00",
     "ayah_count": 182,
-    "total_duration_sec": 1440.0
+    "total_duration_sec": 1440
   },
   "74_37": {
     "key": "74_305_37",
@@ -5849,7 +5849,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T21:16:09.916114+00:00",
     "ayah_count": 182,
-    "total_duration_sec": 1440.0
+    "total_duration_sec": 1440
   },
   "74_305_38": {
     "key": "74_305_38",
@@ -7598,7 +7598,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T21:21:05.689941+00:00",
     "ayah_count": 200,
-    "total_duration_sec": 5249.0
+    "total_duration_sec": 5249
   },
   "79_3": {
     "key": "79_282_3",
@@ -7609,7 +7609,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T21:21:05.689941+00:00",
     "ayah_count": 200,
-    "total_duration_sec": 5249.0
+    "total_duration_sec": 5249
   },
   "79_282_4": {
     "key": "79_282_4",
@@ -7686,7 +7686,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T21:21:08.146395+00:00",
     "ayah_count": 206,
-    "total_duration_sec": 3740.0
+    "total_duration_sec": 3740
   },
   "79_7": {
     "key": "79_282_7",
@@ -7697,7 +7697,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T21:21:08.146395+00:00",
     "ayah_count": 206,
-    "total_duration_sec": 3740.0
+    "total_duration_sec": 3740
   },
   "79_282_8": {
     "key": "79_282_8",
@@ -8962,7 +8962,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T21:21:45.041322+00:00",
     "ayah_count": 12,
-    "total_duration_sec": 361.0
+    "total_duration_sec": 361
   },
   "79_65": {
     "key": "79_282_65",
@@ -8973,7 +8973,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T21:21:45.041322+00:00",
     "ayah_count": 12,
-    "total_duration_sec": 361.0
+    "total_duration_sec": 361
   },
   "79_282_66": {
     "key": "79_282_66",
@@ -10700,7 +10700,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:02:21.799384+00:00",
     "ayah_count": 69,
-    "total_duration_sec": 1260.0
+    "total_duration_sec": 1260
   },
   "265_29": {
     "key": "265_265_29",
@@ -10711,7 +10711,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:02:21.799384+00:00",
     "ayah_count": 69,
-    "total_duration_sec": 1260.0
+    "total_duration_sec": 1260
   },
   "265_265_30": {
     "key": "265_265_30",
@@ -11096,7 +11096,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:02:32.732401+00:00",
     "ayah_count": 38,
-    "total_duration_sec": 715.0
+    "total_duration_sec": 715
   },
   "265_47": {
     "key": "265_265_47",
@@ -11107,7 +11107,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:02:32.732401+00:00",
     "ayah_count": 38,
-    "total_duration_sec": 715.0
+    "total_duration_sec": 715
   },
   "265_265_48": {
     "key": "265_265_48",
@@ -11250,7 +11250,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:02:38.331181+00:00",
     "ayah_count": 55,
-    "total_duration_sec": 449.0
+    "total_duration_sec": 449
   },
   "265_54": {
     "key": "265_265_54",
@@ -11261,7 +11261,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:02:38.331181+00:00",
     "ayah_count": 55,
-    "total_duration_sec": 449.0
+    "total_duration_sec": 449
   },
   "265_265_55": {
     "key": "265_265_55",
@@ -12130,7 +12130,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:03:06.607805+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 34.0
+    "total_duration_sec": 34
   },
   "265_94": {
     "key": "265_265_94",
@@ -12141,7 +12141,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:03:06.607805+00:00",
     "ayah_count": 8,
-    "total_duration_sec": 34.0
+    "total_duration_sec": 34
   },
   "265_265_95": {
     "key": "265_265_95",
@@ -12350,7 +12350,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:03:12.689066+00:00",
     "ayah_count": 9,
-    "total_duration_sec": 42.0
+    "total_duration_sec": 42
   },
   "265_104": {
     "key": "265_265_104",
@@ -12361,7 +12361,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:03:12.689066+00:00",
     "ayah_count": 9,
-    "total_duration_sec": 42.0
+    "total_duration_sec": 42
   },
   "265_265_105": {
     "key": "265_265_105",
@@ -13604,7 +13604,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:07:57.088815+00:00",
     "ayah_count": 38,
-    "total_duration_sec": 716.0
+    "total_duration_sec": 716
   },
   "278_47": {
     "key": "278_289_47",
@@ -13615,7 +13615,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:07:57.088815+00:00",
     "ayah_count": 38,
-    "total_duration_sec": 716.0
+    "total_duration_sec": 716
   },
   "278_289_48": {
     "key": "278_289_48",
@@ -14088,7 +14088,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:08:11.264764+00:00",
     "ayah_count": 52,
-    "total_duration_sec": 384.0
+    "total_duration_sec": 384
   },
   "278_69": {
     "key": "278_290_69",
@@ -14242,7 +14242,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-23T22:08:16.347460+00:00",
     "ayah_count": 31,
-    "total_duration_sec": 338.0
+    "total_duration_sec": 338
   },
   "278_76": {
     "key": "278_290_76",
@@ -14363,7 +14363,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-13T23:03:13.282314+00:00",
     "ayah_count": 30,
-    "total_duration_sec": 116.0
+    "total_duration_sec": 116
   },
   "278_289_82": {
     "key": "278_289_82",
@@ -15650,7 +15650,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-24T22:30:20.624714+00:00",
     "ayah_count": 7,
-    "total_duration_sec": 45.0
+    "total_duration_sec": 45
   },
   "48_1": {
     "key": "48_48_1",
@@ -15661,7 +15661,7 @@
     "reviewed": true,
     "reviewed_at": "2026-08-24T22:30:20.624714+00:00",
     "ayah_count": 7,
-    "total_duration_sec": 45.0
+    "total_duration_sec": 45
   },
   "105_105_99": {
     "key": "105_105_99",
@@ -16574,7 +16574,7 @@
     "reviewed": false,
     "reviewed_at": null,
     "ayah_count": 4,
-    "total_duration_sec": 32.0
+    "total_duration_sec": 32
   },
   "104_110": {
     "key": "104_104_110",
@@ -16585,7 +16585,7 @@
     "reviewed": false,
     "reviewed_at": null,
     "ayah_count": 4,
-    "total_duration_sec": 32.0
+    "total_duration_sec": 32
   },
   "104_104_113": {
     "key": "104_104_113",
@@ -18224,7 +18224,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-04T23:33:09.381627+00:00",
     "ayah_count": 19,
-    "total_duration_sec": 365.0
+    "total_duration_sec": 365
   },
   "-75_64": {
     "key": "-75_900103_64",
@@ -18235,7 +18235,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-04T23:33:09.381627+00:00",
     "ayah_count": 19,
-    "total_duration_sec": 365.0
+    "total_duration_sec": 365
   },
   "-75_900103_63": {
     "key": "-75_900103_63",
@@ -19104,7 +19104,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-05T01:40:19.214193+00:00",
     "ayah_count": 97,
-    "total_duration_sec": 552.0
+    "total_duration_sec": 552
   },
   "-30_56": {
     "key": "-30_900046_56",
@@ -19115,7 +19115,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-05T01:40:19.214193+00:00",
     "ayah_count": 97,
-    "total_duration_sec": 552.0
+    "total_duration_sec": 552
   },
   "-30_900046_57": {
     "key": "-30_900046_57",
@@ -23130,7 +23130,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-06T01:59:16.852484+00:00",
     "ayah_count": 7,
-    "total_duration_sec": 50.0
+    "total_duration_sec": 50
   },
   "-40_109": {
     "key": "-40_74_109",
@@ -23141,7 +23141,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-06T01:59:16.852484+00:00",
     "ayah_count": 7,
-    "total_duration_sec": 50.0
+    "total_duration_sec": 50
   },
   "qurantvapp-ali-alhuthaifi-hafs-murattal_109": {
     "key": "-40_74_109",
@@ -23152,7 +23152,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-06T01:59:16.852484+00:00",
     "ayah_count": 7,
-    "total_duration_sec": 50.0
+    "total_duration_sec": 50
   },
   "-40_74_110": {
     "key": "-40_74_110",
@@ -23163,7 +23163,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-06T01:59:17.000486+00:00",
     "ayah_count": 4,
-    "total_duration_sec": 31.0
+    "total_duration_sec": 31
   },
   "-40_110": {
     "key": "-40_74_110",
@@ -23174,7 +23174,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-06T01:59:17.000486+00:00",
     "ayah_count": 4,
-    "total_duration_sec": 31.0
+    "total_duration_sec": 31
   },
   "qurantvapp-ali-alhuthaifi-hafs-murattal_110": {
     "key": "-40_74_110",
@@ -23185,7 +23185,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-06T01:59:17.000486+00:00",
     "ayah_count": 4,
-    "total_duration_sec": 31.0
+    "total_duration_sec": 31
   },
   "-40_74_111": {
     "key": "-40_74_111",
@@ -24021,7 +24021,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-13T23:03:13.282314+00:00",
     "ayah_count": 30,
-    "total_duration_sec": 116.0
+    "total_duration_sec": 116
   },
   "qurantvapp-ahmad-issa-al-maas-rawh_81": {
     "key": "278_290_81",
@@ -24032,7 +24032,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-13T23:03:13.282314+00:00",
     "ayah_count": 30,
-    "total_duration_sec": 116.0
+    "total_duration_sec": 116
   },
   "278_290_82": {
     "key": "278_290_82",
@@ -25682,7 +25682,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-20T08:44:46.728904+00:00",
     "ayah_count": 6,
-    "total_duration_sec": 46.0
+    "total_duration_sec": 46
   },
   "51_97": {
     "key": "51_52_97",
@@ -25693,7 +25693,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-20T08:44:46.728904+00:00",
     "ayah_count": 6,
-    "total_duration_sec": 46.0
+    "total_duration_sec": 46
   },
   "qurantvapp-abdulbasit-warsh_97": {
     "key": "51_52_97",
@@ -25704,7 +25704,7 @@
     "reviewed": true,
     "reviewed_at": "2026-09-20T08:44:46.728904+00:00",
     "ayah_count": 6,
-    "total_duration_sec": 46.0
+    "total_duration_sec": 46
   },
   "51_52_96": {
     "key": "51_52_96",
@@ -28983,5 +28983,38 @@
     "reviewed_at": "2026-09-30T16:38:24.384366+00:00",
     "ayah_count": 7,
     "total_duration_sec": 45.03
+  },
+  "1_1_113": {
+    "key": "1_1_113",
+    "reciter_id": 1,
+    "moshaf_id": 1,
+    "surah_id": 113,
+    "slug": "qurantvapp-husry-qalon",
+    "reviewed": true,
+    "reviewed_at": "2026-09-30T16:52:35.987Z",
+    "ayah_count": 6,
+    "total_duration_sec": 39.68
+  },
+  "1_113": {
+    "key": "1_1_113",
+    "reciter_id": 1,
+    "moshaf_id": 1,
+    "surah_id": 113,
+    "slug": "qurantvapp-husry-qalon",
+    "reviewed": true,
+    "reviewed_at": "2026-09-30T16:52:35.987Z",
+    "ayah_count": 6,
+    "total_duration_sec": 39.68
+  },
+  "qurantvapp-husry-qalon_113": {
+    "key": "1_1_113",
+    "reciter_id": 1,
+    "moshaf_id": 1,
+    "surah_id": 113,
+    "slug": "qurantvapp-husry-qalon",
+    "reviewed": true,
+    "reviewed_at": "2026-09-30T16:52:35.987Z",
+    "ayah_count": 6,
+    "total_duration_sec": 39.68
   }
 }

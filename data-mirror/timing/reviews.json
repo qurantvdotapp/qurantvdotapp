@@ -29049,5 +29049,38 @@
     "reviewed_at": "2026-09-30T17:03:23.921Z",
     "ayah_count": 6,
     "total_duration_sec": 43.84
+  },
+  "1_1_97": {
+    "key": "1_1_97",
+    "reciter_id": 1,
+    "moshaf_id": 1,
+    "surah_id": 97,
+    "slug": "qurantvapp-husry-qalon",
+    "reviewed": true,
+    "reviewed_at": "2026-09-30T17:05:36.500Z",
+    "ayah_count": 6,
+    "total_duration_sec": 58.03
+  },
+  "1_97": {
+    "key": "1_1_97",
+    "reciter_id": 1,
+    "moshaf_id": 1,
+    "surah_id": 97,
+    "slug": "qurantvapp-husry-qalon",
+    "reviewed": true,
+    "reviewed_at": "2026-09-30T17:05:36.500Z",
+    "ayah_count": 6,
+    "total_duration_sec": 58.03
+  },
+  "qurantvapp-husry-qalon_97": {
+    "key": "1_1_97",
+    "reciter_id": 1,
+    "moshaf_id": 1,
+    "surah_id": 97,
+    "slug": "qurantvapp-husry-qalon",
+    "reviewed": true,
+    "reviewed_at": "2026-09-30T17:05:36.500Z",
+    "ayah_count": 6,
+    "total_duration_sec": 58.03
   }
 }

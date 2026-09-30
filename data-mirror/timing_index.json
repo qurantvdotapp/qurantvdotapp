@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-30T09:53:17Z",
+  "generated_at": "2026-09-30T10:30:32Z",
   "servers": {
     "https://server6.mp3quran.net/thubti/": {
       "read_id": 49,
@@ -209,6 +209,18 @@
     "https://archive.org/download/qurantvapp-ajamy-hafs/": {
       "read_id": 5,
       "slug": "qurantvapp-ajamy-hafs",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://server13.mp3quran.net/husr/Rewayat-Qalon-A-n-Nafi/": {
+      "read_id": 270,
+      "slug": "qurantvapp-husry-qalon",
+      "surahs": "all",
+      "clean": true
+    },
+    "https://archive.org/download/qurantvapp-husry-qalon/": {
+      "read_id": 270,
+      "slug": "qurantvapp-husry-qalon",
       "surahs": "all",
       "clean": true
     },
